@@ -33,4 +33,7 @@ type CssClasses
     | TimePicker
     | Footer
     | SelectedDate
+    | SelectedHour
+    | SelectedMinute
+    | SelectedAmPm
     | Today

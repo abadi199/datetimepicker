@@ -74,18 +74,18 @@ view model =
             [ Html.node "style" [] [ Html.text css ]
             , div [ class [ Container ] ]
                 [ p
-                    []
-                    [ label []
-                        [ text "Date Picker #1: "
-                        , DatePicker.datePicker
-                            datePickerOptions
-                            defaultDatePickerOptions
-                            []
-                            model.datePickerState
-                            model.value
-                        ]
-                    ]
-                , p
+                    -- []
+                    -- [ label []
+                    --     [ text "Date Picker #1: "
+                    --     , DatePicker.datePicker
+                    --         datePickerOptions
+                    --         defaultDatePickerOptions
+                    --         []
+                    --         model.datePickerState
+                    --         model.value
+                    --     ]
+                    -- ]
+                    -- , p
                     []
                     [ label []
                         [ text "Date Picker #2 : "
@@ -100,8 +100,10 @@ view model =
                     ]
                 , p []
                     [ ul []
-                        [ li [] [ text "Value: ", text <| toString model.value ]
-                        , li [] [ text "Second Value: ", text <| toString model.secondValue ]
+                        [ li []
+                            -- [ text "Value: ", text <| toString model.value ]
+                            -- , li []
+                            [ text "Second Value: ", text <| toString model.secondValue ]
                         ]
                     ]
                 ]
@@ -132,4 +134,8 @@ update msg model =
             ( { model | secondValue = value }, Cmd.none )
 
         SecondDatePickerStateChanged state ->
-            ( { model | secondDatePickerState = state }, Cmd.none )
+            let
+                _ =
+                    Debug.log "update" <| .time <| DatePicker.getStateValue state
+            in
+                ( { model | secondDatePickerState = state }, Cmd.none )

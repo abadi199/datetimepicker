@@ -5,6 +5,7 @@ module DatePicker.DateUtils
         , Day
         , MonthType(..)
         , toDate
+        , toDateTime
         , padding
         )
 
@@ -116,27 +117,32 @@ generateCalendar firstDayOfWeek month year =
         List.take 42 <| previousMonth ++ currentMonth ++ nextMonth
 
 
-toDate : Int -> Date.Month -> Day -> Date.Date
-toDate year month day =
+toDateTime : Int -> Date.Month -> Day -> Int -> Int -> Date.Date
+toDateTime year month day hour minute =
     case day.monthType of
         Current ->
-            Date.Extra.Create.dateFromFields year month day.day 0 0 0 0
+            Date.Extra.Create.dateFromFields year month day.day hour minute 0 0
 
         Previous ->
             let
                 previousMonth =
-                    Date.Extra.Create.dateFromFields year month day.day 0 0 0 0
+                    Date.Extra.Create.dateFromFields year month day.day hour minute 0 0
                         |> Date.Extra.Core.lastOfPrevMonthDate
             in
-                Date.Extra.Create.dateFromFields (Date.year previousMonth) (Date.month previousMonth) day.day 0 0 0 0
+                Date.Extra.Create.dateFromFields (Date.year previousMonth) (Date.month previousMonth) day.day hour minute 0 0
 
         Next ->
             let
                 nextMonth =
-                    Date.Extra.Create.dateFromFields year month day.day 0 0 0 0
+                    Date.Extra.Create.dateFromFields year month day.day hour minute 0 0
                         |> Date.Extra.Core.firstOfNextMonthDate
             in
-                Date.Extra.Create.dateFromFields (Date.year nextMonth) (Date.month nextMonth) day.day 0 0 0 0
+                Date.Extra.Create.dateFromFields (Date.year nextMonth) (Date.month nextMonth) day.day hour minute 0 0
+
+
+toDate : Int -> Date.Month -> Day -> Date.Date
+toDate year month day =
+    toDateTime year month day 0 0
 
 
 padding : String -> String

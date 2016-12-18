@@ -13,6 +13,7 @@ module DatePicker
         , initialState
         , initialStateWithToday
         , initialCmd
+        , getStateValue
         )
 
 {-| DatePicker
@@ -24,7 +25,7 @@ module DatePicker
 @docs initialState, initialStateWithToday, initialCmd
 
 # Internal State
-@docs State
+@docs State, getStateValue
 -}
 
 import Date exposing (Date)
@@ -40,6 +41,7 @@ import Date.Extra.Core
 import Date.Extra.Duration
 import List.Extra
 import DatePicker.SharedStyles exposing (datepickerNamespace, CssClasses(..))
+import String
 
 
 -- MODEL
@@ -161,7 +163,13 @@ type alias StateValue =
     , event : String
     , today : Maybe Date
     , titleDate : Maybe Date
+    , date : Maybe Date
+    , time : Time
     }
+
+
+type alias Time =
+    { hour : Maybe Int, minute : Maybe Int, amPm : Maybe String }
 
 
 {-| Initial state of the DatePicker
@@ -174,6 +182,8 @@ initialState =
         , event = ""
         , today = Nothing
         , titleDate = Nothing
+        , date = Nothing
+        , time = Time Nothing Nothing Nothing
         }
 
 
@@ -187,6 +197,8 @@ initialStateWithToday today =
         , event = ""
         , today = Just today
         , titleDate = Just <| Date.Extra.Core.toFirstOfMonth today
+        , date = Nothing
+        , time = Time Nothing Nothing Nothing
         }
 
 
@@ -210,6 +222,8 @@ initialCmd toMsg state =
             Date.now
 
 
+{-| Get the internal state values
+-}
 getStateValue : State -> StateValue
 getStateValue state =
     case state of
@@ -227,12 +241,23 @@ onChange tagger =
         (Json.Decode.map (Date.fromString >> Result.toMaybe >> tagger) Html.Events.targetValue)
 
 
-onMouseDown : msg -> Html.Attribute msg
-onMouseDown msg =
+onMouseDownStop : msg -> Html.Attribute msg
+onMouseDownStop msg =
     let
         eventOptions =
             { preventDefault = True
             , stopPropagation = True
+            }
+    in
+        Html.Events.onWithOptions "mousedown" eventOptions (Json.Decode.succeed msg)
+
+
+onMouseDown : msg -> Html.Attribute msg
+onMouseDown msg =
+    let
+        eventOptions =
+            { preventDefault = False
+            , stopPropagation = False
             }
     in
         Html.Events.onWithOptions "mousedown" eventOptions (Json.Decode.succeed msg)
@@ -326,6 +351,9 @@ dateTimePicker options datePickerOptions timePickerOptions =
 view : Options msg -> Type -> List (Html.Attribute msg) -> State -> Maybe Date -> Html msg
 view options pickerType attributes state currentDate =
     let
+        _ =
+            Debug.log "view" stateValue.time
+
         stateValue =
             getStateValue state
 
@@ -340,7 +368,7 @@ view options pickerType attributes state currentDate =
                 DateTimePicker _ _ ->
                     options.dateTimeFormatter
 
-        datePickerAttributes =
+        inputAttributes =
             attributes
                 ++ [ onFocus (datePickerFocused options stateValue currentDate)
                    , onBlur <|
@@ -365,9 +393,8 @@ view options pickerType attributes state currentDate =
                 TimePicker _ ->
                     class [ DatePicker.SharedStyles.TimePicker ]
             ]
-            [ input datePickerAttributes []
-              -- , if stateValue.inputFocused || stateValue.dialogFocused then
-            , if True then
+            [ input inputAttributes []
+            , if stateValue.inputFocused || stateValue.dialogFocused then
                 dialog options pickerType state currentDate
               else
                 text ""
@@ -381,31 +408,34 @@ view options pickerType attributes state currentDate =
 dialog : Options msg -> Type -> State -> Maybe Date -> Html msg
 dialog options pickerType state currentDate =
     let
+        _ =
+            Debug.log "dialog" stateValue.time
+
         stateValue =
             getStateValue state
 
         attributes options =
-            [ onMouseDown <| options.toMsg <| State { stateValue | dialogFocused = True, event = "onMouseDown" }
+            [ onMouseDownStop <| options.toMsg <| State { stateValue | dialogFocused = True, event = "onMouseDown" }
             , onMouseUp <| options.toMsg <| State { stateValue | dialogFocused = False, inputFocused = True, event = "onMouseUp" }
             , class [ Dialog ]
             ]
     in
         case pickerType of
             DatePicker datePickerOptions ->
-                div (attributes options) [ datePickerDialog options datePickerOptions state currentDate ]
+                div (attributes options) [ datePickerDialog options pickerType datePickerOptions state currentDate ]
 
             TimePicker timePickerOptions ->
-                div (attributes options) [ timePickerDialog options timePickerOptions state currentDate ]
+                div (attributes options) [ timePickerDialog options pickerType timePickerOptions state currentDate ]
 
             DateTimePicker datePickerOptions timePickerOptions ->
                 div (attributes options)
-                    [ datePickerDialog options datePickerOptions state currentDate
-                    , timePickerDialog options timePickerOptions state currentDate
+                    [ datePickerDialog options pickerType datePickerOptions state currentDate
+                    , timePickerDialog options pickerType timePickerOptions state currentDate
                     ]
 
 
-datePickerDialog : Options msg -> DatePickerOptions -> State -> Maybe Date -> Html msg
-datePickerDialog options datePickerOptions state currentDate =
+datePickerDialog : Options msg -> Type -> DatePickerOptions -> State -> Maybe Date -> Html msg
+datePickerDialog options pickerType datePickerOptions state currentDate =
     let
         stateValue =
             getStateValue state
@@ -445,24 +475,27 @@ datePickerDialog options datePickerOptions state currentDate =
                 , title
                 , nextButton
                 ]
-            , calendar options datePickerOptions state currentDate
+            , calendar options pickerType datePickerOptions state currentDate
             , div
                 [ class [ Footer ] ]
                 [ currentDate |> Maybe.map datePickerOptions.fullDateFormatter |> Maybe.withDefault "--" |> text ]
             ]
 
 
-timePickerDialog : Options msg -> TimePickerOptions -> State -> Maybe Date -> Html msg
-timePickerDialog options timePickerOptions state currentDate =
+timePickerDialog : Options msg -> Type -> TimePickerOptions -> State -> Maybe Date -> Html msg
+timePickerDialog options pickerType timePickerOptions state currentDate =
     let
+        stateValue =
+            getStateValue state
+
         toListItem str =
             li [] [ text str ]
 
         hours =
-            List.range 1 12 |> List.map (toString >> DatePicker.DateUtils.padding)
+            List.range 1 12
 
         minutes =
-            List.range 0 59 |> List.map (toString >> DatePicker.DateUtils.padding)
+            List.range 0 59
 
         ampm =
             [ "AM", "PM" ]
@@ -471,7 +504,62 @@ timePickerDialog options timePickerOptions state currentDate =
             List.map3 toRow (List.take 6 hours) (List.take 6 minutes) (ampm ++ List.repeat 4 "")
 
         toRow hour min ampm =
-            tr [] [ td [] [ text hour ], td [] [ text min ], td [] [ text ampm ] ]
+            tr []
+                [ hourCell hour
+                , minuteCell min
+                , amPmCell ampm
+                ]
+
+        hourCell hour =
+            td
+                [ onClick <| hourClickHandler options pickerType stateValue hour
+                , onMouseDown <| hourMouseDownHandler options pickerType stateValue hour
+                , stateValue.time.hour
+                    |> Maybe.map ((==) hour)
+                    |> Maybe.map
+                        (\selected ->
+                            if selected then
+                                class [ SelectedHour ]
+                            else
+                                class []
+                        )
+                    |> Maybe.withDefault (class [])
+                ]
+                [ text <| (toString >> DatePicker.DateUtils.padding) hour ]
+
+        minuteCell min =
+            td
+                [ onClick <| minuteClickHandler options pickerType stateValue min
+                , onMouseDown <| minuteMouseDownHandler options pickerType stateValue min
+                , stateValue.time.minute
+                    |> Maybe.map ((==) min)
+                    |> Maybe.map
+                        (\selected ->
+                            if selected then
+                                class [ SelectedMinute ]
+                            else
+                                class []
+                        )
+                    |> Maybe.withDefault (class [])
+                ]
+                [ text <| (toString >> DatePicker.DateUtils.padding) min ]
+
+        amPmCell ampm =
+            td
+                [ onClick <| amPmClickHandler options pickerType stateValue ampm
+                , onMouseDown <| amPmMouseDownHandler options pickerType stateValue ampm
+                , stateValue.time.amPm
+                    |> Maybe.map ((==) ampm)
+                    |> Maybe.map
+                        (\selected ->
+                            if selected then
+                                class [ SelectedAmPm ]
+                            else
+                                class []
+                        )
+                    |> Maybe.withDefault (class [])
+                ]
+                [ text ampm ]
 
         upArrows =
             [ tr [ class [ ArrowUp ] ] [ td [] [ DatePicker.Svg.upArrow ], td [] [ DatePicker.Svg.upArrow ], td [] [] ] ]
@@ -494,8 +582,8 @@ timePickerDialog options timePickerOptions state currentDate =
             ]
 
 
-calendar : Options msg -> DatePickerOptions -> State -> Maybe Date -> Html msg
-calendar options datePickerOptions state currentDate =
+calendar : Options msg -> Type -> DatePickerOptions -> State -> Maybe Date -> Html msg
+calendar options pickerType datePickerOptions state currentDate =
     let
         stateValue =
             getStateValue state
@@ -556,7 +644,8 @@ calendar options datePickerOptions state currentDate =
                                     DatePicker.DateUtils.Next ->
                                         [ NextMonth ]
                                 )
-                            , onClick <| options.onChange <| Just <| DatePicker.DateUtils.toDate year month day
+                            , onClick <| dateClickHandler options pickerType stateValue year month day
+                            , onMouseDown <| dateMouseDownHandler options pickerType stateValue year month day
                             , State
                                 { stateValue
                                     | dialogFocused = False
@@ -594,26 +683,6 @@ calendar options datePickerOptions state currentDate =
                         ]
 
 
-datePickerFocused : Options msg -> StateValue -> Maybe Date -> msg
-datePickerFocused options stateValue currentDate =
-    let
-        updatedTitleDate =
-            case currentDate of
-                Nothing ->
-                    stateValue.titleDate
-
-                Just _ ->
-                    currentDate
-    in
-        State
-            { stateValue
-                | inputFocused = True
-                , event = "onFocus"
-                , titleDate = updatedTitleDate
-            }
-            |> options.toMsg
-
-
 dayNames : DatePickerOptions -> List (Html msg)
 dayNames options =
     let
@@ -633,3 +702,266 @@ dayNames options =
         days
             |> List.Extra.splitAt shiftAmount
             |> \( head, tail ) -> tail ++ head
+
+
+
+-- EVENT HANDLERS
+
+
+hourClickHandler : Options msg -> Type -> StateValue -> Int -> msg
+hourClickHandler options pickerType stateValue hour =
+    let
+        time =
+            stateValue.time
+
+        withDateHandler =
+            case ( stateValue.date, stateValue.time.hour, stateValue.time.minute, stateValue.time.amPm ) of
+                ( Just date, _, Just minute, Just amPm ) ->
+                    DatePicker.DateUtils.toDateTime (Date.year date) (Date.month date) (DatePicker.DateUtils.Day DatePicker.DateUtils.Current <| Date.day date) hour minute
+                        |> Just
+                        |> options.onChange
+
+                _ ->
+                    options.toMsg <| State { stateValue | time = { time | hour = Just hour } }
+
+        justTimeHandler =
+            case ( stateValue.time.minute, stateValue.time.amPm ) of
+                ( Just minute, Just amPm ) ->
+                    DatePicker.DateUtils.toDateTime 1900 Date.Jan (DatePicker.DateUtils.Day DatePicker.DateUtils.Current 1) hour minute
+                        |> Just
+                        |> options.onChange
+
+                _ ->
+                    options.toMsg <| State { stateValue | time = { time | hour = Just hour } }
+    in
+        case pickerType of
+            DatePicker _ ->
+                withDateHandler
+
+            DateTimePicker _ _ ->
+                withDateHandler
+
+            TimePicker _ ->
+                justTimeHandler
+
+
+hourMouseDownHandler : Options msg -> Type -> StateValue -> Int -> msg
+hourMouseDownHandler options pickerType stateValue hour =
+    let
+        _ =
+            Debug.log "hourMouseDownHandler" stateValue.time
+
+        time =
+            stateValue.time
+    in
+        options.toMsg <|
+            State
+                { stateValue
+                    | time = { time | hour = Just hour }
+                    , event = "hour mouseDown"
+                }
+
+
+minuteClickHandler : Options msg -> Type -> StateValue -> Int -> msg
+minuteClickHandler options pickerType stateValue minute =
+    let
+        time =
+            stateValue.time
+
+        withDateHandler =
+            case ( stateValue.date, stateValue.time.hour, stateValue.time.minute, stateValue.time.amPm ) of
+                ( Just date, Just hour, _, Just amPm ) ->
+                    DatePicker.DateUtils.toDateTime (Date.year date) (Date.month date) (DatePicker.DateUtils.Day DatePicker.DateUtils.Current <| Date.day date) hour minute
+                        |> Just
+                        |> options.onChange
+
+                _ ->
+                    options.toMsg <| State { stateValue | time = { time | minute = Just minute } }
+
+        justTimeHandler =
+            case ( stateValue.time.hour, stateValue.time.amPm ) of
+                ( Just hour, Just amPm ) ->
+                    DatePicker.DateUtils.toDateTime 1900 Date.Jan (DatePicker.DateUtils.Day DatePicker.DateUtils.Current 1) hour minute
+                        |> Just
+                        |> options.onChange
+
+                _ ->
+                    options.toMsg <| State { stateValue | time = { time | minute = Just minute } }
+    in
+        case pickerType of
+            DatePicker _ ->
+                withDateHandler
+
+            DateTimePicker _ _ ->
+                withDateHandler
+
+            TimePicker _ ->
+                justTimeHandler
+
+
+minuteMouseDownHandler : Options msg -> Type -> StateValue -> Int -> msg
+minuteMouseDownHandler options pickerType stateValue minute =
+    let
+        _ =
+            Debug.log "minuteMouseDownHandler" stateValue.time
+
+        time =
+            stateValue.time
+    in
+        options.toMsg <|
+            State
+                { stateValue
+                    | time = { time | minute = Just minute }
+                    , event = "minute mouseDown"
+                }
+
+
+amPmClickHandler : Options msg -> Type -> StateValue -> String -> msg
+amPmClickHandler options pickerType stateValue amPm =
+    let
+        time =
+            stateValue.time
+
+        withDateHandler =
+            case ( stateValue.date, stateValue.time.hour, stateValue.time.minute, stateValue.time.amPm ) of
+                ( Just date, Just hour, Just minute, _ ) ->
+                    DatePicker.DateUtils.toDateTime (Date.year date) (Date.month date) (DatePicker.DateUtils.Day DatePicker.DateUtils.Current <| Date.day date) hour minute
+                        |> Just
+                        |> options.onChange
+
+                _ ->
+                    options.toMsg <|
+                        (State
+                            { stateValue
+                                | time =
+                                    { time
+                                        | amPm =
+                                            if String.isEmpty amPm then
+                                                Nothing
+                                            else
+                                                Just amPm
+                                    }
+                                , event = "amPm mouseDown"
+                            }
+                        )
+
+        justTimeHandler =
+            case ( stateValue.time.hour, stateValue.time.minute ) of
+                ( Just hour, Just minute ) ->
+                    DatePicker.DateUtils.toDateTime 1900 Date.Jan (DatePicker.DateUtils.Day DatePicker.DateUtils.Current 1) hour minute
+                        |> Just
+                        |> options.onChange
+
+                _ ->
+                    options.toMsg <|
+                        (State
+                            { stateValue
+                                | time =
+                                    { time
+                                        | amPm =
+                                            if String.isEmpty amPm then
+                                                Nothing
+                                            else
+                                                Just amPm
+                                    }
+                                , event = "amPm mouseDown"
+                            }
+                        )
+    in
+        case pickerType of
+            DatePicker _ ->
+                withDateHandler
+
+            DateTimePicker _ _ ->
+                withDateHandler
+
+            TimePicker _ ->
+                justTimeHandler
+
+
+amPmMouseDownHandler : Options msg -> Type -> StateValue -> String -> msg
+amPmMouseDownHandler options pickerType stateValue amPm =
+    let
+        _ =
+            Debug.log "amPmMouseDownHandler" stateValue.time
+
+        time =
+            stateValue.time
+    in
+        options.toMsg <|
+            (State
+                { stateValue
+                    | time =
+                        { time
+                            | amPm =
+                                if String.isEmpty amPm then
+                                    Nothing
+                                else
+                                    Just amPm
+                        }
+                    , event = "amPm mouseDown"
+                }
+            )
+
+
+dateClickHandler : Options msg -> Type -> StateValue -> Int -> Date.Month -> DatePicker.DateUtils.Day -> msg
+dateClickHandler options pickerType stateValue year month day =
+    let
+        withTimeHandler =
+            case ( stateValue.time.hour, stateValue.time.minute, stateValue.time.amPm ) of
+                ( Just hour, Just minute, Just amPm ) ->
+                    DatePicker.DateUtils.toDateTime year month day hour minute
+                        |> Just
+                        |> options.onChange
+
+                _ ->
+                    options.toMsg <| State { stateValue | date = Just <| DatePicker.DateUtils.toDate year month day }
+
+        justDateHandler =
+            DatePicker.DateUtils.toDate year month day
+                |> Just
+                |> options.onChange
+    in
+        case pickerType of
+            DatePicker _ ->
+                justDateHandler
+
+            DateTimePicker _ _ ->
+                withTimeHandler
+
+            TimePicker _ ->
+                withTimeHandler
+
+
+dateMouseDownHandler : Options msg -> Type -> StateValue -> Int -> Date.Month -> DatePicker.DateUtils.Day -> msg
+dateMouseDownHandler options pickerType stateValue year month day =
+    DatePicker.DateUtils.toDate year month day
+        |> (\date ->
+                State
+                    { stateValue
+                        | date = Just date
+                        , event = "date mouseDown"
+                        , dialogFocused = True
+                    }
+           )
+        |> options.toMsg
+
+
+datePickerFocused : Options msg -> StateValue -> Maybe Date -> msg
+datePickerFocused options stateValue currentDate =
+    let
+        updatedTitleDate =
+            case currentDate of
+                Nothing ->
+                    stateValue.titleDate
+
+                Just _ ->
+                    currentDate
+    in
+        State
+            { stateValue
+                | inputFocused = True
+                , event = "onFocus"
+                , titleDate = updatedTitleDate
+            }
+            |> options.toMsg

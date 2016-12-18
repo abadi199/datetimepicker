@@ -80,7 +80,14 @@ timePickerDialogCss =
                     , td
                         [ width (pct 33)
                         , cellMixin
+                        , hover
+                            [ backgroundColor highlightedDay
+                            , highlightBorderMixin
+                            ]
                         ]
+                    , (.) SelectedHour [ highlightMixin ]
+                    , (.) SelectedMinute [ highlightMixin ]
+                    , (.) SelectedAmPm [ highlightMixin ]
                     ]
                 ]
             ]
@@ -123,7 +130,7 @@ datePickerDialogCss =
                 [ dayMixin
                 , hover
                     [ backgroundColor highlightedDay
-                    , highlightMixin
+                    , highlightBorderMixin
                     ]
                 ]
             , th
@@ -138,14 +145,11 @@ datePickerDialogCss =
                 [ color fadeText
                 ]
             , (.) SelectedDate
-                [ property "box-shadow" "inset 0 0 10px 3px #3276b1"
-                , backgroundColor selectedDate
-                , color (hex "#fff")
-                , highlightMixin
+                [ highlightMixin
                 ]
             , (.) Today
                 [ property "box-shadow" "inset 0 0 7px 0 #76abd9"
-                , highlightMixin
+                , highlightBorderMixin
                 , hover
                     [ backgroundColor highlightSelectedDay ]
                 ]
@@ -159,6 +163,16 @@ datePickerDialogCss =
         , height (px 16)
         ]
     ]
+
+
+highlightMixin : Css.Mixin
+highlightMixin =
+    mixin
+        [ property "box-shadow" "inset 0 0 10px 3px #3276b1"
+        , backgroundColor selectedDate
+        , color (hex "#fff")
+        , highlightBorderMixin
+        ]
 
 
 highlightSelectedDay : Css.Color
@@ -225,8 +239,8 @@ borderBoxMixin =
     mixin [ boxSizing borderBox ]
 
 
-highlightMixin : Css.Mixin
-highlightMixin =
+highlightBorderMixin : Css.Mixin
+highlightBorderMixin =
     mixin [ borderRadius (px 4) ]
 
 

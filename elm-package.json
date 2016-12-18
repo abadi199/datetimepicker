@@ -1,7 +1,7 @@
 {
     "version": "1.0.0",
     "summary": "Reusable date and time picker view",
-    "repository": "https://github.com/abadi199/datepicker.git",
+    "repository": "https://github.com/abadi199/datetimepicker.git",
     "license": "Apache 2.0",
     "source-directories": [
         "src"
