@@ -31,8 +31,8 @@ init : ( Model, Cmd Msg )
 init =
     ( { value = Nothing, datePickerState = DatePicker.initialState, secondValue = Nothing, secondDatePickerState = DatePicker.initialState }
     , Cmd.batch
-        [ DatePicker.initialCmd DatePickerStateChanged DatePicker.initialState
-        , DatePicker.initialCmd SecondDatePickerStateChanged DatePicker.initialState
+        [ DatePicker.initialCmd DateChanged DatePicker.initialState
+        , DatePicker.initialCmd SecondDateChanged DatePicker.initialState
         ]
     )
 
@@ -41,7 +41,7 @@ datePickerOptions : DatePicker.Options Msg
 datePickerOptions =
     let
         defaultOptions =
-            DatePicker.defaultOptions DateChanged DatePickerStateChanged
+            DatePicker.defaultOptions DateChanged
     in
         defaultOptions
 
@@ -50,7 +50,7 @@ secondDatePickerOptions : DatePicker.Options Msg
 secondDatePickerOptions =
     let
         defaultOptions =
-            DatePicker.defaultOptions SecondDateChanged SecondDatePickerStateChanged
+            DatePicker.defaultOptions SecondDateChanged
     in
         defaultOptions
 
@@ -74,18 +74,18 @@ view model =
             [ Html.node "style" [] [ Html.text css ]
             , div [ class [ Container ] ]
                 [ p
-                    -- []
-                    -- [ label []
-                    --     [ text "Date Picker #1: "
-                    --     , DatePicker.datePicker
-                    --         datePickerOptions
-                    --         defaultDatePickerOptions
-                    --         []
-                    --         model.datePickerState
-                    --         model.value
-                    --     ]
-                    -- ]
-                    -- , p
+                    []
+                    [ label []
+                        [ text "Date Picker #1: "
+                        , DatePicker.datePicker
+                            datePickerOptions
+                            defaultDatePickerOptions
+                            []
+                            model.datePickerState
+                            model.value
+                        ]
+                    ]
+                , p
                     []
                     [ label []
                         [ text "Date Picker #2 : "
@@ -112,10 +112,8 @@ view model =
 
 type Msg
     = NoOp
-    | DateChanged (Maybe Date)
-    | DatePickerStateChanged DatePicker.State
-    | SecondDateChanged (Maybe Date)
-    | SecondDatePickerStateChanged DatePicker.State
+    | DateChanged DatePicker.State (Maybe Date)
+    | SecondDateChanged DatePicker.State (Maybe Date)
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -124,18 +122,8 @@ update msg model =
         NoOp ->
             ( model, Cmd.none )
 
-        DateChanged value ->
-            ( { model | value = value }, Cmd.none )
+        DateChanged state value ->
+            ( { model | value = value, datePickerState = state }, Cmd.none )
 
-        DatePickerStateChanged state ->
-            ( { model | datePickerState = state }, Cmd.none )
-
-        SecondDateChanged value ->
-            ( { model | secondValue = value }, Cmd.none )
-
-        SecondDatePickerStateChanged state ->
-            let
-                _ =
-                    Debug.log "update" <| .time <| DatePicker.getStateValue state
-            in
-                ( { model | secondDatePickerState = state }, Cmd.none )
+        SecondDateChanged state value ->
+            ( { model | secondValue = value, secondDatePickerState = state }, Cmd.none )

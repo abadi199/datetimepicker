@@ -7,6 +7,8 @@ module DatePicker.DateUtils
         , toDate
         , toDateTime
         , padding
+        , setTime
+        , toTime
         )
 
 import Date
@@ -143,6 +145,23 @@ toDateTime year month day hour minute =
 toDate : Int -> Date.Month -> Day -> Date.Date
 toDate year month day =
     toDateTime year month day 0 0
+
+
+toTime : Int -> Int -> String -> Date.Date
+toTime hour minute amPm =
+    setTime (Date.fromTime 0) hour minute amPm
+
+
+setTime : Date.Date -> Int -> Int -> String -> Date.Date
+setTime date hour minute amPm =
+    Date.Extra.Create.dateFromFields
+        (Date.year date)
+        (Date.month date)
+        (Date.day date)
+        hour
+        minute
+        0
+        0
 
 
 padding : String -> String
