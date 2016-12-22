@@ -16,6 +16,12 @@ all =
         [ dayToIntTest
         , generateCalendarTest
         , toDateTest
+        , toTimeTest
+        , setTimeTest
+        , paddingTest
+        , fromMillitaryHourTest
+        , fromMillitaryAmPmTest
+        , toMillitaryTest
         ]
 
 
@@ -84,4 +90,140 @@ toDateTest =
             \() ->
                 DateUtils.toDate 2016 Date.Feb (DateUtils.Day DateUtils.Current 14)
                     |> Expect.equal (Date.Extra.Create.dateFromFields 2016 Date.Feb 14 0 0 0 0)
+        ]
+
+
+toTimeTest : Test
+toTimeTest =
+    describe "DateUtils.toTime"
+        [ test "toTime for 12:00 AM should return the right time" <|
+            \() ->
+                DateUtils.toTime 12 0 "AM"
+                    |> Expect.equal (Date.Extra.Create.dateFromFields 1969 Date.Dec 31 0 0 0 0)
+        , test "toTime for 12:00 PM should return the right time" <|
+            \() ->
+                DateUtils.toTime 12 0 "PM"
+                    |> Expect.equal (Date.Extra.Create.dateFromFields 1969 Date.Dec 31 12 0 0 0)
+        , test "toTime for 3:15 PM should return the right time" <|
+            \() ->
+                DateUtils.toTime 3 15 "PM"
+                    |> Expect.equal (Date.Extra.Create.dateFromFields 1969 Date.Dec 31 15 15 0 0)
+        , test "toTime for 3:15 AM should return the right time" <|
+            \() ->
+                DateUtils.toTime 3 15 "AM"
+                    |> Expect.equal (Date.Extra.Create.dateFromFields 1969 Date.Dec 31 3 15 0 0)
+        ]
+
+
+setTimeTest : Test
+setTimeTest =
+    let
+        date =
+            Date.Extra.Create.dateFromFields 2017 Date.Jan 1 0 0 0 0
+    in
+        describe "DateUtils.setTime"
+            [ test "setTime for 12:00 AM should return the right time" <|
+                \() ->
+                    DateUtils.setTime date 12 0 "AM"
+                        |> Expect.equal (Date.Extra.Create.dateFromFields 2017 Date.Jan 1 0 0 0 0)
+            , test "setTime for 12:00 PM should return the right time" <|
+                \() ->
+                    DateUtils.setTime date 12 0 "PM"
+                        |> Expect.equal (Date.Extra.Create.dateFromFields 2017 Date.Jan 1 12 0 0 0)
+            , test "setTime for 3:15 PM should return the right time" <|
+                \() ->
+                    DateUtils.setTime date 3 15 "PM"
+                        |> Expect.equal (Date.Extra.Create.dateFromFields 2017 Date.Jan 1 15 15 0 0)
+            , test "setTime for 3:15 AM should return the right time" <|
+                \() ->
+                    DateUtils.setTime date 3 15 "AM"
+                        |> Expect.equal (Date.Extra.Create.dateFromFields 2017 Date.Jan 1 3 15 0 0)
+            ]
+
+
+paddingTest : Test
+paddingTest =
+    describe "DateUtils.padding"
+        [ test "padding 1 will return 01" <|
+            \() ->
+                DateUtils.padding "1"
+                    |> Expect.equal "01"
+        , test "padding empty string will return 00" <|
+            \() ->
+                DateUtils.padding ""
+                    |> Expect.equal "00"
+        , test "padding 12 will return 12" <|
+            \() ->
+                DateUtils.padding "12"
+                    |> Expect.equal "12"
+        ]
+
+
+fromMillitaryHourTest : Test
+fromMillitaryHourTest =
+    describe "DateUtils.fromMillitaryHour"
+        [ test "fromMillitaryHour 12 will return 12" <|
+            \() ->
+                DateUtils.fromMillitaryHour 12
+                    |> Expect.equal 12
+        , test "fromMillitaryHour 13 will return 1" <|
+            \() ->
+                DateUtils.fromMillitaryHour 13
+                    |> Expect.equal 1
+        , test "fromMillitaryHour 24 will return 12" <|
+            \() ->
+                DateUtils.fromMillitaryHour 0
+                    |> Expect.equal 12
+        , test "fromMillitaryHour 23 will return 11" <|
+            \() ->
+                DateUtils.fromMillitaryHour 23
+                    |> Expect.equal 11
+        ]
+
+
+fromMillitaryAmPmTest : Test
+fromMillitaryAmPmTest =
+    describe "DateUtils.fromMillitaryAmPm"
+        [ test "fromMillitaryAmPm 12 will return PM" <|
+            \() ->
+                DateUtils.fromMillitaryAmPm 12
+                    |> Expect.equal "PM"
+        , test "fromMillitaryAmPm 0 will return AM" <|
+            \() ->
+                DateUtils.fromMillitaryAmPm 0
+                    |> Expect.equal "AM"
+        , test "fromMillitaryAmPm 13 will return PM" <|
+            \() ->
+                DateUtils.fromMillitaryAmPm 13
+                    |> Expect.equal "PM"
+        , test "fromMillitaryAmPm 1 will return AM" <|
+            \() ->
+                DateUtils.fromMillitaryAmPm 1
+                    |> Expect.equal "AM"
+        , test "fromMillitaryAmPm 23 will return PM" <|
+            \() ->
+                DateUtils.fromMillitaryAmPm 23
+                    |> Expect.equal "PM"
+        ]
+
+
+toMillitaryTest : Test
+toMillitaryTest =
+    describe "DateUtils.toMillitary"
+        [ test "toMillitary 12 AM will return 0" <|
+            \() ->
+                DateUtils.toMillitary 12 "AM"
+                    |> Expect.equal 0
+        , test "toMillitary 12 PM will return 12" <|
+            \() ->
+                DateUtils.toMillitary 12 "PM"
+                    |> Expect.equal 12
+        , test "toMillitary 9 AM will return 9" <|
+            \() ->
+                DateUtils.toMillitary 9 "AM"
+                    |> Expect.equal 9
+        , test "toMillitary 2 PM will return 14" <|
+            \() ->
+                DateUtils.toMillitary 2 "PM"
+                    |> Expect.equal 14
         ]
