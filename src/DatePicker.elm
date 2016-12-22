@@ -119,20 +119,22 @@ defaultNameOfDays =
 
 {-| Default configuration
  * `dateFormatter` Default: `"%m/%d/%Y"`
+ * `dateTimeFormatter` Default: `"%m/%d/%Y %I:%M %p"`
 -}
 defaultOptions : (State -> Maybe Date -> msg) -> Options msg
 defaultOptions onChange =
-    { onChange = onChange, dateFormatter = DatePicker.Formatter.dateFormatter, dateTimeFormatter = DatePicker.Formatter.dateTimeFormatter }
+    { onChange = onChange
+    , dateFormatter = DatePicker.Formatter.dateFormatter
+    , dateTimeFormatter = DatePicker.Formatter.dateTimeFormatter
+    }
 
 
 {-| Default configuration for DatePicker
 
  * `nameOfDays` see `NameOfDays` for the default values.
- * `firstDayOfWeek` Default: Sunday. (Optional)
- * `dateFormatter` Default: `"%m/%d/%Y"` (Optional)
- * `titleFormatter`  Default: `"%B %Y"` (Optional)
- * `fullDateFormatter` Default:  `"%A, %B %d, %Y"` (Optional)
-
+ * `firstDayOfWeek` Default: Sunday.
+ * `titleFormatter`  Default: `"%B %Y"`
+ * `fullDateFormatter` Default:  `"%A, %B %d, %Y"`
 -}
 defaultDatePickerOptions : DatePickerOptions
 defaultDatePickerOptions =
@@ -144,6 +146,7 @@ defaultDatePickerOptions =
 
 
 {-| Default configuration for TimePicker
+ * `timeFormatter` Default:  `"%I:%M %p"`
 -}
 defaultTimePickerOptions : TimePickerOptions
 defaultTimePickerOptions =
@@ -263,18 +266,6 @@ onMouseDownPreventDefault msg =
         Html.Events.onWithOptions "mousedown" eventOptions (Json.Decode.succeed msg)
 
 
-
--- onMouseDown : msg -> Html.Attribute msg
--- onMouseDown msg =
---     let
---         eventOptions =
---             { preventDefault = False
---             , stopPropagation = False
---             }
---     in
---         Html.Events.onWithOptions "mousedown" eventOptions (Json.Decode.succeed msg)
-
-
 onMouseUpPreventDefault : msg -> Html.Attribute msg
 onMouseUpPreventDefault msg =
     let
@@ -287,15 +278,6 @@ onMouseUpPreventDefault msg =
 
 
 
--- onMouseUp : msg -> Html.Attribute msg
--- onMouseUp msg =
---     let
---         eventOptions =
---             { preventDefault = False
---             , stopPropagation = False
---             }
---     in
---         Html.Events.onWithOptions "mouseup" eventOptions (Json.Decode.succeed msg)
 -- ACTIONS
 
 
@@ -349,12 +331,17 @@ type Type
 {-| Date Picker view function.
 
 Example:
+    type alias Model = { datePickerState : DatePicker.State, value : Maybe Date }
 
-    DatePicker.datePicker
-            datePickerOptions
-            [ class "my-datepicker" ]
-            model.datePickerState
-            model.value
+    type Msg = DatePickerChanged DatePicker.State (Maybe Date)
+
+    view =
+        DatePicker.datePicker
+                (DatePicker.defaultOptions DatePickerChanged)
+                DatePicker.defaultDatePickerOptions
+                [ class "my-datepicker" ]
+                model.datePickerState
+                model.value
 
 -}
 datePicker : Options msg -> DatePickerOptions -> List (Html.Attribute msg) -> State -> Maybe Date -> Html msg
@@ -363,6 +350,19 @@ datePicker options datePickerOptions =
 
 
 {-| Date and Time Picker view
+Example:
+    type alias Model = { dateTimePickerState : DatePicker.State, value : Maybe Date }
+
+    type Msg = DatePickerChanged DatePicker.State (Maybe Date)
+
+    view =
+        DatePicker.dateTimePicker
+                (DatePicker.defaultOptions DatePickerChanged)
+                DatePicker.defaultDatePickerOptions
+                DatePicker.defaultTimePickerOptions
+                [ class "my-datetimepicker" ]
+                model.dateTimePickerState
+                model.value
 -}
 dateTimePicker : Options msg -> DatePickerOptions -> TimePickerOptions -> List (Html.Attribute msg) -> State -> Maybe Date -> Html msg
 dateTimePicker options datePickerOptions timePickerOptions =
@@ -370,6 +370,17 @@ dateTimePicker options datePickerOptions timePickerOptions =
 
 
 {-| Time Picker view
+Example:
+    type alias Model = { timePickerState : DatePicker.State, value : Maybe Date }
+
+    type Msg = DatePickerChanged DatePicker.State (Maybe Date)
+
+    DatePicker.timePicker
+            (DatePicker.defaultOptions DatePickerChanged)
+            DatePicker.defaultTimePickerOptions
+            [ class "my-datetimepicker" ]
+            model.timePickerState
+            model.value
 -}
 timePicker : Options msg -> TimePickerOptions -> List (Html.Attribute msg) -> State -> Maybe Date -> Html msg
 timePicker options timePickerOptions =
@@ -561,7 +572,6 @@ timePickerDialog options pickerType timePickerOptions state currentDate =
         amPmCell ampm =
             td
                 [ onMouseDownPreventDefault <| amPmClickHandler options pickerType stateValue ampm
-                  -- , onMouseDown <| amPmMouseDownHandler options pickerType stateValue ampm
                 , stateValue.time.amPm
                     |> Maybe.map ((==) ampm)
                     |> Maybe.map
