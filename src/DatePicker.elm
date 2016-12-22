@@ -178,16 +178,21 @@ type alias Time =
 initialState : State
 initialState =
     State
-        { inputFocused = False
-        , forceClose = False
-        , event = ""
-        , today = Nothing
-        , titleDate = Nothing
-        , date = Nothing
-        , time = Time Nothing Nothing Nothing
-        , hourPickerStart = 1
-        , minutePickerStart = 0
-        }
+        initialStateValue
+
+
+initialStateValue : StateValue
+initialStateValue =
+    { inputFocused = False
+    , forceClose = False
+    , event = ""
+    , today = Nothing
+    , titleDate = Nothing
+    , date = Nothing
+    , time = Time Nothing Nothing Nothing
+    , hourPickerStart = 1
+    , minutePickerStart = 0
+    }
 
 
 {-| Initial state of the DatePicker with today Date
@@ -726,7 +731,14 @@ inputChangeHandler options stateValue maybeDate =
         Nothing ->
             let
                 updatedValue =
-                    { stateValue | date = Nothing, inputFocused = False, event = "inputChangeHandler" }
+                    { stateValue
+                        | date = Nothing
+                        , time = { hour = Nothing, minute = Nothing, amPm = Nothing }
+                        , hourPickerStart = initialStateValue.hourPickerStart
+                        , minutePickerStart = initialStateValue.minutePickerStart
+                        , inputFocused = False
+                        , event = "inputChangeHandler"
+                    }
             in
                 options.onChange (State updatedValue) maybeDate
 
