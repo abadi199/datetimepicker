@@ -236,14 +236,8 @@ getStateValue state =
 
 onBlurWithChange : (Maybe Date -> msg) -> Html.Attribute msg
 onBlurWithChange tagger =
-    let
-        eventOptions =
-            { preventDefault = True
-            , stopPropagation = True
-            }
-    in
-        Html.Events.on "blur"
-            (Json.Decode.map (Date.fromString >> Result.toMaybe >> tagger) Html.Events.targetValue)
+    Html.Events.on "blur"
+        (Json.Decode.map (Date.fromString >> Result.toMaybe >> tagger) Html.Events.targetValue)
 
 
 onMouseDownPreventDefault : msg -> Html.Attribute msg
@@ -384,15 +378,6 @@ view options pickerType attributes state currentDate =
         inputAttributes =
             attributes
                 ++ [ onFocus (datePickerFocused options stateValue currentDate)
-                     --    , onBlurPreventDefault <|
-                     --         options.onChange
-                     --             (State
-                     --                 { stateValue
-                     --                     | inputFocused = False
-                     --                     , event = "onBlur"
-                     --                 }
-                     --             )
-                     --             currentDate
                    , onBlurWithChange (inputChangeHandler options stateValue)
                    , value <| Maybe.withDefault "" <| Maybe.map formatter <| currentDate
                    ]
