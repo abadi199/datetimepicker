@@ -158,6 +158,7 @@ type State
 
 type alias StateValue =
     { inputFocused : Bool
+    , forceClose : Bool
     , event : String
     , today : Maybe Date
     , titleDate : Maybe Date
@@ -176,6 +177,7 @@ initialState : State
 initialState =
     State
         { inputFocused = False
+        , forceClose = False
         , event = ""
         , today = Nothing
         , titleDate = Nothing
@@ -190,6 +192,7 @@ initialStateWithToday : Date.Date -> State
 initialStateWithToday today =
     State
         { inputFocused = False
+        , forceClose = False
         , event = ""
         , today = Just today
         , titleDate = Just <| Date.Extra.Core.toFirstOfMonth today
@@ -400,7 +403,7 @@ view options pickerType attributes state currentDate =
                     class [ DatePicker.SharedStyles.TimePicker ]
             ]
             [ input inputAttributes []
-            , if stateValue.inputFocused then
+            , if stateValue.inputFocused && not stateValue.forceClose then
                 dialog options pickerType state currentDate
               else
                 text ""
@@ -701,27 +704,31 @@ hourClickHandler options pickerType stateValue hour =
         updatedStateValue =
             { stateValue | time = { time | hour = Just hour }, event = "hourClickHandler" }
 
-        updatedDate =
-            case ( updatedStateValue.time.minute, updatedStateValue.time.amPm, updatedStateValue.date ) of
+        ( updatedDate, forceCloseWithDate ) =
+            case ( stateValue.time.minute, stateValue.time.amPm, stateValue.date ) of
                 ( Just minute, Just amPm, Just date ) ->
-                    Just <| DatePicker.DateUtils.setTime date hour minute amPm
+                    ( Just <| DatePicker.DateUtils.setTime date hour minute amPm
+                    , True
+                    )
 
                 _ ->
-                    Nothing
+                    ( Nothing, False )
 
-        updatedTime =
+        ( updatedTime, forceCloseTimeOnly ) =
             case ( updatedStateValue.time.minute, updatedStateValue.time.amPm ) of
                 ( Just minute, Just amPm ) ->
-                    Just <| DatePicker.DateUtils.toTime hour minute amPm
+                    ( Just <| DatePicker.DateUtils.toTime hour minute amPm
+                    , True
+                    )
 
                 _ ->
-                    Nothing
+                    ( Nothing, False )
 
         withDateHandler =
-            options.onChange (State updatedStateValue) updatedDate
+            options.onChange (State { updatedStateValue | forceClose = forceCloseWithDate }) updatedDate
 
         justTimeHandler =
-            options.onChange (State updatedStateValue) updatedTime
+            options.onChange (State { updatedStateValue | forceClose = forceCloseTimeOnly }) updatedTime
     in
         case pickerType of
             DatePicker _ ->
@@ -732,23 +739,6 @@ hourClickHandler options pickerType stateValue hour =
 
             TimePicker _ ->
                 justTimeHandler
-
-
-
--- hourMouseDownHandler : Options msg -> Type -> StateValue -> Int -> msg
--- hourMouseDownHandler options pickerType stateValue hour =
---     let
---         time =
---             stateValue.time
---     in
---         options.onChange
---             (State
---                 { stateValue
---                     | time = { time | hour = Just hour }
---                     , event = "hour mouseDown"
---                 }
---             )
---             Nothing
 
 
 minuteClickHandler : Options msg -> Type -> StateValue -> Int -> msg
@@ -760,27 +750,31 @@ minuteClickHandler options pickerType stateValue minute =
         updatedStateValue =
             { stateValue | time = { time | minute = Just minute }, event = "minuteClickHandler" }
 
-        updatedDate =
-            case ( updatedStateValue.time.hour, updatedStateValue.time.amPm, updatedStateValue.date ) of
+        ( updatedDate, forceCloseWithDate ) =
+            case ( stateValue.time.hour, stateValue.time.amPm, stateValue.date ) of
                 ( Just hour, Just amPm, Just date ) ->
-                    Just <| DatePicker.DateUtils.setTime date hour minute amPm
+                    ( Just <| DatePicker.DateUtils.setTime date hour minute amPm
+                    , True
+                    )
 
                 _ ->
-                    Nothing
+                    ( Nothing, False )
 
-        updatedTime =
+        ( updatedTime, forceCloseTimeOnly ) =
             case ( updatedStateValue.time.hour, updatedStateValue.time.amPm ) of
                 ( Just hour, Just amPm ) ->
-                    Just <| DatePicker.DateUtils.toTime hour minute amPm
+                    ( Just <| DatePicker.DateUtils.toTime hour minute amPm
+                    , True
+                    )
 
                 _ ->
-                    Nothing
+                    ( Nothing, False )
 
         withDateHandler =
-            options.onChange (State updatedStateValue) updatedDate
+            options.onChange (State { updatedStateValue | forceClose = forceCloseWithDate }) updatedDate
 
         justTimeHandler =
-            options.onChange (State updatedStateValue) updatedTime
+            options.onChange (State { updatedStateValue | forceClose = forceCloseTimeOnly }) updatedTime
     in
         case pickerType of
             DatePicker _ ->
@@ -791,21 +785,6 @@ minuteClickHandler options pickerType stateValue minute =
 
             TimePicker _ ->
                 justTimeHandler
-
-
-
--- minuteMouseDownHandler : Options msg -> Type -> StateValue -> Int -> msg
--- minuteMouseDownHandler options pickerType stateValue minute =
---     let
---         time =
---             stateValue.time
---     in
---         options.toMsg <|
---             State
---                 { stateValue
---                     | time = { time | minute = Just minute }
---                     , event = "minute mouseDown"
---                 }
 
 
 amPmClickHandler : Options msg -> Type -> StateValue -> String -> msg
@@ -827,27 +806,31 @@ amPmClickHandler options pickerType stateValue amPm =
                 , event = "amPmClickHandler"
             }
 
-        updatedDate =
-            case ( updatedStateValue.time.hour, updatedStateValue.time.minute, updatedStateValue.date ) of
+        ( updatedDate, forceCloseWithDate ) =
+            case ( stateValue.time.hour, stateValue.time.minute, stateValue.date ) of
                 ( Just hour, Just minute, Just date ) ->
-                    Just <| DatePicker.DateUtils.setTime date hour minute amPm
+                    ( Just <| DatePicker.DateUtils.setTime date hour minute amPm
+                    , True
+                    )
 
                 _ ->
-                    Nothing
+                    ( Nothing, False )
 
-        updatedTime =
+        ( updatedTime, forceCloseTimeOnly ) =
             case ( updatedStateValue.time.hour, updatedStateValue.time.minute ) of
                 ( Just hour, Just minute ) ->
-                    Just <| DatePicker.DateUtils.toTime hour minute amPm
+                    ( Just <| DatePicker.DateUtils.toTime hour minute amPm
+                    , True
+                    )
 
                 _ ->
-                    Nothing
+                    ( Nothing, False )
 
         withDateHandler =
-            options.onChange (State updatedStateValue) updatedDate
+            options.onChange (State { updatedStateValue | forceClose = forceCloseWithDate }) updatedDate
 
         justTimeHandler =
-            options.onChange (State updatedStateValue) updatedTime
+            options.onChange (State { updatedStateValue | forceClose = forceCloseTimeOnly }) updatedTime
     in
         case pickerType of
             DatePicker _ ->
@@ -860,45 +843,29 @@ amPmClickHandler options pickerType stateValue amPm =
                 justTimeHandler
 
 
-
--- amPmMouseDownHandler : Options msg -> Type -> StateValue -> String -> msg
--- amPmMouseDownHandler options pickerType stateValue amPm =
---     let
---         time =
---             stateValue.time
---     in
---         options.toMsg <|
---             (State
---                 { stateValue
---                     | time =
---                         { time
---                             | amPm =
---                                 if String.isEmpty amPm then
---                                     Nothing
---                                 else
---                                     Just amPm
---                         }
---                     , event = "amPm mouseDown"
---                 }
---             )
-
-
 dateClickHandler : Options msg -> Type -> StateValue -> Int -> Date.Month -> DatePicker.DateUtils.Day -> msg
 dateClickHandler options pickerType stateValue year month day =
     let
+        selectedDate =
+            DatePicker.DateUtils.toDate year month day
+
         updatedStateValue =
-            { stateValue | date = Just <| DatePicker.DateUtils.toDate year month day }
+            { stateValue | date = Just <| selectedDate, forceClose = forceClose }
 
-        updatedDate =
-            case ( pickerType, updatedStateValue.time.hour, updatedStateValue.time.minute, updatedStateValue.time.amPm, updatedStateValue.date ) of
-                ( DateTimePicker _ _, Just hour, Just minute, Just amPm, Just date ) ->
-                    Just <| DatePicker.DateUtils.setTime date hour minute amPm
+        ( updatedDate, forceClose ) =
+            case ( pickerType, stateValue.time.hour, stateValue.time.minute, stateValue.time.amPm ) of
+                ( DateTimePicker _ _, Just hour, Just minute, Just amPm ) ->
+                    ( Just <| DatePicker.DateUtils.setTime selectedDate hour minute amPm
+                    , True
+                    )
 
-                ( DatePicker _, _, _, _, Just date ) ->
-                    Just date
+                ( DatePicker _, _, _, _ ) ->
+                    ( Just selectedDate
+                    , True
+                    )
 
                 _ ->
-                    Nothing
+                    ( Nothing, False )
     in
         case day.monthType of
             DatePicker.DateUtils.Previous ->
@@ -909,21 +876,6 @@ dateClickHandler options pickerType stateValue year month day =
 
             DatePicker.DateUtils.Current ->
                 options.onChange (State updatedStateValue) updatedDate
-
-
-
--- dateMouseDownHandler : Options msg -> Type -> StateValue -> Int -> Date.Month -> DatePicker.DateUtils.Day -> (Maybe Date -> msg)
--- dateMouseDownHandler options pickerType stateValue year month day =
---     options.onChange
---         (DatePicker.DateUtils.toDate year month day
---             |> (\date ->
---                     State
---                         { stateValue
---                             | date = Just date
---                             , event = "date mouseDown"
---                         }
---                )
---         )
 
 
 datePickerFocused : Options msg -> StateValue -> Maybe Date -> msg
@@ -943,6 +895,7 @@ datePickerFocused options stateValue currentDate =
                     | inputFocused = True
                     , event = "onFocus"
                     , titleDate = updatedTitleDate
+                    , forceClose = False
                 }
             )
             currentDate
