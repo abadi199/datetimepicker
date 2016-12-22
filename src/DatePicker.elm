@@ -6,6 +6,7 @@ module DatePicker
         , NameOfDays
         , datePicker
         , dateTimePicker
+        , timePicker
         , defaultOptions
         , defaultDatePickerOptions
         , defaultTimePickerOptions
@@ -19,7 +20,7 @@ module DatePicker
 {-| DatePicker
 
 # View
-@docs datePicker, dateTimePicker, Options, DatePickerOptions, TimePickerOptions, defaultDatePickerOptions, NameOfDays, defaultOptions, defaultTimePickerOptions
+@docs datePicker, dateTimePicker, timePicker, Options, DatePickerOptions, TimePickerOptions, defaultDatePickerOptions, NameOfDays, defaultOptions, defaultTimePickerOptions
 
 # Initial
 @docs initialState, initialStateWithToday, initialCmd
@@ -368,6 +369,13 @@ dateTimePicker options datePickerOptions timePickerOptions =
     view options (DateTimePicker datePickerOptions timePickerOptions)
 
 
+{-| Time Picker view
+-}
+timePicker : Options msg -> TimePickerOptions -> List (Html.Attribute msg) -> State -> Maybe Date -> Html msg
+timePicker options timePickerOptions =
+    view options (TimePicker timePickerOptions)
+
+
 view : Options msg -> Type -> List (Html.Attribute msg) -> State -> Maybe Date -> Html msg
 view options pickerType attributes state currentDate =
     let
@@ -537,7 +545,6 @@ timePickerDialog options pickerType timePickerOptions state currentDate =
         minuteCell min =
             td
                 [ onMouseDownPreventDefault <| minuteClickHandler options pickerType stateValue min
-                  -- , onMouseDown <| minuteMouseDownHandler options pickerType stateValue min
                 , stateValue.time.minute
                     |> Maybe.map ((==) min)
                     |> Maybe.map
@@ -708,7 +715,7 @@ dayNames options =
 
 inputChangeHandler : Options msg -> StateValue -> Maybe Date -> msg
 inputChangeHandler options stateValue maybeDate =
-    case maybeDate of
+    case Debug.log "currentDate" maybeDate of
         Just date ->
             let
                 updateTime time =

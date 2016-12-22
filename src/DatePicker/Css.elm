@@ -85,9 +85,9 @@ timePickerDialogCss =
                             , highlightBorderMixin
                             ]
                         ]
-                    , (.) SelectedHour [ highlightMixin ]
-                    , (.) SelectedMinute [ highlightMixin ]
-                    , (.) SelectedAmPm [ highlightMixin ]
+                    , (.) SelectedHour [ highlightMixin, hover [ highlightMixin ] ]
+                    , (.) SelectedMinute [ highlightMixin, hover [ highlightMixin ] ]
+                    , (.) SelectedAmPm [ highlightMixin, hover [ highlightMixin ] ]
                     ]
                 ]
             ]
@@ -146,6 +146,7 @@ datePickerDialogCss =
                 ]
             , (.) SelectedDate
                 [ highlightMixin
+                , hover [ highlightMixin ]
                 ]
             , (.) Today
                 [ property "box-shadow" "inset 0 0 7px 0 #76abd9"
@@ -241,7 +242,7 @@ borderBoxMixin =
 
 highlightBorderMixin : Css.Mixin
 highlightBorderMixin =
-    mixin [ borderRadius (px 4) ]
+    mixin [ borderRadius (px 0) ]
 
 
 headerMixin : Css.Mixin

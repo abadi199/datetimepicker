@@ -5,12 +5,12 @@ module DatePicker.DateUtils
         , Day
         , MonthType(..)
         , toDate
-        , toDateTime
         , padding
         , setTime
         , toTime
         , fromMillitaryHour
         , fromMillitaryAmPm
+        , toMillitary
         )
 
 import Date
@@ -160,7 +160,7 @@ setTime date hour minute amPm =
         (Date.year date)
         (Date.month date)
         (Date.day date)
-        hour
+        (toMillitary hour amPm)
         minute
         0
         0
@@ -203,3 +203,19 @@ fromMillitaryAmPm hour =
                 "PM"
             else
                 "AM"
+
+
+toMillitary : Int -> String -> Int
+toMillitary hour amPm =
+    case ( hour, amPm ) of
+        ( 12, "AM" ) ->
+            0
+
+        ( 12, "PM" ) ->
+            12
+
+        ( _, "PM" ) ->
+            hour + 12
+
+        ( _, _ ) ->
+            hour
