@@ -164,6 +164,8 @@ type alias StateValue =
     , titleDate : Maybe Date
     , date : Maybe Date
     , time : Time
+    , hourPickerStart : Int
+    , minutePickerStart : Int
     }
 
 
@@ -183,6 +185,8 @@ initialState =
         , titleDate = Nothing
         , date = Nothing
         , time = Time Nothing Nothing Nothing
+        , hourPickerStart = 1
+        , minutePickerStart = 0
         }
 
 
@@ -198,6 +202,8 @@ initialStateWithToday today =
         , titleDate = Just <| Date.Extra.Core.toFirstOfMonth today
         , date = Nothing
         , time = Time Nothing Nothing Nothing
+        , hourPickerStart = 1
+        , minutePickerStart = 0
         }
 
 
@@ -251,15 +257,16 @@ onMouseDownPreventDefault msg =
         Html.Events.onWithOptions "mousedown" eventOptions (Json.Decode.succeed msg)
 
 
-onMouseDown : msg -> Html.Attribute msg
-onMouseDown msg =
-    let
-        eventOptions =
-            { preventDefault = False
-            , stopPropagation = False
-            }
-    in
-        Html.Events.onWithOptions "mousedown" eventOptions (Json.Decode.succeed msg)
+
+-- onMouseDown : msg -> Html.Attribute msg
+-- onMouseDown msg =
+--     let
+--         eventOptions =
+--             { preventDefault = False
+--             , stopPropagation = False
+--             }
+--     in
+--         Html.Events.onWithOptions "mousedown" eventOptions (Json.Decode.succeed msg)
 
 
 onMouseUpPreventDefault : msg -> Html.Attribute msg
@@ -273,18 +280,16 @@ onMouseUpPreventDefault msg =
         Html.Events.onWithOptions "mouseup" eventOptions (Json.Decode.succeed msg)
 
 
-onMouseUp : msg -> Html.Attribute msg
-onMouseUp msg =
-    let
-        eventOptions =
-            { preventDefault = False
-            , stopPropagation = False
-            }
-    in
-        Html.Events.onWithOptions "mouseup" eventOptions (Json.Decode.succeed msg)
 
-
-
+-- onMouseUp : msg -> Html.Attribute msg
+-- onMouseUp msg =
+--     let
+--         eventOptions =
+--             { preventDefault = False
+--             , stopPropagation = False
+--             }
+--     in
+--         Html.Events.onWithOptions "mouseup" eventOptions (Json.Decode.succeed msg)
 -- ACTIONS
 
 
@@ -489,16 +494,16 @@ timePickerDialog options pickerType timePickerOptions state currentDate =
             li [] [ text str ]
 
         hours =
-            List.range 1 12
+            List.range stateValue.hourPickerStart (stateValue.hourPickerStart + 6)
 
         minutes =
-            List.range 0 59
+            List.range stateValue.minutePickerStart (stateValue.minutePickerStart + 6)
 
         ampm =
             [ "AM", "PM" ]
 
         timeSelector =
-            List.map3 toRow (List.take 6 hours) (List.take 6 minutes) (ampm ++ List.repeat 4 "")
+            List.map3 toRow (hours) (minutes) (ampm ++ List.repeat 4 "")
 
         toRow hour min ampm =
             tr []
@@ -559,10 +564,20 @@ timePickerDialog options pickerType timePickerOptions state currentDate =
                 [ text ampm ]
 
         upArrows =
-            [ tr [ class [ ArrowUp ] ] [ td [] [ DatePicker.Svg.upArrow ], td [] [ DatePicker.Svg.upArrow ], td [] [] ] ]
+            [ tr [ class [ ArrowUp ] ]
+                [ td [ onMouseDownPreventDefault <| hourUpHandler options stateValue currentDate ] [ DatePicker.Svg.upArrow ]
+                , td [ onMouseDownPreventDefault <| minuteUpHandler options stateValue currentDate ] [ DatePicker.Svg.upArrow ]
+                , td [] []
+                ]
+            ]
 
         downArrows =
-            [ tr [ class [ ArrowDown ] ] [ td [] [ DatePicker.Svg.downArrow ], td [] [ DatePicker.Svg.downArrow ], td [] [] ] ]
+            [ tr [ class [ ArrowDown ] ]
+                [ td [ onMouseDownPreventDefault <| hourDownHandler options stateValue currentDate ] [ DatePicker.Svg.downArrow ]
+                , td [ onMouseDownPreventDefault <| minuteDownHandler options stateValue currentDate ] [ DatePicker.Svg.downArrow ]
+                , td [] []
+                ]
+            ]
     in
         div [ class [ TimePickerDialog ] ]
             [ div [ class [ Header ] ]
@@ -945,3 +960,51 @@ onChangeHandler options pickerType stateValue currentDate =
 
             TimePicker _ ->
                 withTimeHandler
+
+
+hourUpHandler : Options msg -> StateValue -> Maybe Date -> msg
+hourUpHandler options stateValue currentDate =
+    let
+        updatedState =
+            if stateValue.hourPickerStart - 6 >= 1 then
+                { stateValue | hourPickerStart = stateValue.hourPickerStart - 6 }
+            else
+                stateValue
+    in
+        options.onChange (State updatedState) currentDate
+
+
+hourDownHandler : Options msg -> StateValue -> Maybe Date -> msg
+hourDownHandler options stateValue currentDate =
+    let
+        updatedState =
+            if stateValue.hourPickerStart + 6 <= 12 then
+                { stateValue | hourPickerStart = stateValue.hourPickerStart + 6 }
+            else
+                stateValue
+    in
+        options.onChange (State updatedState) currentDate
+
+
+minuteUpHandler : Options msg -> StateValue -> Maybe Date -> msg
+minuteUpHandler options stateValue currentDate =
+    let
+        updatedState =
+            if stateValue.minutePickerStart - 6 >= 0 then
+                { stateValue | minutePickerStart = stateValue.minutePickerStart - 6 }
+            else
+                stateValue
+    in
+        options.onChange (State updatedState) currentDate
+
+
+minuteDownHandler : Options msg -> StateValue -> Maybe Date -> msg
+minuteDownHandler options stateValue currentDate =
+    let
+        updatedState =
+            if stateValue.minutePickerStart + 6 <= 59 then
+                { stateValue | minutePickerStart = stateValue.minutePickerStart + 6 }
+            else
+                stateValue
+    in
+        options.onChange (State updatedState) currentDate
