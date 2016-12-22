@@ -78,7 +78,7 @@ view model =
                 , p
                     []
                     [ label []
-                        [ text "Date Time Picker: "
+                        [ text "Meeting Start: "
                         , DatePicker.dateTimePicker
                             (DatePicker.defaultOptions DateTimeChanged)
                             defaultDatePickerOptions
