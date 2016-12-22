@@ -234,10 +234,16 @@ getStateValue state =
 -- EVENTS
 
 
-onChange : (Maybe Date -> msg) -> Html.Attribute msg
-onChange tagger =
-    Html.Events.on "change"
-        (Json.Decode.map (Date.fromString >> Result.toMaybe >> tagger) Html.Events.targetValue)
+onBlurWithChange : (Maybe Date -> msg) -> Html.Attribute msg
+onBlurWithChange tagger =
+    let
+        eventOptions =
+            { preventDefault = True
+            , stopPropagation = True
+            }
+    in
+        Html.Events.on "blur"
+            (Json.Decode.map (Date.fromString >> Result.toMaybe >> tagger) Html.Events.targetValue)
 
 
 onMouseDownPreventDefault : msg -> Html.Attribute msg
@@ -378,16 +384,16 @@ view options pickerType attributes state currentDate =
         inputAttributes =
             attributes
                 ++ [ onFocus (datePickerFocused options stateValue currentDate)
-                   , onBlur <|
-                        options.onChange
-                            (State
-                                { stateValue
-                                    | inputFocused = False
-                                    , event = "onBlur"
-                                }
-                            )
-                            currentDate
-                   , onChange (options.onChange (state))
+                     --    , onBlurPreventDefault <|
+                     --         options.onChange
+                     --             (State
+                     --                 { stateValue
+                     --                     | inputFocused = False
+                     --                     , event = "onBlur"
+                     --                 }
+                     --             )
+                     --             currentDate
+                   , onBlurWithChange (inputChangeHandler options stateValue)
                    , value <| Maybe.withDefault "" <| Maybe.map formatter <| currentDate
                    ]
     in
@@ -693,6 +699,36 @@ dayNames options =
 
 
 -- EVENT HANDLERS
+
+
+inputChangeHandler : Options msg -> StateValue -> Maybe Date -> msg
+inputChangeHandler options stateValue maybeDate =
+    case maybeDate of
+        Just date ->
+            let
+                updateTime time =
+                    { time
+                        | hour = Date.hour date |> DatePicker.DateUtils.fromMillitaryHour |> Just
+                        , minute = Just (Date.minute date)
+                        , amPm = Date.hour date |> DatePicker.DateUtils.fromMillitaryAmPm |> Just
+                    }
+
+                updatedValue =
+                    { stateValue
+                        | date = Just date
+                        , time = updateTime stateValue.time
+                        , inputFocused = False
+                        , event = "inputChangeHandler"
+                    }
+            in
+                options.onChange (State updatedValue) maybeDate
+
+        Nothing ->
+            let
+                updatedValue =
+                    { stateValue | date = Nothing, inputFocused = False, event = "inputChangeHandler" }
+            in
+                options.onChange (State updatedValue) maybeDate
 
 
 hourClickHandler : Options msg -> Type -> StateValue -> Int -> msg

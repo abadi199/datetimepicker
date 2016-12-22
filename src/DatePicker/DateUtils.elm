@@ -9,6 +9,8 @@ module DatePicker.DateUtils
         , padding
         , setTime
         , toTime
+        , fromMillitaryHour
+        , fromMillitaryAmPm
         )
 
 import Date
@@ -172,3 +174,32 @@ padding str =
         "0" ++ str
     else
         str
+
+
+fromMillitaryHour : Int -> Int
+fromMillitaryHour hour =
+    case hour of
+        12 ->
+            12
+
+        0 ->
+            12
+
+        _ ->
+            hour % 12
+
+
+fromMillitaryAmPm : Int -> String
+fromMillitaryAmPm hour =
+    case hour of
+        12 ->
+            "PM"
+
+        0 ->
+            "AM"
+
+        _ ->
+            if hour >= 12 then
+                "PM"
+            else
+                "AM"
