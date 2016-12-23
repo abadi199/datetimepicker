@@ -54,8 +54,11 @@ import String
 
 
 {-| Configuration
- * `onChange` is the message for when the selected value in the multi-select is changed. (Required)
- * `toMsg` is the Msg for updating internal `State` of the DatePicker element. (Required)
+
+ * `onChange` is the message for when the selected value and internal `State` in the date picker has changed.
+ * `dateFormatter` is a Date to string formatter used to display the date in the input text
+ * `dateTimeFormatter` is a Date to string formatter used to display the date in the footer section.
+ * `autoClose` is a flag to indicate whether the dialog should be automatically closed when a date and/or time is selected.
 -}
 type alias Config otherConfig msg =
     { otherConfig
@@ -67,11 +70,12 @@ type alias Config otherConfig msg =
 
 
 {-| Configuration for the DatePicker
- * `nameOfDays` is the configuration for name of days in a week. (Optional)
- * `firstDayOfWeek` is the first day of the week. (Optional)
- * `formatter` is the Date to String formatter for the input value. (Optional)
- * `titleFormatter` is the Date to String formatter for the dialog's title. (Optional)
- * `fullDateFormatter` is the Date to String formatter for the dialog's footer. (Optional)
+
+ * `nameOfDays` is the configuration for name of days in a week.
+ * `firstDayOfWeek` is the first day of the week.
+ * `formatter` is the Date to String formatter for the input value.
+ * `titleFormatter` is the Date to String formatter for the dialog's title.
+ * `fullDateFormatter` is the Date to String formatter for the dialog's footer.
 
 -}
 type alias DatePickerConfig otherConfig =
@@ -85,6 +89,10 @@ type alias DatePickerConfig otherConfig =
 
 {-| Default configuration for DatePicker
 
+ * `onChange` No Default
+ * `dateFormatter` Default: `"%m/%d/%Y"`
+ * `dateTimeFormatter` Default: `"%m/%d/%Y %I:%M %p"`
+ * `autoClose` Default: True
  * `nameOfDays` see `NameOfDays` for the default values.
  * `firstDayOfWeek` Default: Sunday.
  * `titleFormatter`  Default: `"%B %Y"`
@@ -95,32 +103,15 @@ defaultDatePickerConfig onChange =
     { onChange = onChange
     , dateFormatter = DatePicker.Formatter.dateFormatter
     , dateTimeFormatter = DatePicker.Formatter.dateTimeFormatter
+    , autoClose = True
     , nameOfDays = defaultNameOfDays
     , firstDayOfWeek = Date.Sun
     , titleFormatter = DatePicker.Formatter.titleFormatter
     , fullDateFormatter = DatePicker.Formatter.fullDateFormatter
-    , autoClose = True
     }
 
 
-
--- {-| Configuration for the TimePicker
--- -}
--- type alias TimePickerConfig =
--- {}
--- {-| Default configuration for TimePicker
---  * `timeFormatter` Default:  `"%I:%M %p"`
--- -}
--- defaultTimePickerConfig : (State -> Maybe Date -> msg) -> Config TimePickerConfig msg
--- defaultTimePickerConfig onChange =
---     { onChange = onChange
---     , dateFormatter = DatePicker.Formatter.dateFormatter
---     , dateTimeFormatter = DatePicker.Formatter.dateTimeFormatter
---     , timeFormatter = DatePicker.Formatter.timeFormatter
---     }
-
-
-{-| Configuration for DateTimePicker
+{-| Configuration for TimePicker
 -}
 type alias TimePickerConfig =
     { timeFormatter : Date -> String
@@ -128,32 +119,45 @@ type alias TimePickerConfig =
 
 
 {-| Default configuration for TimePicker
-See defaultDatePickerConfig and defaultTimePickerConfig for default values.
+  * `onChange` No Default
+  * `dateFormatter` Default: `"%m/%d/%Y"`
+  * `dateTimeFormatter` Default: `"%m/%d/%Y %I:%M %p"`
+  * `autoClose` Default: False
+  * `timeFormatter` Default: `"%I:%M %p"`
 -}
 defaultTimePickerConfig : (State -> Maybe Date -> msg) -> Config TimePickerConfig msg
 defaultTimePickerConfig onChange =
     { onChange = onChange
     , dateFormatter = DatePicker.Formatter.dateFormatter
     , dateTimeFormatter = DatePicker.Formatter.dateTimeFormatter
-    , timeFormatter = DatePicker.Formatter.timeFormatter
     , autoClose = False
+    , timeFormatter = DatePicker.Formatter.timeFormatter
     }
 
 
 {-| Default configuration for DateTimePicker
-See defaultDatePickerConfig and defaultTimePickerConfig for default values.
+
+ * `onChange` No Default
+ * `dateFormatter` Default: `"%m/%d/%Y"`
+ * `dateTimeFormatter` Default: `"%m/%d/%Y %I:%M %p"`
+ * `autoClose` Default: False
+ * `nameOfDays` see `NameOfDays` for the default values.
+ * `firstDayOfWeek` Default: Sunday.
+ * `titleFormatter`  Default: `"%B %Y"`
+ * `fullDateFormatter` Default:  `"%A, %B %d, %Y"`
+ * `timeFormatter` Default: `"%I:%M %p"`
 -}
 defaultDateTimePickerConfig : (State -> Maybe Date -> msg) -> Config (DatePickerConfig TimePickerConfig) msg
 defaultDateTimePickerConfig onChange =
     { onChange = onChange
     , dateFormatter = DatePicker.Formatter.dateFormatter
     , dateTimeFormatter = DatePicker.Formatter.dateTimeFormatter
+    , autoClose = False
     , nameOfDays = defaultNameOfDays
     , firstDayOfWeek = Date.Sun
     , titleFormatter = DatePicker.Formatter.titleFormatter
     , fullDateFormatter = DatePicker.Formatter.fullDateFormatter
     , timeFormatter = DatePicker.Formatter.timeFormatter
-    , autoClose = False
     }
 
 
