@@ -1,7 +1,7 @@
 module DatePickerDemo exposing (main)
 
 import Html exposing (Html, text, p, label, form, ul, li, div)
-import DatePicker exposing (defaultDatePickerOptions, defaultTimePickerOptions)
+import DatePicker exposing (defaultDatePickerConfig, defaultDateTimePickerConfig)
 import Date exposing (Date)
 import Css
 import DatePicker.Css
@@ -68,8 +68,7 @@ view model =
                     [ label []
                         [ text "Date Picker: "
                         , DatePicker.datePicker
-                            (DatePicker.defaultOptions DateChanged)
-                            defaultDatePickerOptions
+                            (defaultDatePickerConfig DateChanged)
                             []
                             model.datePickerState
                             model.dateValue
@@ -80,34 +79,32 @@ view model =
                     [ label []
                         [ text "Meeting Start: "
                         , DatePicker.dateTimePicker
-                            (DatePicker.defaultOptions DateTimeChanged)
-                            defaultDatePickerOptions
-                            defaultTimePickerOptions
+                            (defaultDateTimePickerConfig DateTimeChanged)
                             []
                             model.dateTimePickerState
                             model.dateTimeValue
                         ]
                     ]
-                , p
-                    []
-                    [ label []
-                        [ text "Time Picker: "
-                        , DatePicker.timePicker
-                            (DatePicker.defaultOptions TimeChanged)
-                            defaultTimePickerOptions
-                            []
-                            model.timePickerState
-                            model.timeValue
-                        ]
-                    ]
+                  -- , p
+                  --     []
+                  --     [ label []
+                  --         [ text "Time Picker: "
+                  --         , DatePicker.timePicker
+                  --             (DatePicker.defaultOptions TimeChanged)
+                  --             defaultTimePickerConfig
+                  --             []
+                  --             model.timePickerState
+                  --             model.timeValue
+                  --         ]
+                  --     ]
                 , p []
                     [ ul []
                         [ li []
                             [ text "Date: ", text <| toString model.dateValue ]
                         , li []
                             [ text "Date Time: ", text <| toString model.dateTimeValue ]
-                        , li []
-                            [ text "Time: ", text <| toString model.timeValue ]
+                          -- , li []
+                          --     [ text "Time: ", text <| toString model.timeValue ]
                         ]
                     ]
                 ]
