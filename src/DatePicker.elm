@@ -2,13 +2,15 @@ module DatePicker
     exposing
         ( Config
         , DatePickerConfig
-          -- , TimePickerConfig
-        , DateTimePickerConfig
+        , TimePickerConfig
         , NameOfDays
         , datePicker
+        , datePickerWithConfig
         , dateTimePicker
+        , dateTimePickerWithConfig
+          -- , timePickerWithConfig
         , defaultDatePickerConfig
-          -- , defaultTimePickerConfig
+        , defaultTimePickerConfig
         , defaultDateTimePickerConfig
         , State
         , initialState
@@ -20,10 +22,10 @@ module DatePicker
 {-| DatePicker
 
 # Configuration
-@docs Config, DatePickerConfig, DateTimePickerConfig, defaultDatePickerConfig, defaultDateTimePickerConfig
+@docs Config, DatePickerConfig, TimePickerConfig, defaultDatePickerConfig, defaultTimePickerConfig, defaultDateTimePickerConfig, NameOfDays
 
 # View
-@docs datePicker, dateTimePicker, NameOfDays
+@docs datePicker, datePickerWithConfig, dateTimePicker, dateTimePickerWithConfig
 
 # Initial
 @docs initialState, initialStateWithToday, initialCmd
@@ -120,15 +122,28 @@ defaultDatePickerConfig onChange =
 
 {-| Configuration for DateTimePicker
 -}
-type alias DateTimePickerConfig =
+type alias TimePickerConfig =
     { timeFormatter : Date -> String
+    }
+
+
+{-| Default configuration for TimePicker
+See defaultDatePickerConfig and defaultTimePickerConfig for default values.
+-}
+defaultTimePickerConfig : (State -> Maybe Date -> msg) -> Config TimePickerConfig msg
+defaultTimePickerConfig onChange =
+    { onChange = onChange
+    , dateFormatter = DatePicker.Formatter.dateFormatter
+    , dateTimeFormatter = DatePicker.Formatter.dateTimeFormatter
+    , timeFormatter = DatePicker.Formatter.timeFormatter
+    , autoClose = False
     }
 
 
 {-| Default configuration for DateTimePicker
 See defaultDatePickerConfig and defaultTimePickerConfig for default values.
 -}
-defaultDateTimePickerConfig : (State -> Maybe Date -> msg) -> Config (DatePickerConfig DateTimePickerConfig) msg
+defaultDateTimePickerConfig : (State -> Maybe Date -> msg) -> Config (DatePickerConfig TimePickerConfig) msg
 defaultDateTimePickerConfig onChange =
     { onChange = onChange
     , dateFormatter = DatePicker.Formatter.dateFormatter
@@ -343,27 +358,15 @@ gotoPreviousMonth config state =
 
 type Type msg
     = DatePicker (Config (DatePickerConfig {}) msg)
-    | DateTimePicker (Config (DatePickerConfig DateTimePickerConfig) msg)
-    | TimePicker (Config (DatePickerConfig DateTimePickerConfig) msg)
-
-
-
--- getConfig : Type msg -> Config config msg
--- getConfig pickerType =
---     case pickerType of
---         DatePicker config ->
---             config
---         DateTimePicker config ->
---             config
---         TimePicker config ->
---             config
+    | DateTimePicker (Config (DatePickerConfig TimePickerConfig) msg)
+    | TimePicker (Config TimePickerConfig msg)
 
 
 { id, class, classList } =
     datepickerNamespace
 
 
-{-| Date Picker view function.
+{-| Date Picker view function with default configuration.
 
 Example:
     type alias Model = { datePickerState : DatePicker.State, value : Maybe Date }
@@ -372,15 +375,43 @@ Example:
 
     view =
         DatePicker.datePicker
-                (DatePicker.defaultConfig DatePickerChanged)
+                DatePickerChanged
+                [ class "my-datepicker" ]
+                model.datePickerState
+                model.value
+
+-}
+datePicker : (State -> Maybe Date -> msg) -> List (Html.Attribute msg) -> State -> Maybe Date -> Html msg
+datePicker onChange =
+    datePickerWithConfig (defaultDatePickerConfig onChange)
+
+
+{-| Date Picker view function with custom configuration.
+
+Example:
+    type alias Model = { datePickerState : DatePicker.State, value : Maybe Date }
+
+    type Msg = DatePickerChanged DatePicker.State (Maybe Date)
+
+    customConfig =
+        let default = (DatePicker.defaultConfig DatePickerChanged)
+        in
+            { default
+                | firstDayOfWeek = Date.Mon
+                , autoClose = True
+            }
+
+    view =
+        DatePicker.datePickerWithConfig
+                customConfig
                 DatePicker.defaultDatePickerConfig
                 [ class "my-datepicker" ]
                 model.datePickerState
                 model.value
 
 -}
-datePicker : Config (DatePickerConfig {}) msg -> List (Html.Attribute msg) -> State -> Maybe Date -> Html msg
-datePicker config =
+datePickerWithConfig : Config (DatePickerConfig {}) msg -> List (Html.Attribute msg) -> State -> Maybe Date -> Html msg
+datePickerWithConfig config =
     view (DatePicker config)
 
 
@@ -392,20 +423,41 @@ Example:
 
     view =
         DatePicker.dateTimePicker
-                (DatePicker.defaultConfig DatePickerChanged)
-                DatePicker.defaultDatePickerConfig
-                DatePicker.defaultTimePickerConfig
+                 DatePickerChanged
                 [ class "my-datetimepicker" ]
                 model.dateTimePickerState
                 model.value
 -}
-dateTimePicker : Config (DatePickerConfig DateTimePickerConfig) msg -> List (Html.Attribute msg) -> State -> Maybe Date -> Html msg
-dateTimePicker config =
+dateTimePicker : (State -> Maybe Date -> msg) -> List (Html.Attribute msg) -> State -> Maybe Date -> Html msg
+dateTimePicker onChange =
+    dateTimePickerWithConfig (defaultDateTimePickerConfig onChange)
+
+
+{-| Date and Time Picker view
+Example:
+    type alias Model = { dateTimePickerState : DatePicker.State, value : Maybe Date }
+
+    type  = DatePickerChanged DatePicker.State (Maybe Date)
+
+    customConfig =
+        let
+            default = DatePicker.defaultDateTimePickerConfig DatePickerChanged
+        in
+            { default
+                | firstDayOfWeek = Date.Mon
+                , autoClose = True
+            }
+
+    view =
+        DatePicker.dateTimePicker
+                customConfig
+                [ class "my-datetimepicker" ]
+                model.dateTimePickerState
+                model.value
+-}
+dateTimePickerWithConfig : Config (DatePickerConfig TimePickerConfig) msg -> List (Html.Attribute msg) -> State -> Maybe Date -> Html msg
+dateTimePickerWithConfig config =
     view (DateTimePicker config)
-
-
-
--- dateTimePicker : Config DateTimePickerConfig msg -> List (Html.Attribute msg) -> State -> Maybe Date -> Html msg
 
 
 {-| Time Picker view
@@ -421,13 +473,13 @@ Example:
             model.timePickerState
             model.value
 -}
-timePicker : Config (DatePickerConfig DateTimePickerConfig) msg -> List (Html.Attribute msg) -> State -> Maybe Date -> Html msg
-timePicker config =
+timePickerWithConfig : Config TimePickerConfig msg -> List (Html.Attribute msg) -> State -> Maybe Date -> Html msg
+timePickerWithConfig config =
     view (TimePicker config)
 
 
 
--- timePicker : Config DateTimePickerConfig msg -> List (Html.Attribute msg) -> State -> Maybe Date -> Html msg
+-- timePicker : Config TimePickerConfig msg -> List (Html.Attribute msg) -> State -> Maybe Date -> Html msg
 
 
 view : Type msg -> List (Html.Attribute msg) -> State -> Maybe Date -> Html msg

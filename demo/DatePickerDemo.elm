@@ -59,9 +59,6 @@ view model =
     let
         { css } =
             Css.compile [ DatePicker.Css.css, DemoCss.css ]
-
-        dateTimePickerConfig =
-            defaultDateTimePickerConfig DateTimeChanged
     in
         form []
             [ Html.node "style" [] [ Html.text css ]
@@ -71,7 +68,7 @@ view model =
                     [ label []
                         [ text "Date Picker: "
                         , DatePicker.datePicker
-                            (defaultDatePickerConfig DateChanged)
+                            DateChanged
                             []
                             model.datePickerState
                             model.dateValue
@@ -82,7 +79,7 @@ view model =
                     [ label []
                         [ text "Meeting Start: "
                         , DatePicker.dateTimePicker
-                            dateTimePickerConfig
+                            DateTimeChanged
                             []
                             model.dateTimePickerState
                             model.dateTimeValue
@@ -93,8 +90,7 @@ view model =
                   --     [ label []
                   --         [ text "Time Picker: "
                   --         , DatePicker.timePicker
-                  --             (DatePicker.defaultOptions TimeChanged)
-                  --             defaultTimePickerConfig
+                  --             timePickerConfig
                   --             []
                   --             model.timePickerState
                   --             model.timeValue
@@ -106,7 +102,6 @@ view model =
                             [ text "Date: ", text <| toString model.dateValue ]
                         , li []
                             [ p [] [ text "Date Time: ", text <| toString model.dateTimeValue ]
-                            , p [] [ text "Configuration: ", text <| toString dateTimePickerConfig ]
                             ]
                           -- , li []
                           --     [ text "Time: ", text <| toString model.timeValue ]
