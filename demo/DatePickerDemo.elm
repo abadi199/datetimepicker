@@ -59,6 +59,9 @@ view model =
     let
         { css } =
             Css.compile [ DatePicker.Css.css, DemoCss.css ]
+
+        dateTimePickerConfig =
+            defaultDateTimePickerConfig DateTimeChanged
     in
         form []
             [ Html.node "style" [] [ Html.text css ]
@@ -79,7 +82,7 @@ view model =
                     [ label []
                         [ text "Meeting Start: "
                         , DatePicker.dateTimePicker
-                            (defaultDateTimePickerConfig DateTimeChanged)
+                            dateTimePickerConfig
                             []
                             model.dateTimePickerState
                             model.dateTimeValue
@@ -102,7 +105,9 @@ view model =
                         [ li []
                             [ text "Date: ", text <| toString model.dateValue ]
                         , li []
-                            [ text "Date Time: ", text <| toString model.dateTimeValue ]
+                            [ p [] [ text "Date Time: ", text <| toString model.dateTimeValue ]
+                            , p [] [ text "Configuration: ", text <| toString dateTimePickerConfig ]
+                            ]
                           -- , li []
                           --     [ text "Time: ", text <| toString model.timeValue ]
                         ]
