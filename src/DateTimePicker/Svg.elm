@@ -1,4 +1,4 @@
-module DatePicker.Svg
+module DateTimePicker.Svg
     exposing
         ( leftArrow
         , rightArrow

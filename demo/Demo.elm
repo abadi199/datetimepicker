@@ -1,10 +1,10 @@
-module DatePickerDemo exposing (main)
+module Demo exposing (main)
 
 import Html exposing (Html, text, p, label, form, ul, li, div)
-import DatePicker exposing (defaultDatePickerConfig, defaultDateTimePickerConfig)
+import DateTimePicker exposing (defaultDatePickerConfig, defaultDateTimePickerConfig)
 import Date exposing (Date)
 import Css
-import DatePicker.Css
+import DateTimePicker.Css
 import DemoCss exposing (CssClasses(..))
 import Html.CssHelpers
 
@@ -21,26 +21,27 @@ main =
 
 type alias Model =
     { dateValue : Maybe Date
-    , datePickerState : DatePicker.State
+    , datePickerState : DateTimePicker.State
     , dateTimeValue : Maybe Date
-    , dateTimePickerState : DatePicker.State
-    , timeValue : Maybe Date
-    , timePickerState : DatePicker.State
+    , dateTimePickerState : DateTimePicker.State
+    , analogDateTimeValue : Maybe Date
+    , analogDateTimePickerState : DateTimePicker.State
     }
 
 
 init : ( Model, Cmd Msg )
 init =
     ( { dateValue = Nothing
-      , datePickerState = DatePicker.initialState
+      , datePickerState = DateTimePicker.initialState
       , dateTimeValue = Nothing
-      , dateTimePickerState = DatePicker.initialState
-      , timeValue = Nothing
-      , timePickerState = DatePicker.initialState
+      , dateTimePickerState = DateTimePicker.initialState
+      , analogDateTimeValue = Nothing
+      , analogDateTimePickerState = DateTimePicker.initialState
       }
     , Cmd.batch
-        [ DatePicker.initialCmd DateChanged DatePicker.initialState
-        , DatePicker.initialCmd DateTimeChanged DatePicker.initialState
+        [ DateTimePicker.initialCmd DateChanged DateTimePicker.initialState
+        , DateTimePicker.initialCmd DateTimeChanged DateTimePicker.initialState
+        , DateTimePicker.initialCmd AnalogDateTimeChanged DateTimePicker.initialState
         ]
     )
 
@@ -58,7 +59,21 @@ view : Model -> Html Msg
 view model =
     let
         { css } =
-            Css.compile [ DatePicker.Css.css, DemoCss.css ]
+            Css.compile [ DateTimePicker.Css.css, DemoCss.css ]
+
+        analogDateTimePickerConfig =
+            let
+                defaultDateTimeConfig =
+                    DateTimePicker.defaultDateTimePickerConfig AnalogDateTimeChanged
+            in
+                { defaultDateTimeConfig | timePickerType = DateTimePicker.Analog }
+
+        digitalDateTimePickerConfig =
+            let
+                defaultDateTimeConfig =
+                    DateTimePicker.defaultDateTimePickerConfig DateTimeChanged
+            in
+                { defaultDateTimeConfig | timePickerType = DateTimePicker.Digital }
     in
         form []
             [ Html.node "style" [] [ Html.text css ]
@@ -67,7 +82,7 @@ view model =
                     []
                     [ label []
                         [ text "Date Picker: "
-                        , DatePicker.datePicker
+                        , DateTimePicker.datePicker
                             DateChanged
                             []
                             model.datePickerState
@@ -77,25 +92,25 @@ view model =
                 , p
                     []
                     [ label []
-                        [ text "Meeting Start: "
-                        , DatePicker.dateTimePicker
-                            DateTimeChanged
+                        [ text "Digital Date Time Picker: "
+                        , DateTimePicker.dateTimePickerWithConfig
+                            digitalDateTimePickerConfig
                             []
                             model.dateTimePickerState
                             model.dateTimeValue
                         ]
                     ]
-                  -- , p
-                  --     []
-                  --     [ label []
-                  --         [ text "Time Picker: "
-                  --         , DatePicker.timePicker
-                  --             timePickerConfig
-                  --             []
-                  --             model.timePickerState
-                  --             model.timeValue
-                  --         ]
-                  --     ]
+                , p
+                    []
+                    [ label []
+                        [ text "Analog Date Time Picker: "
+                        , DateTimePicker.dateTimePickerWithConfig
+                            analogDateTimePickerConfig
+                            []
+                            model.analogDateTimePickerState
+                            model.analogDateTimeValue
+                        ]
+                    ]
                 , p []
                     [ ul []
                         [ li []
@@ -113,9 +128,9 @@ view model =
 
 type Msg
     = NoOp
-    | DateChanged DatePicker.State (Maybe Date)
-    | DateTimeChanged DatePicker.State (Maybe Date)
-    | TimeChanged DatePicker.State (Maybe Date)
+    | DateChanged DateTimePicker.State (Maybe Date)
+    | DateTimeChanged DateTimePicker.State (Maybe Date)
+    | AnalogDateTimeChanged DateTimePicker.State (Maybe Date)
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -130,5 +145,5 @@ update msg model =
         DateTimeChanged state value ->
             ( { model | dateTimeValue = value, dateTimePickerState = state }, Cmd.none )
 
-        TimeChanged state value ->
-            ( { model | timeValue = value, timePickerState = state }, Cmd.none )
+        AnalogDateTimeChanged state value ->
+            ( { model | analogDateTimeValue = value, analogDateTimePickerState = state }, Cmd.none )

@@ -1,9 +1,11 @@
-module DatePicker
+module DateTimePicker
     exposing
         ( Config
         , DatePickerConfig
         , TimePickerConfig
+        , TimePickerType(..)
         , NameOfDays
+        , State
         , datePicker
         , datePickerWithConfig
         , dateTimePicker
@@ -12,17 +14,15 @@ module DatePicker
         , defaultDatePickerConfig
         , defaultTimePickerConfig
         , defaultDateTimePickerConfig
-        , State
         , initialState
         , initialStateWithToday
         , initialCmd
-        , getStateValue
         )
 
 {-| DatePicker
 
 # Configuration
-@docs Config, DatePickerConfig, TimePickerConfig, defaultDatePickerConfig, defaultTimePickerConfig, defaultDateTimePickerConfig, NameOfDays
+@docs Config, DatePickerConfig, TimePickerConfig, defaultDatePickerConfig, defaultTimePickerConfig, defaultDateTimePickerConfig, NameOfDays, TimePickerType
 
 # View
 @docs datePicker, datePickerWithConfig, dateTimePicker, dateTimePickerWithConfig
@@ -31,7 +31,8 @@ module DatePicker
 @docs initialState, initialStateWithToday, initialCmd
 
 # Internal State
-@docs State, getStateValue
+@docs State
+
 -}
 
 import Date exposing (Date)
@@ -40,13 +41,15 @@ import Html.Attributes exposing (value)
 import Html.Events exposing (onFocus, onBlur, onClick)
 import Json.Decode
 import Task
-import DatePicker.Formatter
-import DatePicker.Svg
-import DatePicker.DateUtils
+import DateTimePicker.Formatter
+import DateTimePicker.Svg
+import DateTimePicker.DateUtils
+import DateTimePicker.AnalogClock
+import DateTimePicker.State exposing (InternalState(..), StateValue, Time, getStateValue)
 import Date.Extra.Core
 import Date.Extra.Duration
 import List.Extra
-import DatePicker.SharedStyles exposing (datepickerNamespace, CssClasses(..))
+import DateTimePicker.SharedStyles exposing (datepickerNamespace, CssClasses(..))
 import String
 
 
@@ -101,13 +104,13 @@ type alias DatePickerConfig otherConfig =
 defaultDatePickerConfig : (State -> Maybe Date -> msg) -> Config (DatePickerConfig {}) msg
 defaultDatePickerConfig onChange =
     { onChange = onChange
-    , dateFormatter = DatePicker.Formatter.dateFormatter
-    , dateTimeFormatter = DatePicker.Formatter.dateTimeFormatter
+    , dateFormatter = DateTimePicker.Formatter.dateFormatter
+    , dateTimeFormatter = DateTimePicker.Formatter.dateTimeFormatter
     , autoClose = True
     , nameOfDays = defaultNameOfDays
     , firstDayOfWeek = Date.Sun
-    , titleFormatter = DatePicker.Formatter.titleFormatter
-    , fullDateFormatter = DatePicker.Formatter.fullDateFormatter
+    , titleFormatter = DateTimePicker.Formatter.titleFormatter
+    , fullDateFormatter = DateTimePicker.Formatter.fullDateFormatter
     }
 
 
@@ -115,7 +118,13 @@ defaultDatePickerConfig onChange =
 -}
 type alias TimePickerConfig =
     { timeFormatter : Date -> String
+    , timePickerType : TimePickerType
     }
+
+
+type TimePickerType
+    = Digital
+    | Analog
 
 
 {-| Default configuration for TimePicker
@@ -124,14 +133,16 @@ type alias TimePickerConfig =
   * `dateTimeFormatter` Default: `"%m/%d/%Y %I:%M %p"`
   * `autoClose` Default: False
   * `timeFormatter` Default: `"%I:%M %p"`
+  * `timePickerType` Default: Digital
 -}
 defaultTimePickerConfig : (State -> Maybe Date -> msg) -> Config TimePickerConfig msg
 defaultTimePickerConfig onChange =
     { onChange = onChange
-    , dateFormatter = DatePicker.Formatter.dateFormatter
-    , dateTimeFormatter = DatePicker.Formatter.dateTimeFormatter
+    , dateFormatter = DateTimePicker.Formatter.dateFormatter
+    , dateTimeFormatter = DateTimePicker.Formatter.dateTimeFormatter
     , autoClose = False
-    , timeFormatter = DatePicker.Formatter.timeFormatter
+    , timeFormatter = DateTimePicker.Formatter.timeFormatter
+    , timePickerType = Digital
     }
 
 
@@ -146,18 +157,20 @@ defaultTimePickerConfig onChange =
  * `titleFormatter`  Default: `"%B %Y"`
  * `fullDateFormatter` Default:  `"%A, %B %d, %Y"`
  * `timeFormatter` Default: `"%I:%M %p"`
+ * `timePickerType` Default:  Digital
 -}
 defaultDateTimePickerConfig : (State -> Maybe Date -> msg) -> Config (DatePickerConfig TimePickerConfig) msg
 defaultDateTimePickerConfig onChange =
     { onChange = onChange
-    , dateFormatter = DatePicker.Formatter.dateFormatter
-    , dateTimeFormatter = DatePicker.Formatter.dateTimeFormatter
+    , dateFormatter = DateTimePicker.Formatter.dateFormatter
+    , dateTimeFormatter = DateTimePicker.Formatter.dateTimeFormatter
     , autoClose = False
     , nameOfDays = defaultNameOfDays
     , firstDayOfWeek = Date.Sun
-    , titleFormatter = DatePicker.Formatter.titleFormatter
-    , fullDateFormatter = DatePicker.Formatter.fullDateFormatter
-    , timeFormatter = DatePicker.Formatter.timeFormatter
+    , titleFormatter = DateTimePicker.Formatter.titleFormatter
+    , fullDateFormatter = DateTimePicker.Formatter.fullDateFormatter
+    , timeFormatter = DateTimePicker.Formatter.timeFormatter
+    , timePickerType = Digital
     }
 
 
@@ -196,34 +209,15 @@ defaultNameOfDays =
     }
 
 
-{-| Opaque type to keep track of the DatePicker internal state
--}
-type State
-    = State StateValue
-
-
-type alias StateValue =
-    { inputFocused : Bool
-    , forceClose : Bool
-    , event : String
-    , today : Maybe Date
-    , titleDate : Maybe Date
-    , date : Maybe Date
-    , time : Time
-    , hourPickerStart : Int
-    , minutePickerStart : Int
-    }
-
-
-type alias Time =
-    { hour : Maybe Int, minute : Maybe Int, amPm : Maybe String }
+type alias State =
+    InternalState
 
 
 {-| Initial state of the DatePicker
 -}
 initialState : State
 initialState =
-    State
+    InternalState
         initialStateValue
 
 
@@ -238,6 +232,7 @@ initialStateValue =
     , time = Time Nothing Nothing Nothing
     , hourPickerStart = 1
     , minutePickerStart = 0
+    , clockMousePosition = Nothing
     }
 
 
@@ -245,7 +240,7 @@ initialStateValue =
 -}
 initialStateWithToday : Date.Date -> State
 initialStateWithToday today =
-    State
+    InternalState
         { inputFocused = False
         , forceClose = False
         , event = ""
@@ -255,6 +250,7 @@ initialStateWithToday today =
         , time = Time Nothing Nothing Nothing
         , hourPickerStart = 1
         , minutePickerStart = 0
+        , clockMousePosition = Nothing
         }
 
 
@@ -267,7 +263,7 @@ initialCmd onChange state =
             getStateValue state
 
         setDate now =
-            State
+            InternalState
                 { stateValue
                     | today = Just now
                     , titleDate = Just <| Date.Extra.Core.toFirstOfMonth now
@@ -276,15 +272,6 @@ initialCmd onChange state =
         Task.perform
             ((setDate >> onChange |> flip) Nothing)
             Date.now
-
-
-{-| Get the internal state values
--}
-getStateValue : State -> StateValue
-getStateValue state =
-    case state of
-        State stateValue ->
-            stateValue
 
 
 
@@ -329,7 +316,7 @@ switchMode config state =
         stateValue =
             getStateValue state
     in
-        config.onChange <| State { stateValue | event = "title" }
+        config.onChange <| InternalState { stateValue | event = "title" }
 
 
 gotoNextMonth : Config a msg -> State -> (Maybe Date -> msg)
@@ -341,7 +328,7 @@ gotoNextMonth config state =
         updatedTitleDate =
             Maybe.map (Date.Extra.Duration.add Date.Extra.Duration.Month 1) stateValue.titleDate
     in
-        config.onChange <| State { stateValue | event = "next", titleDate = updatedTitleDate }
+        config.onChange <| InternalState { stateValue | event = "next", titleDate = updatedTitleDate }
 
 
 gotoPreviousMonth : Config a msg -> State -> (Maybe Date -> msg)
@@ -353,7 +340,7 @@ gotoPreviousMonth config state =
         updatedTitleDate =
             Maybe.map (Date.Extra.Duration.add Date.Extra.Duration.Month -1) stateValue.titleDate
     in
-        config.onChange <| State { stateValue | event = "previous", titleDate = updatedTitleDate }
+        config.onChange <| InternalState { stateValue | event = "previous", titleDate = updatedTitleDate }
 
 
 
@@ -373,12 +360,12 @@ type Type msg
 {-| Date Picker view function with default configuration.
 
 Example:
-    type alias Model = { datePickerState : DatePicker.State, value : Maybe Date }
+    type alias Model = { datePickerState : DateTimePicker.State, value : Maybe Date }
 
-    type  = DatePickerChanged DatePicker.State (Maybe Date)
+    type  = DatePickerChanged DateTimePicker.State (Maybe Date)
 
     view =
-        DatePicker.datePicker
+        DateTimePicker.datePicker
                 DatePickerChanged
                 [ class "my-datepicker" ]
                 model.datePickerState
@@ -393,12 +380,12 @@ datePicker onChange =
 {-| Date Picker view function with custom configuration.
 
 Example:
-    type alias Model = { datePickerState : DatePicker.State, value : Maybe Date }
+    type alias Model = { datePickerState : DateTimePicker.State, value : Maybe Date }
 
-    type Msg = DatePickerChanged DatePicker.State (Maybe Date)
+    type Msg = DatePickerChanged DateTimePicker.State (Maybe Date)
 
     customConfig =
-        let default = (DatePicker.defaultConfig DatePickerChanged)
+        let default = (DateTimePicker.defaultConfig DatePickerChanged)
         in
             { default
                 | firstDayOfWeek = Date.Mon
@@ -406,9 +393,9 @@ Example:
             }
 
     view =
-        DatePicker.datePickerWithConfig
+        DateTimePicker.datePickerWithConfig
                 customConfig
-                DatePicker.defaultDatePickerConfig
+                DateTimePicker.defaultDatePickerConfig
                 [ class "my-datepicker" ]
                 model.datePickerState
                 model.value
@@ -421,12 +408,12 @@ datePickerWithConfig config =
 
 {-| Date and Time Picker view
 Example:
-    type alias Model = { dateTimePickerState : DatePicker.State, value : Maybe Date }
+    type alias Model = { dateTimePickerState : DateTimePicker.State, value : Maybe Date }
 
-    type  = DatePickerChanged DatePicker.State (Maybe Date)
+    type  = DatePickerChanged DateTimePicker.State (Maybe Date)
 
     view =
-        DatePicker.dateTimePicker
+        DateTimePicker.dateTimePicker
                  DatePickerChanged
                 [ class "my-datetimepicker" ]
                 model.dateTimePickerState
@@ -439,13 +426,13 @@ dateTimePicker onChange =
 
 {-| Date and Time Picker view
 Example:
-    type alias Model = { dateTimePickerState : DatePicker.State, value : Maybe Date }
+    type alias Model = { dateTimePickerState : DateTimePicker.State, value : Maybe Date }
 
-    type  = DatePickerChanged DatePicker.State (Maybe Date)
+    type  = DatePickerChanged DateTimePicker.State (Maybe Date)
 
     customConfig =
         let
-            default = DatePicker.defaultDateTimePickerConfig DatePickerChanged
+            default = DateTimePicker.defaultDateTimePickerConfig DatePickerChanged
         in
             { default
                 | firstDayOfWeek = Date.Mon
@@ -453,7 +440,7 @@ Example:
             }
 
     view =
-        DatePicker.dateTimePicker
+        DateTimePicker.dateTimePicker
                 customConfig
                 [ class "my-datetimepicker" ]
                 model.dateTimePickerState
@@ -466,13 +453,13 @@ dateTimePickerWithConfig config =
 
 {-| Time Picker view
 Example:
-    type alias Model = { timePickerState : DatePicker.State, value : Maybe Date }
+    type alias Model = { timePickerState : DateTimePicker.State, value : Maybe Date }
 
-    type  = DatePickerChanged DatePicker.State (Maybe Date)
+    type  = DatePickerChanged DateTimePicker.State (Maybe Date)
 
-    DatePicker.timePicker
-            (DatePicker.defaultConfig DatePickerChanged)
-            DatePicker.defaultTimePickerConfig
+    DateTimePicker.timePicker
+            (DateTimePicker.defaultConfig DatePickerChanged)
+            DateTimePicker.defaultTimePickerConfig
             [ class "my-datetimepicker" ]
             model.timePickerState
             model.value
@@ -523,18 +510,19 @@ view pickerType attributes state currentDate =
                 , if stateValue.inputFocused && not (shouldForceClose config) then
                     dialog pickerType state currentDate
                   else
-                    text ""
+                    dialog pickerType state currentDate
+                  -- text ""
                 ]
     in
         case pickerType of
             DatePicker config ->
-                html config (class [ DatePicker.SharedStyles.DatePicker ])
+                html config (class [ DateTimePicker.SharedStyles.DatePicker ])
 
             DateTimePicker config ->
-                html config (class [ DatePicker.SharedStyles.DatePicker, DatePicker.SharedStyles.TimePicker ])
+                html config (class [ DateTimePicker.SharedStyles.DatePicker, DateTimePicker.SharedStyles.TimePicker ])
 
             TimePicker config ->
-                html config (class [ DatePicker.SharedStyles.TimePicker ])
+                html config (class [ DateTimePicker.SharedStyles.TimePicker ])
 
 
 
@@ -548,7 +536,7 @@ dialog pickerType state currentDate =
             getStateValue state
 
         attributes config =
-            [ onMouseDownPreventDefault <| config.onChange (State { stateValue | event = "dialog.onMouseDownPreventDefault" }) currentDate
+            [ onMouseDownPreventDefault <| config.onChange (InternalState { stateValue | event = "dialog.onMouseDownPreventDefault" }) currentDate
             , onClick <| onChangeHandler pickerType stateValue currentDate
             , class [ Dialog ]
             ]
@@ -593,14 +581,14 @@ datePickerDialog pickerType state currentDate =
                 [ class [ ArrowLeft ]
                 , onMouseDownPreventDefault <| gotoPreviousMonth config state currentDate
                 ]
-                [ DatePicker.Svg.leftArrow ]
+                [ DateTimePicker.Svg.leftArrow ]
 
         nextButton config =
             span
                 [ class [ ArrowRight ]
                 , onMouseDownPreventDefault <| gotoNextMonth config state currentDate
                 ]
-                [ DatePicker.Svg.rightArrow ]
+                [ DateTimePicker.Svg.rightArrow ]
 
         html config =
             div [ class [ DatePickerDialog ] ]
@@ -622,12 +610,34 @@ datePickerDialog pickerType state currentDate =
             DateTimePicker config ->
                 html config
 
-            TimePicker config ->
+            TimePicker _ ->
                 text ""
 
 
 timePickerDialog : Type msg -> State -> Maybe Date -> Html msg
 timePickerDialog pickerType state currentDate =
+    let
+        html config =
+            case config.timePickerType of
+                Digital ->
+                    digitalTimePickerDialog pickerType state currentDate
+
+                Analog ->
+                    analogTimePickerDialog pickerType state currentDate
+    in
+        case pickerType of
+            DatePicker _ ->
+                text ""
+
+            DateTimePicker config ->
+                html config
+
+            TimePicker config ->
+                html config
+
+
+digitalTimePickerDialog : Type msg -> State -> Maybe Date -> Html msg
+digitalTimePickerDialog pickerType state currentDate =
     let
         stateValue =
             getStateValue state
@@ -668,7 +678,7 @@ timePickerDialog pickerType state currentDate =
                         )
                     |> Maybe.withDefault (class [])
                 ]
-                [ text <| (toString >> DatePicker.DateUtils.padding) hour ]
+                [ text <| (toString >> DateTimePicker.DateUtils.padding) hour ]
 
         minuteCell min =
             td
@@ -684,7 +694,7 @@ timePickerDialog pickerType state currentDate =
                         )
                     |> Maybe.withDefault (class [])
                 ]
-                [ text <| (toString >> DatePicker.DateUtils.padding) min ]
+                [ text <| (toString >> DateTimePicker.DateUtils.padding) min ]
 
         amPmCell ampm =
             td
@@ -704,22 +714,22 @@ timePickerDialog pickerType state currentDate =
 
         upArrows config =
             [ tr [ class [ ArrowUp ] ]
-                [ td [ onMouseDownPreventDefault <| hourUpHandler config stateValue currentDate ] [ DatePicker.Svg.upArrow ]
-                , td [ onMouseDownPreventDefault <| minuteUpHandler config stateValue currentDate ] [ DatePicker.Svg.upArrow ]
+                [ td [ onMouseDownPreventDefault <| hourUpHandler config stateValue currentDate ] [ DateTimePicker.Svg.upArrow ]
+                , td [ onMouseDownPreventDefault <| minuteUpHandler config stateValue currentDate ] [ DateTimePicker.Svg.upArrow ]
                 , td [] []
                 ]
             ]
 
         downArrows config =
             [ tr [ class [ ArrowDown ] ]
-                [ td [ onMouseDownPreventDefault <| hourDownHandler config stateValue currentDate ] [ DatePicker.Svg.downArrow ]
-                , td [ onMouseDownPreventDefault <| minuteDownHandler config stateValue currentDate ] [ DatePicker.Svg.downArrow ]
+                [ td [ onMouseDownPreventDefault <| hourDownHandler config stateValue currentDate ] [ DateTimePicker.Svg.downArrow ]
+                , td [ onMouseDownPreventDefault <| minuteDownHandler config stateValue currentDate ] [ DateTimePicker.Svg.downArrow ]
                 , td [] []
                 ]
             ]
 
         html config =
-            div [ class [ TimePickerDialog ] ]
+            div [ class [ TimePickerDialog, DigitalTime ] ]
                 [ div [ class [ Header ] ]
                     [ Maybe.map config.timeFormatter currentDate |> Maybe.withDefault "-- : --" |> text ]
                 , div [ class [ Body ] ]
@@ -734,7 +744,27 @@ timePickerDialog pickerType state currentDate =
                 ]
     in
         case pickerType of
-            DatePicker config ->
+            DatePicker _ ->
+                text ""
+
+            DateTimePicker config ->
+                html config
+
+            TimePicker config ->
+                html config
+
+
+analogTimePickerDialog : Type msg -> State -> Maybe Date -> Html msg
+analogTimePickerDialog pickerType state currentDate =
+    let
+        html config =
+            div [ class [ TimePickerDialog, AnalogTime ] ]
+                [ div [ class [ Header ] ] []
+                , div [ class [ Body ] ] [ DateTimePicker.AnalogClock.clock config.onChange state currentDate ]
+                ]
+    in
+        case pickerType of
+            DatePicker _ ->
                 text ""
 
             DateTimePicker config ->
@@ -761,7 +791,7 @@ calendar pickerType state currentDate =
                         firstDay =
                             Date.Extra.Core.toFirstOfMonth titleDate
                                 |> Date.dayOfWeek
-                                |> DatePicker.DateUtils.dayToInt config.firstDayOfWeek
+                                |> DateTimePicker.DateUtils.dayToInt config.firstDayOfWeek
 
                         month =
                             Date.month titleDate
@@ -770,7 +800,7 @@ calendar pickerType state currentDate =
                             Date.year titleDate
 
                         days =
-                            DatePicker.DateUtils.generateCalendar config.firstDayOfWeek month year
+                            DateTimePicker.DateUtils.generateCalendar config.firstDayOfWeek month year
 
                         header =
                             thead [ class [ DaysOfWeek ] ]
@@ -793,10 +823,10 @@ calendar pickerType state currentDate =
                             td
                                 [ class
                                     (case day.monthType of
-                                        DatePicker.DateUtils.Previous ->
+                                        DateTimePicker.DateUtils.Previous ->
                                             [ PreviousMonth ]
 
-                                        DatePicker.DateUtils.Current ->
+                                        DateTimePicker.DateUtils.Current ->
                                             CurrentMonth
                                                 :: if isHighlighted day then
                                                     [ SelectedDate ]
@@ -805,7 +835,7 @@ calendar pickerType state currentDate =
                                                    else
                                                     []
 
-                                        DatePicker.DateUtils.Next ->
+                                        DateTimePicker.DateUtils.Next ->
                                             [ NextMonth ]
                                     )
                                 , onMouseDownPreventDefault <| dateClickHandler pickerType stateValue year month day
@@ -852,7 +882,7 @@ dayNames config =
             ]
 
         shiftAmount =
-            DatePicker.DateUtils.dayToInt Date.Sun config.firstDayOfWeek
+            DateTimePicker.DateUtils.dayToInt Date.Sun config.firstDayOfWeek
     in
         days
             |> List.Extra.splitAt shiftAmount
@@ -870,9 +900,9 @@ inputChangeHandler config stateValue maybeDate =
             let
                 updateTime time =
                     { time
-                        | hour = Date.hour date |> DatePicker.DateUtils.fromMillitaryHour |> Just
+                        | hour = Date.hour date |> DateTimePicker.DateUtils.fromMillitaryHour |> Just
                         , minute = Just (Date.minute date)
-                        , amPm = Date.hour date |> DatePicker.DateUtils.fromMillitaryAmPm |> Just
+                        , amPm = Date.hour date |> DateTimePicker.DateUtils.fromMillitaryAmPm |> Just
                     }
 
                 updatedValue =
@@ -883,7 +913,7 @@ inputChangeHandler config stateValue maybeDate =
                         , event = "inputChangeHandler"
                     }
             in
-                config.onChange (State updatedValue) maybeDate
+                config.onChange (InternalState updatedValue) maybeDate
 
         Nothing ->
             let
@@ -897,7 +927,7 @@ inputChangeHandler config stateValue maybeDate =
                         , event = "inputChangeHandler"
                     }
             in
-                config.onChange (State updatedValue) maybeDate
+                config.onChange (InternalState updatedValue) maybeDate
 
 
 hourClickHandler : Type msg -> StateValue -> Int -> msg
@@ -912,7 +942,7 @@ hourClickHandler pickerType stateValue hour =
         ( updatedDate, forceCloseWithDate ) =
             case ( stateValue.time.minute, stateValue.time.amPm, stateValue.date ) of
                 ( Just minute, Just amPm, Just date ) ->
-                    ( Just <| DatePicker.DateUtils.setTime date hour minute amPm
+                    ( Just <| DateTimePicker.DateUtils.setTime date hour minute amPm
                     , True
                     )
 
@@ -922,7 +952,7 @@ hourClickHandler pickerType stateValue hour =
         ( updatedTime, forceCloseTimeOnly ) =
             case ( updatedStateValue.time.minute, updatedStateValue.time.amPm ) of
                 ( Just minute, Just amPm ) ->
-                    ( Just <| DatePicker.DateUtils.toTime hour minute amPm
+                    ( Just <| DateTimePicker.DateUtils.toTime hour minute amPm
                     , True
                     )
 
@@ -930,10 +960,10 @@ hourClickHandler pickerType stateValue hour =
                     ( Nothing, False )
 
         withDateHandler config =
-            config.onChange (State { updatedStateValue | forceClose = forceCloseWithDate }) updatedDate
+            config.onChange (InternalState { updatedStateValue | forceClose = forceCloseWithDate }) updatedDate
 
         justTimeHandler config =
-            config.onChange (State { updatedStateValue | forceClose = forceCloseTimeOnly }) updatedTime
+            config.onChange (InternalState { updatedStateValue | forceClose = forceCloseTimeOnly }) updatedTime
     in
         case pickerType of
             DatePicker config ->
@@ -958,7 +988,7 @@ minuteClickHandler pickerType stateValue minute =
         ( updatedDate, forceCloseWithDate ) =
             case ( stateValue.time.hour, stateValue.time.amPm, stateValue.date ) of
                 ( Just hour, Just amPm, Just date ) ->
-                    ( Just <| DatePicker.DateUtils.setTime date hour minute amPm
+                    ( Just <| DateTimePicker.DateUtils.setTime date hour minute amPm
                     , True
                     )
 
@@ -968,7 +998,7 @@ minuteClickHandler pickerType stateValue minute =
         ( updatedTime, forceCloseTimeOnly ) =
             case ( updatedStateValue.time.hour, updatedStateValue.time.amPm ) of
                 ( Just hour, Just amPm ) ->
-                    ( Just <| DatePicker.DateUtils.toTime hour minute amPm
+                    ( Just <| DateTimePicker.DateUtils.toTime hour minute amPm
                     , True
                     )
 
@@ -976,10 +1006,10 @@ minuteClickHandler pickerType stateValue minute =
                     ( Nothing, False )
 
         withDateHandler config =
-            config.onChange (State { updatedStateValue | forceClose = forceCloseWithDate }) updatedDate
+            config.onChange (InternalState { updatedStateValue | forceClose = forceCloseWithDate }) updatedDate
 
         justTimeHandler config =
-            config.onChange (State { updatedStateValue | forceClose = forceCloseTimeOnly }) updatedTime
+            config.onChange (InternalState { updatedStateValue | forceClose = forceCloseTimeOnly }) updatedTime
     in
         case pickerType of
             DatePicker config ->
@@ -1014,7 +1044,7 @@ amPmClickHandler pickerType stateValue amPm =
         ( updatedDate, forceCloseWithDate ) =
             case ( stateValue.time.hour, stateValue.time.minute, stateValue.date ) of
                 ( Just hour, Just minute, Just date ) ->
-                    ( Just <| DatePicker.DateUtils.setTime date hour minute amPm
+                    ( Just <| DateTimePicker.DateUtils.setTime date hour minute amPm
                     , True
                     )
 
@@ -1024,7 +1054,7 @@ amPmClickHandler pickerType stateValue amPm =
         ( updatedTime, forceCloseTimeOnly ) =
             case ( updatedStateValue.time.hour, updatedStateValue.time.minute ) of
                 ( Just hour, Just minute ) ->
-                    ( Just <| DatePicker.DateUtils.toTime hour minute amPm
+                    ( Just <| DateTimePicker.DateUtils.toTime hour minute amPm
                     , True
                     )
 
@@ -1032,10 +1062,10 @@ amPmClickHandler pickerType stateValue amPm =
                     ( Nothing, False )
 
         withDateHandler config =
-            config.onChange (State { updatedStateValue | forceClose = forceCloseWithDate }) updatedDate
+            config.onChange (InternalState { updatedStateValue | forceClose = forceCloseWithDate }) updatedDate
 
         justTimeHandler config =
-            config.onChange (State { updatedStateValue | forceClose = forceCloseTimeOnly }) updatedTime
+            config.onChange (InternalState { updatedStateValue | forceClose = forceCloseTimeOnly }) updatedTime
     in
         case pickerType of
             DatePicker config ->
@@ -1048,11 +1078,11 @@ amPmClickHandler pickerType stateValue amPm =
                 justTimeHandler config
 
 
-dateClickHandler : Type msg -> StateValue -> Int -> Date.Month -> DatePicker.DateUtils.Day -> msg
+dateClickHandler : Type msg -> StateValue -> Int -> Date.Month -> DateTimePicker.DateUtils.Day -> msg
 dateClickHandler pickerType stateValue year month day =
     let
         selectedDate =
-            DatePicker.DateUtils.toDate year month day
+            DateTimePicker.DateUtils.toDate year month day
 
         updatedStateValue =
             { stateValue | date = Just <| selectedDate, forceClose = forceClose }
@@ -1060,7 +1090,7 @@ dateClickHandler pickerType stateValue year month day =
         ( updatedDate, forceClose ) =
             case ( pickerType, stateValue.time.hour, stateValue.time.minute, stateValue.time.amPm ) of
                 ( DateTimePicker _, Just hour, Just minute, Just amPm ) ->
-                    ( Just <| DatePicker.DateUtils.setTime selectedDate hour minute amPm
+                    ( Just <| DateTimePicker.DateUtils.setTime selectedDate hour minute amPm
                     , True
                     )
 
@@ -1074,14 +1104,14 @@ dateClickHandler pickerType stateValue year month day =
 
         handler config =
             case day.monthType of
-                DatePicker.DateUtils.Previous ->
-                    gotoPreviousMonth config (State updatedStateValue) updatedDate
+                DateTimePicker.DateUtils.Previous ->
+                    gotoPreviousMonth config (InternalState updatedStateValue) updatedDate
 
-                DatePicker.DateUtils.Next ->
-                    gotoNextMonth config (State updatedStateValue) updatedDate
+                DateTimePicker.DateUtils.Next ->
+                    gotoNextMonth config (InternalState updatedStateValue) updatedDate
 
-                DatePicker.DateUtils.Current ->
-                    config.onChange (State updatedStateValue) updatedDate
+                DateTimePicker.DateUtils.Current ->
+                    config.onChange (InternalState updatedStateValue) updatedDate
     in
         case pickerType of
             DatePicker config ->
@@ -1106,7 +1136,7 @@ datePickerFocused config stateValue currentDate =
                     currentDate
     in
         config.onChange
-            (State
+            (InternalState
                 { stateValue
                     | inputFocused = True
                     , event = "onFocus"
@@ -1121,15 +1151,15 @@ onChangeHandler : Type msg -> StateValue -> Maybe Date -> msg
 onChangeHandler pickerType stateValue currentDate =
     let
         justDateHandler config =
-            config.onChange (State stateValue) stateValue.date
+            config.onChange (InternalState stateValue) stateValue.date
 
         withTimeHandler config =
             case ( stateValue.date, stateValue.time.hour, stateValue.time.minute, stateValue.time.amPm ) of
                 ( Just date, Just hour, Just minute, Just amPm ) ->
-                    config.onChange (State stateValue) <| Just <| DatePicker.DateUtils.setTime date hour minute amPm
+                    config.onChange (InternalState stateValue) <| Just <| DateTimePicker.DateUtils.setTime date hour minute amPm
 
                 _ ->
-                    config.onChange (State stateValue) Nothing
+                    config.onChange (InternalState stateValue) Nothing
     in
         case pickerType of
             DatePicker config ->
@@ -1151,7 +1181,7 @@ hourUpHandler config stateValue currentDate =
             else
                 stateValue
     in
-        config.onChange (State updatedState) currentDate
+        config.onChange (InternalState updatedState) currentDate
 
 
 hourDownHandler : Config config msg -> StateValue -> Maybe Date -> msg
@@ -1163,7 +1193,7 @@ hourDownHandler config stateValue currentDate =
             else
                 stateValue
     in
-        config.onChange (State updatedState) currentDate
+        config.onChange (InternalState updatedState) currentDate
 
 
 minuteUpHandler : Config config msg -> StateValue -> Maybe Date -> msg
@@ -1175,7 +1205,7 @@ minuteUpHandler config stateValue currentDate =
             else
                 stateValue
     in
-        config.onChange (State updatedState) currentDate
+        config.onChange (InternalState updatedState) currentDate
 
 
 minuteDownHandler : Config config msg -> StateValue -> Maybe Date -> msg
@@ -1187,4 +1217,4 @@ minuteDownHandler config stateValue currentDate =
             else
                 stateValue
     in
-        config.onChange (State updatedState) currentDate
+        config.onChange (InternalState updatedState) currentDate

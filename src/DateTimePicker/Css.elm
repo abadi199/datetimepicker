@@ -1,6 +1,6 @@
-module DatePicker.Css exposing (css)
+module DateTimePicker.Css exposing (css)
 
-{-| DatePicker.Css
+{-| DateTimePicker.Css
 
 Using [rtfeldman/elm-css](http://package.elm-lang.org/packages/rtfeldman/elm-css/latest)
 Include this in your elm-css port module to be included in your project's css file.
@@ -12,7 +12,7 @@ Include this in your elm-css port module to be included in your project's css fi
 import Css exposing (..)
 import Css.Elements exposing (..)
 import Css.Namespace exposing (namespace)
-import DatePicker.SharedStyles exposing (CssClasses(..), datepickerNamespace)
+import DateTimePicker.SharedStyles exposing (CssClasses(..), datepickerNamespace)
 
 
 {-| DatePicker's Css Stylesheet
@@ -32,6 +32,9 @@ css =
             , children dialogCss
             , property "z-index" "1"
             ]
+        , (.) AnalogClock
+            [ padding (px 15)
+            ]
         ]
 
 
@@ -44,17 +47,16 @@ dialogCss =
         ]
     , (.) TimePickerDialog
         [ float left
-        , width (px 120)
         , height calendarHeight
         , textAlign center
         , borderLeft3 (px 1) solid (darkGray)
-        , children timePickerDialogCss
+        , withClass DigitalTime [ children digitalTimePickerDialogCss ]
         ]
     ]
 
 
-timePickerDialogCss : List Css.Snippet
-timePickerDialogCss =
+digitalTimePickerDialogCss : List Css.Snippet
+digitalTimePickerDialogCss =
     [ (.) Header
         [ headerMixin
         ]
@@ -62,7 +64,7 @@ timePickerDialogCss =
         [ descendants
             [ table
                 [ tableMixin
-                , width (pct 100)
+                , width (px 120)
                 , descendants
                     [ tr
                         [ verticalAlign top

@@ -1,4 +1,4 @@
-module DatePicker.Formatter
+module DateTimePicker.Formatter
     exposing
         ( titleFormatter
         , dateFormatter

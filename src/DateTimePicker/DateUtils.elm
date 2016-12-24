@@ -1,4 +1,4 @@
-module DatePicker.DateUtils
+module DateTimePicker.DateUtils
     exposing
         ( dayToInt
         , generateCalendar

@@ -1,4 +1,4 @@
-module DatePicker.SharedStyles
+module DateTimePicker.SharedStyles
     exposing
         ( CssClasses(..)
         , datepickerNamespace
@@ -37,3 +37,6 @@ type CssClasses
     | SelectedMinute
     | SelectedAmPm
     | Today
+    | DigitalTime
+    | AnalogTime
+    | AnalogClock
