@@ -38,6 +38,7 @@ clock onChange state date =
             ]
 
 
+arrow : StateValue -> Svg.Svg msg
 arrow stateValue =
     let
         originPoint =
@@ -72,6 +73,7 @@ arrow stateValue =
                     |> draw
 
 
+onMouseOverWithPosition : InternalState -> Maybe Date -> (InternalState -> Maybe Date -> msg) -> Svg.Attribute msg
 onMouseOverWithPosition state date onChange =
     let
         updateState value =
@@ -92,6 +94,7 @@ type alias MouseMoveData =
     { offsetX : Int, offsetY : Int }
 
 
+mouseMoveDecoder : Json.Decode.Decoder MouseMoveData
 mouseMoveDecoder =
     Json.Decode.map2 MouseMoveData
         (Json.Decode.field "offsetX" Json.Decode.int)
