@@ -1,8 +1,8 @@
 module DateTimePicker.AnalogClock exposing (clock)
 
 import Html exposing (Html, div)
-import Svg
-import Svg.Attributes exposing (width, height, viewBox, cx, cy, r, fill, stroke, strokeWidth, x1, y1, x2, y2)
+import Svg exposing (Svg, svg, circle, line, g, text, text_)
+import Svg.Attributes exposing (textAnchor, width, height, viewBox, cx, cy, r, fill, stroke, strokeWidth, x1, y1, x2, y2, x, y)
 import Svg.Events
 import DateTimePicker.SharedStyles exposing (datepickerNamespace, CssClasses(..))
 import DateTimePicker.State exposing (InternalState(..), StateValue, getStateValue)
@@ -22,8 +22,8 @@ clock onChange state date =
             getStateValue state
     in
         div [ class [ AnalogClock ] ]
-            [ Svg.svg [ width "200", height "200", viewBox "0 0 200 200" ]
-                [ Svg.circle
+            [ svg [ width "200", height "200", viewBox "0 0 200 200" ]
+                [ circle
                     [ cx "100"
                     , cy "100"
                     , r "100"
@@ -33,12 +33,24 @@ clock onChange state date =
                     , onMouseOverWithPosition state date (onChange)
                     ]
                     []
+                , g [] (List.map hour hours)
                 , arrow stateValue
                 ]
             ]
 
 
-arrow : StateValue -> Svg.Svg msg
+hour : ( String, Point ) -> Svg msg
+hour ( number, point ) =
+    text_
+        [ x <| toString point.x
+        , y <| toString point.y
+        , textAnchor "middle"
+        , Svg.Attributes.dominantBaseline "central"
+        ]
+        [ text number ]
+
+
+arrow : StateValue -> Svg msg
 arrow stateValue =
     let
         originPoint =
@@ -47,13 +59,16 @@ arrow stateValue =
         axisPoint =
             Point 200 100
 
+        length =
+            70
+
         arrowPoint point =
             point
                 |> DateTimePicker.Geometry.calculateAngle originPoint axisPoint
-                |> DateTimePicker.Geometry.calculateArrowPoint originPoint 80
+                |> DateTimePicker.Geometry.calculateArrowPoint originPoint length
 
         draw point =
-            Svg.line
+            line
                 [ x1 "100"
                 , y1 "100"
                 , x2 <| toString point.x
@@ -65,7 +80,7 @@ arrow stateValue =
     in
         case stateValue.clockMousePosition of
             Nothing ->
-                Svg.text ""
+                text ""
 
             Just point ->
                 point
@@ -99,3 +114,49 @@ mouseMoveDecoder =
     Json.Decode.map2 MouseMoveData
         (Json.Decode.field "offsetX" Json.Decode.int)
         (Json.Decode.field "offsetY" Json.Decode.int)
+
+
+
+-- Hour Position
+
+
+hours : List ( String, Point )
+hours =
+    let
+        point =
+            DateTimePicker.Geometry.calculateArrowPoint (Point 100 100) 85
+    in
+        [ ( "1", point (pi * 2 / 6) )
+        , ( "2", point (pi * 1 / 6) )
+        , ( "3", point (pi * 2) )
+        , ( "4", point (pi * 11 / 6) )
+        , ( "5", point (pi * 10 / 6) )
+        , ( "6", point (pi * 9 / 6) )
+        , ( "7", point (pi * 8 / 6) )
+        , ( "8", point (pi * 7 / 6) )
+        , ( "9", point pi )
+        , ( "10", point (pi * 5 / 6) )
+        , ( "11", point (pi * 4 / 6) )
+        , ( "12", point (pi / 2) )
+        ]
+
+
+minutes : List ( String, Point )
+minutes =
+    let
+        point =
+            DateTimePicker.Geometry.calculateArrowPoint (Point 100 100) 85
+    in
+        [ ( "5", point (pi * 2 / 6) )
+        , ( "10", point (pi * 1 / 6) )
+        , ( "15", point (pi * 2) )
+        , ( "20", point (pi * 11 / 6) )
+        , ( "25", point (pi * 10 / 6) )
+        , ( "30", point (pi * 9 / 6) )
+        , ( "35", point (pi * 8 / 6) )
+        , ( "40", point (pi * 7 / 6) )
+        , ( "45", point pi )
+        , ( "50", point (pi * 5 / 6) )
+        , ( "55", point (pi * 4 / 6) )
+        , ( "0", point (pi / 2) )
+        ]
