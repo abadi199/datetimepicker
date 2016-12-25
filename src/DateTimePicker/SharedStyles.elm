@@ -40,3 +40,8 @@ type CssClasses
     | DigitalTime
     | AnalogTime
     | AnalogClock
+    | Active
+    | Hour
+    | Minute
+    | AMPM
+    | Separator

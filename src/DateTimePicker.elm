@@ -45,7 +45,7 @@ import DateTimePicker.Formatter
 import DateTimePicker.Svg
 import DateTimePicker.DateUtils
 import DateTimePicker.AnalogClock
-import DateTimePicker.State exposing (InternalState(..), StateValue, Time, getStateValue)
+import DateTimePicker.State exposing (InternalState(..), StateValue, Time, getStateValue, initialStateValue, initialStateValueWithToday)
 import Date.Extra.Core
 import Date.Extra.Duration
 import List.Extra
@@ -221,37 +221,12 @@ initialState =
         initialStateValue
 
 
-initialStateValue : StateValue
-initialStateValue =
-    { inputFocused = False
-    , forceClose = False
-    , event = ""
-    , today = Nothing
-    , titleDate = Nothing
-    , date = Nothing
-    , time = Time Nothing Nothing Nothing
-    , hourPickerStart = 1
-    , minutePickerStart = 0
-    , clockMousePosition = Nothing
-    }
-
-
 {-| Initial state of the DatePicker with today Date
 -}
 initialStateWithToday : Date.Date -> State
 initialStateWithToday today =
     InternalState
-        { inputFocused = False
-        , forceClose = False
-        , event = ""
-        , today = Just today
-        , titleDate = Just <| Date.Extra.Core.toFirstOfMonth today
-        , date = Nothing
-        , time = Time Nothing Nothing Nothing
-        , hourPickerStart = 1
-        , minutePickerStart = 0
-        , clockMousePosition = Nothing
-        }
+        (initialStateValueWithToday today)
 
 
 {-| Initial Cmd to set the initial month to be displayed in the datepicker to the current month.
@@ -757,9 +732,35 @@ digitalTimePickerDialog pickerType state currentDate =
 analogTimePickerDialog : Type msg -> State -> Maybe Date -> Html msg
 analogTimePickerDialog pickerType state currentDate =
     let
+        stateValue =
+            getStateValue state
+
+        isActive timeIndicator =
+            if stateValue.activeTimeIndicator == Just timeIndicator then
+                [ Active ]
+            else
+                []
+
         html config =
             div [ class [ TimePickerDialog, AnalogTime ] ]
-                [ div [ class [ Header ] ] []
+                [ div [ class [ Header ] ]
+                    [ span
+                        [ onMouseDownPreventDefault (timeIndicatorHandler config stateValue currentDate DateTimePicker.State.HourIndicator)
+                        , class (Hour :: isActive DateTimePicker.State.HourIndicator)
+                        ]
+                        [ text "--" ]
+                    , span [ class [ Separator ] ] [ text " : " ]
+                    , span
+                        [ onMouseDownPreventDefault (timeIndicatorHandler config stateValue currentDate DateTimePicker.State.MinuteIndicator)
+                        , class (Minute :: isActive DateTimePicker.State.MinuteIndicator)
+                        ]
+                        [ text "--" ]
+                    , span
+                        [ onMouseDownPreventDefault (timeIndicatorHandler config stateValue currentDate DateTimePicker.State.AMPMIndicator)
+                        , class (AMPM :: isActive DateTimePicker.State.AMPMIndicator)
+                        ]
+                        [ text "--" ]
+                    ]
                 , div [ class [ Body ] ] [ DateTimePicker.AnalogClock.clock config.onChange state currentDate ]
                 ]
     in
@@ -1216,5 +1217,14 @@ minuteDownHandler config stateValue currentDate =
                 { stateValue | minutePickerStart = stateValue.minutePickerStart + 6 }
             else
                 stateValue
+    in
+        config.onChange (InternalState updatedState) currentDate
+
+
+timeIndicatorHandler : Config config msg -> StateValue -> Maybe Date -> DateTimePicker.State.TimeIndicator -> msg
+timeIndicatorHandler config stateValue currentDate timeIndicator =
+    let
+        updatedState =
+            { stateValue | activeTimeIndicator = Just timeIndicator }
     in
         config.onChange (InternalState updatedState) currentDate

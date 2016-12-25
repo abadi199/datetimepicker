@@ -32,9 +32,6 @@ css =
             , children dialogCss
             , property "z-index" "1"
             ]
-        , (.) AnalogClock
-            [ padding (px 15)
-            ]
         ]
 
 
@@ -50,46 +47,77 @@ dialogCss =
         , height calendarHeight
         , textAlign center
         , borderLeft3 (px 1) solid (darkGray)
-        , withClass DigitalTime [ children digitalTimePickerDialogCss ]
+        , withClass DigitalTime digitalTimePickerDialogMixin
+        , withClass AnalogTime analogTimePickerDialogMixin
         ]
     ]
 
 
-digitalTimePickerDialogCss : List Css.Snippet
-digitalTimePickerDialogCss =
-    [ (.) Header
-        [ headerMixin
-        ]
-    , (.) Body
-        [ descendants
-            [ table
-                [ tableMixin
-                , width (px 120)
+analogTimePickerDialogMixin : List Css.Mixin
+analogTimePickerDialogMixin =
+    let
+        timeHeaderMixin =
+            mixin
+                [ padding2 (px 2) (px 10)
+                , cursor pointer
+                ]
+    in
+        [ children
+            [ (.) Header
+                [ headerMixin
+                , fontSize (em 1.5)
+                , paddingTop (px 10)
+                , paddingBottom (px 10)
                 , descendants
-                    [ tr
-                        [ verticalAlign top
-                        , withClass ArrowUp
-                            [ backgroundColor lightGray
-                            , children
-                                [ td [ borderBottom3 (px 1) solid darkGray ]
+                    [ (.) Hour [ timeHeaderMixin ]
+                    , (.) Minute [ timeHeaderMixin ]
+                    , (.) AMPM [ timeHeaderMixin ]
+                    , (.) Active
+                        [ activeMixin ]
+                    ]
+                ]
+            , (.) Body [ padding (px 15) ]
+            ]
+        ]
+
+
+digitalTimePickerDialogMixin : List Css.Mixin
+digitalTimePickerDialogMixin =
+    [ children
+        [ (.) Header
+            [ headerMixin
+            ]
+        , (.) Body
+            [ descendants
+                [ table
+                    [ tableMixin
+                    , width (px 120)
+                    , descendants
+                        [ tr
+                            [ verticalAlign top
+                            , withClass ArrowUp
+                                [ backgroundColor lightGray
+                                , children
+                                    [ td [ borderBottom3 (px 1) solid darkGray ]
+                                    ]
+                                ]
+                            , withClass ArrowDown
+                                [ backgroundColor lightGray
+                                , children [ td [ borderTop3 (px 1) solid darkGray ] ]
                                 ]
                             ]
-                        , withClass ArrowDown
-                            [ backgroundColor lightGray
-                            , children [ td [ borderTop3 (px 1) solid darkGray ] ]
+                        , td
+                            [ width (pct 33)
+                            , cellMixin
+                            , hover
+                                [ backgroundColor highlightedDay
+                                , highlightBorderMixin
+                                ]
                             ]
+                        , (.) SelectedHour [ highlightMixin, hover [ highlightMixin ] ]
+                        , (.) SelectedMinute [ highlightMixin, hover [ highlightMixin ] ]
+                        , (.) SelectedAmPm [ highlightMixin, hover [ highlightMixin ] ]
                         ]
-                    , td
-                        [ width (pct 33)
-                        , cellMixin
-                        , hover
-                            [ backgroundColor highlightedDay
-                            , highlightBorderMixin
-                            ]
-                        ]
-                    , (.) SelectedHour [ highlightMixin, hover [ highlightMixin ] ]
-                    , (.) SelectedMinute [ highlightMixin, hover [ highlightMixin ] ]
-                    , (.) SelectedAmPm [ highlightMixin, hover [ highlightMixin ] ]
                     ]
                 ]
             ]
@@ -266,4 +294,12 @@ tableMixin =
         [ property "border-spacing" "0"
         , property "border-width" "0"
         , property "table-layout" "fixed"
+        ]
+
+
+activeMixin : Css.Mixin
+activeMixin =
+    mixin
+        [ backgroundColor (hex "#e0e0e0")
+        , highlightBorderMixin
         ]

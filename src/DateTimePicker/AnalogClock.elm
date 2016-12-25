@@ -33,14 +33,19 @@ clock onChange state date =
                     , onMouseOverWithPosition state date (onChange)
                     ]
                     []
-                , g [] (List.map hour hours)
+                , case stateValue.activeTimeIndicator of
+                    Just (DateTimePicker.State.MinuteIndicator) ->
+                        g [] (List.map clockFace minutes)
+
+                    _ ->
+                        g [] (List.map clockFace hours)
                 , arrow stateValue
                 ]
             ]
 
 
-hour : ( String, Point ) -> Svg msg
-hour ( number, point ) =
+clockFace : ( String, Point ) -> Svg msg
+clockFace ( number, point ) =
     text_
         [ x <| toString point.x
         , y <| toString point.y
