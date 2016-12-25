@@ -6,6 +6,7 @@ import Svg.Attributes exposing (textAnchor, width, height, viewBox, cx, cy, r, f
 import Svg.Events
 import DateTimePicker.SharedStyles exposing (datepickerNamespace, CssClasses(..))
 import DateTimePicker.State exposing (InternalState(..), StateValue, getStateValue)
+import DateTimePicker.Events exposing (onMouseDownPreventDefault, onMouseOverWithPosition, MouseMoveData)
 import Date exposing (Date)
 import Json.Decode
 import DateTimePicker.Geometry exposing (Point)
@@ -30,14 +31,13 @@ clock onChange state date =
                     , cy "100"
                     , r "100"
                     , fill "#eee"
-                      -- , strokeWidth "1px"
-                      -- , stroke "#aaa"
-                    , onMouseOverWithPosition state date (onChange)
+                    , onMouseOverWithPosition (mouseOverHandler state date onChange)
+                    , onMouseDownPreventDefault (mouseDownHandler state date onChange)
                     ]
                     []
                 , case stateValue.activeTimeIndicator of
                     Just (DateTimePicker.State.MinuteIndicator) ->
-                        g [] (minutes |> Dict.toList |> List.map clockFace)
+                        g [] (minutesPerFive |> Dict.toList |> List.map clockFace)
 
                     _ ->
                         g [] (hours |> Dict.toList |> List.map clockFace)
@@ -77,9 +77,8 @@ arrow stateValue =
         length =
             70
 
-        arrowPoint point =
-            point
-                |> DateTimePicker.Geometry.calculateAngle originPoint axisPoint
+        arrowPoint angle =
+            angle
                 |> DateTimePicker.Geometry.calculateArrowPoint originPoint length
 
         draw point =
@@ -93,40 +92,54 @@ arrow stateValue =
                 ]
                 []
     in
-        case stateValue.clockMousePosition of
+        case stateValue.currentAngle of
             Nothing ->
                 text ""
 
-            Just point ->
-                point
-                    -- |> arrowPoint
-                    |>
-                        draw
+            Just angle ->
+                angle
+                    |> arrowPoint
+                    |> draw
 
 
-onMouseOverWithPosition : InternalState -> Maybe Date -> (InternalState -> Maybe Date -> msg) -> Svg.Attribute msg
-onMouseOverWithPosition state date onChange =
+mouseDownHandler : InternalState -> Maybe Date -> (InternalState -> Maybe Date -> msg) -> msg
+mouseDownHandler state date onChange =
     let
-        updateState mouseMoveData =
-            let
-                stateValue =
-                    getStateValue state
+        stateValue =
+            getStateValue state
 
-                decoder updatedState =
-                    Json.Decode.succeed (onChange updatedState date)
-            in
-                case stateValue.activeTimeIndicator of
-                    Just (DateTimePicker.State.HourIndicator) ->
-                        decoder (updateHourState stateValue date mouseMoveData)
+        updatedStateValue =
+            case stateValue.activeTimeIndicator of
+                Just (DateTimePicker.State.HourIndicator) ->
+                    { stateValue | activeTimeIndicator = Just DateTimePicker.State.MinuteIndicator }
 
-                    Just (DateTimePicker.State.MinuteIndicator) ->
-                        decoder (updateMinuteState stateValue date mouseMoveData)
+                Just (DateTimePicker.State.MinuteIndicator) ->
+                    { stateValue | activeTimeIndicator = Just DateTimePicker.State.AMPMIndicator }
 
-                    _ ->
-                        decoder (InternalState stateValue)
+                _ ->
+                    { stateValue | activeTimeIndicator = Just DateTimePicker.State.HourIndicator }
     in
-        Svg.Events.on "mousemove"
-            (mouseMoveDecoder |> Json.Decode.andThen updateState)
+        onChange (InternalState updatedStateValue) date
+
+
+mouseOverHandler : InternalState -> Maybe Date -> (InternalState -> Maybe Date -> msg) -> MouseMoveData -> Json.Decode.Decoder msg
+mouseOverHandler state date onChange mouseMoveData =
+    let
+        stateValue =
+            getStateValue state
+
+        decoder updatedState =
+            Json.Decode.succeed (onChange updatedState date)
+    in
+        case stateValue.activeTimeIndicator of
+            Just (DateTimePicker.State.HourIndicator) ->
+                decoder (updateHourState stateValue date mouseMoveData)
+
+            Just (DateTimePicker.State.MinuteIndicator) ->
+                decoder (updateMinuteState stateValue date mouseMoveData)
+
+            _ ->
+                decoder (InternalState stateValue)
 
 
 updateHourState : StateValue -> Maybe Date -> MouseMoveData -> InternalState
@@ -142,14 +155,13 @@ updateHourState stateValue date mouseMoveData =
                 |> List.sortBy Tuple.second
                 |> List.head
                 |> Maybe.map (Tuple.first)
-                |> Maybe.map (\( hour, radians ) -> ( hour, DateTimePicker.Geometry.calculateArrowPoint originPoint 70 radians ))
 
         updateTime time hour =
             { time | hour = hour |> Maybe.andThen (String.toInt >> Result.toMaybe) }
     in
         InternalState
             { stateValue
-                | clockMousePosition =
+                | currentAngle =
                     Maybe.map Tuple.second closestHour
                 , time = updateTime stateValue.time (Maybe.map Tuple.first closestHour)
             }
@@ -157,18 +169,27 @@ updateHourState stateValue date mouseMoveData =
 
 updateMinuteState : StateValue -> Maybe Date -> MouseMoveData -> InternalState
 updateMinuteState stateValue date mouseMoveData =
-    InternalState { stateValue | clockMousePosition = Just { x = mouseMoveData.offsetX, y = mouseMoveData.offsetY } }
+    let
+        currentAngle =
+            DateTimePicker.Geometry.calculateAngle originPoint axisPoint (Point mouseMoveData.offsetX mouseMoveData.offsetY)
 
+        closestMinute =
+            minutes
+                |> Dict.toList
+                |> List.map (\( minute, radians ) -> ( ( minute, radians ), abs (radians - currentAngle) ))
+                |> List.sortBy Tuple.second
+                |> List.head
+                |> Maybe.map (Tuple.first)
 
-type alias MouseMoveData =
-    { offsetX : Int, offsetY : Int }
-
-
-mouseMoveDecoder : Json.Decode.Decoder MouseMoveData
-mouseMoveDecoder =
-    Json.Decode.map2 MouseMoveData
-        (Json.Decode.field "offsetX" Json.Decode.int)
-        (Json.Decode.field "offsetY" Json.Decode.int)
+        updateTime time minute =
+            { time | minute = minute |> Maybe.andThen (String.toInt >> Result.toMaybe) }
+    in
+        InternalState
+            { stateValue
+                | currentAngle =
+                    Maybe.map Tuple.second closestMinute
+                , time = updateTime stateValue.time (Maybe.map Tuple.first closestMinute)
+            }
 
 
 
@@ -193,8 +214,8 @@ hours =
         ]
 
 
-minutes : Dict.Dict String Float
-minutes =
+minutesPerFive : Dict.Dict String Float
+minutesPerFive =
     Dict.fromList
         [ ( "5", pi * 2 / 6 )
         , ( "10", pi * 1 / 6 )
@@ -209,3 +230,11 @@ minutes =
         , ( "55", pi * 4 / 6 )
         , ( "0", pi / 2 )
         ]
+
+
+minutes : Dict.Dict String Float
+minutes =
+    List.range 0 59
+        |> List.map (\minute -> ( toString minute, pi * toFloat (60 - ((45 + minute) % 60)) / 30 ))
+        |> Debug.log "minutes"
+        |> Dict.fromList

@@ -28,7 +28,7 @@ type alias StateValue =
     , time : Time
     , hourPickerStart : Int
     , minutePickerStart : Int
-    , clockMousePosition : Maybe Point
+    , currentAngle : Maybe Float
     , activeTimeIndicator : Maybe TimeIndicator
     }
 
@@ -54,7 +54,7 @@ initialStateValue =
     , time = Time Nothing Nothing Nothing
     , hourPickerStart = 1
     , minutePickerStart = 0
-    , clockMousePosition = Nothing
+    , currentAngle = Nothing
     , activeTimeIndicator = Just HourIndicator
     }
 
@@ -70,7 +70,7 @@ initialStateValueWithToday today =
     , time = Time Nothing Nothing Nothing
     , hourPickerStart = 1
     , minutePickerStart = 0
-    , clockMousePosition = Nothing
+    , currentAngle = Nothing
     , activeTimeIndicator = Just HourIndicator
     }
 

@@ -39,7 +39,6 @@ import Date exposing (Date)
 import Html exposing (Html, input, div, span, text, button, table, tr, td, th, thead, tbody, ul, li)
 import Html.Attributes exposing (value)
 import Html.Events exposing (onFocus, onBlur, onClick)
-import Json.Decode
 import Task
 import DateTimePicker.Formatter
 import DateTimePicker.Svg
@@ -51,6 +50,7 @@ import Date.Extra.Duration
 import List.Extra
 import DateTimePicker.SharedStyles exposing (datepickerNamespace, CssClasses(..))
 import String
+import DateTimePicker.Events exposing (onMouseDownPreventDefault, onMouseUpPreventDefault, onBlurWithChange)
 
 
 -- MODEL
@@ -247,38 +247,6 @@ initialCmd onChange state =
         Task.perform
             ((setDate >> onChange |> flip) Nothing)
             Date.now
-
-
-
--- EVENTS
-
-
-onBlurWithChange : (Maybe Date -> msg) -> Html.Attribute msg
-onBlurWithChange tagger =
-    Html.Events.on "blur"
-        (Json.Decode.map (Date.fromString >> Result.toMaybe >> tagger) Html.Events.targetValue)
-
-
-onMouseDownPreventDefault : msg -> Html.Attribute msg
-onMouseDownPreventDefault msg =
-    let
-        eventOptions =
-            { preventDefault = True
-            , stopPropagation = True
-            }
-    in
-        Html.Events.onWithOptions "mousedown" eventOptions (Json.Decode.succeed msg)
-
-
-onMouseUpPreventDefault : msg -> Html.Attribute msg
-onMouseUpPreventDefault msg =
-    let
-        eventOptions =
-            { preventDefault = True
-            , stopPropagation = True
-            }
-    in
-        Html.Events.onWithOptions "mouseup" eventOptions (Json.Decode.succeed msg)
 
 
 
@@ -754,7 +722,7 @@ analogTimePickerDialog pickerType state currentDate =
                         [ onMouseDownPreventDefault (timeIndicatorHandler config stateValue currentDate DateTimePicker.State.MinuteIndicator)
                         , class (Minute :: isActive DateTimePicker.State.MinuteIndicator)
                         ]
-                        [ text "--" ]
+                        [ text (stateValue.time.minute |> Maybe.map (toString >> DateTimePicker.DateUtils.padding) |> Maybe.withDefault "--") ]
                     , span
                         [ onMouseDownPreventDefault (timeIndicatorHandler config stateValue currentDate DateTimePicker.State.AMPMIndicator)
                         , class (AMPM :: isActive DateTimePicker.State.AMPMIndicator)
