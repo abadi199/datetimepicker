@@ -748,7 +748,7 @@ analogTimePickerDialog pickerType state currentDate =
                         [ onMouseDownPreventDefault (timeIndicatorHandler config stateValue currentDate DateTimePicker.State.HourIndicator)
                         , class (Hour :: isActive DateTimePicker.State.HourIndicator)
                         ]
-                        [ text "--" ]
+                        [ text (stateValue.time.hour |> Maybe.map (toString >> DateTimePicker.DateUtils.padding) |> Maybe.withDefault "--") ]
                     , span [ class [ Separator ] ] [ text " : " ]
                     , span
                         [ onMouseDownPreventDefault (timeIndicatorHandler config stateValue currentDate DateTimePicker.State.MinuteIndicator)

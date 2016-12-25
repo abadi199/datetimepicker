@@ -9,6 +9,8 @@ import DateTimePicker.State exposing (InternalState(..), StateValue, getStateVal
 import Date exposing (Date)
 import Json.Decode
 import DateTimePicker.Geometry exposing (Point)
+import Dict
+import String
 
 
 { id, class, classList } =
@@ -35,35 +37,43 @@ clock onChange state date =
                     []
                 , case stateValue.activeTimeIndicator of
                     Just (DateTimePicker.State.MinuteIndicator) ->
-                        g [] (List.map clockFace minutes)
+                        g [] (minutes |> Dict.toList |> List.map clockFace)
 
                     _ ->
-                        g [] (List.map clockFace hours)
+                        g [] (hours |> Dict.toList |> List.map clockFace)
                 , arrow stateValue
                 ]
             ]
 
 
-clockFace : ( String, Point ) -> Svg msg
-clockFace ( number, point ) =
-    text_
-        [ x <| toString point.x
-        , y <| toString point.y
-        , textAnchor "middle"
-        , Svg.Attributes.dominantBaseline "central"
-        ]
-        [ text number ]
+clockFace : ( String, Float ) -> Svg msg
+clockFace ( number, radians ) =
+    let
+        point =
+            DateTimePicker.Geometry.calculateArrowPoint originPoint 85 radians
+    in
+        text_
+            [ x <| toString point.x
+            , y <| toString point.y
+            , textAnchor "middle"
+            , Svg.Attributes.dominantBaseline "central"
+            ]
+            [ text number ]
+
+
+originPoint : Point
+originPoint =
+    Point 100 100
+
+
+axisPoint : Point
+axisPoint =
+    Point 200 100
 
 
 arrow : StateValue -> Svg msg
 arrow stateValue =
     let
-        originPoint =
-            Point 100 100
-
-        axisPoint =
-            Point 200 100
-
         length =
             70
 
@@ -89,25 +99,65 @@ arrow stateValue =
 
             Just point ->
                 point
-                    |> arrowPoint
-                    |> draw
+                    -- |> arrowPoint
+                    |>
+                        draw
 
 
 onMouseOverWithPosition : InternalState -> Maybe Date -> (InternalState -> Maybe Date -> msg) -> Svg.Attribute msg
 onMouseOverWithPosition state date onChange =
     let
-        updateState value =
+        updateState mouseMoveData =
             let
                 stateValue =
                     getStateValue state
 
-                updatedState =
-                    InternalState { stateValue | clockMousePosition = Just { x = value.offsetX, y = value.offsetY } }
+                decoder updatedState =
+                    Json.Decode.succeed (onChange updatedState date)
             in
-                Json.Decode.succeed (onChange updatedState date)
+                case stateValue.activeTimeIndicator of
+                    Just (DateTimePicker.State.HourIndicator) ->
+                        decoder (updateHourState stateValue date mouseMoveData)
+
+                    Just (DateTimePicker.State.MinuteIndicator) ->
+                        decoder (updateMinuteState stateValue date mouseMoveData)
+
+                    _ ->
+                        decoder (InternalState stateValue)
     in
         Svg.Events.on "mousemove"
             (mouseMoveDecoder |> Json.Decode.andThen updateState)
+
+
+updateHourState : StateValue -> Maybe Date -> MouseMoveData -> InternalState
+updateHourState stateValue date mouseMoveData =
+    let
+        currentAngle =
+            DateTimePicker.Geometry.calculateAngle originPoint axisPoint (Point mouseMoveData.offsetX mouseMoveData.offsetY)
+
+        closestHour =
+            hours
+                |> Dict.toList
+                |> List.map (\( hour, radians ) -> ( ( hour, radians ), abs (radians - currentAngle) ))
+                |> List.sortBy Tuple.second
+                |> List.head
+                |> Maybe.map (Tuple.first)
+                |> Maybe.map (\( hour, radians ) -> ( hour, DateTimePicker.Geometry.calculateArrowPoint originPoint 70 radians ))
+
+        updateTime time hour =
+            { time | hour = hour |> Maybe.andThen (String.toInt >> Result.toMaybe) }
+    in
+        InternalState
+            { stateValue
+                | clockMousePosition =
+                    Maybe.map Tuple.second closestHour
+                , time = updateTime stateValue.time (Maybe.map Tuple.first closestHour)
+            }
+
+
+updateMinuteState : StateValue -> Maybe Date -> MouseMoveData -> InternalState
+updateMinuteState stateValue date mouseMoveData =
+    InternalState { stateValue | clockMousePosition = Just { x = mouseMoveData.offsetX, y = mouseMoveData.offsetY } }
 
 
 type alias MouseMoveData =
@@ -125,43 +175,37 @@ mouseMoveDecoder =
 -- Hour Position
 
 
-hours : List ( String, Point )
+hours : Dict.Dict String Float
 hours =
-    let
-        point =
-            DateTimePicker.Geometry.calculateArrowPoint (Point 100 100) 85
-    in
-        [ ( "1", point (pi * 2 / 6) )
-        , ( "2", point (pi * 1 / 6) )
-        , ( "3", point (pi * 2) )
-        , ( "4", point (pi * 11 / 6) )
-        , ( "5", point (pi * 10 / 6) )
-        , ( "6", point (pi * 9 / 6) )
-        , ( "7", point (pi * 8 / 6) )
-        , ( "8", point (pi * 7 / 6) )
-        , ( "9", point pi )
-        , ( "10", point (pi * 5 / 6) )
-        , ( "11", point (pi * 4 / 6) )
-        , ( "12", point (pi / 2) )
+    Dict.fromList
+        [ ( "1", pi * 2 / 6 )
+        , ( "2", pi * 1 / 6 )
+        , ( "3", pi * 2 )
+        , ( "4", pi * 11 / 6 )
+        , ( "5", pi * 10 / 6 )
+        , ( "6", pi * 9 / 6 )
+        , ( "7", pi * 8 / 6 )
+        , ( "8", pi * 7 / 6 )
+        , ( "9", pi )
+        , ( "10", pi * 5 / 6 )
+        , ( "11", pi * 4 / 6 )
+        , ( "12", pi / 2 )
         ]
 
 
-minutes : List ( String, Point )
+minutes : Dict.Dict String Float
 minutes =
-    let
-        point =
-            DateTimePicker.Geometry.calculateArrowPoint (Point 100 100) 85
-    in
-        [ ( "5", point (pi * 2 / 6) )
-        , ( "10", point (pi * 1 / 6) )
-        , ( "15", point (pi * 2) )
-        , ( "20", point (pi * 11 / 6) )
-        , ( "25", point (pi * 10 / 6) )
-        , ( "30", point (pi * 9 / 6) )
-        , ( "35", point (pi * 8 / 6) )
-        , ( "40", point (pi * 7 / 6) )
-        , ( "45", point pi )
-        , ( "50", point (pi * 5 / 6) )
-        , ( "55", point (pi * 4 / 6) )
-        , ( "0", point (pi / 2) )
+    Dict.fromList
+        [ ( "5", pi * 2 / 6 )
+        , ( "10", pi * 1 / 6 )
+        , ( "15", pi * 2 )
+        , ( "20", pi * 11 / 6 )
+        , ( "25", pi * 10 / 6 )
+        , ( "30", pi * 9 / 6 )
+        , ( "35", pi * 8 / 6 )
+        , ( "40", pi * 7 / 6 )
+        , ( "45", pi )
+        , ( "50", pi * 5 / 6 )
+        , ( "55", pi * 4 / 6 )
+        , ( "0", pi / 2 )
         ]
