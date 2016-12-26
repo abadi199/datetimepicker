@@ -37,17 +37,17 @@ clock onChange state date =
                     []
                 , case stateValue.activeTimeIndicator of
                     Just (DateTimePicker.State.MinuteIndicator) ->
-                        g [] (minutesPerFive |> Dict.toList |> List.map clockFace)
+                        g [] (minutesPerFive |> Dict.toList |> List.map (clockFace onChange state date))
 
                     _ ->
-                        g [] (hours |> Dict.toList |> List.map clockFace)
-                , arrow stateValue
+                        g [] (hours |> Dict.toList |> List.map (clockFace onChange state date))
+                , arrow onChange state date
                 ]
             ]
 
 
-clockFace : ( String, Float ) -> Svg msg
-clockFace ( number, radians ) =
+clockFace : (InternalState -> Maybe Date -> msg) -> InternalState -> Maybe Date -> ( String, Float ) -> Svg msg
+clockFace onChange state date ( number, radians ) =
     let
         point =
             DateTimePicker.Geometry.calculateArrowPoint originPoint 85 radians
@@ -57,6 +57,7 @@ clockFace ( number, radians ) =
             , y <| toString point.y
             , textAnchor "middle"
             , Svg.Attributes.dominantBaseline "central"
+            , onMouseDownPreventDefault (mouseDownHandler state date onChange)
             ]
             [ text number ]
 
@@ -71,9 +72,12 @@ axisPoint =
     Point 200 100
 
 
-arrow : StateValue -> Svg msg
-arrow stateValue =
+arrow : (InternalState -> Maybe Date -> msg) -> InternalState -> Maybe Date -> Svg msg
+arrow onChange state date =
     let
+        stateValue =
+            getStateValue state
+
         length =
             70
 
@@ -89,6 +93,7 @@ arrow stateValue =
                 , y2 <| toString point.y
                 , strokeWidth "2px"
                 , stroke "#aaa"
+                , onMouseDownPreventDefault (mouseDownHandler state date onChange)
                 ]
                 []
     in
