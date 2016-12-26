@@ -727,9 +727,40 @@ analogTimePickerDialog pickerType state currentDate =
                         [ onMouseDownPreventDefault (timeIndicatorHandler config stateValue currentDate DateTimePicker.State.AMPMIndicator)
                         , class (AMPM :: isActive DateTimePicker.State.AMPMIndicator)
                         ]
-                        [ text "--" ]
+                        [ text (stateValue.time.amPm |> Maybe.withDefault "--") ]
                     ]
-                , div [ class [ Body ] ] [ DateTimePicker.AnalogClock.clock config.onChange state currentDate ]
+                , div [ class [ Body ] ]
+                    [ case stateValue.activeTimeIndicator of
+                        Just (DateTimePicker.State.AMPMIndicator) ->
+                            amPmPicker config
+
+                        _ ->
+                            DateTimePicker.AnalogClock.clock config.onChange state currentDate
+                    ]
+                ]
+
+        amPmPicker config =
+            div [ class [ AMPMPicker ] ]
+                [ div
+                    [ onMouseDownPreventDefault <| amPmPickerHandler config stateValue currentDate "AM"
+                    , case stateValue.time.amPm of
+                        Just "AM" ->
+                            class [ AM, SelectedAmPm ]
+
+                        _ ->
+                            class [ AM ]
+                    ]
+                    [ text "AM" ]
+                , div
+                    [ onMouseDownPreventDefault <| amPmPickerHandler config stateValue currentDate "PM"
+                    , case stateValue.time.amPm of
+                        Just "PM" ->
+                            class [ PM, SelectedAmPm ]
+
+                        _ ->
+                            class [ PM ]
+                    ]
+                    [ text "PM" ]
                 ]
     in
         case pickerType of
@@ -864,7 +895,7 @@ dayNames config =
 
 inputChangeHandler : Config a msg -> StateValue -> Maybe Date -> msg
 inputChangeHandler config stateValue maybeDate =
-    case Debug.log "currentDate" maybeDate of
+    case maybeDate of
         Just date ->
             let
                 updateTime time =
@@ -1194,5 +1225,40 @@ timeIndicatorHandler config stateValue currentDate timeIndicator =
     let
         updatedState =
             { stateValue | activeTimeIndicator = Just timeIndicator }
+    in
+        config.onChange (InternalState updatedState) currentDate
+
+
+amPmIndicatorHandler : Config config msg -> StateValue -> Maybe Date -> msg
+amPmIndicatorHandler config stateValue currentDate =
+    let
+        updateTime time =
+            case time.amPm of
+                Just "AM" ->
+                    { time | amPm = Just "PM" }
+
+                Just "PM" ->
+                    { time | amPm = Just "AM" }
+
+                _ ->
+                    { time | amPm = Just "AM" }
+
+        updatedState =
+            { stateValue
+                | activeTimeIndicator = Just DateTimePicker.State.AMPMIndicator
+                , time = updateTime stateValue.time
+            }
+    in
+        config.onChange (InternalState updatedState) currentDate
+
+
+amPmPickerHandler : Config config msg -> StateValue -> Maybe Date -> String -> msg
+amPmPickerHandler config stateValue currentDate amPm =
+    let
+        updateTime time =
+            { time | amPm = Just amPm }
+
+        updatedState =
+            { stateValue | time = updateTime stateValue.time }
     in
         config.onChange (InternalState updatedState) currentDate

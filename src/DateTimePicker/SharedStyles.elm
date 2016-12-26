@@ -45,3 +45,6 @@ type CssClasses
     | Minute
     | AMPM
     | Separator
+    | AMPMPicker
+    | AM
+    | PM

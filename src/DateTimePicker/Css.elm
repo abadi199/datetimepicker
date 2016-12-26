@@ -61,8 +61,17 @@ analogTimePickerDialogMixin =
                 [ padding2 (px 2) (px 10)
                 , cursor pointer
                 ]
+
+        amPmMixin =
+            mixin
+                [ fontSize (em 1.2)
+                , padding2 (em 1) (em 0)
+                , cursor pointer
+                , hover [ backgroundColor highlightedDay ]
+                ]
     in
-        [ children
+        [ width (px 230)
+        , descendants
             [ (.) Header
                 [ headerMixin
                 , fontSize (em 1.5)
@@ -77,6 +86,15 @@ analogTimePickerDialogMixin =
                     ]
                 ]
             , (.) Body [ padding (px 15) ]
+            , (.) AMPMPicker [ paddingTop (em 2), paddingTop (em 2) ]
+            , (.) AM
+                [ amPmMixin
+                , withClass SelectedAmPm [ highlightMixin, hover [ highlightMixin ] ]
+                ]
+            , (.) PM
+                [ amPmMixin
+                , withClass SelectedAmPm [ highlightMixin, hover [ highlightMixin ] ]
+                ]
             ]
         ]
 

@@ -236,5 +236,4 @@ minutes : Dict.Dict String Float
 minutes =
     List.range 0 59
         |> List.map (\minute -> ( toString minute, pi * toFloat (60 - ((45 + minute) % 60)) / 30 ))
-        |> Debug.log "minutes"
         |> Dict.fromList
