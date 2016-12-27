@@ -71,8 +71,9 @@ currentTime pickerType onChange state date =
         hourArrowLength =
             50
 
-        drawHour hour =
+        drawHour hour minute =
             Dict.get (toString hour) hours
+                |> Maybe.map (flip (-) (toFloat minute * pi / 360))
                 |> Maybe.map (DateTimePicker.Geometry.calculateArrowPoint originPoint hourArrowLength >> (drawArrow pickerType onChange state date))
                 |> Maybe.withDefault (text "")
 
@@ -83,7 +84,7 @@ currentTime pickerType onChange state date =
     in
         case ( stateValue.activeTimeIndicator, time.hour, time.minute, time.amPm ) of
             ( Nothing, Just hour, Just minute, Just _ ) ->
-                g [] [ drawHour hour, drawMinute minute ]
+                g [] [ drawHour hour minute, drawMinute minute ]
 
             _ ->
                 text ""
