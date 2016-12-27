@@ -8,6 +8,7 @@
     ],
     "exposed-modules": [
         "DatePicker",
+        "DatePicker.Config",
         "DatePicker.Css"
     ],
     "dependencies": {

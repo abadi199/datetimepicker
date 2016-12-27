@@ -1,7 +1,8 @@
 module Demo exposing (main)
 
 import Html exposing (Html, text, p, label, form, ul, li, div)
-import DateTimePicker exposing (defaultDatePickerConfig, defaultDateTimePickerConfig)
+import DateTimePicker
+import DateTimePicker.Config exposing (defaultDatePickerConfig, defaultDateTimePickerConfig)
 import Date exposing (Date)
 import Css
 import DateTimePicker.Css
@@ -64,16 +65,16 @@ view model =
         analogDateTimePickerConfig =
             let
                 defaultDateTimeConfig =
-                    DateTimePicker.defaultDateTimePickerConfig AnalogDateTimeChanged
+                    defaultDateTimePickerConfig AnalogDateTimeChanged
             in
-                { defaultDateTimeConfig | timePickerType = DateTimePicker.Analog }
+                { defaultDateTimeConfig | timePickerType = DateTimePicker.Config.Analog }
 
         digitalDateTimePickerConfig =
             let
                 defaultDateTimeConfig =
-                    DateTimePicker.defaultDateTimePickerConfig DateTimeChanged
+                    defaultDateTimePickerConfig DateTimeChanged
             in
-                { defaultDateTimeConfig | timePickerType = DateTimePicker.Digital }
+                { defaultDateTimeConfig | timePickerType = DateTimePicker.Config.Digital }
     in
         form []
             [ Html.node "style" [] [ Html.text css ]

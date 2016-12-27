@@ -1,4 +1,4 @@
-module DateTimePicker.State
+module DateTimePicker.Internal
     exposing
         ( InternalState(..)
         , StateValue

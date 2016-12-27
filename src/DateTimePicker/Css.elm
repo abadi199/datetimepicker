@@ -58,7 +58,10 @@ analogTimePickerDialogMixin =
     let
         timeHeaderMixin =
             mixin
-                [ padding2 (px 2) (px 10)
+                [ padding2 (px 3) (px 10)
+                , marginTop (px 3)
+                , marginBottom (px 3)
+                , display inlineBlock
                 , cursor pointer
                 ]
 
@@ -76,9 +79,7 @@ analogTimePickerDialogMixin =
         , descendants
             [ (.) Header
                 [ headerMixin
-                , fontSize (em 1.5)
-                , paddingTop (px 10)
-                , paddingBottom (px 10)
+                , fontSize (em 1.2)
                 , descendants
                     [ (.) Hour [ timeHeaderMixin ]
                     , (.) Minute [ timeHeaderMixin ]
@@ -88,7 +89,7 @@ analogTimePickerDialogMixin =
                     ]
                 ]
             , (.) Body [ padding (px 15) ]
-            , (.) AMPMPicker [ paddingTop (px 45) ]
+            , (.) AMPMPicker [ paddingTop (px 40) ]
             , (.) AM
                 [ amPmMixin
                 , withClass SelectedAmPm [ highlightMixin, hover [ highlightMixin ] ]
