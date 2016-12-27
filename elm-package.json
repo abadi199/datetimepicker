@@ -7,9 +7,9 @@
         "src"
     ],
     "exposed-modules": [
-        "DatePicker",
-        "DatePicker.Config",
-        "DatePicker.Css"
+        "DateTimePicker",
+        "DateTimePicker.Config",
+        "DateTimePicker.Css"
     ],
     "dependencies": {
         "elm-community/list-extra": "4.0.0 <= v < 5.0.0",

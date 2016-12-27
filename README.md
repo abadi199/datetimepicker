@@ -4,7 +4,8 @@
 
 For a complete sample code, please see the [demo](https://github.com/abadi199/datetimepicker/tree/master/demo) folder of the source code.
 
-Date and Time Picker written entirely in Elm. This date time picker can be configured to work in multiple ways.
+Type CSS for this date time picker can be downloaded from [here](https://raw.githubusercontent.com/abadi199/datetimepicker/master/styles/styles.css), or if you're using rtfeldman/elm-css package, you can just include the `Stylesheet` from `DateTimePicker.Css` module.
+Date and Time Picker written entirely in Elm. 
 
 ## Date Time Picker
 

@@ -10,10 +10,7 @@ module DateTimePicker
         , initialCmd
         )
 
-{-| DatePicker
-
-# Configuration
-@docs Config, DatePickerConfig, TimePickerConfig, defaultDatePickerConfig, defaultTimePickerConfig, defaultDateTimePickerConfig, NameOfDays, TimePickerType
+{-| DateTime Picker
 
 # View
 @docs datePicker, datePickerWithConfig, dateTimePicker, dateTimePickerWithConfig
@@ -49,6 +46,8 @@ import DateTimePicker.Events exposing (onMouseDownPreventDefault, onMouseUpPreve
 -- MODEL
 
 
+{-| The state of the date time picker (for Internal Use)
+-}
 type alias State =
     InternalState
 

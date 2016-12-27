@@ -11,6 +11,13 @@ module DateTimePicker.Config
         , defaultDateTimePickerConfig
         )
 
+{-| DateTimePicker configuration
+
+# Configuration
+@docs Config, DatePickerConfig, TimePickerConfig, defaultDatePickerConfig, defaultTimePickerConfig, defaultDateTimePickerConfig, NameOfDays, TimePickerType, Type
+
+-}
+
 import Date exposing (Date)
 import DateTimePicker.Internal exposing (InternalState)
 import DateTimePicker.Formatter
@@ -20,6 +27,8 @@ type alias State =
     InternalState
 
 
+{-| The type of picker (for Internal Use)
+-}
 type Type msg
     = DateType (Config (DatePickerConfig {}) msg)
     | DateTimeType (Config (DatePickerConfig TimePickerConfig) msg)
@@ -85,6 +94,9 @@ defaultDatePickerConfig onChange =
 
 
 {-| Configuration for TimePicker
+
+ * `timeFormatter` is the time to String formatter.
+ * `timePickerType` is the type of the time picker, either Analog or Digital
 -}
 type alias TimePickerConfig =
     { timeFormatter : Date -> String
@@ -92,6 +104,8 @@ type alias TimePickerConfig =
     }
 
 
+{-| The type of time picker, can be either Digital or Analog
+-}
 type TimePickerType
     = Digital
     | Analog
@@ -103,7 +117,7 @@ type TimePickerType
   * `dateTimeFormatter` Default: `"%m/%d/%Y %I:%M %p"`
   * `autoClose` Default: False
   * `timeFormatter` Default: `"%I:%M %p"`
-  * `timePickerType` Default: Digital
+  * `timePickerType` Default: Analog
 -}
 defaultTimePickerConfig : (State -> Maybe Date -> msg) -> Config TimePickerConfig msg
 defaultTimePickerConfig onChange =
@@ -112,7 +126,7 @@ defaultTimePickerConfig onChange =
     , dateTimeFormatter = DateTimePicker.Formatter.dateTimeFormatter
     , autoClose = False
     , timeFormatter = DateTimePicker.Formatter.timeFormatter
-    , timePickerType = Digital
+    , timePickerType = Analog
     }
 
 
@@ -127,7 +141,7 @@ defaultTimePickerConfig onChange =
  * `titleFormatter`  Default: `"%B %Y"`
  * `fullDateFormatter` Default:  `"%A, %B %d, %Y"`
  * `timeFormatter` Default: `"%I:%M %p"`
- * `timePickerType` Default:  Digital
+ * `timePickerType` Default:  Analog
 -}
 defaultDateTimePickerConfig : (State -> Maybe Date -> msg) -> Config (DatePickerConfig TimePickerConfig) msg
 defaultDateTimePickerConfig onChange =
@@ -140,7 +154,7 @@ defaultDateTimePickerConfig onChange =
     , titleFormatter = DateTimePicker.Formatter.titleFormatter
     , fullDateFormatter = DateTimePicker.Formatter.fullDateFormatter
     , timeFormatter = DateTimePicker.Formatter.timeFormatter
-    , timePickerType = Digital
+    , timePickerType = Analog
     }
 
 
