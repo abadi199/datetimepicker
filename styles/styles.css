@@ -1,5 +1,6 @@
 .elm-input-datepickerDatePicker {
     position: relative;
+    min-width: 475px;
 }
 
 .elm-input-datepickerDialog {
@@ -14,7 +15,6 @@
 
 .elm-input-datepickerDialog > .elm-input-datepickerDatePickerDialog {
     float: left;
-    height: 277px;
 }
 
 .elm-input-datepickerDialog > .elm-input-datepickerDatePickerDialog > .elm-input-datepickerHeader {
@@ -123,7 +123,6 @@
 
 .elm-input-datepickerDialog > .elm-input-datepickerTimePickerDialog {
     float: left;
-    height: 277px;
     text-align: center;
     border-left: 1px solid #ccc;
 }
@@ -131,6 +130,10 @@
 .elm-input-datepickerDialog > .elm-input-datepickerTimePickerDialog.elm-input-datepickerDigitalTime > .elm-input-datepickerHeader {
     padding: 10px 7px;
     background-color: #f5f5f5;
+}
+
+.elm-input-datepickerDialog > .elm-input-datepickerTimePickerDialog.elm-input-datepickerDigitalTime > .elm-input-datepickerBody {
+    background-color: #fff;
 }
 
 .elm-input-datepickerDialog > .elm-input-datepickerTimePickerDialog.elm-input-datepickerDigitalTime > .elm-input-datepickerBody  table {
@@ -170,6 +173,14 @@
 .elm-input-datepickerDialog > .elm-input-datepickerTimePickerDialog.elm-input-datepickerDigitalTime > .elm-input-datepickerBody  table  td:hover {
     background-color: #ebebeb;
     border-radius: 0px;
+}
+
+.elm-input-datepickerDialog > .elm-input-datepickerTimePickerDialog.elm-input-datepickerDigitalTime > .elm-input-datepickerBody  table  td.elm-input-datepickerEmptyCell {
+    cursor: unset;
+}
+
+.elm-input-datepickerDialog > .elm-input-datepickerTimePickerDialog.elm-input-datepickerDigitalTime > .elm-input-datepickerBody  table  td.elm-input-datepickerEmptyCell:hover {
+    background-color: unset;
 }
 
 .elm-input-datepickerDialog > .elm-input-datepickerTimePickerDialog.elm-input-datepickerDigitalTime > .elm-input-datepickerBody  table  .elm-input-datepickerSelectedHour {
@@ -254,7 +265,8 @@
 }
 
 .elm-input-datepickerDialog > .elm-input-datepickerTimePickerDialog.elm-input-datepickerAnalogTime  .elm-input-datepickerBody {
-    padding: 15px;
+    background-color: #fff;
+    padding: 12px 15px;
 }
 
 .elm-input-datepickerDialog > .elm-input-datepickerTimePickerDialog.elm-input-datepickerAnalogTime  .elm-input-datepickerAMPMPicker {
