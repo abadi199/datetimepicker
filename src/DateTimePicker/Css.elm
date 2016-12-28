@@ -135,6 +135,7 @@ digitalTimePickerDialogMixin =
                                 [ backgroundColor highlightedDay
                                 , highlightBorderMixin
                                 ]
+                            , withClass EmptyCell [ emptyCellMixin ]
                             ]
                         , (.) SelectedHour [ highlightMixin, hover [ highlightMixin ] ]
                         , (.) SelectedMinute [ highlightMixin, hover [ highlightMixin ] ]
@@ -325,3 +326,8 @@ activeMixin =
         [ backgroundColor (hex "#e0e0e0")
         , highlightBorderMixin
         ]
+
+
+emptyCellMixin : Css.Mixin
+emptyCellMixin =
+    mixin [ hover [ backgroundColor unset ], cursor unset ]

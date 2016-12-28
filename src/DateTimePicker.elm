@@ -472,20 +472,32 @@ digitalTimePickerDialog pickerType state currentDate =
                 [ text <| (toString >> DateTimePicker.DateUtils.padding) min ]
 
         amPmCell ampm =
-            td
-                [ onMouseDownPreventDefault <| amPmClickHandler pickerType stateValue ampm
-                , stateValue.time.amPm
-                    |> Maybe.map ((==) ampm)
-                    |> Maybe.map
-                        (\selected ->
-                            if selected then
-                                class [ SelectedAmPm ]
-                            else
-                                class []
-                        )
-                    |> Maybe.withDefault (class [])
-                ]
-                [ text ampm ]
+            let
+                defaultClasses =
+                    class <|
+                        if ampm == "" then
+                            [ EmptyCell ]
+                        else
+                            []
+            in
+                td
+                    ([ stateValue.time.amPm
+                        |> Maybe.map ((==) ampm)
+                        |> Maybe.map
+                            (\selected ->
+                                if selected then
+                                    class [ SelectedAmPm ]
+                                else
+                                    defaultClasses
+                            )
+                        |> Maybe.withDefault defaultClasses
+                     ]
+                        ++ if ampm == "" then
+                            []
+                           else
+                            [ onMouseDownPreventDefault <| amPmClickHandler pickerType stateValue ampm ]
+                    )
+                    [ text ampm ]
 
         upArrows config =
             [ tr [ class [ ArrowUp ] ]

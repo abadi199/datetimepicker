@@ -48,3 +48,4 @@ type CssClasses
     | AMPMPicker
     | AM
     | PM
+    | EmptyCell
