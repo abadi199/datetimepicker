@@ -1,0 +1,55 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Elm Input Extra by abadi199</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/github-light.css">
+    <link rel="stylesheet" href="https://raw.githubusercontent.com/abadi199/datetimepicker/master/styles/styles.css">
+    <meta name="viewport" content="width=device-width">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Date Time Picker</h1>
+        <p>Date and Time Picker for Elm</p>
+
+        <p class="view"><a href="https://github.com/abadi199/datetimepicker">View the Project on GitHub <small>abadi199/datetimepicker</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/abadi199/datetimepicker/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/abadi199/datetimepicker/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/abadi199/datetimepicker">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h2>Date Picker</h2>
+        <div id="datePicker" class="demo-section"></div>
+
+        <h2>Date and Time Picker - Analog</h2>
+        <div id="analog" class="demo-section"></div>
+
+        <h2>Date and Time Picker - Digital</h2>
+        <div id="digital" class="demo-section"></div>
+        
+        </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/abadi199">abadi199</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    <script src="demo.js"></script>
+    <script>
+        Elm.DatePickerDemo.embed(document.getElementById("datePicker"));
+        Elm.AnalogDateTimePickerDemo.embed(document.getElementById("analog"));
+        Elm.DigitalDateTimePickerDemo.embed(document.getElementById("digital"));
+    </script>          
+  </body>
+</html>
