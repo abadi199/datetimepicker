@@ -1,9 +1,6 @@
 # Date and Time Picker
 
-### [Live Demo]()
-
-Type CSS for this date time picker can be downloaded from [here](https://raw.githubusercontent.com/abadi199/datetimepicker/master/styles/styles.css), or if you're using rtfeldman/elm-css package, you can just include the `Stylesheet` from `DateTimePicker.Css` module.
-Date and Time Picker written entirely in Elm. 
+### [Live Demo](https://abadi199.github.io/datetimepicker/)
 
 This package follows the `evancz\sortable-table` package approach where it's not a nested elm architecture 'component'. It's just view functions where you feed the data and the message constructor to the function. It does use an opaque `State` to maintain its internal state.
 
@@ -21,6 +18,10 @@ The date time picker package provides multiple view functions, depending on how 
 ## Config
 You customize the date picker configuration by passing a `DateTimePicker.Config.Config` value to the picker's view function.
 The DateTimePicker.Config module provides some default configurations for both date picker and date time picker.
+
+## CSS
+The CSS for this date time picker can be downloaded from [here](https://raw.githubusercontent.com/abadi199/datetimepicker/master/styles/styles.css), or if you're using rtfeldman/elm-css package, you can just include the `Stylesheet` from `DateTimePicker.Css` module.
+Date and Time Picker written entirely in Elm. 
 
 ## Example
 Here's a snippet of typical Elm application:
