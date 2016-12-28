@@ -21,7 +21,7 @@ css : Css.Stylesheet
 css =
     (Css.stylesheet << namespace datepickerNamespace.name)
         [ (.) DatePicker
-            [ position relative ]
+            [ position relative, minWidth (px 475) ]
         , (.) Dialog
             [ fontFamilies [ "Arial", "Helvetica", "sans-serif" ]
             , fontSize (px 14)
@@ -39,12 +39,12 @@ dialogCss : List Css.Snippet
 dialogCss =
     [ (.) DatePickerDialog
         [ float left
-        , height calendarHeight
+          -- , height calendarHeight
         , children datePickerDialogCss
         ]
     , (.) TimePickerDialog
         [ float left
-        , height calendarHeight
+          -- , height calendarHeight
         , textAlign center
         , borderLeft3 (px 1) solid (darkGray)
         , withClass DigitalTime digitalTimePickerDialogMixin
@@ -88,7 +88,7 @@ analogTimePickerDialogMixin =
                         [ activeMixin ]
                     ]
                 ]
-            , (.) Body [ padding (px 15) ]
+            , (.) Body [ backgroundColor (hex "#fff"), padding2 (px 12) (px 15) ]
             , (.) AMPMPicker [ paddingTop (px 40) ]
             , (.) AM
                 [ amPmMixin
@@ -109,7 +109,8 @@ digitalTimePickerDialogMixin =
             [ headerMixin
             ]
         , (.) Body
-            [ descendants
+            [ backgroundColor (hex "#fff")
+            , descendants
                 [ table
                     [ tableMixin
                     , width (px 120)
