@@ -1,0 +1,16 @@
+{
+    "version": "1.0.0",
+    "summary": "Live demo for abadi199/datetimepicker",
+    "repository": "https://github.com/abadi199/datetimepicker.git",
+    "license": "Apache 2.0",
+    "source-directories": [
+        "demo"
+    ],
+    "exposed-modules": [],
+    "dependencies": {
+        "abadi199/datetimepicker": "1.0.0 <= v < 2.0.0",
+        "elm-lang/core": "5.0.0 <= v < 6.0.0",
+        "elm-lang/html": "2.0.0 <= v < 3.0.0"
+    },
+    "elm-version": "0.18.0 <= v < 0.19.0"
+}
