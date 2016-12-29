@@ -304,4 +304,5 @@ input, select {
     margin-left: .25em;
 }
 
+img.logo { width: 75%; margin-bottom: 1em; }
 iframe { border: none; width: 100%; height: 800px;}
