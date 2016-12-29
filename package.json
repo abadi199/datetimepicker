@@ -1,0 +1,28 @@
+{
+  "name": "datetimepicker",
+  "version": "1.0.0",
+  "description": "### [Live Demo](https://abadi199.github.io/datetimepicker/)",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "elm-test",
+    "make": "elm-make src/DateTimePicker.elm --output dist/elm.js",
+    "css": "elm-css styles/Stylesheets.elm --output styles"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/abadi199/datetimepicker.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/abadi199/datetimepicker/issues"
+  },
+  "homepage": "https://github.com/abadi199/datetimepicker#readme",
+  "devDependencies": {
+    "elm": "^0.18.0",
+    "elm-css": "^0.6.0"
+  }
+}

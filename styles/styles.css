@@ -267,10 +267,11 @@
 .elm-input-datepickerDialog > .elm-input-datepickerTimePickerDialog.elm-input-datepickerAnalogTime  .elm-input-datepickerBody {
     background-color: #fff;
     padding: 12px 15px;
+    height: 202px;
 }
 
 .elm-input-datepickerDialog > .elm-input-datepickerTimePickerDialog.elm-input-datepickerAnalogTime  .elm-input-datepickerAMPMPicker {
-    padding-top: 40px;
+    padding: 40px 0px;
 }
 
 .elm-input-datepickerDialog > .elm-input-datepickerTimePickerDialog.elm-input-datepickerAnalogTime  .elm-input-datepickerAM {

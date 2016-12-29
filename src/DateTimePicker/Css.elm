@@ -88,8 +88,8 @@ analogTimePickerDialogMixin =
                         [ activeMixin ]
                     ]
                 ]
-            , (.) Body [ backgroundColor (hex "#fff"), padding2 (px 12) (px 15) ]
-            , (.) AMPMPicker [ paddingTop (px 40) ]
+            , (.) Body [ backgroundColor (hex "#fff"), padding2 (px 12) (px 15), height (px 202) ]
+            , (.) AMPMPicker [ padding2 (px 40) (px 0) ]
             , (.) AM
                 [ amPmMixin
                 , withClass SelectedAmPm [ highlightMixin, hover [ highlightMixin ] ]
