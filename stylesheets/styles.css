@@ -57,7 +57,7 @@
 body {
   background-color: #fff;
   padding:50px;
-  font: 14px/1.5 "Noto Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Noto Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
   color:#727272;
   font-weight:400;
 }
@@ -133,7 +133,7 @@ pre {
   overflow-x: auto;
 }
 
-table {
+/*table {
   width:100%;
   border-collapse:collapse;
 }
@@ -142,7 +142,7 @@ th, td {
   text-align:left;
   padding:5px 10px;
   border-bottom:1px solid #e5e5e5;
-}
+}*/
 
 dt {
   color:#444;
@@ -323,14 +323,14 @@ footer {
   }
 }
 
-.demo-section {
+div.demo-section {
     border: 1px solid #e5e5e5;
     padding: 1.5em 1.5em .5em;
     margin: 1em 0 2em; 
     background-color: #f8f8f8;
     border-radius: 5px;
 }
-.demo-section ul {
+div.demo-section ul {
     padding: 0 1em;
 }
 label { 
@@ -357,3 +357,5 @@ input.focused {
 input, select { 
     margin-left: .25em;
 }
+
+iframe { border: none; width: 100%; height: 800px;}
