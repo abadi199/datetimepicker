@@ -1,6 +1,20 @@
 # Date and Time Picker
 
+## Demo
+
 ### [Live Demo](https://abadi199.github.io/datetimepicker/)
+
+### Analog time picker
+
+![alt text](https://github.com/abadi199/datetimepicker/raw/master/images/datetimepicker-analog.gif "Date Time Picker with Analog Time Picker Preview")
+
+### Digital time picker
+
+![alt text](https://github.com/abadi199/datetimepicker/raw/master/images/datetimepicker-digital.gif "Date Time Picker with Digital Time Picker Preview")
+
+### Date Picker
+
+![alt text](https://github.com/abadi199/datetimepicker/raw/master/images/datepicker.gif "Date Picker Preview")
 
 This package follows the `evancz\sortable-table` package approach where it's not a nested elm architecture 'component'. It's just view functions where you feed the data and the message constructor to the function. It does use an opaque `State` to maintain its internal state.
 
@@ -76,10 +90,6 @@ The date and time picker can be used in two modes:
 
 ### Analog time picker
 
-Preview:
-
-![alt text](https://github.com/abadi199/datetimepicker/raw/master/images/datetimepicker-analog.gif "Date Time Picker with Analog Time Picker Preview")
-
 Example:
 ```elm
 view model =
@@ -91,10 +101,6 @@ view model =
 ```
 
 ### Digital time picker
-
-Preview:
-
-![alt text](https://github.com/abadi199/datetimepicker/raw/master/images/datetimepicker-digital.gif "Date Time Picker with Digital Time Picker Preview")
 
 Example:
 ```elm
@@ -111,10 +117,6 @@ Date Picker
 ---
 Just the date picker without the time.
 
-Preview:
-
-![alt text](https://github.com/abadi199/datetimepicker/raw/master/images/datepicker.gif "Date Picker Preview")
-
 Example:
 ```elm
 type Msg = DateChange DateTimePicker.State (Maybe Date)
@@ -130,4 +132,6 @@ view model =
 ```
 
 ## Contributing
-Feedback, PR, and comments are welcome :)
+- [Submit a pull request](https://github.com/abadi199/datetimepicker)! If you're missing a feature you want to have, or just found a bug, or found an error in the docs, please submit a pull request.
+- [Create an issue](https://github.com/abadi199/datetimepicker/issues)! If you found a bug or want a new feature that you think will make the library better, but don't have time to do it yourself, please submit an issue.
+- Message me on slack or [twitter](https://twitter.com/abadikurniawan) if you just want to give me a feedback or thank me. I'm [abadi199](https://elmlang.slack.com/team/abadi199) on [elm-lang](https://elmlang.herokuapp.com/) slack channel.
