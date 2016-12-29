@@ -317,6 +317,7 @@ tableMixin =
         [ property "border-spacing" "0"
         , property "border-width" "0"
         , property "table-layout" "fixed"
+        , margin (px 0)
         ]
 
 
