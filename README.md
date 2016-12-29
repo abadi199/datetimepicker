@@ -1,5 +1,4 @@
-# ![logo](https://abadi199.github.io/datetimepicker/images/logo.svg) Date and Time Picker
-
+# Date and Time Picker 
 
 ## Demo
 
