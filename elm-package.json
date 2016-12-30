@@ -8,7 +8,7 @@
     ],
     "exposed-modules": [],
     "dependencies": {
-        "abadi199/datetimepicker": "1.0.5 <= v < 2.0.0",
+        "abadi199/datetimepicker": "1.0.6 <= v < 2.0.0",
         "elm-lang/core": "5.0.0 <= v < 6.0.0",
         "elm-lang/html": "2.0.0 <= v < 3.0.0"
     },

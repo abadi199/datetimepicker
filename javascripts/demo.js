@@ -14087,7 +14087,7 @@ var _abadi199$datetimepicker$DateTimePicker$digitalTimePickerDialog = F3(
 									_1: {
 										ctor: '::',
 										_0: _abadi199$datetimepicker$DateTimePicker_Events$onTouchStartPreventDefault(
-											A3(_abadi199$datetimepicker$DateTimePicker$hourDownHandler, config, stateValue, currentDate)),
+											A3(_abadi199$datetimepicker$DateTimePicker$minuteDownHandler, config, stateValue, currentDate)),
 										_1: {ctor: '[]'}
 									}
 								},
