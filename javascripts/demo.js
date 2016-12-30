@@ -10863,8 +10863,14 @@ var _abadi199$datetimepicker$DateTimePicker_Events$MoveData = F2(
 var _abadi199$datetimepicker$DateTimePicker_Events$mouseMoveDecoder = A3(
 	_elm_lang$core$Json_Decode$map2,
 	_abadi199$datetimepicker$DateTimePicker_Events$MoveData,
-	A2(_elm_lang$core$Json_Decode$field, 'offsetX', _elm_lang$core$Json_Decode$int),
-	A2(_elm_lang$core$Json_Decode$field, 'offsetY', _elm_lang$core$Json_Decode$int));
+	A2(
+		_elm_lang$core$Json_Decode$map,
+		_elm_lang$core$Basics$round,
+		A2(_elm_lang$core$Json_Decode$field, 'offsetX', _elm_lang$core$Json_Decode$float)),
+	A2(
+		_elm_lang$core$Json_Decode$map,
+		_elm_lang$core$Basics$round,
+		A2(_elm_lang$core$Json_Decode$field, 'offsetY', _elm_lang$core$Json_Decode$float)));
 var _abadi199$datetimepicker$DateTimePicker_Events$onMouseMoveWithPosition = function (decoder) {
 	return A2(
 		_elm_lang$svg$Svg_Events$on,

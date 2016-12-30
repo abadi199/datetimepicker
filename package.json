@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "make": "elm-make demo/*.elm --output javascripts/demo.js",
-    "debug": "elm-make demo/*.elm --output javascripts/demo.js --debug"
+    "make": "gulp make",
+    "debug": "gulp debug"
   },
   "repository": {
     "type": "git",
@@ -17,5 +17,11 @@
   "bugs": {
     "url": "https://github.com/abadi199/datetimepicker/issues"
   },
-  "homepage": "https://github.com/abadi199/datetimepicker#readme"
+  "homepage": "https://github.com/abadi199/datetimepicker#readme",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-elm": "^0.6.1",
+    "gulp-rename": "^1.2.2",
+    "gulp-uglify": "^2.0.0"
+  }
 }
