@@ -8734,281 +8734,405 @@ var _elm_lang$html$Html_Events$Options = F2(
 		return {stopPropagation: a, preventDefault: b};
 	});
 
-var _rluiten$elm_date_extra$Date_Extra_Config$Config = F2(
-	function (a, b) {
-		return {i18n: a, format: b};
+var _elm_lang$svg$Svg$map = _elm_lang$virtual_dom$VirtualDom$map;
+var _elm_lang$svg$Svg$text = _elm_lang$virtual_dom$VirtualDom$text;
+var _elm_lang$svg$Svg$svgNamespace = A2(
+	_elm_lang$virtual_dom$VirtualDom$property,
+	'namespace',
+	_elm_lang$core$Json_Encode$string('http://www.w3.org/2000/svg'));
+var _elm_lang$svg$Svg$node = F3(
+	function (name, attributes, children) {
+		return A3(
+			_elm_lang$virtual_dom$VirtualDom$node,
+			name,
+			{ctor: '::', _0: _elm_lang$svg$Svg$svgNamespace, _1: attributes},
+			children);
 	});
+var _elm_lang$svg$Svg$svg = _elm_lang$svg$Svg$node('svg');
+var _elm_lang$svg$Svg$foreignObject = _elm_lang$svg$Svg$node('foreignObject');
+var _elm_lang$svg$Svg$animate = _elm_lang$svg$Svg$node('animate');
+var _elm_lang$svg$Svg$animateColor = _elm_lang$svg$Svg$node('animateColor');
+var _elm_lang$svg$Svg$animateMotion = _elm_lang$svg$Svg$node('animateMotion');
+var _elm_lang$svg$Svg$animateTransform = _elm_lang$svg$Svg$node('animateTransform');
+var _elm_lang$svg$Svg$mpath = _elm_lang$svg$Svg$node('mpath');
+var _elm_lang$svg$Svg$set = _elm_lang$svg$Svg$node('set');
+var _elm_lang$svg$Svg$a = _elm_lang$svg$Svg$node('a');
+var _elm_lang$svg$Svg$defs = _elm_lang$svg$Svg$node('defs');
+var _elm_lang$svg$Svg$g = _elm_lang$svg$Svg$node('g');
+var _elm_lang$svg$Svg$marker = _elm_lang$svg$Svg$node('marker');
+var _elm_lang$svg$Svg$mask = _elm_lang$svg$Svg$node('mask');
+var _elm_lang$svg$Svg$pattern = _elm_lang$svg$Svg$node('pattern');
+var _elm_lang$svg$Svg$switch = _elm_lang$svg$Svg$node('switch');
+var _elm_lang$svg$Svg$symbol = _elm_lang$svg$Svg$node('symbol');
+var _elm_lang$svg$Svg$desc = _elm_lang$svg$Svg$node('desc');
+var _elm_lang$svg$Svg$metadata = _elm_lang$svg$Svg$node('metadata');
+var _elm_lang$svg$Svg$title = _elm_lang$svg$Svg$node('title');
+var _elm_lang$svg$Svg$feBlend = _elm_lang$svg$Svg$node('feBlend');
+var _elm_lang$svg$Svg$feColorMatrix = _elm_lang$svg$Svg$node('feColorMatrix');
+var _elm_lang$svg$Svg$feComponentTransfer = _elm_lang$svg$Svg$node('feComponentTransfer');
+var _elm_lang$svg$Svg$feComposite = _elm_lang$svg$Svg$node('feComposite');
+var _elm_lang$svg$Svg$feConvolveMatrix = _elm_lang$svg$Svg$node('feConvolveMatrix');
+var _elm_lang$svg$Svg$feDiffuseLighting = _elm_lang$svg$Svg$node('feDiffuseLighting');
+var _elm_lang$svg$Svg$feDisplacementMap = _elm_lang$svg$Svg$node('feDisplacementMap');
+var _elm_lang$svg$Svg$feFlood = _elm_lang$svg$Svg$node('feFlood');
+var _elm_lang$svg$Svg$feFuncA = _elm_lang$svg$Svg$node('feFuncA');
+var _elm_lang$svg$Svg$feFuncB = _elm_lang$svg$Svg$node('feFuncB');
+var _elm_lang$svg$Svg$feFuncG = _elm_lang$svg$Svg$node('feFuncG');
+var _elm_lang$svg$Svg$feFuncR = _elm_lang$svg$Svg$node('feFuncR');
+var _elm_lang$svg$Svg$feGaussianBlur = _elm_lang$svg$Svg$node('feGaussianBlur');
+var _elm_lang$svg$Svg$feImage = _elm_lang$svg$Svg$node('feImage');
+var _elm_lang$svg$Svg$feMerge = _elm_lang$svg$Svg$node('feMerge');
+var _elm_lang$svg$Svg$feMergeNode = _elm_lang$svg$Svg$node('feMergeNode');
+var _elm_lang$svg$Svg$feMorphology = _elm_lang$svg$Svg$node('feMorphology');
+var _elm_lang$svg$Svg$feOffset = _elm_lang$svg$Svg$node('feOffset');
+var _elm_lang$svg$Svg$feSpecularLighting = _elm_lang$svg$Svg$node('feSpecularLighting');
+var _elm_lang$svg$Svg$feTile = _elm_lang$svg$Svg$node('feTile');
+var _elm_lang$svg$Svg$feTurbulence = _elm_lang$svg$Svg$node('feTurbulence');
+var _elm_lang$svg$Svg$font = _elm_lang$svg$Svg$node('font');
+var _elm_lang$svg$Svg$linearGradient = _elm_lang$svg$Svg$node('linearGradient');
+var _elm_lang$svg$Svg$radialGradient = _elm_lang$svg$Svg$node('radialGradient');
+var _elm_lang$svg$Svg$stop = _elm_lang$svg$Svg$node('stop');
+var _elm_lang$svg$Svg$circle = _elm_lang$svg$Svg$node('circle');
+var _elm_lang$svg$Svg$ellipse = _elm_lang$svg$Svg$node('ellipse');
+var _elm_lang$svg$Svg$image = _elm_lang$svg$Svg$node('image');
+var _elm_lang$svg$Svg$line = _elm_lang$svg$Svg$node('line');
+var _elm_lang$svg$Svg$path = _elm_lang$svg$Svg$node('path');
+var _elm_lang$svg$Svg$polygon = _elm_lang$svg$Svg$node('polygon');
+var _elm_lang$svg$Svg$polyline = _elm_lang$svg$Svg$node('polyline');
+var _elm_lang$svg$Svg$rect = _elm_lang$svg$Svg$node('rect');
+var _elm_lang$svg$Svg$use = _elm_lang$svg$Svg$node('use');
+var _elm_lang$svg$Svg$feDistantLight = _elm_lang$svg$Svg$node('feDistantLight');
+var _elm_lang$svg$Svg$fePointLight = _elm_lang$svg$Svg$node('fePointLight');
+var _elm_lang$svg$Svg$feSpotLight = _elm_lang$svg$Svg$node('feSpotLight');
+var _elm_lang$svg$Svg$altGlyph = _elm_lang$svg$Svg$node('altGlyph');
+var _elm_lang$svg$Svg$altGlyphDef = _elm_lang$svg$Svg$node('altGlyphDef');
+var _elm_lang$svg$Svg$altGlyphItem = _elm_lang$svg$Svg$node('altGlyphItem');
+var _elm_lang$svg$Svg$glyph = _elm_lang$svg$Svg$node('glyph');
+var _elm_lang$svg$Svg$glyphRef = _elm_lang$svg$Svg$node('glyphRef');
+var _elm_lang$svg$Svg$textPath = _elm_lang$svg$Svg$node('textPath');
+var _elm_lang$svg$Svg$text_ = _elm_lang$svg$Svg$node('text');
+var _elm_lang$svg$Svg$tref = _elm_lang$svg$Svg$node('tref');
+var _elm_lang$svg$Svg$tspan = _elm_lang$svg$Svg$node('tspan');
+var _elm_lang$svg$Svg$clipPath = _elm_lang$svg$Svg$node('clipPath');
+var _elm_lang$svg$Svg$colorProfile = _elm_lang$svg$Svg$node('colorProfile');
+var _elm_lang$svg$Svg$cursor = _elm_lang$svg$Svg$node('cursor');
+var _elm_lang$svg$Svg$filter = _elm_lang$svg$Svg$node('filter');
+var _elm_lang$svg$Svg$script = _elm_lang$svg$Svg$node('script');
+var _elm_lang$svg$Svg$style = _elm_lang$svg$Svg$node('style');
+var _elm_lang$svg$Svg$view = _elm_lang$svg$Svg$node('view');
 
-var _rluiten$elm_date_extra$Date_Extra_I18n_I_en_us$dayOfMonthWithSuffix = F2(
-	function (pad, day) {
-		var value = function () {
-			var _p0 = day;
-			switch (_p0) {
-				case 1:
-					return '1st';
-				case 21:
-					return '21st';
-				case 2:
-					return '2nd';
-				case 22:
-					return '22nd';
-				case 3:
-					return '3rd';
-				case 23:
-					return '23rd';
-				case 31:
-					return '31st';
-				default:
-					return A2(
-						_elm_lang$core$Basics_ops['++'],
-						_elm_lang$core$Basics$toString(day),
-						'th');
+var _elm_lang$svg$Svg_Attributes$writingMode = _elm_lang$virtual_dom$VirtualDom$attribute('writing-mode');
+var _elm_lang$svg$Svg_Attributes$wordSpacing = _elm_lang$virtual_dom$VirtualDom$attribute('word-spacing');
+var _elm_lang$svg$Svg_Attributes$visibility = _elm_lang$virtual_dom$VirtualDom$attribute('visibility');
+var _elm_lang$svg$Svg_Attributes$unicodeBidi = _elm_lang$virtual_dom$VirtualDom$attribute('unicode-bidi');
+var _elm_lang$svg$Svg_Attributes$textRendering = _elm_lang$virtual_dom$VirtualDom$attribute('text-rendering');
+var _elm_lang$svg$Svg_Attributes$textDecoration = _elm_lang$virtual_dom$VirtualDom$attribute('text-decoration');
+var _elm_lang$svg$Svg_Attributes$textAnchor = _elm_lang$virtual_dom$VirtualDom$attribute('text-anchor');
+var _elm_lang$svg$Svg_Attributes$stroke = _elm_lang$virtual_dom$VirtualDom$attribute('stroke');
+var _elm_lang$svg$Svg_Attributes$strokeWidth = _elm_lang$virtual_dom$VirtualDom$attribute('stroke-width');
+var _elm_lang$svg$Svg_Attributes$strokeOpacity = _elm_lang$virtual_dom$VirtualDom$attribute('stroke-opacity');
+var _elm_lang$svg$Svg_Attributes$strokeMiterlimit = _elm_lang$virtual_dom$VirtualDom$attribute('stroke-miterlimit');
+var _elm_lang$svg$Svg_Attributes$strokeLinejoin = _elm_lang$virtual_dom$VirtualDom$attribute('stroke-linejoin');
+var _elm_lang$svg$Svg_Attributes$strokeLinecap = _elm_lang$virtual_dom$VirtualDom$attribute('stroke-linecap');
+var _elm_lang$svg$Svg_Attributes$strokeDashoffset = _elm_lang$virtual_dom$VirtualDom$attribute('stroke-dashoffset');
+var _elm_lang$svg$Svg_Attributes$strokeDasharray = _elm_lang$virtual_dom$VirtualDom$attribute('stroke-dasharray');
+var _elm_lang$svg$Svg_Attributes$stopOpacity = _elm_lang$virtual_dom$VirtualDom$attribute('stop-opacity');
+var _elm_lang$svg$Svg_Attributes$stopColor = _elm_lang$virtual_dom$VirtualDom$attribute('stop-color');
+var _elm_lang$svg$Svg_Attributes$shapeRendering = _elm_lang$virtual_dom$VirtualDom$attribute('shape-rendering');
+var _elm_lang$svg$Svg_Attributes$pointerEvents = _elm_lang$virtual_dom$VirtualDom$attribute('pointer-events');
+var _elm_lang$svg$Svg_Attributes$overflow = _elm_lang$virtual_dom$VirtualDom$attribute('overflow');
+var _elm_lang$svg$Svg_Attributes$opacity = _elm_lang$virtual_dom$VirtualDom$attribute('opacity');
+var _elm_lang$svg$Svg_Attributes$mask = _elm_lang$virtual_dom$VirtualDom$attribute('mask');
+var _elm_lang$svg$Svg_Attributes$markerStart = _elm_lang$virtual_dom$VirtualDom$attribute('marker-start');
+var _elm_lang$svg$Svg_Attributes$markerMid = _elm_lang$virtual_dom$VirtualDom$attribute('marker-mid');
+var _elm_lang$svg$Svg_Attributes$markerEnd = _elm_lang$virtual_dom$VirtualDom$attribute('marker-end');
+var _elm_lang$svg$Svg_Attributes$lightingColor = _elm_lang$virtual_dom$VirtualDom$attribute('lighting-color');
+var _elm_lang$svg$Svg_Attributes$letterSpacing = _elm_lang$virtual_dom$VirtualDom$attribute('letter-spacing');
+var _elm_lang$svg$Svg_Attributes$kerning = _elm_lang$virtual_dom$VirtualDom$attribute('kerning');
+var _elm_lang$svg$Svg_Attributes$imageRendering = _elm_lang$virtual_dom$VirtualDom$attribute('image-rendering');
+var _elm_lang$svg$Svg_Attributes$glyphOrientationVertical = _elm_lang$virtual_dom$VirtualDom$attribute('glyph-orientation-vertical');
+var _elm_lang$svg$Svg_Attributes$glyphOrientationHorizontal = _elm_lang$virtual_dom$VirtualDom$attribute('glyph-orientation-horizontal');
+var _elm_lang$svg$Svg_Attributes$fontWeight = _elm_lang$virtual_dom$VirtualDom$attribute('font-weight');
+var _elm_lang$svg$Svg_Attributes$fontVariant = _elm_lang$virtual_dom$VirtualDom$attribute('font-variant');
+var _elm_lang$svg$Svg_Attributes$fontStyle = _elm_lang$virtual_dom$VirtualDom$attribute('font-style');
+var _elm_lang$svg$Svg_Attributes$fontStretch = _elm_lang$virtual_dom$VirtualDom$attribute('font-stretch');
+var _elm_lang$svg$Svg_Attributes$fontSize = _elm_lang$virtual_dom$VirtualDom$attribute('font-size');
+var _elm_lang$svg$Svg_Attributes$fontSizeAdjust = _elm_lang$virtual_dom$VirtualDom$attribute('font-size-adjust');
+var _elm_lang$svg$Svg_Attributes$fontFamily = _elm_lang$virtual_dom$VirtualDom$attribute('font-family');
+var _elm_lang$svg$Svg_Attributes$floodOpacity = _elm_lang$virtual_dom$VirtualDom$attribute('flood-opacity');
+var _elm_lang$svg$Svg_Attributes$floodColor = _elm_lang$virtual_dom$VirtualDom$attribute('flood-color');
+var _elm_lang$svg$Svg_Attributes$filter = _elm_lang$virtual_dom$VirtualDom$attribute('filter');
+var _elm_lang$svg$Svg_Attributes$fill = _elm_lang$virtual_dom$VirtualDom$attribute('fill');
+var _elm_lang$svg$Svg_Attributes$fillRule = _elm_lang$virtual_dom$VirtualDom$attribute('fill-rule');
+var _elm_lang$svg$Svg_Attributes$fillOpacity = _elm_lang$virtual_dom$VirtualDom$attribute('fill-opacity');
+var _elm_lang$svg$Svg_Attributes$enableBackground = _elm_lang$virtual_dom$VirtualDom$attribute('enable-background');
+var _elm_lang$svg$Svg_Attributes$dominantBaseline = _elm_lang$virtual_dom$VirtualDom$attribute('dominant-baseline');
+var _elm_lang$svg$Svg_Attributes$display = _elm_lang$virtual_dom$VirtualDom$attribute('display');
+var _elm_lang$svg$Svg_Attributes$direction = _elm_lang$virtual_dom$VirtualDom$attribute('direction');
+var _elm_lang$svg$Svg_Attributes$cursor = _elm_lang$virtual_dom$VirtualDom$attribute('cursor');
+var _elm_lang$svg$Svg_Attributes$color = _elm_lang$virtual_dom$VirtualDom$attribute('color');
+var _elm_lang$svg$Svg_Attributes$colorRendering = _elm_lang$virtual_dom$VirtualDom$attribute('color-rendering');
+var _elm_lang$svg$Svg_Attributes$colorProfile = _elm_lang$virtual_dom$VirtualDom$attribute('color-profile');
+var _elm_lang$svg$Svg_Attributes$colorInterpolation = _elm_lang$virtual_dom$VirtualDom$attribute('color-interpolation');
+var _elm_lang$svg$Svg_Attributes$colorInterpolationFilters = _elm_lang$virtual_dom$VirtualDom$attribute('color-interpolation-filters');
+var _elm_lang$svg$Svg_Attributes$clip = _elm_lang$virtual_dom$VirtualDom$attribute('clip');
+var _elm_lang$svg$Svg_Attributes$clipRule = _elm_lang$virtual_dom$VirtualDom$attribute('clip-rule');
+var _elm_lang$svg$Svg_Attributes$clipPath = _elm_lang$virtual_dom$VirtualDom$attribute('clip-path');
+var _elm_lang$svg$Svg_Attributes$baselineShift = _elm_lang$virtual_dom$VirtualDom$attribute('baseline-shift');
+var _elm_lang$svg$Svg_Attributes$alignmentBaseline = _elm_lang$virtual_dom$VirtualDom$attribute('alignment-baseline');
+var _elm_lang$svg$Svg_Attributes$zoomAndPan = _elm_lang$virtual_dom$VirtualDom$attribute('zoomAndPan');
+var _elm_lang$svg$Svg_Attributes$z = _elm_lang$virtual_dom$VirtualDom$attribute('z');
+var _elm_lang$svg$Svg_Attributes$yChannelSelector = _elm_lang$virtual_dom$VirtualDom$attribute('yChannelSelector');
+var _elm_lang$svg$Svg_Attributes$y2 = _elm_lang$virtual_dom$VirtualDom$attribute('y2');
+var _elm_lang$svg$Svg_Attributes$y1 = _elm_lang$virtual_dom$VirtualDom$attribute('y1');
+var _elm_lang$svg$Svg_Attributes$y = _elm_lang$virtual_dom$VirtualDom$attribute('y');
+var _elm_lang$svg$Svg_Attributes$xmlSpace = A2(_elm_lang$virtual_dom$VirtualDom$attributeNS, 'http://www.w3.org/XML/1998/namespace', 'xml:space');
+var _elm_lang$svg$Svg_Attributes$xmlLang = A2(_elm_lang$virtual_dom$VirtualDom$attributeNS, 'http://www.w3.org/XML/1998/namespace', 'xml:lang');
+var _elm_lang$svg$Svg_Attributes$xmlBase = A2(_elm_lang$virtual_dom$VirtualDom$attributeNS, 'http://www.w3.org/XML/1998/namespace', 'xml:base');
+var _elm_lang$svg$Svg_Attributes$xlinkType = A2(_elm_lang$virtual_dom$VirtualDom$attributeNS, 'http://www.w3.org/1999/xlink', 'xlink:type');
+var _elm_lang$svg$Svg_Attributes$xlinkTitle = A2(_elm_lang$virtual_dom$VirtualDom$attributeNS, 'http://www.w3.org/1999/xlink', 'xlink:title');
+var _elm_lang$svg$Svg_Attributes$xlinkShow = A2(_elm_lang$virtual_dom$VirtualDom$attributeNS, 'http://www.w3.org/1999/xlink', 'xlink:show');
+var _elm_lang$svg$Svg_Attributes$xlinkRole = A2(_elm_lang$virtual_dom$VirtualDom$attributeNS, 'http://www.w3.org/1999/xlink', 'xlink:role');
+var _elm_lang$svg$Svg_Attributes$xlinkHref = A2(_elm_lang$virtual_dom$VirtualDom$attributeNS, 'http://www.w3.org/1999/xlink', 'xlink:href');
+var _elm_lang$svg$Svg_Attributes$xlinkArcrole = A2(_elm_lang$virtual_dom$VirtualDom$attributeNS, 'http://www.w3.org/1999/xlink', 'xlink:arcrole');
+var _elm_lang$svg$Svg_Attributes$xlinkActuate = A2(_elm_lang$virtual_dom$VirtualDom$attributeNS, 'http://www.w3.org/1999/xlink', 'xlink:actuate');
+var _elm_lang$svg$Svg_Attributes$xChannelSelector = _elm_lang$virtual_dom$VirtualDom$attribute('xChannelSelector');
+var _elm_lang$svg$Svg_Attributes$x2 = _elm_lang$virtual_dom$VirtualDom$attribute('x2');
+var _elm_lang$svg$Svg_Attributes$x1 = _elm_lang$virtual_dom$VirtualDom$attribute('x1');
+var _elm_lang$svg$Svg_Attributes$xHeight = _elm_lang$virtual_dom$VirtualDom$attribute('x-height');
+var _elm_lang$svg$Svg_Attributes$x = _elm_lang$virtual_dom$VirtualDom$attribute('x');
+var _elm_lang$svg$Svg_Attributes$widths = _elm_lang$virtual_dom$VirtualDom$attribute('widths');
+var _elm_lang$svg$Svg_Attributes$width = _elm_lang$virtual_dom$VirtualDom$attribute('width');
+var _elm_lang$svg$Svg_Attributes$viewTarget = _elm_lang$virtual_dom$VirtualDom$attribute('viewTarget');
+var _elm_lang$svg$Svg_Attributes$viewBox = _elm_lang$virtual_dom$VirtualDom$attribute('viewBox');
+var _elm_lang$svg$Svg_Attributes$vertOriginY = _elm_lang$virtual_dom$VirtualDom$attribute('vert-origin-y');
+var _elm_lang$svg$Svg_Attributes$vertOriginX = _elm_lang$virtual_dom$VirtualDom$attribute('vert-origin-x');
+var _elm_lang$svg$Svg_Attributes$vertAdvY = _elm_lang$virtual_dom$VirtualDom$attribute('vert-adv-y');
+var _elm_lang$svg$Svg_Attributes$version = _elm_lang$virtual_dom$VirtualDom$attribute('version');
+var _elm_lang$svg$Svg_Attributes$values = _elm_lang$virtual_dom$VirtualDom$attribute('values');
+var _elm_lang$svg$Svg_Attributes$vMathematical = _elm_lang$virtual_dom$VirtualDom$attribute('v-mathematical');
+var _elm_lang$svg$Svg_Attributes$vIdeographic = _elm_lang$virtual_dom$VirtualDom$attribute('v-ideographic');
+var _elm_lang$svg$Svg_Attributes$vHanging = _elm_lang$virtual_dom$VirtualDom$attribute('v-hanging');
+var _elm_lang$svg$Svg_Attributes$vAlphabetic = _elm_lang$virtual_dom$VirtualDom$attribute('v-alphabetic');
+var _elm_lang$svg$Svg_Attributes$unitsPerEm = _elm_lang$virtual_dom$VirtualDom$attribute('units-per-em');
+var _elm_lang$svg$Svg_Attributes$unicodeRange = _elm_lang$virtual_dom$VirtualDom$attribute('unicode-range');
+var _elm_lang$svg$Svg_Attributes$unicode = _elm_lang$virtual_dom$VirtualDom$attribute('unicode');
+var _elm_lang$svg$Svg_Attributes$underlineThickness = _elm_lang$virtual_dom$VirtualDom$attribute('underline-thickness');
+var _elm_lang$svg$Svg_Attributes$underlinePosition = _elm_lang$virtual_dom$VirtualDom$attribute('underline-position');
+var _elm_lang$svg$Svg_Attributes$u2 = _elm_lang$virtual_dom$VirtualDom$attribute('u2');
+var _elm_lang$svg$Svg_Attributes$u1 = _elm_lang$virtual_dom$VirtualDom$attribute('u1');
+var _elm_lang$svg$Svg_Attributes$type_ = _elm_lang$virtual_dom$VirtualDom$attribute('type');
+var _elm_lang$svg$Svg_Attributes$transform = _elm_lang$virtual_dom$VirtualDom$attribute('transform');
+var _elm_lang$svg$Svg_Attributes$to = _elm_lang$virtual_dom$VirtualDom$attribute('to');
+var _elm_lang$svg$Svg_Attributes$title = _elm_lang$virtual_dom$VirtualDom$attribute('title');
+var _elm_lang$svg$Svg_Attributes$textLength = _elm_lang$virtual_dom$VirtualDom$attribute('textLength');
+var _elm_lang$svg$Svg_Attributes$targetY = _elm_lang$virtual_dom$VirtualDom$attribute('targetY');
+var _elm_lang$svg$Svg_Attributes$targetX = _elm_lang$virtual_dom$VirtualDom$attribute('targetX');
+var _elm_lang$svg$Svg_Attributes$target = _elm_lang$virtual_dom$VirtualDom$attribute('target');
+var _elm_lang$svg$Svg_Attributes$tableValues = _elm_lang$virtual_dom$VirtualDom$attribute('tableValues');
+var _elm_lang$svg$Svg_Attributes$systemLanguage = _elm_lang$virtual_dom$VirtualDom$attribute('systemLanguage');
+var _elm_lang$svg$Svg_Attributes$surfaceScale = _elm_lang$virtual_dom$VirtualDom$attribute('surfaceScale');
+var _elm_lang$svg$Svg_Attributes$style = _elm_lang$virtual_dom$VirtualDom$attribute('style');
+var _elm_lang$svg$Svg_Attributes$string = _elm_lang$virtual_dom$VirtualDom$attribute('string');
+var _elm_lang$svg$Svg_Attributes$strikethroughThickness = _elm_lang$virtual_dom$VirtualDom$attribute('strikethrough-thickness');
+var _elm_lang$svg$Svg_Attributes$strikethroughPosition = _elm_lang$virtual_dom$VirtualDom$attribute('strikethrough-position');
+var _elm_lang$svg$Svg_Attributes$stitchTiles = _elm_lang$virtual_dom$VirtualDom$attribute('stitchTiles');
+var _elm_lang$svg$Svg_Attributes$stemv = _elm_lang$virtual_dom$VirtualDom$attribute('stemv');
+var _elm_lang$svg$Svg_Attributes$stemh = _elm_lang$virtual_dom$VirtualDom$attribute('stemh');
+var _elm_lang$svg$Svg_Attributes$stdDeviation = _elm_lang$virtual_dom$VirtualDom$attribute('stdDeviation');
+var _elm_lang$svg$Svg_Attributes$startOffset = _elm_lang$virtual_dom$VirtualDom$attribute('startOffset');
+var _elm_lang$svg$Svg_Attributes$spreadMethod = _elm_lang$virtual_dom$VirtualDom$attribute('spreadMethod');
+var _elm_lang$svg$Svg_Attributes$speed = _elm_lang$virtual_dom$VirtualDom$attribute('speed');
+var _elm_lang$svg$Svg_Attributes$specularExponent = _elm_lang$virtual_dom$VirtualDom$attribute('specularExponent');
+var _elm_lang$svg$Svg_Attributes$specularConstant = _elm_lang$virtual_dom$VirtualDom$attribute('specularConstant');
+var _elm_lang$svg$Svg_Attributes$spacing = _elm_lang$virtual_dom$VirtualDom$attribute('spacing');
+var _elm_lang$svg$Svg_Attributes$slope = _elm_lang$virtual_dom$VirtualDom$attribute('slope');
+var _elm_lang$svg$Svg_Attributes$seed = _elm_lang$virtual_dom$VirtualDom$attribute('seed');
+var _elm_lang$svg$Svg_Attributes$scale = _elm_lang$virtual_dom$VirtualDom$attribute('scale');
+var _elm_lang$svg$Svg_Attributes$ry = _elm_lang$virtual_dom$VirtualDom$attribute('ry');
+var _elm_lang$svg$Svg_Attributes$rx = _elm_lang$virtual_dom$VirtualDom$attribute('rx');
+var _elm_lang$svg$Svg_Attributes$rotate = _elm_lang$virtual_dom$VirtualDom$attribute('rotate');
+var _elm_lang$svg$Svg_Attributes$result = _elm_lang$virtual_dom$VirtualDom$attribute('result');
+var _elm_lang$svg$Svg_Attributes$restart = _elm_lang$virtual_dom$VirtualDom$attribute('restart');
+var _elm_lang$svg$Svg_Attributes$requiredFeatures = _elm_lang$virtual_dom$VirtualDom$attribute('requiredFeatures');
+var _elm_lang$svg$Svg_Attributes$requiredExtensions = _elm_lang$virtual_dom$VirtualDom$attribute('requiredExtensions');
+var _elm_lang$svg$Svg_Attributes$repeatDur = _elm_lang$virtual_dom$VirtualDom$attribute('repeatDur');
+var _elm_lang$svg$Svg_Attributes$repeatCount = _elm_lang$virtual_dom$VirtualDom$attribute('repeatCount');
+var _elm_lang$svg$Svg_Attributes$renderingIntent = _elm_lang$virtual_dom$VirtualDom$attribute('rendering-intent');
+var _elm_lang$svg$Svg_Attributes$refY = _elm_lang$virtual_dom$VirtualDom$attribute('refY');
+var _elm_lang$svg$Svg_Attributes$refX = _elm_lang$virtual_dom$VirtualDom$attribute('refX');
+var _elm_lang$svg$Svg_Attributes$radius = _elm_lang$virtual_dom$VirtualDom$attribute('radius');
+var _elm_lang$svg$Svg_Attributes$r = _elm_lang$virtual_dom$VirtualDom$attribute('r');
+var _elm_lang$svg$Svg_Attributes$primitiveUnits = _elm_lang$virtual_dom$VirtualDom$attribute('primitiveUnits');
+var _elm_lang$svg$Svg_Attributes$preserveAspectRatio = _elm_lang$virtual_dom$VirtualDom$attribute('preserveAspectRatio');
+var _elm_lang$svg$Svg_Attributes$preserveAlpha = _elm_lang$virtual_dom$VirtualDom$attribute('preserveAlpha');
+var _elm_lang$svg$Svg_Attributes$pointsAtZ = _elm_lang$virtual_dom$VirtualDom$attribute('pointsAtZ');
+var _elm_lang$svg$Svg_Attributes$pointsAtY = _elm_lang$virtual_dom$VirtualDom$attribute('pointsAtY');
+var _elm_lang$svg$Svg_Attributes$pointsAtX = _elm_lang$virtual_dom$VirtualDom$attribute('pointsAtX');
+var _elm_lang$svg$Svg_Attributes$points = _elm_lang$virtual_dom$VirtualDom$attribute('points');
+var _elm_lang$svg$Svg_Attributes$pointOrder = _elm_lang$virtual_dom$VirtualDom$attribute('point-order');
+var _elm_lang$svg$Svg_Attributes$patternUnits = _elm_lang$virtual_dom$VirtualDom$attribute('patternUnits');
+var _elm_lang$svg$Svg_Attributes$patternTransform = _elm_lang$virtual_dom$VirtualDom$attribute('patternTransform');
+var _elm_lang$svg$Svg_Attributes$patternContentUnits = _elm_lang$virtual_dom$VirtualDom$attribute('patternContentUnits');
+var _elm_lang$svg$Svg_Attributes$pathLength = _elm_lang$virtual_dom$VirtualDom$attribute('pathLength');
+var _elm_lang$svg$Svg_Attributes$path = _elm_lang$virtual_dom$VirtualDom$attribute('path');
+var _elm_lang$svg$Svg_Attributes$panose1 = _elm_lang$virtual_dom$VirtualDom$attribute('panose-1');
+var _elm_lang$svg$Svg_Attributes$overlineThickness = _elm_lang$virtual_dom$VirtualDom$attribute('overline-thickness');
+var _elm_lang$svg$Svg_Attributes$overlinePosition = _elm_lang$virtual_dom$VirtualDom$attribute('overline-position');
+var _elm_lang$svg$Svg_Attributes$origin = _elm_lang$virtual_dom$VirtualDom$attribute('origin');
+var _elm_lang$svg$Svg_Attributes$orientation = _elm_lang$virtual_dom$VirtualDom$attribute('orientation');
+var _elm_lang$svg$Svg_Attributes$orient = _elm_lang$virtual_dom$VirtualDom$attribute('orient');
+var _elm_lang$svg$Svg_Attributes$order = _elm_lang$virtual_dom$VirtualDom$attribute('order');
+var _elm_lang$svg$Svg_Attributes$operator = _elm_lang$virtual_dom$VirtualDom$attribute('operator');
+var _elm_lang$svg$Svg_Attributes$offset = _elm_lang$virtual_dom$VirtualDom$attribute('offset');
+var _elm_lang$svg$Svg_Attributes$numOctaves = _elm_lang$virtual_dom$VirtualDom$attribute('numOctaves');
+var _elm_lang$svg$Svg_Attributes$name = _elm_lang$virtual_dom$VirtualDom$attribute('name');
+var _elm_lang$svg$Svg_Attributes$mode = _elm_lang$virtual_dom$VirtualDom$attribute('mode');
+var _elm_lang$svg$Svg_Attributes$min = _elm_lang$virtual_dom$VirtualDom$attribute('min');
+var _elm_lang$svg$Svg_Attributes$method = _elm_lang$virtual_dom$VirtualDom$attribute('method');
+var _elm_lang$svg$Svg_Attributes$media = _elm_lang$virtual_dom$VirtualDom$attribute('media');
+var _elm_lang$svg$Svg_Attributes$max = _elm_lang$virtual_dom$VirtualDom$attribute('max');
+var _elm_lang$svg$Svg_Attributes$mathematical = _elm_lang$virtual_dom$VirtualDom$attribute('mathematical');
+var _elm_lang$svg$Svg_Attributes$maskUnits = _elm_lang$virtual_dom$VirtualDom$attribute('maskUnits');
+var _elm_lang$svg$Svg_Attributes$maskContentUnits = _elm_lang$virtual_dom$VirtualDom$attribute('maskContentUnits');
+var _elm_lang$svg$Svg_Attributes$markerWidth = _elm_lang$virtual_dom$VirtualDom$attribute('markerWidth');
+var _elm_lang$svg$Svg_Attributes$markerUnits = _elm_lang$virtual_dom$VirtualDom$attribute('markerUnits');
+var _elm_lang$svg$Svg_Attributes$markerHeight = _elm_lang$virtual_dom$VirtualDom$attribute('markerHeight');
+var _elm_lang$svg$Svg_Attributes$local = _elm_lang$virtual_dom$VirtualDom$attribute('local');
+var _elm_lang$svg$Svg_Attributes$limitingConeAngle = _elm_lang$virtual_dom$VirtualDom$attribute('limitingConeAngle');
+var _elm_lang$svg$Svg_Attributes$lengthAdjust = _elm_lang$virtual_dom$VirtualDom$attribute('lengthAdjust');
+var _elm_lang$svg$Svg_Attributes$lang = _elm_lang$virtual_dom$VirtualDom$attribute('lang');
+var _elm_lang$svg$Svg_Attributes$keyTimes = _elm_lang$virtual_dom$VirtualDom$attribute('keyTimes');
+var _elm_lang$svg$Svg_Attributes$keySplines = _elm_lang$virtual_dom$VirtualDom$attribute('keySplines');
+var _elm_lang$svg$Svg_Attributes$keyPoints = _elm_lang$virtual_dom$VirtualDom$attribute('keyPoints');
+var _elm_lang$svg$Svg_Attributes$kernelUnitLength = _elm_lang$virtual_dom$VirtualDom$attribute('kernelUnitLength');
+var _elm_lang$svg$Svg_Attributes$kernelMatrix = _elm_lang$virtual_dom$VirtualDom$attribute('kernelMatrix');
+var _elm_lang$svg$Svg_Attributes$k4 = _elm_lang$virtual_dom$VirtualDom$attribute('k4');
+var _elm_lang$svg$Svg_Attributes$k3 = _elm_lang$virtual_dom$VirtualDom$attribute('k3');
+var _elm_lang$svg$Svg_Attributes$k2 = _elm_lang$virtual_dom$VirtualDom$attribute('k2');
+var _elm_lang$svg$Svg_Attributes$k1 = _elm_lang$virtual_dom$VirtualDom$attribute('k1');
+var _elm_lang$svg$Svg_Attributes$k = _elm_lang$virtual_dom$VirtualDom$attribute('k');
+var _elm_lang$svg$Svg_Attributes$intercept = _elm_lang$virtual_dom$VirtualDom$attribute('intercept');
+var _elm_lang$svg$Svg_Attributes$in2 = _elm_lang$virtual_dom$VirtualDom$attribute('in2');
+var _elm_lang$svg$Svg_Attributes$in_ = _elm_lang$virtual_dom$VirtualDom$attribute('in');
+var _elm_lang$svg$Svg_Attributes$ideographic = _elm_lang$virtual_dom$VirtualDom$attribute('ideographic');
+var _elm_lang$svg$Svg_Attributes$id = _elm_lang$virtual_dom$VirtualDom$attribute('id');
+var _elm_lang$svg$Svg_Attributes$horizOriginY = _elm_lang$virtual_dom$VirtualDom$attribute('horiz-origin-y');
+var _elm_lang$svg$Svg_Attributes$horizOriginX = _elm_lang$virtual_dom$VirtualDom$attribute('horiz-origin-x');
+var _elm_lang$svg$Svg_Attributes$horizAdvX = _elm_lang$virtual_dom$VirtualDom$attribute('horiz-adv-x');
+var _elm_lang$svg$Svg_Attributes$height = _elm_lang$virtual_dom$VirtualDom$attribute('height');
+var _elm_lang$svg$Svg_Attributes$hanging = _elm_lang$virtual_dom$VirtualDom$attribute('hanging');
+var _elm_lang$svg$Svg_Attributes$gradientUnits = _elm_lang$virtual_dom$VirtualDom$attribute('gradientUnits');
+var _elm_lang$svg$Svg_Attributes$gradientTransform = _elm_lang$virtual_dom$VirtualDom$attribute('gradientTransform');
+var _elm_lang$svg$Svg_Attributes$glyphRef = _elm_lang$virtual_dom$VirtualDom$attribute('glyphRef');
+var _elm_lang$svg$Svg_Attributes$glyphName = _elm_lang$virtual_dom$VirtualDom$attribute('glyph-name');
+var _elm_lang$svg$Svg_Attributes$g2 = _elm_lang$virtual_dom$VirtualDom$attribute('g2');
+var _elm_lang$svg$Svg_Attributes$g1 = _elm_lang$virtual_dom$VirtualDom$attribute('g1');
+var _elm_lang$svg$Svg_Attributes$fy = _elm_lang$virtual_dom$VirtualDom$attribute('fy');
+var _elm_lang$svg$Svg_Attributes$fx = _elm_lang$virtual_dom$VirtualDom$attribute('fx');
+var _elm_lang$svg$Svg_Attributes$from = _elm_lang$virtual_dom$VirtualDom$attribute('from');
+var _elm_lang$svg$Svg_Attributes$format = _elm_lang$virtual_dom$VirtualDom$attribute('format');
+var _elm_lang$svg$Svg_Attributes$filterUnits = _elm_lang$virtual_dom$VirtualDom$attribute('filterUnits');
+var _elm_lang$svg$Svg_Attributes$filterRes = _elm_lang$virtual_dom$VirtualDom$attribute('filterRes');
+var _elm_lang$svg$Svg_Attributes$externalResourcesRequired = _elm_lang$virtual_dom$VirtualDom$attribute('externalResourcesRequired');
+var _elm_lang$svg$Svg_Attributes$exponent = _elm_lang$virtual_dom$VirtualDom$attribute('exponent');
+var _elm_lang$svg$Svg_Attributes$end = _elm_lang$virtual_dom$VirtualDom$attribute('end');
+var _elm_lang$svg$Svg_Attributes$elevation = _elm_lang$virtual_dom$VirtualDom$attribute('elevation');
+var _elm_lang$svg$Svg_Attributes$edgeMode = _elm_lang$virtual_dom$VirtualDom$attribute('edgeMode');
+var _elm_lang$svg$Svg_Attributes$dy = _elm_lang$virtual_dom$VirtualDom$attribute('dy');
+var _elm_lang$svg$Svg_Attributes$dx = _elm_lang$virtual_dom$VirtualDom$attribute('dx');
+var _elm_lang$svg$Svg_Attributes$dur = _elm_lang$virtual_dom$VirtualDom$attribute('dur');
+var _elm_lang$svg$Svg_Attributes$divisor = _elm_lang$virtual_dom$VirtualDom$attribute('divisor');
+var _elm_lang$svg$Svg_Attributes$diffuseConstant = _elm_lang$virtual_dom$VirtualDom$attribute('diffuseConstant');
+var _elm_lang$svg$Svg_Attributes$descent = _elm_lang$virtual_dom$VirtualDom$attribute('descent');
+var _elm_lang$svg$Svg_Attributes$decelerate = _elm_lang$virtual_dom$VirtualDom$attribute('decelerate');
+var _elm_lang$svg$Svg_Attributes$d = _elm_lang$virtual_dom$VirtualDom$attribute('d');
+var _elm_lang$svg$Svg_Attributes$cy = _elm_lang$virtual_dom$VirtualDom$attribute('cy');
+var _elm_lang$svg$Svg_Attributes$cx = _elm_lang$virtual_dom$VirtualDom$attribute('cx');
+var _elm_lang$svg$Svg_Attributes$contentStyleType = _elm_lang$virtual_dom$VirtualDom$attribute('contentStyleType');
+var _elm_lang$svg$Svg_Attributes$contentScriptType = _elm_lang$virtual_dom$VirtualDom$attribute('contentScriptType');
+var _elm_lang$svg$Svg_Attributes$clipPathUnits = _elm_lang$virtual_dom$VirtualDom$attribute('clipPathUnits');
+var _elm_lang$svg$Svg_Attributes$class = _elm_lang$virtual_dom$VirtualDom$attribute('class');
+var _elm_lang$svg$Svg_Attributes$capHeight = _elm_lang$virtual_dom$VirtualDom$attribute('cap-height');
+var _elm_lang$svg$Svg_Attributes$calcMode = _elm_lang$virtual_dom$VirtualDom$attribute('calcMode');
+var _elm_lang$svg$Svg_Attributes$by = _elm_lang$virtual_dom$VirtualDom$attribute('by');
+var _elm_lang$svg$Svg_Attributes$bias = _elm_lang$virtual_dom$VirtualDom$attribute('bias');
+var _elm_lang$svg$Svg_Attributes$begin = _elm_lang$virtual_dom$VirtualDom$attribute('begin');
+var _elm_lang$svg$Svg_Attributes$bbox = _elm_lang$virtual_dom$VirtualDom$attribute('bbox');
+var _elm_lang$svg$Svg_Attributes$baseProfile = _elm_lang$virtual_dom$VirtualDom$attribute('baseProfile');
+var _elm_lang$svg$Svg_Attributes$baseFrequency = _elm_lang$virtual_dom$VirtualDom$attribute('baseFrequency');
+var _elm_lang$svg$Svg_Attributes$azimuth = _elm_lang$virtual_dom$VirtualDom$attribute('azimuth');
+var _elm_lang$svg$Svg_Attributes$autoReverse = _elm_lang$virtual_dom$VirtualDom$attribute('autoReverse');
+var _elm_lang$svg$Svg_Attributes$attributeType = _elm_lang$virtual_dom$VirtualDom$attribute('attributeType');
+var _elm_lang$svg$Svg_Attributes$attributeName = _elm_lang$virtual_dom$VirtualDom$attribute('attributeName');
+var _elm_lang$svg$Svg_Attributes$ascent = _elm_lang$virtual_dom$VirtualDom$attribute('ascent');
+var _elm_lang$svg$Svg_Attributes$arabicForm = _elm_lang$virtual_dom$VirtualDom$attribute('arabic-form');
+var _elm_lang$svg$Svg_Attributes$amplitude = _elm_lang$virtual_dom$VirtualDom$attribute('amplitude');
+var _elm_lang$svg$Svg_Attributes$allowReorder = _elm_lang$virtual_dom$VirtualDom$attribute('allowReorder');
+var _elm_lang$svg$Svg_Attributes$alphabetic = _elm_lang$virtual_dom$VirtualDom$attribute('alphabetic');
+var _elm_lang$svg$Svg_Attributes$additive = _elm_lang$virtual_dom$VirtualDom$attribute('additive');
+var _elm_lang$svg$Svg_Attributes$accumulate = _elm_lang$virtual_dom$VirtualDom$attribute('accumulate');
+var _elm_lang$svg$Svg_Attributes$accelerate = _elm_lang$virtual_dom$VirtualDom$attribute('accelerate');
+var _elm_lang$svg$Svg_Attributes$accentHeight = _elm_lang$virtual_dom$VirtualDom$attribute('accent-height');
+
+var _abadi199$datetimepicker$DateTimePicker_Svg$arrow = function (orientation) {
+	var rotation = function () {
+		var _p0 = orientation;
+		switch (_p0.ctor) {
+			case 'Right':
+				return '0';
+			case 'Left':
+				return '180';
+			case 'Down':
+				return '90';
+			default:
+				return '270';
+		}
+	}();
+	return A2(
+		_elm_lang$svg$Svg$svg,
+		{
+			ctor: '::',
+			_0: _elm_lang$svg$Svg_Attributes$width('8'),
+			_1: {
+				ctor: '::',
+				_0: _elm_lang$svg$Svg_Attributes$height('12'),
+				_1: {
+					ctor: '::',
+					_0: _elm_lang$svg$Svg_Attributes$viewBox('0 0 16 16'),
+					_1: {
+						ctor: '::',
+						_0: _elm_lang$svg$Svg_Attributes$style(
+							A2(
+								_elm_lang$core$Basics_ops['++'],
+								'transform: rotate(',
+								A2(_elm_lang$core$Basics_ops['++'], rotation, 'deg);'))),
+						_1: {ctor: '[]'}
+					}
+				}
 			}
-		}();
-		return pad ? A3(
-			_elm_lang$core$String$padLeft,
-			4,
-			_elm_lang$core$Native_Utils.chr(' '),
-			value) : value;
-	});
-var _rluiten$elm_date_extra$Date_Extra_I18n_I_en_us$monthName = function (month) {
-	var _p1 = month;
-	switch (_p1.ctor) {
-		case 'Jan':
-			return 'January';
-		case 'Feb':
-			return 'February';
-		case 'Mar':
-			return 'March';
-		case 'Apr':
-			return 'April';
-		case 'May':
-			return 'May';
-		case 'Jun':
-			return 'June';
-		case 'Jul':
-			return 'July';
-		case 'Aug':
-			return 'August';
-		case 'Sep':
-			return 'September';
-		case 'Oct':
-			return 'October';
-		case 'Nov':
-			return 'November';
-		default:
-			return 'December';
-	}
-};
-var _rluiten$elm_date_extra$Date_Extra_I18n_I_en_us$monthShort = function (month) {
-	var _p2 = month;
-	switch (_p2.ctor) {
-		case 'Jan':
-			return 'Jan';
-		case 'Feb':
-			return 'Feb';
-		case 'Mar':
-			return 'Mar';
-		case 'Apr':
-			return 'Apr';
-		case 'May':
-			return 'May';
-		case 'Jun':
-			return 'Jun';
-		case 'Jul':
-			return 'Jul';
-		case 'Aug':
-			return 'Aug';
-		case 'Sep':
-			return 'Sep';
-		case 'Oct':
-			return 'Oct';
-		case 'Nov':
-			return 'Nov';
-		default:
-			return 'Dec';
-	}
-};
-var _rluiten$elm_date_extra$Date_Extra_I18n_I_en_us$dayName = function (day) {
-	var _p3 = day;
-	switch (_p3.ctor) {
-		case 'Mon':
-			return 'Monday';
-		case 'Tue':
-			return 'Tuesday';
-		case 'Wed':
-			return 'Wednesday';
-		case 'Thu':
-			return 'Thursday';
-		case 'Fri':
-			return 'Friday';
-		case 'Sat':
-			return 'Saturday';
-		default:
-			return 'Sunday';
-	}
-};
-var _rluiten$elm_date_extra$Date_Extra_I18n_I_en_us$dayShort = function (day) {
-	var _p4 = day;
-	switch (_p4.ctor) {
-		case 'Mon':
-			return 'Mon';
-		case 'Tue':
-			return 'Tue';
-		case 'Wed':
-			return 'Wed';
-		case 'Thu':
-			return 'Thu';
-		case 'Fri':
-			return 'Fri';
-		case 'Sat':
-			return 'Sat';
-		default:
-			return 'Sun';
-	}
-};
-
-var _rluiten$elm_date_extra$Date_Extra_Config_Config_en_us$config = {
-	i18n: {dayShort: _rluiten$elm_date_extra$Date_Extra_I18n_I_en_us$dayShort, dayName: _rluiten$elm_date_extra$Date_Extra_I18n_I_en_us$dayName, monthShort: _rluiten$elm_date_extra$Date_Extra_I18n_I_en_us$monthShort, monthName: _rluiten$elm_date_extra$Date_Extra_I18n_I_en_us$monthName, dayOfMonthWithSuffix: _rluiten$elm_date_extra$Date_Extra_I18n_I_en_us$dayOfMonthWithSuffix},
-	format: {date: '%-m/%-d/%Y', longDate: '%A, %B %d, %Y', time: '%-H:%M %p', longTime: '%-H:%M:%S %p', dateTime: '%-m/%-d/%Y %-I:%M %p', firstDayOfWeek: _elm_lang$core$Date$Sun}
-};
-
-//import Maybe, Native.List //
-
-var _elm_lang$core$Native_Regex = function() {
-
-function escape(str)
-{
-	return str.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
-}
-function caseInsensitive(re)
-{
-	return new RegExp(re.source, 'gi');
-}
-function regex(raw)
-{
-	return new RegExp(raw, 'g');
-}
-
-function contains(re, string)
-{
-	return string.match(re) !== null;
-}
-
-function find(n, re, str)
-{
-	n = n.ctor === 'All' ? Infinity : n._0;
-	var out = [];
-	var number = 0;
-	var string = str;
-	var lastIndex = re.lastIndex;
-	var prevLastIndex = -1;
-	var result;
-	while (number++ < n && (result = re.exec(string)))
-	{
-		if (prevLastIndex === re.lastIndex) break;
-		var i = result.length - 1;
-		var subs = new Array(i);
-		while (i > 0)
+		},
 		{
-			var submatch = result[i];
-			subs[--i] = submatch === undefined
-				? _elm_lang$core$Maybe$Nothing
-				: _elm_lang$core$Maybe$Just(submatch);
-		}
-		out.push({
-			match: result[0],
-			submatches: _elm_lang$core$Native_List.fromArray(subs),
-			index: result.index,
-			number: number
+			ctor: '::',
+			_0: A2(
+				_elm_lang$svg$Svg$polygon,
+				{
+					ctor: '::',
+					_0: _elm_lang$svg$Svg_Attributes$points('0 0, 0 20, 16 10'),
+					_1: {ctor: '[]'}
+				},
+				{ctor: '[]'}),
+			_1: {ctor: '[]'}
 		});
-		prevLastIndex = re.lastIndex;
-	}
-	re.lastIndex = lastIndex;
-	return _elm_lang$core$Native_List.fromArray(out);
-}
-
-function replace(n, re, replacer, string)
-{
-	n = n.ctor === 'All' ? Infinity : n._0;
-	var count = 0;
-	function jsReplacer(match)
-	{
-		if (count++ >= n)
-		{
-			return match;
-		}
-		var i = arguments.length - 3;
-		var submatches = new Array(i);
-		while (i > 0)
-		{
-			var submatch = arguments[i];
-			submatches[--i] = submatch === undefined
-				? _elm_lang$core$Maybe$Nothing
-				: _elm_lang$core$Maybe$Just(submatch);
-		}
-		return replacer({
-			match: match,
-			submatches: _elm_lang$core$Native_List.fromArray(submatches),
-			index: arguments[arguments.length - 2],
-			number: count
-		});
-	}
-	return string.replace(re, jsReplacer);
-}
-
-function split(n, re, str)
-{
-	n = n.ctor === 'All' ? Infinity : n._0;
-	if (n === Infinity)
-	{
-		return _elm_lang$core$Native_List.fromArray(str.split(re));
-	}
-	var string = str;
-	var result;
-	var out = [];
-	var start = re.lastIndex;
-	var restoreLastIndex = re.lastIndex;
-	while (n--)
-	{
-		if (!(result = re.exec(string))) break;
-		out.push(string.slice(start, result.index));
-		start = re.lastIndex;
-	}
-	out.push(string.slice(start));
-	re.lastIndex = restoreLastIndex;
-	return _elm_lang$core$Native_List.fromArray(out);
-}
-
-return {
-	regex: regex,
-	caseInsensitive: caseInsensitive,
-	escape: escape,
-
-	contains: F2(contains),
-	find: F3(find),
-	replace: F4(replace),
-	split: F3(split)
 };
-
-}();
-
-var _elm_lang$core$Regex$split = _elm_lang$core$Native_Regex.split;
-var _elm_lang$core$Regex$replace = _elm_lang$core$Native_Regex.replace;
-var _elm_lang$core$Regex$find = _elm_lang$core$Native_Regex.find;
-var _elm_lang$core$Regex$contains = _elm_lang$core$Native_Regex.contains;
-var _elm_lang$core$Regex$caseInsensitive = _elm_lang$core$Native_Regex.caseInsensitive;
-var _elm_lang$core$Regex$regex = _elm_lang$core$Native_Regex.regex;
-var _elm_lang$core$Regex$escape = _elm_lang$core$Native_Regex.escape;
-var _elm_lang$core$Regex$Match = F4(
-	function (a, b, c, d) {
-		return {match: a, submatches: b, index: c, number: d};
-	});
-var _elm_lang$core$Regex$Regex = {ctor: 'Regex'};
-var _elm_lang$core$Regex$AtMost = function (a) {
-	return {ctor: 'AtMost', _0: a};
-};
-var _elm_lang$core$Regex$All = {ctor: 'All'};
+var _abadi199$datetimepicker$DateTimePicker_Svg$Right = {ctor: 'Right'};
+var _abadi199$datetimepicker$DateTimePicker_Svg$rightArrow = _abadi199$datetimepicker$DateTimePicker_Svg$arrow(_abadi199$datetimepicker$DateTimePicker_Svg$Right);
+var _abadi199$datetimepicker$DateTimePicker_Svg$Left = {ctor: 'Left'};
+var _abadi199$datetimepicker$DateTimePicker_Svg$leftArrow = _abadi199$datetimepicker$DateTimePicker_Svg$arrow(_abadi199$datetimepicker$DateTimePicker_Svg$Left);
+var _abadi199$datetimepicker$DateTimePicker_Svg$Down = {ctor: 'Down'};
+var _abadi199$datetimepicker$DateTimePicker_Svg$downArrow = _abadi199$datetimepicker$DateTimePicker_Svg$arrow(_abadi199$datetimepicker$DateTimePicker_Svg$Down);
+var _abadi199$datetimepicker$DateTimePicker_Svg$Up = {ctor: 'Up'};
+var _abadi199$datetimepicker$DateTimePicker_Svg$upArrow = _abadi199$datetimepicker$DateTimePicker_Svg$arrow(_abadi199$datetimepicker$DateTimePicker_Svg$Up);
 
 var _rluiten$elm_date_extra$Date_Extra_Core$prevMonth = function (month) {
 	var _p0 = month;
@@ -9500,6 +9624,752 @@ var _rluiten$elm_date_extra$Date_Extra_Create$dateFromFields = F7(
 	});
 var _rluiten$elm_date_extra$Date_Extra_Create$timeFromFields = A3(_rluiten$elm_date_extra$Date_Extra_Create$dateFromFields, 1970, _elm_lang$core$Date$Jan, 1);
 
+var _abadi199$datetimepicker$DateTimePicker_DateUtils$toMillitary = F2(
+	function (hour, amPm) {
+		var _p0 = {ctor: '_Tuple2', _0: hour, _1: amPm};
+		_v0_3:
+		do {
+			switch (_p0._1) {
+				case 'AM':
+					if (_p0._0 === 12) {
+						return 0;
+					} else {
+						break _v0_3;
+					}
+				case 'PM':
+					if (_p0._0 === 12) {
+						return 12;
+					} else {
+						return hour + 12;
+					}
+				default:
+					break _v0_3;
+			}
+		} while(false);
+		return hour;
+	});
+var _abadi199$datetimepicker$DateTimePicker_DateUtils$fromMillitaryAmPm = function (hour) {
+	var _p1 = hour;
+	switch (_p1) {
+		case 12:
+			return 'PM';
+		case 0:
+			return 'AM';
+		default:
+			return (_elm_lang$core$Native_Utils.cmp(hour, 12) > -1) ? 'PM' : 'AM';
+	}
+};
+var _abadi199$datetimepicker$DateTimePicker_DateUtils$fromMillitaryHour = function (hour) {
+	var _p2 = hour;
+	switch (_p2) {
+		case 12:
+			return 12;
+		case 0:
+			return 12;
+		default:
+			return A2(_elm_lang$core$Basics_ops['%'], hour, 12);
+	}
+};
+var _abadi199$datetimepicker$DateTimePicker_DateUtils$padding = function (str) {
+	return _elm_lang$core$Native_Utils.eq(
+		_elm_lang$core$String$length(str),
+		0) ? '00' : (_elm_lang$core$Native_Utils.eq(
+		_elm_lang$core$String$length(str),
+		1) ? A2(_elm_lang$core$Basics_ops['++'], '0', str) : str);
+};
+var _abadi199$datetimepicker$DateTimePicker_DateUtils$setTime = F4(
+	function (date, hour, minute, amPm) {
+		return A7(
+			_rluiten$elm_date_extra$Date_Extra_Create$dateFromFields,
+			_elm_lang$core$Date$year(date),
+			_elm_lang$core$Date$month(date),
+			_elm_lang$core$Date$day(date),
+			A2(_abadi199$datetimepicker$DateTimePicker_DateUtils$toMillitary, hour, amPm),
+			minute,
+			0,
+			0);
+	});
+var _abadi199$datetimepicker$DateTimePicker_DateUtils$toTime = F3(
+	function (hour, minute, amPm) {
+		return A4(
+			_abadi199$datetimepicker$DateTimePicker_DateUtils$setTime,
+			_elm_lang$core$Date$fromTime(0),
+			hour,
+			minute,
+			amPm);
+	});
+var _abadi199$datetimepicker$DateTimePicker_DateUtils$toDateTime = F5(
+	function (year, month, day, hour, minute) {
+		var _p3 = day.monthType;
+		switch (_p3.ctor) {
+			case 'Current':
+				return A7(_rluiten$elm_date_extra$Date_Extra_Create$dateFromFields, year, month, day.day, hour, minute, 0, 0);
+			case 'Previous':
+				var previousMonth = _rluiten$elm_date_extra$Date_Extra_Core$lastOfPrevMonthDate(
+					A7(_rluiten$elm_date_extra$Date_Extra_Create$dateFromFields, year, month, day.day, hour, minute, 0, 0));
+				return A7(
+					_rluiten$elm_date_extra$Date_Extra_Create$dateFromFields,
+					_elm_lang$core$Date$year(previousMonth),
+					_elm_lang$core$Date$month(previousMonth),
+					day.day,
+					hour,
+					minute,
+					0,
+					0);
+			default:
+				var nextMonth = _rluiten$elm_date_extra$Date_Extra_Core$firstOfNextMonthDate(
+					A7(_rluiten$elm_date_extra$Date_Extra_Create$dateFromFields, year, month, day.day, hour, minute, 0, 0));
+				return A7(
+					_rluiten$elm_date_extra$Date_Extra_Create$dateFromFields,
+					_elm_lang$core$Date$year(nextMonth),
+					_elm_lang$core$Date$month(nextMonth),
+					day.day,
+					hour,
+					minute,
+					0,
+					0);
+		}
+	});
+var _abadi199$datetimepicker$DateTimePicker_DateUtils$toDate = F3(
+	function (year, month, day) {
+		return A5(_abadi199$datetimepicker$DateTimePicker_DateUtils$toDateTime, year, month, day, 0, 0);
+	});
+var _abadi199$datetimepicker$DateTimePicker_DateUtils$calculateNumberOfDaysForPreviousMonth = function (firstDayInInt) {
+	return _elm_lang$core$Native_Utils.eq(firstDayInInt, 0) ? 7 : firstDayInInt;
+};
+var _abadi199$datetimepicker$DateTimePicker_DateUtils$dayToInt = F2(
+	function (startOfWeek, day) {
+		var base = function () {
+			var _p4 = day;
+			switch (_p4.ctor) {
+				case 'Sun':
+					return 0;
+				case 'Mon':
+					return 1;
+				case 'Tue':
+					return 2;
+				case 'Wed':
+					return 3;
+				case 'Thu':
+					return 4;
+				case 'Fri':
+					return 5;
+				default:
+					return 6;
+			}
+		}();
+		var _p5 = startOfWeek;
+		switch (_p5.ctor) {
+			case 'Sun':
+				return base;
+			case 'Mon':
+				return A2(_elm_lang$core$Basics_ops['%'], base - 1, 7);
+			case 'Tue':
+				return A2(_elm_lang$core$Basics_ops['%'], base - 2, 7);
+			case 'Wed':
+				return A2(_elm_lang$core$Basics_ops['%'], base - 3, 7);
+			case 'Thu':
+				return A2(_elm_lang$core$Basics_ops['%'], base - 4, 7);
+			case 'Fri':
+				return A2(_elm_lang$core$Basics_ops['%'], base - 5, 7);
+			default:
+				return A2(_elm_lang$core$Basics_ops['%'], base - 6, 7);
+		}
+	});
+var _abadi199$datetimepicker$DateTimePicker_DateUtils$Day = F2(
+	function (a, b) {
+		return {monthType: a, day: b};
+	});
+var _abadi199$datetimepicker$DateTimePicker_DateUtils$Next = {ctor: 'Next'};
+var _abadi199$datetimepicker$DateTimePicker_DateUtils$Current = {ctor: 'Current'};
+var _abadi199$datetimepicker$DateTimePicker_DateUtils$Previous = {ctor: 'Previous'};
+var _abadi199$datetimepicker$DateTimePicker_DateUtils$generateCalendar = F3(
+	function (firstDayOfWeek, month, year) {
+		var nextMonth = A2(
+			_elm_lang$core$List$map,
+			_abadi199$datetimepicker$DateTimePicker_DateUtils$Day(_abadi199$datetimepicker$DateTimePicker_DateUtils$Next),
+			A2(_elm_lang$core$List$range, 1, 14));
+		var firstDateOfMonth = A7(_rluiten$elm_date_extra$Date_Extra_Create$dateFromFields, year, month, 1, 0, 0, 0, 0);
+		var firstDayOfMonth = A2(
+			_abadi199$datetimepicker$DateTimePicker_DateUtils$dayToInt,
+			firstDayOfWeek,
+			_elm_lang$core$Date$dayOfWeek(firstDateOfMonth));
+		var numberOfDaysForPreviousMonth = _abadi199$datetimepicker$DateTimePicker_DateUtils$calculateNumberOfDaysForPreviousMonth(firstDayOfMonth);
+		var daysInMonth = _rluiten$elm_date_extra$Date_Extra_Core$daysInMonthDate(firstDateOfMonth);
+		var currentMonth = A2(
+			_elm_lang$core$List$map,
+			_abadi199$datetimepicker$DateTimePicker_DateUtils$Day(_abadi199$datetimepicker$DateTimePicker_DateUtils$Current),
+			A2(_elm_lang$core$List$range, 1, daysInMonth));
+		var daysInPreviousMonth = _rluiten$elm_date_extra$Date_Extra_Core$daysInPrevMonth(firstDateOfMonth);
+		var previousMonth = A2(
+			_elm_lang$core$List$map,
+			_abadi199$datetimepicker$DateTimePicker_DateUtils$Day(_abadi199$datetimepicker$DateTimePicker_DateUtils$Previous),
+			A2(_elm_lang$core$List$range, (daysInPreviousMonth - numberOfDaysForPreviousMonth) + 1, daysInPreviousMonth));
+		return A2(
+			_elm_lang$core$List$take,
+			42,
+			A2(
+				_elm_lang$core$Basics_ops['++'],
+				previousMonth,
+				A2(_elm_lang$core$Basics_ops['++'], currentMonth, nextMonth)));
+	});
+
+//import Maybe, Native.List //
+
+var _elm_lang$core$Native_Regex = function() {
+
+function escape(str)
+{
+	return str.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+}
+function caseInsensitive(re)
+{
+	return new RegExp(re.source, 'gi');
+}
+function regex(raw)
+{
+	return new RegExp(raw, 'g');
+}
+
+function contains(re, string)
+{
+	return string.match(re) !== null;
+}
+
+function find(n, re, str)
+{
+	n = n.ctor === 'All' ? Infinity : n._0;
+	var out = [];
+	var number = 0;
+	var string = str;
+	var lastIndex = re.lastIndex;
+	var prevLastIndex = -1;
+	var result;
+	while (number++ < n && (result = re.exec(string)))
+	{
+		if (prevLastIndex === re.lastIndex) break;
+		var i = result.length - 1;
+		var subs = new Array(i);
+		while (i > 0)
+		{
+			var submatch = result[i];
+			subs[--i] = submatch === undefined
+				? _elm_lang$core$Maybe$Nothing
+				: _elm_lang$core$Maybe$Just(submatch);
+		}
+		out.push({
+			match: result[0],
+			submatches: _elm_lang$core$Native_List.fromArray(subs),
+			index: result.index,
+			number: number
+		});
+		prevLastIndex = re.lastIndex;
+	}
+	re.lastIndex = lastIndex;
+	return _elm_lang$core$Native_List.fromArray(out);
+}
+
+function replace(n, re, replacer, string)
+{
+	n = n.ctor === 'All' ? Infinity : n._0;
+	var count = 0;
+	function jsReplacer(match)
+	{
+		if (count++ >= n)
+		{
+			return match;
+		}
+		var i = arguments.length - 3;
+		var submatches = new Array(i);
+		while (i > 0)
+		{
+			var submatch = arguments[i];
+			submatches[--i] = submatch === undefined
+				? _elm_lang$core$Maybe$Nothing
+				: _elm_lang$core$Maybe$Just(submatch);
+		}
+		return replacer({
+			match: match,
+			submatches: _elm_lang$core$Native_List.fromArray(submatches),
+			index: arguments[arguments.length - 2],
+			number: count
+		});
+	}
+	return string.replace(re, jsReplacer);
+}
+
+function split(n, re, str)
+{
+	n = n.ctor === 'All' ? Infinity : n._0;
+	if (n === Infinity)
+	{
+		return _elm_lang$core$Native_List.fromArray(str.split(re));
+	}
+	var string = str;
+	var result;
+	var out = [];
+	var start = re.lastIndex;
+	var restoreLastIndex = re.lastIndex;
+	while (n--)
+	{
+		if (!(result = re.exec(string))) break;
+		out.push(string.slice(start, result.index));
+		start = re.lastIndex;
+	}
+	out.push(string.slice(start));
+	re.lastIndex = restoreLastIndex;
+	return _elm_lang$core$Native_List.fromArray(out);
+}
+
+return {
+	regex: regex,
+	caseInsensitive: caseInsensitive,
+	escape: escape,
+
+	contains: F2(contains),
+	find: F3(find),
+	replace: F4(replace),
+	split: F3(split)
+};
+
+}();
+
+var _elm_lang$core$Regex$split = _elm_lang$core$Native_Regex.split;
+var _elm_lang$core$Regex$replace = _elm_lang$core$Native_Regex.replace;
+var _elm_lang$core$Regex$find = _elm_lang$core$Native_Regex.find;
+var _elm_lang$core$Regex$contains = _elm_lang$core$Native_Regex.contains;
+var _elm_lang$core$Regex$caseInsensitive = _elm_lang$core$Native_Regex.caseInsensitive;
+var _elm_lang$core$Regex$regex = _elm_lang$core$Native_Regex.regex;
+var _elm_lang$core$Regex$escape = _elm_lang$core$Native_Regex.escape;
+var _elm_lang$core$Regex$Match = F4(
+	function (a, b, c, d) {
+		return {match: a, submatches: b, index: c, number: d};
+	});
+var _elm_lang$core$Regex$Regex = {ctor: 'Regex'};
+var _elm_lang$core$Regex$AtMost = function (a) {
+	return {ctor: 'AtMost', _0: a};
+};
+var _elm_lang$core$Regex$All = {ctor: 'All'};
+
+var _rtfeldman$elm_css_util$Css_Helpers$toCssIdentifier = function (identifier) {
+	return A4(
+		_elm_lang$core$Regex$replace,
+		_elm_lang$core$Regex$All,
+		_elm_lang$core$Regex$regex('[^a-zA-Z0-9_-]'),
+		function (_p0) {
+			return '';
+		},
+		A4(
+			_elm_lang$core$Regex$replace,
+			_elm_lang$core$Regex$All,
+			_elm_lang$core$Regex$regex('\\s+'),
+			function (_p1) {
+				return '-';
+			},
+			_elm_lang$core$String$trim(
+				_elm_lang$core$Basics$toString(identifier))));
+};
+var _rtfeldman$elm_css_util$Css_Helpers$identifierToString = F2(
+	function (name, identifier) {
+		return A2(
+			_elm_lang$core$Basics_ops['++'],
+			_rtfeldman$elm_css_util$Css_Helpers$toCssIdentifier(name),
+			_rtfeldman$elm_css_util$Css_Helpers$toCssIdentifier(identifier));
+	});
+
+var _rtfeldman$elm_css_helpers$Html_CssHelpers$stylesheetLink = function (url) {
+	return A3(
+		_elm_lang$html$Html$node,
+		'link',
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html_Attributes$property,
+				'rel',
+				_elm_lang$core$Json_Encode$string('stylesheet')),
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html_Attributes$property,
+					'type',
+					_elm_lang$core$Json_Encode$string('text/css')),
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html_Attributes$property,
+						'href',
+						_elm_lang$core$Json_Encode$string(url)),
+					_1: {ctor: '[]'}
+				}
+			}
+		},
+		{ctor: '[]'});
+};
+var _rtfeldman$elm_css_helpers$Html_CssHelpers$style = function (text) {
+	return A3(
+		_elm_lang$html$Html$node,
+		'style',
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html_Attributes$property,
+				'textContent',
+				_elm_lang$core$Json_Encode$string(text)),
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html_Attributes$property,
+					'type',
+					_elm_lang$core$Json_Encode$string('text/css')),
+				_1: {ctor: '[]'}
+			}
+		},
+		{ctor: '[]'});
+};
+var _rtfeldman$elm_css_helpers$Html_CssHelpers$namespacedClass = F2(
+	function (name, list) {
+		return _elm_lang$html$Html_Attributes$class(
+			A2(
+				_elm_lang$core$String$join,
+				' ',
+				A2(
+					_elm_lang$core$List$map,
+					_rtfeldman$elm_css_util$Css_Helpers$identifierToString(name),
+					list)));
+	});
+var _rtfeldman$elm_css_helpers$Html_CssHelpers$class = _rtfeldman$elm_css_helpers$Html_CssHelpers$namespacedClass('');
+var _rtfeldman$elm_css_helpers$Html_CssHelpers$classList = function (list) {
+	return _rtfeldman$elm_css_helpers$Html_CssHelpers$class(
+		A2(
+			_elm_lang$core$List$map,
+			_elm_lang$core$Tuple$first,
+			A2(_elm_lang$core$List$filter, _elm_lang$core$Tuple$second, list)));
+};
+var _rtfeldman$elm_css_helpers$Html_CssHelpers$namespacedClassList = F2(
+	function (name, list) {
+		return A2(
+			_rtfeldman$elm_css_helpers$Html_CssHelpers$namespacedClass,
+			name,
+			A2(
+				_elm_lang$core$List$map,
+				_elm_lang$core$Tuple$first,
+				A2(_elm_lang$core$List$filter, _elm_lang$core$Tuple$second, list)));
+	});
+var _rtfeldman$elm_css_helpers$Html_CssHelpers$helpers = {
+	$class: _rtfeldman$elm_css_helpers$Html_CssHelpers$class,
+	classList: _rtfeldman$elm_css_helpers$Html_CssHelpers$classList,
+	id: function (_p0) {
+		return _elm_lang$html$Html_Attributes$id(
+			_rtfeldman$elm_css_util$Css_Helpers$toCssIdentifier(_p0));
+	}
+};
+var _rtfeldman$elm_css_helpers$Html_CssHelpers$withNamespace = function (name) {
+	return {
+		$class: _rtfeldman$elm_css_helpers$Html_CssHelpers$namespacedClass(name),
+		classList: _rtfeldman$elm_css_helpers$Html_CssHelpers$namespacedClassList(name),
+		id: function (_p1) {
+			return _elm_lang$html$Html_Attributes$id(
+				_rtfeldman$elm_css_util$Css_Helpers$toCssIdentifier(_p1));
+		},
+		name: name
+	};
+};
+var _rtfeldman$elm_css_helpers$Html_CssHelpers$Helpers = F3(
+	function (a, b, c) {
+		return {$class: a, classList: b, id: c};
+	});
+var _rtfeldman$elm_css_helpers$Html_CssHelpers$Namespace = F4(
+	function (a, b, c, d) {
+		return {$class: a, classList: b, id: c, name: d};
+	});
+
+var _abadi199$datetimepicker$DateTimePicker_SharedStyles$datepickerNamespace = _rtfeldman$elm_css_helpers$Html_CssHelpers$withNamespace('elm-input-datepicker');
+var _abadi199$datetimepicker$DateTimePicker_SharedStyles$EmptyCell = {ctor: 'EmptyCell'};
+var _abadi199$datetimepicker$DateTimePicker_SharedStyles$PM = {ctor: 'PM'};
+var _abadi199$datetimepicker$DateTimePicker_SharedStyles$AM = {ctor: 'AM'};
+var _abadi199$datetimepicker$DateTimePicker_SharedStyles$AMPMPicker = {ctor: 'AMPMPicker'};
+var _abadi199$datetimepicker$DateTimePicker_SharedStyles$Separator = {ctor: 'Separator'};
+var _abadi199$datetimepicker$DateTimePicker_SharedStyles$AMPM = {ctor: 'AMPM'};
+var _abadi199$datetimepicker$DateTimePicker_SharedStyles$Minute = {ctor: 'Minute'};
+var _abadi199$datetimepicker$DateTimePicker_SharedStyles$Hour = {ctor: 'Hour'};
+var _abadi199$datetimepicker$DateTimePicker_SharedStyles$Active = {ctor: 'Active'};
+var _abadi199$datetimepicker$DateTimePicker_SharedStyles$AnalogClock = {ctor: 'AnalogClock'};
+var _abadi199$datetimepicker$DateTimePicker_SharedStyles$AnalogTime = {ctor: 'AnalogTime'};
+var _abadi199$datetimepicker$DateTimePicker_SharedStyles$DigitalTime = {ctor: 'DigitalTime'};
+var _abadi199$datetimepicker$DateTimePicker_SharedStyles$Today = {ctor: 'Today'};
+var _abadi199$datetimepicker$DateTimePicker_SharedStyles$SelectedAmPm = {ctor: 'SelectedAmPm'};
+var _abadi199$datetimepicker$DateTimePicker_SharedStyles$SelectedMinute = {ctor: 'SelectedMinute'};
+var _abadi199$datetimepicker$DateTimePicker_SharedStyles$SelectedHour = {ctor: 'SelectedHour'};
+var _abadi199$datetimepicker$DateTimePicker_SharedStyles$SelectedDate = {ctor: 'SelectedDate'};
+var _abadi199$datetimepicker$DateTimePicker_SharedStyles$Footer = {ctor: 'Footer'};
+var _abadi199$datetimepicker$DateTimePicker_SharedStyles$TimePicker = {ctor: 'TimePicker'};
+var _abadi199$datetimepicker$DateTimePicker_SharedStyles$DatePicker = {ctor: 'DatePicker'};
+var _abadi199$datetimepicker$DateTimePicker_SharedStyles$TimePickerDialog = {ctor: 'TimePickerDialog'};
+var _abadi199$datetimepicker$DateTimePicker_SharedStyles$DatePickerDialog = {ctor: 'DatePickerDialog'};
+var _abadi199$datetimepicker$DateTimePicker_SharedStyles$Dialog = {ctor: 'Dialog'};
+var _abadi199$datetimepicker$DateTimePicker_SharedStyles$ArrowDown = {ctor: 'ArrowDown'};
+var _abadi199$datetimepicker$DateTimePicker_SharedStyles$ArrowUp = {ctor: 'ArrowUp'};
+var _abadi199$datetimepicker$DateTimePicker_SharedStyles$ArrowRight = {ctor: 'ArrowRight'};
+var _abadi199$datetimepicker$DateTimePicker_SharedStyles$ArrowLeft = {ctor: 'ArrowLeft'};
+var _abadi199$datetimepicker$DateTimePicker_SharedStyles$Title = {ctor: 'Title'};
+var _abadi199$datetimepicker$DateTimePicker_SharedStyles$Days = {ctor: 'Days'};
+var _abadi199$datetimepicker$DateTimePicker_SharedStyles$NextMonth = {ctor: 'NextMonth'};
+var _abadi199$datetimepicker$DateTimePicker_SharedStyles$Body = {ctor: 'Body'};
+var _abadi199$datetimepicker$DateTimePicker_SharedStyles$Header = {ctor: 'Header'};
+var _abadi199$datetimepicker$DateTimePicker_SharedStyles$CurrentMonth = {ctor: 'CurrentMonth'};
+var _abadi199$datetimepicker$DateTimePicker_SharedStyles$PreviousMonth = {ctor: 'PreviousMonth'};
+var _abadi199$datetimepicker$DateTimePicker_SharedStyles$DaysOfWeek = {ctor: 'DaysOfWeek'};
+var _abadi199$datetimepicker$DateTimePicker_SharedStyles$Calendar = {ctor: 'Calendar'};
+
+var _abadi199$datetimepicker$DateTimePicker_Geometry$calculateArrowPoint = F3(
+	function (origin, length, radians) {
+		var y = _elm_lang$core$Basics$round(
+			_elm_lang$core$Basics$toFloat(length) * _elm_lang$core$Basics$sin(radians));
+		var x = _elm_lang$core$Basics$round(
+			_elm_lang$core$Basics$toFloat(length) * _elm_lang$core$Basics$cos(radians));
+		return {x: origin.x + x, y: origin.y - y};
+	});
+var _abadi199$datetimepicker$DateTimePicker_Geometry$Point = F2(
+	function (a, b) {
+		return {x: a, y: b};
+	});
+var _abadi199$datetimepicker$DateTimePicker_Geometry$Quadrant4 = {ctor: 'Quadrant4'};
+var _abadi199$datetimepicker$DateTimePicker_Geometry$Quadrant3 = {ctor: 'Quadrant3'};
+var _abadi199$datetimepicker$DateTimePicker_Geometry$Quadrant2 = {ctor: 'Quadrant2'};
+var _abadi199$datetimepicker$DateTimePicker_Geometry$Quadrant1 = {ctor: 'Quadrant1'};
+var _abadi199$datetimepicker$DateTimePicker_Geometry$calculateAngle = F3(
+	function (p1, p2, p3) {
+		var p23 = _elm_lang$core$Basics$sqrt(
+			_elm_lang$core$Basics$toFloat(
+				Math.pow(p2.x - p3.x, 2) + Math.pow(p2.y - p3.y, 2)));
+		var p13 = _elm_lang$core$Basics$sqrt(
+			_elm_lang$core$Basics$toFloat(
+				Math.pow(p1.x - p3.x, 2) + Math.pow(p1.y - p3.y, 2)));
+		var p12 = _elm_lang$core$Basics$sqrt(
+			_elm_lang$core$Basics$toFloat(
+				Math.pow(p1.x - p2.x, 2) + Math.pow(p1.y - p2.y, 2)));
+		var angle = _elm_lang$core$Basics$acos(
+			((Math.pow(p12, 2) + Math.pow(p13, 2)) - Math.pow(p23, 2)) / ((2 * p12) * p13));
+		var quadrant = ((_elm_lang$core$Native_Utils.cmp(p3.x, p1.x) > -1) && (_elm_lang$core$Native_Utils.cmp(p3.y, p1.y) > -1)) ? _abadi199$datetimepicker$DateTimePicker_Geometry$Quadrant1 : (((_elm_lang$core$Native_Utils.cmp(p3.x, p1.x) < 0) && (_elm_lang$core$Native_Utils.cmp(p3.y, p1.y) > -1)) ? _abadi199$datetimepicker$DateTimePicker_Geometry$Quadrant2 : (((_elm_lang$core$Native_Utils.cmp(p3.x, p1.x) < 0) && (_elm_lang$core$Native_Utils.cmp(p3.y, p1.y) < 0)) ? _abadi199$datetimepicker$DateTimePicker_Geometry$Quadrant3 : _abadi199$datetimepicker$DateTimePicker_Geometry$Quadrant4));
+		var _p0 = quadrant;
+		switch (_p0.ctor) {
+			case 'Quadrant3':
+				return angle;
+			case 'Quadrant4':
+				return angle;
+			case 'Quadrant1':
+				return (2 * _elm_lang$core$Basics$pi) - angle;
+			default:
+				return (2 * _elm_lang$core$Basics$pi) - angle;
+		}
+	});
+
+var _abadi199$datetimepicker$DateTimePicker_Internal$getStateValue = function (state) {
+	var _p0 = state;
+	return _p0._0;
+};
+var _abadi199$datetimepicker$DateTimePicker_Internal$StateValue = function (a) {
+	return function (b) {
+		return function (c) {
+			return function (d) {
+				return function (e) {
+					return function (f) {
+						return function (g) {
+							return function (h) {
+								return function (i) {
+									return function (j) {
+										return function (k) {
+											return {inputFocused: a, forceClose: b, event: c, today: d, titleDate: e, date: f, time: g, hourPickerStart: h, minutePickerStart: i, currentAngle: j, activeTimeIndicator: k};
+										};
+									};
+								};
+							};
+						};
+					};
+				};
+			};
+		};
+	};
+};
+var _abadi199$datetimepicker$DateTimePicker_Internal$Time = F3(
+	function (a, b, c) {
+		return {hour: a, minute: b, amPm: c};
+	});
+var _abadi199$datetimepicker$DateTimePicker_Internal$InternalState = function (a) {
+	return {ctor: 'InternalState', _0: a};
+};
+var _abadi199$datetimepicker$DateTimePicker_Internal$AMPMIndicator = {ctor: 'AMPMIndicator'};
+var _abadi199$datetimepicker$DateTimePicker_Internal$MinuteIndicator = {ctor: 'MinuteIndicator'};
+var _abadi199$datetimepicker$DateTimePicker_Internal$HourIndicator = {ctor: 'HourIndicator'};
+var _abadi199$datetimepicker$DateTimePicker_Internal$initialStateValue = {
+	inputFocused: false,
+	forceClose: false,
+	event: '',
+	today: _elm_lang$core$Maybe$Nothing,
+	titleDate: _elm_lang$core$Maybe$Nothing,
+	date: _elm_lang$core$Maybe$Nothing,
+	time: A3(_abadi199$datetimepicker$DateTimePicker_Internal$Time, _elm_lang$core$Maybe$Nothing, _elm_lang$core$Maybe$Nothing, _elm_lang$core$Maybe$Nothing),
+	hourPickerStart: 1,
+	minutePickerStart: 0,
+	currentAngle: _elm_lang$core$Maybe$Nothing,
+	activeTimeIndicator: _elm_lang$core$Maybe$Just(_abadi199$datetimepicker$DateTimePicker_Internal$HourIndicator)
+};
+var _abadi199$datetimepicker$DateTimePicker_Internal$initialStateValueWithToday = function (today) {
+	return {
+		inputFocused: false,
+		forceClose: false,
+		event: '',
+		today: _elm_lang$core$Maybe$Just(today),
+		titleDate: _elm_lang$core$Maybe$Just(
+			_rluiten$elm_date_extra$Date_Extra_Core$toFirstOfMonth(today)),
+		date: _elm_lang$core$Maybe$Nothing,
+		time: A3(_abadi199$datetimepicker$DateTimePicker_Internal$Time, _elm_lang$core$Maybe$Nothing, _elm_lang$core$Maybe$Nothing, _elm_lang$core$Maybe$Nothing),
+		hourPickerStart: 1,
+		minutePickerStart: 0,
+		currentAngle: _elm_lang$core$Maybe$Nothing,
+		activeTimeIndicator: _elm_lang$core$Maybe$Just(_abadi199$datetimepicker$DateTimePicker_Internal$HourIndicator)
+	};
+};
+
+var _rluiten$elm_date_extra$Date_Extra_Config$Config = F2(
+	function (a, b) {
+		return {i18n: a, format: b};
+	});
+
+var _rluiten$elm_date_extra$Date_Extra_I18n_I_en_us$dayOfMonthWithSuffix = F2(
+	function (pad, day) {
+		var value = function () {
+			var _p0 = day;
+			switch (_p0) {
+				case 1:
+					return '1st';
+				case 21:
+					return '21st';
+				case 2:
+					return '2nd';
+				case 22:
+					return '22nd';
+				case 3:
+					return '3rd';
+				case 23:
+					return '23rd';
+				case 31:
+					return '31st';
+				default:
+					return A2(
+						_elm_lang$core$Basics_ops['++'],
+						_elm_lang$core$Basics$toString(day),
+						'th');
+			}
+		}();
+		return pad ? A3(
+			_elm_lang$core$String$padLeft,
+			4,
+			_elm_lang$core$Native_Utils.chr(' '),
+			value) : value;
+	});
+var _rluiten$elm_date_extra$Date_Extra_I18n_I_en_us$monthName = function (month) {
+	var _p1 = month;
+	switch (_p1.ctor) {
+		case 'Jan':
+			return 'January';
+		case 'Feb':
+			return 'February';
+		case 'Mar':
+			return 'March';
+		case 'Apr':
+			return 'April';
+		case 'May':
+			return 'May';
+		case 'Jun':
+			return 'June';
+		case 'Jul':
+			return 'July';
+		case 'Aug':
+			return 'August';
+		case 'Sep':
+			return 'September';
+		case 'Oct':
+			return 'October';
+		case 'Nov':
+			return 'November';
+		default:
+			return 'December';
+	}
+};
+var _rluiten$elm_date_extra$Date_Extra_I18n_I_en_us$monthShort = function (month) {
+	var _p2 = month;
+	switch (_p2.ctor) {
+		case 'Jan':
+			return 'Jan';
+		case 'Feb':
+			return 'Feb';
+		case 'Mar':
+			return 'Mar';
+		case 'Apr':
+			return 'Apr';
+		case 'May':
+			return 'May';
+		case 'Jun':
+			return 'Jun';
+		case 'Jul':
+			return 'Jul';
+		case 'Aug':
+			return 'Aug';
+		case 'Sep':
+			return 'Sep';
+		case 'Oct':
+			return 'Oct';
+		case 'Nov':
+			return 'Nov';
+		default:
+			return 'Dec';
+	}
+};
+var _rluiten$elm_date_extra$Date_Extra_I18n_I_en_us$dayName = function (day) {
+	var _p3 = day;
+	switch (_p3.ctor) {
+		case 'Mon':
+			return 'Monday';
+		case 'Tue':
+			return 'Tuesday';
+		case 'Wed':
+			return 'Wednesday';
+		case 'Thu':
+			return 'Thursday';
+		case 'Fri':
+			return 'Friday';
+		case 'Sat':
+			return 'Saturday';
+		default:
+			return 'Sunday';
+	}
+};
+var _rluiten$elm_date_extra$Date_Extra_I18n_I_en_us$dayShort = function (day) {
+	var _p4 = day;
+	switch (_p4.ctor) {
+		case 'Mon':
+			return 'Mon';
+		case 'Tue':
+			return 'Tue';
+		case 'Wed':
+			return 'Wed';
+		case 'Thu':
+			return 'Thu';
+		case 'Fri':
+			return 'Fri';
+		case 'Sat':
+			return 'Sat';
+		default:
+			return 'Sun';
+	}
+};
+
+var _rluiten$elm_date_extra$Date_Extra_Config_Config_en_us$config = {
+	i18n: {dayShort: _rluiten$elm_date_extra$Date_Extra_I18n_I_en_us$dayShort, dayName: _rluiten$elm_date_extra$Date_Extra_I18n_I_en_us$dayName, monthShort: _rluiten$elm_date_extra$Date_Extra_I18n_I_en_us$monthShort, monthName: _rluiten$elm_date_extra$Date_Extra_I18n_I_en_us$monthName, dayOfMonthWithSuffix: _rluiten$elm_date_extra$Date_Extra_I18n_I_en_us$dayOfMonthWithSuffix},
+	format: {date: '%-m/%-d/%Y', longDate: '%A, %B %d, %Y', time: '%-H:%M %p', longTime: '%-H:%M:%S %p', dateTime: '%-m/%-d/%Y %-I:%M %p', firstDayOfWeek: _elm_lang$core$Date$Sun}
+};
+
 var _rluiten$elm_date_extra$Date_Extra_Format$toHourMin = function (offsetMinutes) {
 	return {
 		ctor: '_Tuple2',
@@ -9828,904 +10698,6 @@ var _abadi199$datetimepicker$DateTimePicker_Formatter$fullDateFormatter = A2(_rl
 var _abadi199$datetimepicker$DateTimePicker_Formatter$dateFormatter = A2(_rluiten$elm_date_extra$Date_Extra_Format$format, _rluiten$elm_date_extra$Date_Extra_Config_Config_en_us$config, '%m/%d/%Y');
 var _abadi199$datetimepicker$DateTimePicker_Formatter$titleFormatter = A2(_rluiten$elm_date_extra$Date_Extra_Format$format, _rluiten$elm_date_extra$Date_Extra_Config_Config_en_us$config, '%B %Y');
 
-var _elm_lang$svg$Svg$map = _elm_lang$virtual_dom$VirtualDom$map;
-var _elm_lang$svg$Svg$text = _elm_lang$virtual_dom$VirtualDom$text;
-var _elm_lang$svg$Svg$svgNamespace = A2(
-	_elm_lang$virtual_dom$VirtualDom$property,
-	'namespace',
-	_elm_lang$core$Json_Encode$string('http://www.w3.org/2000/svg'));
-var _elm_lang$svg$Svg$node = F3(
-	function (name, attributes, children) {
-		return A3(
-			_elm_lang$virtual_dom$VirtualDom$node,
-			name,
-			{ctor: '::', _0: _elm_lang$svg$Svg$svgNamespace, _1: attributes},
-			children);
-	});
-var _elm_lang$svg$Svg$svg = _elm_lang$svg$Svg$node('svg');
-var _elm_lang$svg$Svg$foreignObject = _elm_lang$svg$Svg$node('foreignObject');
-var _elm_lang$svg$Svg$animate = _elm_lang$svg$Svg$node('animate');
-var _elm_lang$svg$Svg$animateColor = _elm_lang$svg$Svg$node('animateColor');
-var _elm_lang$svg$Svg$animateMotion = _elm_lang$svg$Svg$node('animateMotion');
-var _elm_lang$svg$Svg$animateTransform = _elm_lang$svg$Svg$node('animateTransform');
-var _elm_lang$svg$Svg$mpath = _elm_lang$svg$Svg$node('mpath');
-var _elm_lang$svg$Svg$set = _elm_lang$svg$Svg$node('set');
-var _elm_lang$svg$Svg$a = _elm_lang$svg$Svg$node('a');
-var _elm_lang$svg$Svg$defs = _elm_lang$svg$Svg$node('defs');
-var _elm_lang$svg$Svg$g = _elm_lang$svg$Svg$node('g');
-var _elm_lang$svg$Svg$marker = _elm_lang$svg$Svg$node('marker');
-var _elm_lang$svg$Svg$mask = _elm_lang$svg$Svg$node('mask');
-var _elm_lang$svg$Svg$pattern = _elm_lang$svg$Svg$node('pattern');
-var _elm_lang$svg$Svg$switch = _elm_lang$svg$Svg$node('switch');
-var _elm_lang$svg$Svg$symbol = _elm_lang$svg$Svg$node('symbol');
-var _elm_lang$svg$Svg$desc = _elm_lang$svg$Svg$node('desc');
-var _elm_lang$svg$Svg$metadata = _elm_lang$svg$Svg$node('metadata');
-var _elm_lang$svg$Svg$title = _elm_lang$svg$Svg$node('title');
-var _elm_lang$svg$Svg$feBlend = _elm_lang$svg$Svg$node('feBlend');
-var _elm_lang$svg$Svg$feColorMatrix = _elm_lang$svg$Svg$node('feColorMatrix');
-var _elm_lang$svg$Svg$feComponentTransfer = _elm_lang$svg$Svg$node('feComponentTransfer');
-var _elm_lang$svg$Svg$feComposite = _elm_lang$svg$Svg$node('feComposite');
-var _elm_lang$svg$Svg$feConvolveMatrix = _elm_lang$svg$Svg$node('feConvolveMatrix');
-var _elm_lang$svg$Svg$feDiffuseLighting = _elm_lang$svg$Svg$node('feDiffuseLighting');
-var _elm_lang$svg$Svg$feDisplacementMap = _elm_lang$svg$Svg$node('feDisplacementMap');
-var _elm_lang$svg$Svg$feFlood = _elm_lang$svg$Svg$node('feFlood');
-var _elm_lang$svg$Svg$feFuncA = _elm_lang$svg$Svg$node('feFuncA');
-var _elm_lang$svg$Svg$feFuncB = _elm_lang$svg$Svg$node('feFuncB');
-var _elm_lang$svg$Svg$feFuncG = _elm_lang$svg$Svg$node('feFuncG');
-var _elm_lang$svg$Svg$feFuncR = _elm_lang$svg$Svg$node('feFuncR');
-var _elm_lang$svg$Svg$feGaussianBlur = _elm_lang$svg$Svg$node('feGaussianBlur');
-var _elm_lang$svg$Svg$feImage = _elm_lang$svg$Svg$node('feImage');
-var _elm_lang$svg$Svg$feMerge = _elm_lang$svg$Svg$node('feMerge');
-var _elm_lang$svg$Svg$feMergeNode = _elm_lang$svg$Svg$node('feMergeNode');
-var _elm_lang$svg$Svg$feMorphology = _elm_lang$svg$Svg$node('feMorphology');
-var _elm_lang$svg$Svg$feOffset = _elm_lang$svg$Svg$node('feOffset');
-var _elm_lang$svg$Svg$feSpecularLighting = _elm_lang$svg$Svg$node('feSpecularLighting');
-var _elm_lang$svg$Svg$feTile = _elm_lang$svg$Svg$node('feTile');
-var _elm_lang$svg$Svg$feTurbulence = _elm_lang$svg$Svg$node('feTurbulence');
-var _elm_lang$svg$Svg$font = _elm_lang$svg$Svg$node('font');
-var _elm_lang$svg$Svg$linearGradient = _elm_lang$svg$Svg$node('linearGradient');
-var _elm_lang$svg$Svg$radialGradient = _elm_lang$svg$Svg$node('radialGradient');
-var _elm_lang$svg$Svg$stop = _elm_lang$svg$Svg$node('stop');
-var _elm_lang$svg$Svg$circle = _elm_lang$svg$Svg$node('circle');
-var _elm_lang$svg$Svg$ellipse = _elm_lang$svg$Svg$node('ellipse');
-var _elm_lang$svg$Svg$image = _elm_lang$svg$Svg$node('image');
-var _elm_lang$svg$Svg$line = _elm_lang$svg$Svg$node('line');
-var _elm_lang$svg$Svg$path = _elm_lang$svg$Svg$node('path');
-var _elm_lang$svg$Svg$polygon = _elm_lang$svg$Svg$node('polygon');
-var _elm_lang$svg$Svg$polyline = _elm_lang$svg$Svg$node('polyline');
-var _elm_lang$svg$Svg$rect = _elm_lang$svg$Svg$node('rect');
-var _elm_lang$svg$Svg$use = _elm_lang$svg$Svg$node('use');
-var _elm_lang$svg$Svg$feDistantLight = _elm_lang$svg$Svg$node('feDistantLight');
-var _elm_lang$svg$Svg$fePointLight = _elm_lang$svg$Svg$node('fePointLight');
-var _elm_lang$svg$Svg$feSpotLight = _elm_lang$svg$Svg$node('feSpotLight');
-var _elm_lang$svg$Svg$altGlyph = _elm_lang$svg$Svg$node('altGlyph');
-var _elm_lang$svg$Svg$altGlyphDef = _elm_lang$svg$Svg$node('altGlyphDef');
-var _elm_lang$svg$Svg$altGlyphItem = _elm_lang$svg$Svg$node('altGlyphItem');
-var _elm_lang$svg$Svg$glyph = _elm_lang$svg$Svg$node('glyph');
-var _elm_lang$svg$Svg$glyphRef = _elm_lang$svg$Svg$node('glyphRef');
-var _elm_lang$svg$Svg$textPath = _elm_lang$svg$Svg$node('textPath');
-var _elm_lang$svg$Svg$text_ = _elm_lang$svg$Svg$node('text');
-var _elm_lang$svg$Svg$tref = _elm_lang$svg$Svg$node('tref');
-var _elm_lang$svg$Svg$tspan = _elm_lang$svg$Svg$node('tspan');
-var _elm_lang$svg$Svg$clipPath = _elm_lang$svg$Svg$node('clipPath');
-var _elm_lang$svg$Svg$colorProfile = _elm_lang$svg$Svg$node('colorProfile');
-var _elm_lang$svg$Svg$cursor = _elm_lang$svg$Svg$node('cursor');
-var _elm_lang$svg$Svg$filter = _elm_lang$svg$Svg$node('filter');
-var _elm_lang$svg$Svg$script = _elm_lang$svg$Svg$node('script');
-var _elm_lang$svg$Svg$style = _elm_lang$svg$Svg$node('style');
-var _elm_lang$svg$Svg$view = _elm_lang$svg$Svg$node('view');
-
-var _elm_lang$svg$Svg_Attributes$writingMode = _elm_lang$virtual_dom$VirtualDom$attribute('writing-mode');
-var _elm_lang$svg$Svg_Attributes$wordSpacing = _elm_lang$virtual_dom$VirtualDom$attribute('word-spacing');
-var _elm_lang$svg$Svg_Attributes$visibility = _elm_lang$virtual_dom$VirtualDom$attribute('visibility');
-var _elm_lang$svg$Svg_Attributes$unicodeBidi = _elm_lang$virtual_dom$VirtualDom$attribute('unicode-bidi');
-var _elm_lang$svg$Svg_Attributes$textRendering = _elm_lang$virtual_dom$VirtualDom$attribute('text-rendering');
-var _elm_lang$svg$Svg_Attributes$textDecoration = _elm_lang$virtual_dom$VirtualDom$attribute('text-decoration');
-var _elm_lang$svg$Svg_Attributes$textAnchor = _elm_lang$virtual_dom$VirtualDom$attribute('text-anchor');
-var _elm_lang$svg$Svg_Attributes$stroke = _elm_lang$virtual_dom$VirtualDom$attribute('stroke');
-var _elm_lang$svg$Svg_Attributes$strokeWidth = _elm_lang$virtual_dom$VirtualDom$attribute('stroke-width');
-var _elm_lang$svg$Svg_Attributes$strokeOpacity = _elm_lang$virtual_dom$VirtualDom$attribute('stroke-opacity');
-var _elm_lang$svg$Svg_Attributes$strokeMiterlimit = _elm_lang$virtual_dom$VirtualDom$attribute('stroke-miterlimit');
-var _elm_lang$svg$Svg_Attributes$strokeLinejoin = _elm_lang$virtual_dom$VirtualDom$attribute('stroke-linejoin');
-var _elm_lang$svg$Svg_Attributes$strokeLinecap = _elm_lang$virtual_dom$VirtualDom$attribute('stroke-linecap');
-var _elm_lang$svg$Svg_Attributes$strokeDashoffset = _elm_lang$virtual_dom$VirtualDom$attribute('stroke-dashoffset');
-var _elm_lang$svg$Svg_Attributes$strokeDasharray = _elm_lang$virtual_dom$VirtualDom$attribute('stroke-dasharray');
-var _elm_lang$svg$Svg_Attributes$stopOpacity = _elm_lang$virtual_dom$VirtualDom$attribute('stop-opacity');
-var _elm_lang$svg$Svg_Attributes$stopColor = _elm_lang$virtual_dom$VirtualDom$attribute('stop-color');
-var _elm_lang$svg$Svg_Attributes$shapeRendering = _elm_lang$virtual_dom$VirtualDom$attribute('shape-rendering');
-var _elm_lang$svg$Svg_Attributes$pointerEvents = _elm_lang$virtual_dom$VirtualDom$attribute('pointer-events');
-var _elm_lang$svg$Svg_Attributes$overflow = _elm_lang$virtual_dom$VirtualDom$attribute('overflow');
-var _elm_lang$svg$Svg_Attributes$opacity = _elm_lang$virtual_dom$VirtualDom$attribute('opacity');
-var _elm_lang$svg$Svg_Attributes$mask = _elm_lang$virtual_dom$VirtualDom$attribute('mask');
-var _elm_lang$svg$Svg_Attributes$markerStart = _elm_lang$virtual_dom$VirtualDom$attribute('marker-start');
-var _elm_lang$svg$Svg_Attributes$markerMid = _elm_lang$virtual_dom$VirtualDom$attribute('marker-mid');
-var _elm_lang$svg$Svg_Attributes$markerEnd = _elm_lang$virtual_dom$VirtualDom$attribute('marker-end');
-var _elm_lang$svg$Svg_Attributes$lightingColor = _elm_lang$virtual_dom$VirtualDom$attribute('lighting-color');
-var _elm_lang$svg$Svg_Attributes$letterSpacing = _elm_lang$virtual_dom$VirtualDom$attribute('letter-spacing');
-var _elm_lang$svg$Svg_Attributes$kerning = _elm_lang$virtual_dom$VirtualDom$attribute('kerning');
-var _elm_lang$svg$Svg_Attributes$imageRendering = _elm_lang$virtual_dom$VirtualDom$attribute('image-rendering');
-var _elm_lang$svg$Svg_Attributes$glyphOrientationVertical = _elm_lang$virtual_dom$VirtualDom$attribute('glyph-orientation-vertical');
-var _elm_lang$svg$Svg_Attributes$glyphOrientationHorizontal = _elm_lang$virtual_dom$VirtualDom$attribute('glyph-orientation-horizontal');
-var _elm_lang$svg$Svg_Attributes$fontWeight = _elm_lang$virtual_dom$VirtualDom$attribute('font-weight');
-var _elm_lang$svg$Svg_Attributes$fontVariant = _elm_lang$virtual_dom$VirtualDom$attribute('font-variant');
-var _elm_lang$svg$Svg_Attributes$fontStyle = _elm_lang$virtual_dom$VirtualDom$attribute('font-style');
-var _elm_lang$svg$Svg_Attributes$fontStretch = _elm_lang$virtual_dom$VirtualDom$attribute('font-stretch');
-var _elm_lang$svg$Svg_Attributes$fontSize = _elm_lang$virtual_dom$VirtualDom$attribute('font-size');
-var _elm_lang$svg$Svg_Attributes$fontSizeAdjust = _elm_lang$virtual_dom$VirtualDom$attribute('font-size-adjust');
-var _elm_lang$svg$Svg_Attributes$fontFamily = _elm_lang$virtual_dom$VirtualDom$attribute('font-family');
-var _elm_lang$svg$Svg_Attributes$floodOpacity = _elm_lang$virtual_dom$VirtualDom$attribute('flood-opacity');
-var _elm_lang$svg$Svg_Attributes$floodColor = _elm_lang$virtual_dom$VirtualDom$attribute('flood-color');
-var _elm_lang$svg$Svg_Attributes$filter = _elm_lang$virtual_dom$VirtualDom$attribute('filter');
-var _elm_lang$svg$Svg_Attributes$fill = _elm_lang$virtual_dom$VirtualDom$attribute('fill');
-var _elm_lang$svg$Svg_Attributes$fillRule = _elm_lang$virtual_dom$VirtualDom$attribute('fill-rule');
-var _elm_lang$svg$Svg_Attributes$fillOpacity = _elm_lang$virtual_dom$VirtualDom$attribute('fill-opacity');
-var _elm_lang$svg$Svg_Attributes$enableBackground = _elm_lang$virtual_dom$VirtualDom$attribute('enable-background');
-var _elm_lang$svg$Svg_Attributes$dominantBaseline = _elm_lang$virtual_dom$VirtualDom$attribute('dominant-baseline');
-var _elm_lang$svg$Svg_Attributes$display = _elm_lang$virtual_dom$VirtualDom$attribute('display');
-var _elm_lang$svg$Svg_Attributes$direction = _elm_lang$virtual_dom$VirtualDom$attribute('direction');
-var _elm_lang$svg$Svg_Attributes$cursor = _elm_lang$virtual_dom$VirtualDom$attribute('cursor');
-var _elm_lang$svg$Svg_Attributes$color = _elm_lang$virtual_dom$VirtualDom$attribute('color');
-var _elm_lang$svg$Svg_Attributes$colorRendering = _elm_lang$virtual_dom$VirtualDom$attribute('color-rendering');
-var _elm_lang$svg$Svg_Attributes$colorProfile = _elm_lang$virtual_dom$VirtualDom$attribute('color-profile');
-var _elm_lang$svg$Svg_Attributes$colorInterpolation = _elm_lang$virtual_dom$VirtualDom$attribute('color-interpolation');
-var _elm_lang$svg$Svg_Attributes$colorInterpolationFilters = _elm_lang$virtual_dom$VirtualDom$attribute('color-interpolation-filters');
-var _elm_lang$svg$Svg_Attributes$clip = _elm_lang$virtual_dom$VirtualDom$attribute('clip');
-var _elm_lang$svg$Svg_Attributes$clipRule = _elm_lang$virtual_dom$VirtualDom$attribute('clip-rule');
-var _elm_lang$svg$Svg_Attributes$clipPath = _elm_lang$virtual_dom$VirtualDom$attribute('clip-path');
-var _elm_lang$svg$Svg_Attributes$baselineShift = _elm_lang$virtual_dom$VirtualDom$attribute('baseline-shift');
-var _elm_lang$svg$Svg_Attributes$alignmentBaseline = _elm_lang$virtual_dom$VirtualDom$attribute('alignment-baseline');
-var _elm_lang$svg$Svg_Attributes$zoomAndPan = _elm_lang$virtual_dom$VirtualDom$attribute('zoomAndPan');
-var _elm_lang$svg$Svg_Attributes$z = _elm_lang$virtual_dom$VirtualDom$attribute('z');
-var _elm_lang$svg$Svg_Attributes$yChannelSelector = _elm_lang$virtual_dom$VirtualDom$attribute('yChannelSelector');
-var _elm_lang$svg$Svg_Attributes$y2 = _elm_lang$virtual_dom$VirtualDom$attribute('y2');
-var _elm_lang$svg$Svg_Attributes$y1 = _elm_lang$virtual_dom$VirtualDom$attribute('y1');
-var _elm_lang$svg$Svg_Attributes$y = _elm_lang$virtual_dom$VirtualDom$attribute('y');
-var _elm_lang$svg$Svg_Attributes$xmlSpace = A2(_elm_lang$virtual_dom$VirtualDom$attributeNS, 'http://www.w3.org/XML/1998/namespace', 'xml:space');
-var _elm_lang$svg$Svg_Attributes$xmlLang = A2(_elm_lang$virtual_dom$VirtualDom$attributeNS, 'http://www.w3.org/XML/1998/namespace', 'xml:lang');
-var _elm_lang$svg$Svg_Attributes$xmlBase = A2(_elm_lang$virtual_dom$VirtualDom$attributeNS, 'http://www.w3.org/XML/1998/namespace', 'xml:base');
-var _elm_lang$svg$Svg_Attributes$xlinkType = A2(_elm_lang$virtual_dom$VirtualDom$attributeNS, 'http://www.w3.org/1999/xlink', 'xlink:type');
-var _elm_lang$svg$Svg_Attributes$xlinkTitle = A2(_elm_lang$virtual_dom$VirtualDom$attributeNS, 'http://www.w3.org/1999/xlink', 'xlink:title');
-var _elm_lang$svg$Svg_Attributes$xlinkShow = A2(_elm_lang$virtual_dom$VirtualDom$attributeNS, 'http://www.w3.org/1999/xlink', 'xlink:show');
-var _elm_lang$svg$Svg_Attributes$xlinkRole = A2(_elm_lang$virtual_dom$VirtualDom$attributeNS, 'http://www.w3.org/1999/xlink', 'xlink:role');
-var _elm_lang$svg$Svg_Attributes$xlinkHref = A2(_elm_lang$virtual_dom$VirtualDom$attributeNS, 'http://www.w3.org/1999/xlink', 'xlink:href');
-var _elm_lang$svg$Svg_Attributes$xlinkArcrole = A2(_elm_lang$virtual_dom$VirtualDom$attributeNS, 'http://www.w3.org/1999/xlink', 'xlink:arcrole');
-var _elm_lang$svg$Svg_Attributes$xlinkActuate = A2(_elm_lang$virtual_dom$VirtualDom$attributeNS, 'http://www.w3.org/1999/xlink', 'xlink:actuate');
-var _elm_lang$svg$Svg_Attributes$xChannelSelector = _elm_lang$virtual_dom$VirtualDom$attribute('xChannelSelector');
-var _elm_lang$svg$Svg_Attributes$x2 = _elm_lang$virtual_dom$VirtualDom$attribute('x2');
-var _elm_lang$svg$Svg_Attributes$x1 = _elm_lang$virtual_dom$VirtualDom$attribute('x1');
-var _elm_lang$svg$Svg_Attributes$xHeight = _elm_lang$virtual_dom$VirtualDom$attribute('x-height');
-var _elm_lang$svg$Svg_Attributes$x = _elm_lang$virtual_dom$VirtualDom$attribute('x');
-var _elm_lang$svg$Svg_Attributes$widths = _elm_lang$virtual_dom$VirtualDom$attribute('widths');
-var _elm_lang$svg$Svg_Attributes$width = _elm_lang$virtual_dom$VirtualDom$attribute('width');
-var _elm_lang$svg$Svg_Attributes$viewTarget = _elm_lang$virtual_dom$VirtualDom$attribute('viewTarget');
-var _elm_lang$svg$Svg_Attributes$viewBox = _elm_lang$virtual_dom$VirtualDom$attribute('viewBox');
-var _elm_lang$svg$Svg_Attributes$vertOriginY = _elm_lang$virtual_dom$VirtualDom$attribute('vert-origin-y');
-var _elm_lang$svg$Svg_Attributes$vertOriginX = _elm_lang$virtual_dom$VirtualDom$attribute('vert-origin-x');
-var _elm_lang$svg$Svg_Attributes$vertAdvY = _elm_lang$virtual_dom$VirtualDom$attribute('vert-adv-y');
-var _elm_lang$svg$Svg_Attributes$version = _elm_lang$virtual_dom$VirtualDom$attribute('version');
-var _elm_lang$svg$Svg_Attributes$values = _elm_lang$virtual_dom$VirtualDom$attribute('values');
-var _elm_lang$svg$Svg_Attributes$vMathematical = _elm_lang$virtual_dom$VirtualDom$attribute('v-mathematical');
-var _elm_lang$svg$Svg_Attributes$vIdeographic = _elm_lang$virtual_dom$VirtualDom$attribute('v-ideographic');
-var _elm_lang$svg$Svg_Attributes$vHanging = _elm_lang$virtual_dom$VirtualDom$attribute('v-hanging');
-var _elm_lang$svg$Svg_Attributes$vAlphabetic = _elm_lang$virtual_dom$VirtualDom$attribute('v-alphabetic');
-var _elm_lang$svg$Svg_Attributes$unitsPerEm = _elm_lang$virtual_dom$VirtualDom$attribute('units-per-em');
-var _elm_lang$svg$Svg_Attributes$unicodeRange = _elm_lang$virtual_dom$VirtualDom$attribute('unicode-range');
-var _elm_lang$svg$Svg_Attributes$unicode = _elm_lang$virtual_dom$VirtualDom$attribute('unicode');
-var _elm_lang$svg$Svg_Attributes$underlineThickness = _elm_lang$virtual_dom$VirtualDom$attribute('underline-thickness');
-var _elm_lang$svg$Svg_Attributes$underlinePosition = _elm_lang$virtual_dom$VirtualDom$attribute('underline-position');
-var _elm_lang$svg$Svg_Attributes$u2 = _elm_lang$virtual_dom$VirtualDom$attribute('u2');
-var _elm_lang$svg$Svg_Attributes$u1 = _elm_lang$virtual_dom$VirtualDom$attribute('u1');
-var _elm_lang$svg$Svg_Attributes$type_ = _elm_lang$virtual_dom$VirtualDom$attribute('type');
-var _elm_lang$svg$Svg_Attributes$transform = _elm_lang$virtual_dom$VirtualDom$attribute('transform');
-var _elm_lang$svg$Svg_Attributes$to = _elm_lang$virtual_dom$VirtualDom$attribute('to');
-var _elm_lang$svg$Svg_Attributes$title = _elm_lang$virtual_dom$VirtualDom$attribute('title');
-var _elm_lang$svg$Svg_Attributes$textLength = _elm_lang$virtual_dom$VirtualDom$attribute('textLength');
-var _elm_lang$svg$Svg_Attributes$targetY = _elm_lang$virtual_dom$VirtualDom$attribute('targetY');
-var _elm_lang$svg$Svg_Attributes$targetX = _elm_lang$virtual_dom$VirtualDom$attribute('targetX');
-var _elm_lang$svg$Svg_Attributes$target = _elm_lang$virtual_dom$VirtualDom$attribute('target');
-var _elm_lang$svg$Svg_Attributes$tableValues = _elm_lang$virtual_dom$VirtualDom$attribute('tableValues');
-var _elm_lang$svg$Svg_Attributes$systemLanguage = _elm_lang$virtual_dom$VirtualDom$attribute('systemLanguage');
-var _elm_lang$svg$Svg_Attributes$surfaceScale = _elm_lang$virtual_dom$VirtualDom$attribute('surfaceScale');
-var _elm_lang$svg$Svg_Attributes$style = _elm_lang$virtual_dom$VirtualDom$attribute('style');
-var _elm_lang$svg$Svg_Attributes$string = _elm_lang$virtual_dom$VirtualDom$attribute('string');
-var _elm_lang$svg$Svg_Attributes$strikethroughThickness = _elm_lang$virtual_dom$VirtualDom$attribute('strikethrough-thickness');
-var _elm_lang$svg$Svg_Attributes$strikethroughPosition = _elm_lang$virtual_dom$VirtualDom$attribute('strikethrough-position');
-var _elm_lang$svg$Svg_Attributes$stitchTiles = _elm_lang$virtual_dom$VirtualDom$attribute('stitchTiles');
-var _elm_lang$svg$Svg_Attributes$stemv = _elm_lang$virtual_dom$VirtualDom$attribute('stemv');
-var _elm_lang$svg$Svg_Attributes$stemh = _elm_lang$virtual_dom$VirtualDom$attribute('stemh');
-var _elm_lang$svg$Svg_Attributes$stdDeviation = _elm_lang$virtual_dom$VirtualDom$attribute('stdDeviation');
-var _elm_lang$svg$Svg_Attributes$startOffset = _elm_lang$virtual_dom$VirtualDom$attribute('startOffset');
-var _elm_lang$svg$Svg_Attributes$spreadMethod = _elm_lang$virtual_dom$VirtualDom$attribute('spreadMethod');
-var _elm_lang$svg$Svg_Attributes$speed = _elm_lang$virtual_dom$VirtualDom$attribute('speed');
-var _elm_lang$svg$Svg_Attributes$specularExponent = _elm_lang$virtual_dom$VirtualDom$attribute('specularExponent');
-var _elm_lang$svg$Svg_Attributes$specularConstant = _elm_lang$virtual_dom$VirtualDom$attribute('specularConstant');
-var _elm_lang$svg$Svg_Attributes$spacing = _elm_lang$virtual_dom$VirtualDom$attribute('spacing');
-var _elm_lang$svg$Svg_Attributes$slope = _elm_lang$virtual_dom$VirtualDom$attribute('slope');
-var _elm_lang$svg$Svg_Attributes$seed = _elm_lang$virtual_dom$VirtualDom$attribute('seed');
-var _elm_lang$svg$Svg_Attributes$scale = _elm_lang$virtual_dom$VirtualDom$attribute('scale');
-var _elm_lang$svg$Svg_Attributes$ry = _elm_lang$virtual_dom$VirtualDom$attribute('ry');
-var _elm_lang$svg$Svg_Attributes$rx = _elm_lang$virtual_dom$VirtualDom$attribute('rx');
-var _elm_lang$svg$Svg_Attributes$rotate = _elm_lang$virtual_dom$VirtualDom$attribute('rotate');
-var _elm_lang$svg$Svg_Attributes$result = _elm_lang$virtual_dom$VirtualDom$attribute('result');
-var _elm_lang$svg$Svg_Attributes$restart = _elm_lang$virtual_dom$VirtualDom$attribute('restart');
-var _elm_lang$svg$Svg_Attributes$requiredFeatures = _elm_lang$virtual_dom$VirtualDom$attribute('requiredFeatures');
-var _elm_lang$svg$Svg_Attributes$requiredExtensions = _elm_lang$virtual_dom$VirtualDom$attribute('requiredExtensions');
-var _elm_lang$svg$Svg_Attributes$repeatDur = _elm_lang$virtual_dom$VirtualDom$attribute('repeatDur');
-var _elm_lang$svg$Svg_Attributes$repeatCount = _elm_lang$virtual_dom$VirtualDom$attribute('repeatCount');
-var _elm_lang$svg$Svg_Attributes$renderingIntent = _elm_lang$virtual_dom$VirtualDom$attribute('rendering-intent');
-var _elm_lang$svg$Svg_Attributes$refY = _elm_lang$virtual_dom$VirtualDom$attribute('refY');
-var _elm_lang$svg$Svg_Attributes$refX = _elm_lang$virtual_dom$VirtualDom$attribute('refX');
-var _elm_lang$svg$Svg_Attributes$radius = _elm_lang$virtual_dom$VirtualDom$attribute('radius');
-var _elm_lang$svg$Svg_Attributes$r = _elm_lang$virtual_dom$VirtualDom$attribute('r');
-var _elm_lang$svg$Svg_Attributes$primitiveUnits = _elm_lang$virtual_dom$VirtualDom$attribute('primitiveUnits');
-var _elm_lang$svg$Svg_Attributes$preserveAspectRatio = _elm_lang$virtual_dom$VirtualDom$attribute('preserveAspectRatio');
-var _elm_lang$svg$Svg_Attributes$preserveAlpha = _elm_lang$virtual_dom$VirtualDom$attribute('preserveAlpha');
-var _elm_lang$svg$Svg_Attributes$pointsAtZ = _elm_lang$virtual_dom$VirtualDom$attribute('pointsAtZ');
-var _elm_lang$svg$Svg_Attributes$pointsAtY = _elm_lang$virtual_dom$VirtualDom$attribute('pointsAtY');
-var _elm_lang$svg$Svg_Attributes$pointsAtX = _elm_lang$virtual_dom$VirtualDom$attribute('pointsAtX');
-var _elm_lang$svg$Svg_Attributes$points = _elm_lang$virtual_dom$VirtualDom$attribute('points');
-var _elm_lang$svg$Svg_Attributes$pointOrder = _elm_lang$virtual_dom$VirtualDom$attribute('point-order');
-var _elm_lang$svg$Svg_Attributes$patternUnits = _elm_lang$virtual_dom$VirtualDom$attribute('patternUnits');
-var _elm_lang$svg$Svg_Attributes$patternTransform = _elm_lang$virtual_dom$VirtualDom$attribute('patternTransform');
-var _elm_lang$svg$Svg_Attributes$patternContentUnits = _elm_lang$virtual_dom$VirtualDom$attribute('patternContentUnits');
-var _elm_lang$svg$Svg_Attributes$pathLength = _elm_lang$virtual_dom$VirtualDom$attribute('pathLength');
-var _elm_lang$svg$Svg_Attributes$path = _elm_lang$virtual_dom$VirtualDom$attribute('path');
-var _elm_lang$svg$Svg_Attributes$panose1 = _elm_lang$virtual_dom$VirtualDom$attribute('panose-1');
-var _elm_lang$svg$Svg_Attributes$overlineThickness = _elm_lang$virtual_dom$VirtualDom$attribute('overline-thickness');
-var _elm_lang$svg$Svg_Attributes$overlinePosition = _elm_lang$virtual_dom$VirtualDom$attribute('overline-position');
-var _elm_lang$svg$Svg_Attributes$origin = _elm_lang$virtual_dom$VirtualDom$attribute('origin');
-var _elm_lang$svg$Svg_Attributes$orientation = _elm_lang$virtual_dom$VirtualDom$attribute('orientation');
-var _elm_lang$svg$Svg_Attributes$orient = _elm_lang$virtual_dom$VirtualDom$attribute('orient');
-var _elm_lang$svg$Svg_Attributes$order = _elm_lang$virtual_dom$VirtualDom$attribute('order');
-var _elm_lang$svg$Svg_Attributes$operator = _elm_lang$virtual_dom$VirtualDom$attribute('operator');
-var _elm_lang$svg$Svg_Attributes$offset = _elm_lang$virtual_dom$VirtualDom$attribute('offset');
-var _elm_lang$svg$Svg_Attributes$numOctaves = _elm_lang$virtual_dom$VirtualDom$attribute('numOctaves');
-var _elm_lang$svg$Svg_Attributes$name = _elm_lang$virtual_dom$VirtualDom$attribute('name');
-var _elm_lang$svg$Svg_Attributes$mode = _elm_lang$virtual_dom$VirtualDom$attribute('mode');
-var _elm_lang$svg$Svg_Attributes$min = _elm_lang$virtual_dom$VirtualDom$attribute('min');
-var _elm_lang$svg$Svg_Attributes$method = _elm_lang$virtual_dom$VirtualDom$attribute('method');
-var _elm_lang$svg$Svg_Attributes$media = _elm_lang$virtual_dom$VirtualDom$attribute('media');
-var _elm_lang$svg$Svg_Attributes$max = _elm_lang$virtual_dom$VirtualDom$attribute('max');
-var _elm_lang$svg$Svg_Attributes$mathematical = _elm_lang$virtual_dom$VirtualDom$attribute('mathematical');
-var _elm_lang$svg$Svg_Attributes$maskUnits = _elm_lang$virtual_dom$VirtualDom$attribute('maskUnits');
-var _elm_lang$svg$Svg_Attributes$maskContentUnits = _elm_lang$virtual_dom$VirtualDom$attribute('maskContentUnits');
-var _elm_lang$svg$Svg_Attributes$markerWidth = _elm_lang$virtual_dom$VirtualDom$attribute('markerWidth');
-var _elm_lang$svg$Svg_Attributes$markerUnits = _elm_lang$virtual_dom$VirtualDom$attribute('markerUnits');
-var _elm_lang$svg$Svg_Attributes$markerHeight = _elm_lang$virtual_dom$VirtualDom$attribute('markerHeight');
-var _elm_lang$svg$Svg_Attributes$local = _elm_lang$virtual_dom$VirtualDom$attribute('local');
-var _elm_lang$svg$Svg_Attributes$limitingConeAngle = _elm_lang$virtual_dom$VirtualDom$attribute('limitingConeAngle');
-var _elm_lang$svg$Svg_Attributes$lengthAdjust = _elm_lang$virtual_dom$VirtualDom$attribute('lengthAdjust');
-var _elm_lang$svg$Svg_Attributes$lang = _elm_lang$virtual_dom$VirtualDom$attribute('lang');
-var _elm_lang$svg$Svg_Attributes$keyTimes = _elm_lang$virtual_dom$VirtualDom$attribute('keyTimes');
-var _elm_lang$svg$Svg_Attributes$keySplines = _elm_lang$virtual_dom$VirtualDom$attribute('keySplines');
-var _elm_lang$svg$Svg_Attributes$keyPoints = _elm_lang$virtual_dom$VirtualDom$attribute('keyPoints');
-var _elm_lang$svg$Svg_Attributes$kernelUnitLength = _elm_lang$virtual_dom$VirtualDom$attribute('kernelUnitLength');
-var _elm_lang$svg$Svg_Attributes$kernelMatrix = _elm_lang$virtual_dom$VirtualDom$attribute('kernelMatrix');
-var _elm_lang$svg$Svg_Attributes$k4 = _elm_lang$virtual_dom$VirtualDom$attribute('k4');
-var _elm_lang$svg$Svg_Attributes$k3 = _elm_lang$virtual_dom$VirtualDom$attribute('k3');
-var _elm_lang$svg$Svg_Attributes$k2 = _elm_lang$virtual_dom$VirtualDom$attribute('k2');
-var _elm_lang$svg$Svg_Attributes$k1 = _elm_lang$virtual_dom$VirtualDom$attribute('k1');
-var _elm_lang$svg$Svg_Attributes$k = _elm_lang$virtual_dom$VirtualDom$attribute('k');
-var _elm_lang$svg$Svg_Attributes$intercept = _elm_lang$virtual_dom$VirtualDom$attribute('intercept');
-var _elm_lang$svg$Svg_Attributes$in2 = _elm_lang$virtual_dom$VirtualDom$attribute('in2');
-var _elm_lang$svg$Svg_Attributes$in_ = _elm_lang$virtual_dom$VirtualDom$attribute('in');
-var _elm_lang$svg$Svg_Attributes$ideographic = _elm_lang$virtual_dom$VirtualDom$attribute('ideographic');
-var _elm_lang$svg$Svg_Attributes$id = _elm_lang$virtual_dom$VirtualDom$attribute('id');
-var _elm_lang$svg$Svg_Attributes$horizOriginY = _elm_lang$virtual_dom$VirtualDom$attribute('horiz-origin-y');
-var _elm_lang$svg$Svg_Attributes$horizOriginX = _elm_lang$virtual_dom$VirtualDom$attribute('horiz-origin-x');
-var _elm_lang$svg$Svg_Attributes$horizAdvX = _elm_lang$virtual_dom$VirtualDom$attribute('horiz-adv-x');
-var _elm_lang$svg$Svg_Attributes$height = _elm_lang$virtual_dom$VirtualDom$attribute('height');
-var _elm_lang$svg$Svg_Attributes$hanging = _elm_lang$virtual_dom$VirtualDom$attribute('hanging');
-var _elm_lang$svg$Svg_Attributes$gradientUnits = _elm_lang$virtual_dom$VirtualDom$attribute('gradientUnits');
-var _elm_lang$svg$Svg_Attributes$gradientTransform = _elm_lang$virtual_dom$VirtualDom$attribute('gradientTransform');
-var _elm_lang$svg$Svg_Attributes$glyphRef = _elm_lang$virtual_dom$VirtualDom$attribute('glyphRef');
-var _elm_lang$svg$Svg_Attributes$glyphName = _elm_lang$virtual_dom$VirtualDom$attribute('glyph-name');
-var _elm_lang$svg$Svg_Attributes$g2 = _elm_lang$virtual_dom$VirtualDom$attribute('g2');
-var _elm_lang$svg$Svg_Attributes$g1 = _elm_lang$virtual_dom$VirtualDom$attribute('g1');
-var _elm_lang$svg$Svg_Attributes$fy = _elm_lang$virtual_dom$VirtualDom$attribute('fy');
-var _elm_lang$svg$Svg_Attributes$fx = _elm_lang$virtual_dom$VirtualDom$attribute('fx');
-var _elm_lang$svg$Svg_Attributes$from = _elm_lang$virtual_dom$VirtualDom$attribute('from');
-var _elm_lang$svg$Svg_Attributes$format = _elm_lang$virtual_dom$VirtualDom$attribute('format');
-var _elm_lang$svg$Svg_Attributes$filterUnits = _elm_lang$virtual_dom$VirtualDom$attribute('filterUnits');
-var _elm_lang$svg$Svg_Attributes$filterRes = _elm_lang$virtual_dom$VirtualDom$attribute('filterRes');
-var _elm_lang$svg$Svg_Attributes$externalResourcesRequired = _elm_lang$virtual_dom$VirtualDom$attribute('externalResourcesRequired');
-var _elm_lang$svg$Svg_Attributes$exponent = _elm_lang$virtual_dom$VirtualDom$attribute('exponent');
-var _elm_lang$svg$Svg_Attributes$end = _elm_lang$virtual_dom$VirtualDom$attribute('end');
-var _elm_lang$svg$Svg_Attributes$elevation = _elm_lang$virtual_dom$VirtualDom$attribute('elevation');
-var _elm_lang$svg$Svg_Attributes$edgeMode = _elm_lang$virtual_dom$VirtualDom$attribute('edgeMode');
-var _elm_lang$svg$Svg_Attributes$dy = _elm_lang$virtual_dom$VirtualDom$attribute('dy');
-var _elm_lang$svg$Svg_Attributes$dx = _elm_lang$virtual_dom$VirtualDom$attribute('dx');
-var _elm_lang$svg$Svg_Attributes$dur = _elm_lang$virtual_dom$VirtualDom$attribute('dur');
-var _elm_lang$svg$Svg_Attributes$divisor = _elm_lang$virtual_dom$VirtualDom$attribute('divisor');
-var _elm_lang$svg$Svg_Attributes$diffuseConstant = _elm_lang$virtual_dom$VirtualDom$attribute('diffuseConstant');
-var _elm_lang$svg$Svg_Attributes$descent = _elm_lang$virtual_dom$VirtualDom$attribute('descent');
-var _elm_lang$svg$Svg_Attributes$decelerate = _elm_lang$virtual_dom$VirtualDom$attribute('decelerate');
-var _elm_lang$svg$Svg_Attributes$d = _elm_lang$virtual_dom$VirtualDom$attribute('d');
-var _elm_lang$svg$Svg_Attributes$cy = _elm_lang$virtual_dom$VirtualDom$attribute('cy');
-var _elm_lang$svg$Svg_Attributes$cx = _elm_lang$virtual_dom$VirtualDom$attribute('cx');
-var _elm_lang$svg$Svg_Attributes$contentStyleType = _elm_lang$virtual_dom$VirtualDom$attribute('contentStyleType');
-var _elm_lang$svg$Svg_Attributes$contentScriptType = _elm_lang$virtual_dom$VirtualDom$attribute('contentScriptType');
-var _elm_lang$svg$Svg_Attributes$clipPathUnits = _elm_lang$virtual_dom$VirtualDom$attribute('clipPathUnits');
-var _elm_lang$svg$Svg_Attributes$class = _elm_lang$virtual_dom$VirtualDom$attribute('class');
-var _elm_lang$svg$Svg_Attributes$capHeight = _elm_lang$virtual_dom$VirtualDom$attribute('cap-height');
-var _elm_lang$svg$Svg_Attributes$calcMode = _elm_lang$virtual_dom$VirtualDom$attribute('calcMode');
-var _elm_lang$svg$Svg_Attributes$by = _elm_lang$virtual_dom$VirtualDom$attribute('by');
-var _elm_lang$svg$Svg_Attributes$bias = _elm_lang$virtual_dom$VirtualDom$attribute('bias');
-var _elm_lang$svg$Svg_Attributes$begin = _elm_lang$virtual_dom$VirtualDom$attribute('begin');
-var _elm_lang$svg$Svg_Attributes$bbox = _elm_lang$virtual_dom$VirtualDom$attribute('bbox');
-var _elm_lang$svg$Svg_Attributes$baseProfile = _elm_lang$virtual_dom$VirtualDom$attribute('baseProfile');
-var _elm_lang$svg$Svg_Attributes$baseFrequency = _elm_lang$virtual_dom$VirtualDom$attribute('baseFrequency');
-var _elm_lang$svg$Svg_Attributes$azimuth = _elm_lang$virtual_dom$VirtualDom$attribute('azimuth');
-var _elm_lang$svg$Svg_Attributes$autoReverse = _elm_lang$virtual_dom$VirtualDom$attribute('autoReverse');
-var _elm_lang$svg$Svg_Attributes$attributeType = _elm_lang$virtual_dom$VirtualDom$attribute('attributeType');
-var _elm_lang$svg$Svg_Attributes$attributeName = _elm_lang$virtual_dom$VirtualDom$attribute('attributeName');
-var _elm_lang$svg$Svg_Attributes$ascent = _elm_lang$virtual_dom$VirtualDom$attribute('ascent');
-var _elm_lang$svg$Svg_Attributes$arabicForm = _elm_lang$virtual_dom$VirtualDom$attribute('arabic-form');
-var _elm_lang$svg$Svg_Attributes$amplitude = _elm_lang$virtual_dom$VirtualDom$attribute('amplitude');
-var _elm_lang$svg$Svg_Attributes$allowReorder = _elm_lang$virtual_dom$VirtualDom$attribute('allowReorder');
-var _elm_lang$svg$Svg_Attributes$alphabetic = _elm_lang$virtual_dom$VirtualDom$attribute('alphabetic');
-var _elm_lang$svg$Svg_Attributes$additive = _elm_lang$virtual_dom$VirtualDom$attribute('additive');
-var _elm_lang$svg$Svg_Attributes$accumulate = _elm_lang$virtual_dom$VirtualDom$attribute('accumulate');
-var _elm_lang$svg$Svg_Attributes$accelerate = _elm_lang$virtual_dom$VirtualDom$attribute('accelerate');
-var _elm_lang$svg$Svg_Attributes$accentHeight = _elm_lang$virtual_dom$VirtualDom$attribute('accent-height');
-
-var _abadi199$datetimepicker$DateTimePicker_Svg$arrow = function (orientation) {
-	var rotation = function () {
-		var _p0 = orientation;
-		switch (_p0.ctor) {
-			case 'Right':
-				return '0';
-			case 'Left':
-				return '180';
-			case 'Down':
-				return '90';
-			default:
-				return '270';
-		}
-	}();
-	return A2(
-		_elm_lang$svg$Svg$svg,
-		{
-			ctor: '::',
-			_0: _elm_lang$svg$Svg_Attributes$width('8'),
-			_1: {
-				ctor: '::',
-				_0: _elm_lang$svg$Svg_Attributes$height('12'),
-				_1: {
-					ctor: '::',
-					_0: _elm_lang$svg$Svg_Attributes$viewBox('0 0 16 16'),
-					_1: {
-						ctor: '::',
-						_0: _elm_lang$svg$Svg_Attributes$style(
-							A2(
-								_elm_lang$core$Basics_ops['++'],
-								'transform: rotate(',
-								A2(_elm_lang$core$Basics_ops['++'], rotation, 'deg);'))),
-						_1: {ctor: '[]'}
-					}
-				}
-			}
-		},
-		{
-			ctor: '::',
-			_0: A2(
-				_elm_lang$svg$Svg$polygon,
-				{
-					ctor: '::',
-					_0: _elm_lang$svg$Svg_Attributes$points('0 0, 0 20, 16 10'),
-					_1: {ctor: '[]'}
-				},
-				{ctor: '[]'}),
-			_1: {ctor: '[]'}
-		});
-};
-var _abadi199$datetimepicker$DateTimePicker_Svg$Right = {ctor: 'Right'};
-var _abadi199$datetimepicker$DateTimePicker_Svg$rightArrow = _abadi199$datetimepicker$DateTimePicker_Svg$arrow(_abadi199$datetimepicker$DateTimePicker_Svg$Right);
-var _abadi199$datetimepicker$DateTimePicker_Svg$Left = {ctor: 'Left'};
-var _abadi199$datetimepicker$DateTimePicker_Svg$leftArrow = _abadi199$datetimepicker$DateTimePicker_Svg$arrow(_abadi199$datetimepicker$DateTimePicker_Svg$Left);
-var _abadi199$datetimepicker$DateTimePicker_Svg$Down = {ctor: 'Down'};
-var _abadi199$datetimepicker$DateTimePicker_Svg$downArrow = _abadi199$datetimepicker$DateTimePicker_Svg$arrow(_abadi199$datetimepicker$DateTimePicker_Svg$Down);
-var _abadi199$datetimepicker$DateTimePicker_Svg$Up = {ctor: 'Up'};
-var _abadi199$datetimepicker$DateTimePicker_Svg$upArrow = _abadi199$datetimepicker$DateTimePicker_Svg$arrow(_abadi199$datetimepicker$DateTimePicker_Svg$Up);
-
-var _abadi199$datetimepicker$DateTimePicker_DateUtils$toMillitary = F2(
-	function (hour, amPm) {
-		var _p0 = {ctor: '_Tuple2', _0: hour, _1: amPm};
-		_v0_3:
-		do {
-			switch (_p0._1) {
-				case 'AM':
-					if (_p0._0 === 12) {
-						return 0;
-					} else {
-						break _v0_3;
-					}
-				case 'PM':
-					if (_p0._0 === 12) {
-						return 12;
-					} else {
-						return hour + 12;
-					}
-				default:
-					break _v0_3;
-			}
-		} while(false);
-		return hour;
-	});
-var _abadi199$datetimepicker$DateTimePicker_DateUtils$fromMillitaryAmPm = function (hour) {
-	var _p1 = hour;
-	switch (_p1) {
-		case 12:
-			return 'PM';
-		case 0:
-			return 'AM';
-		default:
-			return (_elm_lang$core$Native_Utils.cmp(hour, 12) > -1) ? 'PM' : 'AM';
-	}
-};
-var _abadi199$datetimepicker$DateTimePicker_DateUtils$fromMillitaryHour = function (hour) {
-	var _p2 = hour;
-	switch (_p2) {
-		case 12:
-			return 12;
-		case 0:
-			return 12;
-		default:
-			return A2(_elm_lang$core$Basics_ops['%'], hour, 12);
-	}
-};
-var _abadi199$datetimepicker$DateTimePicker_DateUtils$padding = function (str) {
-	return _elm_lang$core$Native_Utils.eq(
-		_elm_lang$core$String$length(str),
-		0) ? '00' : (_elm_lang$core$Native_Utils.eq(
-		_elm_lang$core$String$length(str),
-		1) ? A2(_elm_lang$core$Basics_ops['++'], '0', str) : str);
-};
-var _abadi199$datetimepicker$DateTimePicker_DateUtils$setTime = F4(
-	function (date, hour, minute, amPm) {
-		return A7(
-			_rluiten$elm_date_extra$Date_Extra_Create$dateFromFields,
-			_elm_lang$core$Date$year(date),
-			_elm_lang$core$Date$month(date),
-			_elm_lang$core$Date$day(date),
-			A2(_abadi199$datetimepicker$DateTimePicker_DateUtils$toMillitary, hour, amPm),
-			minute,
-			0,
-			0);
-	});
-var _abadi199$datetimepicker$DateTimePicker_DateUtils$toTime = F3(
-	function (hour, minute, amPm) {
-		return A4(
-			_abadi199$datetimepicker$DateTimePicker_DateUtils$setTime,
-			_elm_lang$core$Date$fromTime(0),
-			hour,
-			minute,
-			amPm);
-	});
-var _abadi199$datetimepicker$DateTimePicker_DateUtils$toDateTime = F5(
-	function (year, month, day, hour, minute) {
-		var _p3 = day.monthType;
-		switch (_p3.ctor) {
-			case 'Current':
-				return A7(_rluiten$elm_date_extra$Date_Extra_Create$dateFromFields, year, month, day.day, hour, minute, 0, 0);
-			case 'Previous':
-				var previousMonth = _rluiten$elm_date_extra$Date_Extra_Core$lastOfPrevMonthDate(
-					A7(_rluiten$elm_date_extra$Date_Extra_Create$dateFromFields, year, month, day.day, hour, minute, 0, 0));
-				return A7(
-					_rluiten$elm_date_extra$Date_Extra_Create$dateFromFields,
-					_elm_lang$core$Date$year(previousMonth),
-					_elm_lang$core$Date$month(previousMonth),
-					day.day,
-					hour,
-					minute,
-					0,
-					0);
-			default:
-				var nextMonth = _rluiten$elm_date_extra$Date_Extra_Core$firstOfNextMonthDate(
-					A7(_rluiten$elm_date_extra$Date_Extra_Create$dateFromFields, year, month, day.day, hour, minute, 0, 0));
-				return A7(
-					_rluiten$elm_date_extra$Date_Extra_Create$dateFromFields,
-					_elm_lang$core$Date$year(nextMonth),
-					_elm_lang$core$Date$month(nextMonth),
-					day.day,
-					hour,
-					minute,
-					0,
-					0);
-		}
-	});
-var _abadi199$datetimepicker$DateTimePicker_DateUtils$toDate = F3(
-	function (year, month, day) {
-		return A5(_abadi199$datetimepicker$DateTimePicker_DateUtils$toDateTime, year, month, day, 0, 0);
-	});
-var _abadi199$datetimepicker$DateTimePicker_DateUtils$calculateNumberOfDaysForPreviousMonth = function (firstDayInInt) {
-	return _elm_lang$core$Native_Utils.eq(firstDayInInt, 0) ? 7 : firstDayInInt;
-};
-var _abadi199$datetimepicker$DateTimePicker_DateUtils$dayToInt = F2(
-	function (startOfWeek, day) {
-		var base = function () {
-			var _p4 = day;
-			switch (_p4.ctor) {
-				case 'Sun':
-					return 0;
-				case 'Mon':
-					return 1;
-				case 'Tue':
-					return 2;
-				case 'Wed':
-					return 3;
-				case 'Thu':
-					return 4;
-				case 'Fri':
-					return 5;
-				default:
-					return 6;
-			}
-		}();
-		var _p5 = startOfWeek;
-		switch (_p5.ctor) {
-			case 'Sun':
-				return base;
-			case 'Mon':
-				return A2(_elm_lang$core$Basics_ops['%'], base - 1, 7);
-			case 'Tue':
-				return A2(_elm_lang$core$Basics_ops['%'], base - 2, 7);
-			case 'Wed':
-				return A2(_elm_lang$core$Basics_ops['%'], base - 3, 7);
-			case 'Thu':
-				return A2(_elm_lang$core$Basics_ops['%'], base - 4, 7);
-			case 'Fri':
-				return A2(_elm_lang$core$Basics_ops['%'], base - 5, 7);
-			default:
-				return A2(_elm_lang$core$Basics_ops['%'], base - 6, 7);
-		}
-	});
-var _abadi199$datetimepicker$DateTimePicker_DateUtils$Day = F2(
-	function (a, b) {
-		return {monthType: a, day: b};
-	});
-var _abadi199$datetimepicker$DateTimePicker_DateUtils$Next = {ctor: 'Next'};
-var _abadi199$datetimepicker$DateTimePicker_DateUtils$Current = {ctor: 'Current'};
-var _abadi199$datetimepicker$DateTimePicker_DateUtils$Previous = {ctor: 'Previous'};
-var _abadi199$datetimepicker$DateTimePicker_DateUtils$generateCalendar = F3(
-	function (firstDayOfWeek, month, year) {
-		var nextMonth = A2(
-			_elm_lang$core$List$map,
-			_abadi199$datetimepicker$DateTimePicker_DateUtils$Day(_abadi199$datetimepicker$DateTimePicker_DateUtils$Next),
-			A2(_elm_lang$core$List$range, 1, 14));
-		var firstDateOfMonth = A7(_rluiten$elm_date_extra$Date_Extra_Create$dateFromFields, year, month, 1, 0, 0, 0, 0);
-		var firstDayOfMonth = A2(
-			_abadi199$datetimepicker$DateTimePicker_DateUtils$dayToInt,
-			firstDayOfWeek,
-			_elm_lang$core$Date$dayOfWeek(firstDateOfMonth));
-		var numberOfDaysForPreviousMonth = _abadi199$datetimepicker$DateTimePicker_DateUtils$calculateNumberOfDaysForPreviousMonth(firstDayOfMonth);
-		var daysInMonth = _rluiten$elm_date_extra$Date_Extra_Core$daysInMonthDate(firstDateOfMonth);
-		var currentMonth = A2(
-			_elm_lang$core$List$map,
-			_abadi199$datetimepicker$DateTimePicker_DateUtils$Day(_abadi199$datetimepicker$DateTimePicker_DateUtils$Current),
-			A2(_elm_lang$core$List$range, 1, daysInMonth));
-		var daysInPreviousMonth = _rluiten$elm_date_extra$Date_Extra_Core$daysInPrevMonth(firstDateOfMonth);
-		var previousMonth = A2(
-			_elm_lang$core$List$map,
-			_abadi199$datetimepicker$DateTimePicker_DateUtils$Day(_abadi199$datetimepicker$DateTimePicker_DateUtils$Previous),
-			A2(_elm_lang$core$List$range, (daysInPreviousMonth - numberOfDaysForPreviousMonth) + 1, daysInPreviousMonth));
-		return A2(
-			_elm_lang$core$List$take,
-			42,
-			A2(
-				_elm_lang$core$Basics_ops['++'],
-				previousMonth,
-				A2(_elm_lang$core$Basics_ops['++'], currentMonth, nextMonth)));
-	});
-
-var _elm_lang$svg$Svg_Events$on = _elm_lang$virtual_dom$VirtualDom$on;
-var _elm_lang$svg$Svg_Events$simpleOn = F2(
-	function (name, msg) {
-		return A2(
-			_elm_lang$svg$Svg_Events$on,
-			name,
-			_elm_lang$core$Json_Decode$succeed(msg));
-	});
-var _elm_lang$svg$Svg_Events$onBegin = _elm_lang$svg$Svg_Events$simpleOn('begin');
-var _elm_lang$svg$Svg_Events$onEnd = _elm_lang$svg$Svg_Events$simpleOn('end');
-var _elm_lang$svg$Svg_Events$onRepeat = _elm_lang$svg$Svg_Events$simpleOn('repeat');
-var _elm_lang$svg$Svg_Events$onAbort = _elm_lang$svg$Svg_Events$simpleOn('abort');
-var _elm_lang$svg$Svg_Events$onError = _elm_lang$svg$Svg_Events$simpleOn('error');
-var _elm_lang$svg$Svg_Events$onResize = _elm_lang$svg$Svg_Events$simpleOn('resize');
-var _elm_lang$svg$Svg_Events$onScroll = _elm_lang$svg$Svg_Events$simpleOn('scroll');
-var _elm_lang$svg$Svg_Events$onLoad = _elm_lang$svg$Svg_Events$simpleOn('load');
-var _elm_lang$svg$Svg_Events$onUnload = _elm_lang$svg$Svg_Events$simpleOn('unload');
-var _elm_lang$svg$Svg_Events$onZoom = _elm_lang$svg$Svg_Events$simpleOn('zoom');
-var _elm_lang$svg$Svg_Events$onActivate = _elm_lang$svg$Svg_Events$simpleOn('activate');
-var _elm_lang$svg$Svg_Events$onClick = _elm_lang$svg$Svg_Events$simpleOn('click');
-var _elm_lang$svg$Svg_Events$onFocusIn = _elm_lang$svg$Svg_Events$simpleOn('focusin');
-var _elm_lang$svg$Svg_Events$onFocusOut = _elm_lang$svg$Svg_Events$simpleOn('focusout');
-var _elm_lang$svg$Svg_Events$onMouseDown = _elm_lang$svg$Svg_Events$simpleOn('mousedown');
-var _elm_lang$svg$Svg_Events$onMouseMove = _elm_lang$svg$Svg_Events$simpleOn('mousemove');
-var _elm_lang$svg$Svg_Events$onMouseOut = _elm_lang$svg$Svg_Events$simpleOn('mouseout');
-var _elm_lang$svg$Svg_Events$onMouseOver = _elm_lang$svg$Svg_Events$simpleOn('mouseover');
-var _elm_lang$svg$Svg_Events$onMouseUp = _elm_lang$svg$Svg_Events$simpleOn('mouseup');
-
-var _rtfeldman$elm_css_util$Css_Helpers$toCssIdentifier = function (identifier) {
-	return A4(
-		_elm_lang$core$Regex$replace,
-		_elm_lang$core$Regex$All,
-		_elm_lang$core$Regex$regex('[^a-zA-Z0-9_-]'),
-		function (_p0) {
-			return '';
-		},
-		A4(
-			_elm_lang$core$Regex$replace,
-			_elm_lang$core$Regex$All,
-			_elm_lang$core$Regex$regex('\\s+'),
-			function (_p1) {
-				return '-';
-			},
-			_elm_lang$core$String$trim(
-				_elm_lang$core$Basics$toString(identifier))));
-};
-var _rtfeldman$elm_css_util$Css_Helpers$identifierToString = F2(
-	function (name, identifier) {
-		return A2(
-			_elm_lang$core$Basics_ops['++'],
-			_rtfeldman$elm_css_util$Css_Helpers$toCssIdentifier(name),
-			_rtfeldman$elm_css_util$Css_Helpers$toCssIdentifier(identifier));
-	});
-
-var _rtfeldman$elm_css_helpers$Html_CssHelpers$stylesheetLink = function (url) {
-	return A3(
-		_elm_lang$html$Html$node,
-		'link',
-		{
-			ctor: '::',
-			_0: A2(
-				_elm_lang$html$Html_Attributes$property,
-				'rel',
-				_elm_lang$core$Json_Encode$string('stylesheet')),
-			_1: {
-				ctor: '::',
-				_0: A2(
-					_elm_lang$html$Html_Attributes$property,
-					'type',
-					_elm_lang$core$Json_Encode$string('text/css')),
-				_1: {
-					ctor: '::',
-					_0: A2(
-						_elm_lang$html$Html_Attributes$property,
-						'href',
-						_elm_lang$core$Json_Encode$string(url)),
-					_1: {ctor: '[]'}
-				}
-			}
-		},
-		{ctor: '[]'});
-};
-var _rtfeldman$elm_css_helpers$Html_CssHelpers$style = function (text) {
-	return A3(
-		_elm_lang$html$Html$node,
-		'style',
-		{
-			ctor: '::',
-			_0: A2(
-				_elm_lang$html$Html_Attributes$property,
-				'textContent',
-				_elm_lang$core$Json_Encode$string(text)),
-			_1: {
-				ctor: '::',
-				_0: A2(
-					_elm_lang$html$Html_Attributes$property,
-					'type',
-					_elm_lang$core$Json_Encode$string('text/css')),
-				_1: {ctor: '[]'}
-			}
-		},
-		{ctor: '[]'});
-};
-var _rtfeldman$elm_css_helpers$Html_CssHelpers$namespacedClass = F2(
-	function (name, list) {
-		return _elm_lang$html$Html_Attributes$class(
-			A2(
-				_elm_lang$core$String$join,
-				' ',
-				A2(
-					_elm_lang$core$List$map,
-					_rtfeldman$elm_css_util$Css_Helpers$identifierToString(name),
-					list)));
-	});
-var _rtfeldman$elm_css_helpers$Html_CssHelpers$class = _rtfeldman$elm_css_helpers$Html_CssHelpers$namespacedClass('');
-var _rtfeldman$elm_css_helpers$Html_CssHelpers$classList = function (list) {
-	return _rtfeldman$elm_css_helpers$Html_CssHelpers$class(
-		A2(
-			_elm_lang$core$List$map,
-			_elm_lang$core$Tuple$first,
-			A2(_elm_lang$core$List$filter, _elm_lang$core$Tuple$second, list)));
-};
-var _rtfeldman$elm_css_helpers$Html_CssHelpers$namespacedClassList = F2(
-	function (name, list) {
-		return A2(
-			_rtfeldman$elm_css_helpers$Html_CssHelpers$namespacedClass,
-			name,
-			A2(
-				_elm_lang$core$List$map,
-				_elm_lang$core$Tuple$first,
-				A2(_elm_lang$core$List$filter, _elm_lang$core$Tuple$second, list)));
-	});
-var _rtfeldman$elm_css_helpers$Html_CssHelpers$helpers = {
-	$class: _rtfeldman$elm_css_helpers$Html_CssHelpers$class,
-	classList: _rtfeldman$elm_css_helpers$Html_CssHelpers$classList,
-	id: function (_p0) {
-		return _elm_lang$html$Html_Attributes$id(
-			_rtfeldman$elm_css_util$Css_Helpers$toCssIdentifier(_p0));
-	}
-};
-var _rtfeldman$elm_css_helpers$Html_CssHelpers$withNamespace = function (name) {
-	return {
-		$class: _rtfeldman$elm_css_helpers$Html_CssHelpers$namespacedClass(name),
-		classList: _rtfeldman$elm_css_helpers$Html_CssHelpers$namespacedClassList(name),
-		id: function (_p1) {
-			return _elm_lang$html$Html_Attributes$id(
-				_rtfeldman$elm_css_util$Css_Helpers$toCssIdentifier(_p1));
-		},
-		name: name
-	};
-};
-var _rtfeldman$elm_css_helpers$Html_CssHelpers$Helpers = F3(
-	function (a, b, c) {
-		return {$class: a, classList: b, id: c};
-	});
-var _rtfeldman$elm_css_helpers$Html_CssHelpers$Namespace = F4(
-	function (a, b, c, d) {
-		return {$class: a, classList: b, id: c, name: d};
-	});
-
-var _abadi199$datetimepicker$DateTimePicker_SharedStyles$datepickerNamespace = _rtfeldman$elm_css_helpers$Html_CssHelpers$withNamespace('elm-input-datepicker');
-var _abadi199$datetimepicker$DateTimePicker_SharedStyles$EmptyCell = {ctor: 'EmptyCell'};
-var _abadi199$datetimepicker$DateTimePicker_SharedStyles$PM = {ctor: 'PM'};
-var _abadi199$datetimepicker$DateTimePicker_SharedStyles$AM = {ctor: 'AM'};
-var _abadi199$datetimepicker$DateTimePicker_SharedStyles$AMPMPicker = {ctor: 'AMPMPicker'};
-var _abadi199$datetimepicker$DateTimePicker_SharedStyles$Separator = {ctor: 'Separator'};
-var _abadi199$datetimepicker$DateTimePicker_SharedStyles$AMPM = {ctor: 'AMPM'};
-var _abadi199$datetimepicker$DateTimePicker_SharedStyles$Minute = {ctor: 'Minute'};
-var _abadi199$datetimepicker$DateTimePicker_SharedStyles$Hour = {ctor: 'Hour'};
-var _abadi199$datetimepicker$DateTimePicker_SharedStyles$Active = {ctor: 'Active'};
-var _abadi199$datetimepicker$DateTimePicker_SharedStyles$AnalogClock = {ctor: 'AnalogClock'};
-var _abadi199$datetimepicker$DateTimePicker_SharedStyles$AnalogTime = {ctor: 'AnalogTime'};
-var _abadi199$datetimepicker$DateTimePicker_SharedStyles$DigitalTime = {ctor: 'DigitalTime'};
-var _abadi199$datetimepicker$DateTimePicker_SharedStyles$Today = {ctor: 'Today'};
-var _abadi199$datetimepicker$DateTimePicker_SharedStyles$SelectedAmPm = {ctor: 'SelectedAmPm'};
-var _abadi199$datetimepicker$DateTimePicker_SharedStyles$SelectedMinute = {ctor: 'SelectedMinute'};
-var _abadi199$datetimepicker$DateTimePicker_SharedStyles$SelectedHour = {ctor: 'SelectedHour'};
-var _abadi199$datetimepicker$DateTimePicker_SharedStyles$SelectedDate = {ctor: 'SelectedDate'};
-var _abadi199$datetimepicker$DateTimePicker_SharedStyles$Footer = {ctor: 'Footer'};
-var _abadi199$datetimepicker$DateTimePicker_SharedStyles$TimePicker = {ctor: 'TimePicker'};
-var _abadi199$datetimepicker$DateTimePicker_SharedStyles$DatePicker = {ctor: 'DatePicker'};
-var _abadi199$datetimepicker$DateTimePicker_SharedStyles$TimePickerDialog = {ctor: 'TimePickerDialog'};
-var _abadi199$datetimepicker$DateTimePicker_SharedStyles$DatePickerDialog = {ctor: 'DatePickerDialog'};
-var _abadi199$datetimepicker$DateTimePicker_SharedStyles$Dialog = {ctor: 'Dialog'};
-var _abadi199$datetimepicker$DateTimePicker_SharedStyles$ArrowDown = {ctor: 'ArrowDown'};
-var _abadi199$datetimepicker$DateTimePicker_SharedStyles$ArrowUp = {ctor: 'ArrowUp'};
-var _abadi199$datetimepicker$DateTimePicker_SharedStyles$ArrowRight = {ctor: 'ArrowRight'};
-var _abadi199$datetimepicker$DateTimePicker_SharedStyles$ArrowLeft = {ctor: 'ArrowLeft'};
-var _abadi199$datetimepicker$DateTimePicker_SharedStyles$Title = {ctor: 'Title'};
-var _abadi199$datetimepicker$DateTimePicker_SharedStyles$Days = {ctor: 'Days'};
-var _abadi199$datetimepicker$DateTimePicker_SharedStyles$NextMonth = {ctor: 'NextMonth'};
-var _abadi199$datetimepicker$DateTimePicker_SharedStyles$Body = {ctor: 'Body'};
-var _abadi199$datetimepicker$DateTimePicker_SharedStyles$Header = {ctor: 'Header'};
-var _abadi199$datetimepicker$DateTimePicker_SharedStyles$CurrentMonth = {ctor: 'CurrentMonth'};
-var _abadi199$datetimepicker$DateTimePicker_SharedStyles$PreviousMonth = {ctor: 'PreviousMonth'};
-var _abadi199$datetimepicker$DateTimePicker_SharedStyles$DaysOfWeek = {ctor: 'DaysOfWeek'};
-var _abadi199$datetimepicker$DateTimePicker_SharedStyles$Calendar = {ctor: 'Calendar'};
-
-var _abadi199$datetimepicker$DateTimePicker_Geometry$calculateArrowPoint = F3(
-	function (origin, length, radians) {
-		var y = _elm_lang$core$Basics$round(
-			_elm_lang$core$Basics$toFloat(length) * _elm_lang$core$Basics$sin(radians));
-		var x = _elm_lang$core$Basics$round(
-			_elm_lang$core$Basics$toFloat(length) * _elm_lang$core$Basics$cos(radians));
-		return {x: origin.x + x, y: origin.y - y};
-	});
-var _abadi199$datetimepicker$DateTimePicker_Geometry$Point = F2(
-	function (a, b) {
-		return {x: a, y: b};
-	});
-var _abadi199$datetimepicker$DateTimePicker_Geometry$Quadrant4 = {ctor: 'Quadrant4'};
-var _abadi199$datetimepicker$DateTimePicker_Geometry$Quadrant3 = {ctor: 'Quadrant3'};
-var _abadi199$datetimepicker$DateTimePicker_Geometry$Quadrant2 = {ctor: 'Quadrant2'};
-var _abadi199$datetimepicker$DateTimePicker_Geometry$Quadrant1 = {ctor: 'Quadrant1'};
-var _abadi199$datetimepicker$DateTimePicker_Geometry$calculateAngle = F3(
-	function (p1, p2, p3) {
-		var p23 = _elm_lang$core$Basics$sqrt(
-			_elm_lang$core$Basics$toFloat(
-				Math.pow(p2.x - p3.x, 2) + Math.pow(p2.y - p3.y, 2)));
-		var p13 = _elm_lang$core$Basics$sqrt(
-			_elm_lang$core$Basics$toFloat(
-				Math.pow(p1.x - p3.x, 2) + Math.pow(p1.y - p3.y, 2)));
-		var p12 = _elm_lang$core$Basics$sqrt(
-			_elm_lang$core$Basics$toFloat(
-				Math.pow(p1.x - p2.x, 2) + Math.pow(p1.y - p2.y, 2)));
-		var angle = _elm_lang$core$Basics$acos(
-			((Math.pow(p12, 2) + Math.pow(p13, 2)) - Math.pow(p23, 2)) / ((2 * p12) * p13));
-		var quadrant = ((_elm_lang$core$Native_Utils.cmp(p3.x, p1.x) > -1) && (_elm_lang$core$Native_Utils.cmp(p3.y, p1.y) > -1)) ? _abadi199$datetimepicker$DateTimePicker_Geometry$Quadrant1 : (((_elm_lang$core$Native_Utils.cmp(p3.x, p1.x) < 0) && (_elm_lang$core$Native_Utils.cmp(p3.y, p1.y) > -1)) ? _abadi199$datetimepicker$DateTimePicker_Geometry$Quadrant2 : (((_elm_lang$core$Native_Utils.cmp(p3.x, p1.x) < 0) && (_elm_lang$core$Native_Utils.cmp(p3.y, p1.y) < 0)) ? _abadi199$datetimepicker$DateTimePicker_Geometry$Quadrant3 : _abadi199$datetimepicker$DateTimePicker_Geometry$Quadrant4));
-		var _p0 = quadrant;
-		switch (_p0.ctor) {
-			case 'Quadrant3':
-				return angle;
-			case 'Quadrant4':
-				return angle;
-			case 'Quadrant1':
-				return (2 * _elm_lang$core$Basics$pi) - angle;
-			default:
-				return (2 * _elm_lang$core$Basics$pi) - angle;
-		}
-	});
-
-var _abadi199$datetimepicker$DateTimePicker_Internal$getStateValue = function (state) {
-	var _p0 = state;
-	return _p0._0;
-};
-var _abadi199$datetimepicker$DateTimePicker_Internal$StateValue = function (a) {
-	return function (b) {
-		return function (c) {
-			return function (d) {
-				return function (e) {
-					return function (f) {
-						return function (g) {
-							return function (h) {
-								return function (i) {
-									return function (j) {
-										return function (k) {
-											return {inputFocused: a, forceClose: b, event: c, today: d, titleDate: e, date: f, time: g, hourPickerStart: h, minutePickerStart: i, currentAngle: j, activeTimeIndicator: k};
-										};
-									};
-								};
-							};
-						};
-					};
-				};
-			};
-		};
-	};
-};
-var _abadi199$datetimepicker$DateTimePicker_Internal$Time = F3(
-	function (a, b, c) {
-		return {hour: a, minute: b, amPm: c};
-	});
-var _abadi199$datetimepicker$DateTimePicker_Internal$InternalState = function (a) {
-	return {ctor: 'InternalState', _0: a};
-};
-var _abadi199$datetimepicker$DateTimePicker_Internal$AMPMIndicator = {ctor: 'AMPMIndicator'};
-var _abadi199$datetimepicker$DateTimePicker_Internal$MinuteIndicator = {ctor: 'MinuteIndicator'};
-var _abadi199$datetimepicker$DateTimePicker_Internal$HourIndicator = {ctor: 'HourIndicator'};
-var _abadi199$datetimepicker$DateTimePicker_Internal$initialStateValue = {
-	inputFocused: false,
-	forceClose: false,
-	event: '',
-	today: _elm_lang$core$Maybe$Nothing,
-	titleDate: _elm_lang$core$Maybe$Nothing,
-	date: _elm_lang$core$Maybe$Nothing,
-	time: A3(_abadi199$datetimepicker$DateTimePicker_Internal$Time, _elm_lang$core$Maybe$Nothing, _elm_lang$core$Maybe$Nothing, _elm_lang$core$Maybe$Nothing),
-	hourPickerStart: 1,
-	minutePickerStart: 0,
-	currentAngle: _elm_lang$core$Maybe$Nothing,
-	activeTimeIndicator: _elm_lang$core$Maybe$Just(_abadi199$datetimepicker$DateTimePicker_Internal$HourIndicator)
-};
-var _abadi199$datetimepicker$DateTimePicker_Internal$initialStateValueWithToday = function (today) {
-	return {
-		inputFocused: false,
-		forceClose: false,
-		event: '',
-		today: _elm_lang$core$Maybe$Just(today),
-		titleDate: _elm_lang$core$Maybe$Just(
-			_rluiten$elm_date_extra$Date_Extra_Core$toFirstOfMonth(today)),
-		date: _elm_lang$core$Maybe$Nothing,
-		time: A3(_abadi199$datetimepicker$DateTimePicker_Internal$Time, _elm_lang$core$Maybe$Nothing, _elm_lang$core$Maybe$Nothing, _elm_lang$core$Maybe$Nothing),
-		hourPickerStart: 1,
-		minutePickerStart: 0,
-		currentAngle: _elm_lang$core$Maybe$Nothing,
-		activeTimeIndicator: _elm_lang$core$Maybe$Just(_abadi199$datetimepicker$DateTimePicker_Internal$HourIndicator)
-	};
-};
-
 var _abadi199$datetimepicker$DateTimePicker_Config$defaultNameOfDays = {sunday: 'Su', monday: 'Mo', tuesday: 'Tu', wednesday: 'We', thursday: 'Th', friday: 'Fr', saturday: 'Sa'};
 var _abadi199$datetimepicker$DateTimePicker_Config$defaultDatePickerConfig = function (onChange) {
 	return {onChange: onChange, dateFormatter: _abadi199$datetimepicker$DateTimePicker_Formatter$dateFormatter, dateTimeFormatter: _abadi199$datetimepicker$DateTimePicker_Formatter$dateTimeFormatter, autoClose: true, nameOfDays: _abadi199$datetimepicker$DateTimePicker_Config$defaultNameOfDays, firstDayOfWeek: _elm_lang$core$Date$Sun, titleFormatter: _abadi199$datetimepicker$DateTimePicker_Formatter$titleFormatter, fullDateFormatter: _abadi199$datetimepicker$DateTimePicker_Formatter$fullDateFormatter};
@@ -10756,11 +10728,110 @@ var _abadi199$datetimepicker$DateTimePicker_Config$defaultDateTimePickerConfig =
 };
 var _abadi199$datetimepicker$DateTimePicker_Config$Digital = {ctor: 'Digital'};
 
+var _elm_lang$svg$Svg_Events$on = _elm_lang$virtual_dom$VirtualDom$on;
+var _elm_lang$svg$Svg_Events$simpleOn = F2(
+	function (name, msg) {
+		return A2(
+			_elm_lang$svg$Svg_Events$on,
+			name,
+			_elm_lang$core$Json_Decode$succeed(msg));
+	});
+var _elm_lang$svg$Svg_Events$onBegin = _elm_lang$svg$Svg_Events$simpleOn('begin');
+var _elm_lang$svg$Svg_Events$onEnd = _elm_lang$svg$Svg_Events$simpleOn('end');
+var _elm_lang$svg$Svg_Events$onRepeat = _elm_lang$svg$Svg_Events$simpleOn('repeat');
+var _elm_lang$svg$Svg_Events$onAbort = _elm_lang$svg$Svg_Events$simpleOn('abort');
+var _elm_lang$svg$Svg_Events$onError = _elm_lang$svg$Svg_Events$simpleOn('error');
+var _elm_lang$svg$Svg_Events$onResize = _elm_lang$svg$Svg_Events$simpleOn('resize');
+var _elm_lang$svg$Svg_Events$onScroll = _elm_lang$svg$Svg_Events$simpleOn('scroll');
+var _elm_lang$svg$Svg_Events$onLoad = _elm_lang$svg$Svg_Events$simpleOn('load');
+var _elm_lang$svg$Svg_Events$onUnload = _elm_lang$svg$Svg_Events$simpleOn('unload');
+var _elm_lang$svg$Svg_Events$onZoom = _elm_lang$svg$Svg_Events$simpleOn('zoom');
+var _elm_lang$svg$Svg_Events$onActivate = _elm_lang$svg$Svg_Events$simpleOn('activate');
+var _elm_lang$svg$Svg_Events$onClick = _elm_lang$svg$Svg_Events$simpleOn('click');
+var _elm_lang$svg$Svg_Events$onFocusIn = _elm_lang$svg$Svg_Events$simpleOn('focusin');
+var _elm_lang$svg$Svg_Events$onFocusOut = _elm_lang$svg$Svg_Events$simpleOn('focusout');
+var _elm_lang$svg$Svg_Events$onMouseDown = _elm_lang$svg$Svg_Events$simpleOn('mousedown');
+var _elm_lang$svg$Svg_Events$onMouseMove = _elm_lang$svg$Svg_Events$simpleOn('mousemove');
+var _elm_lang$svg$Svg_Events$onMouseOut = _elm_lang$svg$Svg_Events$simpleOn('mouseout');
+var _elm_lang$svg$Svg_Events$onMouseOver = _elm_lang$svg$Svg_Events$simpleOn('mouseover');
+var _elm_lang$svg$Svg_Events$onMouseUp = _elm_lang$svg$Svg_Events$simpleOn('mouseup');
+
+var _abadi199$datetimepicker$DateTimePicker_Events$touches = function (decoder) {
+	var loop = F2(
+		function (idx, xs) {
+			return A2(
+				_elm_lang$core$Json_Decode$andThen,
+				function (_p0) {
+					return A2(
+						_elm_lang$core$Maybe$withDefault,
+						_elm_lang$core$Json_Decode$succeed(xs),
+						A2(
+							_elm_lang$core$Maybe$map,
+							function (x) {
+								return A2(
+									loop,
+									idx + 1,
+									{ctor: '::', _0: x, _1: xs});
+							},
+							_p0));
+				},
+				_elm_lang$core$Json_Decode$maybe(
+					A2(
+						_elm_lang$core$Json_Decode$field,
+						_elm_lang$core$Basics$toString(idx),
+						decoder)));
+		});
+	return A2(
+		_elm_lang$core$Json_Decode$at,
+		{
+			ctor: '::',
+			_0: 'touches',
+			_1: {
+				ctor: '::',
+				_0: '0',
+				_1: {ctor: '[]'}
+			}
+		},
+		A2(
+			loop,
+			0,
+			{ctor: '[]'}));
+};
+var _abadi199$datetimepicker$DateTimePicker_Events$onTouchMovePreventDefault = function (msg) {
+	var eventOptions = {preventDefault: true, stopPropagation: true};
+	return A3(
+		_elm_lang$html$Html_Events$onWithOptions,
+		'touchstart',
+		eventOptions,
+		_elm_lang$core$Json_Decode$succeed(msg));
+};
+var _abadi199$datetimepicker$DateTimePicker_Events$onPointerUp = function (msg) {
+	return A2(
+		_elm_lang$html$Html_Events$on,
+		'pointerup',
+		_elm_lang$core$Json_Decode$succeed(msg));
+};
+var _abadi199$datetimepicker$DateTimePicker_Events$onTouchEndPreventDefault = function (msg) {
+	var eventOptions = {preventDefault: true, stopPropagation: true};
+	return A3(
+		_elm_lang$html$Html_Events$onWithOptions,
+		'touchend',
+		eventOptions,
+		_elm_lang$core$Json_Decode$succeed(msg));
+};
 var _abadi199$datetimepicker$DateTimePicker_Events$onMouseUpPreventDefault = function (msg) {
 	var eventOptions = {preventDefault: true, stopPropagation: true};
 	return A3(
 		_elm_lang$html$Html_Events$onWithOptions,
 		'mouseup',
+		eventOptions,
+		_elm_lang$core$Json_Decode$succeed(msg));
+};
+var _abadi199$datetimepicker$DateTimePicker_Events$onTouchStartPreventDefault = function (msg) {
+	var eventOptions = {preventDefault: true, stopPropagation: true};
+	return A3(
+		_elm_lang$html$Html_Events$onWithOptions,
+		'touchstart',
 		eventOptions,
 		_elm_lang$core$Json_Decode$succeed(msg));
 };
@@ -10778,26 +10849,32 @@ var _abadi199$datetimepicker$DateTimePicker_Events$onBlurWithChange = function (
 		'blur',
 		A2(
 			_elm_lang$core$Json_Decode$map,
-			function (_p0) {
+			function (_p1) {
 				return tagger(
 					_elm_lang$core$Result$toMaybe(
-						_elm_lang$core$Date$fromString(_p0)));
+						_elm_lang$core$Date$fromString(_p1)));
 			},
 			_elm_lang$html$Html_Events$targetValue));
 };
-var _abadi199$datetimepicker$DateTimePicker_Events$MouseMoveData = F2(
+var _abadi199$datetimepicker$DateTimePicker_Events$MoveData = F2(
 	function (a, b) {
 		return {offsetX: a, offsetY: b};
 	});
 var _abadi199$datetimepicker$DateTimePicker_Events$mouseMoveDecoder = A3(
 	_elm_lang$core$Json_Decode$map2,
-	_abadi199$datetimepicker$DateTimePicker_Events$MouseMoveData,
+	_abadi199$datetimepicker$DateTimePicker_Events$MoveData,
 	A2(_elm_lang$core$Json_Decode$field, 'offsetX', _elm_lang$core$Json_Decode$int),
 	A2(_elm_lang$core$Json_Decode$field, 'offsetY', _elm_lang$core$Json_Decode$int));
-var _abadi199$datetimepicker$DateTimePicker_Events$onMouseOverWithPosition = function (decoder) {
+var _abadi199$datetimepicker$DateTimePicker_Events$onMouseMoveWithPosition = function (decoder) {
 	return A2(
 		_elm_lang$svg$Svg_Events$on,
 		'mousemove',
+		A2(_elm_lang$core$Json_Decode$andThen, decoder, _abadi199$datetimepicker$DateTimePicker_Events$mouseMoveDecoder));
+};
+var _abadi199$datetimepicker$DateTimePicker_Events$onPointerMoveWithPosition = function (decoder) {
+	return A2(
+		_elm_lang$html$Html_Events$on,
+		'pointermove',
 		A2(_elm_lang$core$Json_Decode$andThen, decoder, _abadi199$datetimepicker$DateTimePicker_Events$mouseMoveDecoder));
 };
 
@@ -10928,7 +11005,7 @@ var _abadi199$datetimepicker$DateTimePicker_Helpers$updateCurrentDate = F2(
 		}
 	});
 
-var _abadi199$datetimepicker$DateTimePicker_AnalogClock$minutes = _elm_lang$core$Dict$fromList(
+var _abadi199$datetimepicker$DateTimePicker_ClockUtils$minutes = _elm_lang$core$Dict$fromList(
 	A2(
 		_elm_lang$core$List$map,
 		function (minute) {
@@ -10940,7 +11017,7 @@ var _abadi199$datetimepicker$DateTimePicker_AnalogClock$minutes = _elm_lang$core
 			};
 		},
 		A2(_elm_lang$core$List$range, 0, 59)));
-var _abadi199$datetimepicker$DateTimePicker_AnalogClock$minutesPerFive = _elm_lang$core$Dict$fromList(
+var _abadi199$datetimepicker$DateTimePicker_ClockUtils$minutesPerFive = _elm_lang$core$Dict$fromList(
 	{
 		ctor: '::',
 		_0: {ctor: '_Tuple2', _0: '5', _1: (_elm_lang$core$Basics$pi * 2) / 6},
@@ -10990,7 +11067,7 @@ var _abadi199$datetimepicker$DateTimePicker_AnalogClock$minutesPerFive = _elm_la
 			}
 		}
 	});
-var _abadi199$datetimepicker$DateTimePicker_AnalogClock$hours = _elm_lang$core$Dict$fromList(
+var _abadi199$datetimepicker$DateTimePicker_ClockUtils$hours = _elm_lang$core$Dict$fromList(
 	{
 		ctor: '::',
 		_0: {ctor: '_Tuple2', _0: '1', _1: (_elm_lang$core$Basics$pi * 2) / 6},
@@ -11040,6 +11117,19 @@ var _abadi199$datetimepicker$DateTimePicker_AnalogClock$hours = _elm_lang$core$D
 			}
 		}
 	});
+var _abadi199$datetimepicker$DateTimePicker_ClockUtils$minuteToAngle = function (minute) {
+	return A2(
+		_elm_lang$core$Dict$get,
+		_elm_lang$core$Basics$toString(minute),
+		_abadi199$datetimepicker$DateTimePicker_ClockUtils$minutes);
+};
+var _abadi199$datetimepicker$DateTimePicker_ClockUtils$hourToAngle = function (hour) {
+	return A2(
+		_elm_lang$core$Dict$get,
+		_elm_lang$core$Basics$toString(hour),
+		_abadi199$datetimepicker$DateTimePicker_ClockUtils$hours);
+};
+
 var _abadi199$datetimepicker$DateTimePicker_AnalogClock$mouseDownHandler = F4(
 	function (pickerType, state, date, onChange) {
 		var stateValue = _abadi199$datetimepicker$DateTimePicker_Internal$getStateValue(state);
@@ -11060,7 +11150,9 @@ var _abadi199$datetimepicker$DateTimePicker_AnalogClock$mouseDownHandler = F4(
 										return _elm_lang$core$Native_Utils.update(
 											stateValue,
 											{
-												activeTimeIndicator: _elm_lang$core$Maybe$Just(_abadi199$datetimepicker$DateTimePicker_Internal$MinuteIndicator)
+												event: 'analog.mouseDownHandler',
+												activeTimeIndicator: _elm_lang$core$Maybe$Just(_abadi199$datetimepicker$DateTimePicker_Internal$MinuteIndicator),
+												currentAngle: _elm_lang$core$Maybe$Nothing
 											});
 									}
 								case 'MinuteIndicator':
@@ -11070,7 +11162,9 @@ var _abadi199$datetimepicker$DateTimePicker_AnalogClock$mouseDownHandler = F4(
 										return _elm_lang$core$Native_Utils.update(
 											stateValue,
 											{
-												activeTimeIndicator: _elm_lang$core$Maybe$Just(_abadi199$datetimepicker$DateTimePicker_Internal$AMPMIndicator)
+												event: 'analog.mouseDownHandler',
+												activeTimeIndicator: _elm_lang$core$Maybe$Just(_abadi199$datetimepicker$DateTimePicker_Internal$AMPMIndicator),
+												currentAngle: _elm_lang$core$Maybe$Nothing
 											});
 									}
 								default:
@@ -11093,12 +11187,14 @@ var _abadi199$datetimepicker$DateTimePicker_AnalogClock$mouseDownHandler = F4(
 				} while(false);
 				return _elm_lang$core$Native_Utils.update(
 					stateValue,
-					{activeTimeIndicator: _elm_lang$core$Maybe$Nothing});
+					{event: 'analog.mouseDownHandler', activeTimeIndicator: _elm_lang$core$Maybe$Nothing, currentAngle: _elm_lang$core$Maybe$Nothing});
 			} while(false);
 			return _elm_lang$core$Native_Utils.update(
 				stateValue,
 				{
-					activeTimeIndicator: _elm_lang$core$Maybe$Just(_abadi199$datetimepicker$DateTimePicker_Internal$HourIndicator)
+					event: 'analog.mouseDownHandler',
+					activeTimeIndicator: _elm_lang$core$Maybe$Just(_abadi199$datetimepicker$DateTimePicker_Internal$HourIndicator),
+					currentAngle: _elm_lang$core$Maybe$Nothing
 				});
 		}();
 		return A2(
@@ -11135,7 +11231,12 @@ var _abadi199$datetimepicker$DateTimePicker_AnalogClock$drawArrow = F5(
 										ctor: '::',
 										_0: _abadi199$datetimepicker$DateTimePicker_Events$onMouseDownPreventDefault(
 											A4(_abadi199$datetimepicker$DateTimePicker_AnalogClock$mouseDownHandler, pickerType, state, date, onChange)),
-										_1: {ctor: '[]'}
+										_1: {
+											ctor: '::',
+											_0: _abadi199$datetimepicker$DateTimePicker_Events$onPointerUp(
+												A4(_abadi199$datetimepicker$DateTimePicker_AnalogClock$mouseDownHandler, pickerType, state, date, onChange)),
+											_1: {ctor: '[]'}
+										}
 									}
 								}
 							}
@@ -11148,7 +11249,7 @@ var _abadi199$datetimepicker$DateTimePicker_AnalogClock$drawArrow = F5(
 var _abadi199$datetimepicker$DateTimePicker_AnalogClock$axisPoint = A2(_abadi199$datetimepicker$DateTimePicker_Geometry$Point, 200, 100);
 var _abadi199$datetimepicker$DateTimePicker_AnalogClock$originPoint = A2(_abadi199$datetimepicker$DateTimePicker_Geometry$Point, 100, 100);
 var _abadi199$datetimepicker$DateTimePicker_AnalogClock$updateHourState = F3(
-	function (stateValue, date, mouseMoveData) {
+	function (stateValue, date, moveData) {
 		var updateTime = F2(
 			function (time, hour) {
 				return _elm_lang$core$Native_Utils.update(
@@ -11167,7 +11268,7 @@ var _abadi199$datetimepicker$DateTimePicker_AnalogClock$updateHourState = F3(
 			_abadi199$datetimepicker$DateTimePicker_Geometry$calculateAngle,
 			_abadi199$datetimepicker$DateTimePicker_AnalogClock$originPoint,
 			_abadi199$datetimepicker$DateTimePicker_AnalogClock$axisPoint,
-			A2(_abadi199$datetimepicker$DateTimePicker_Geometry$Point, mouseMoveData.offsetX, mouseMoveData.offsetY));
+			A2(_abadi199$datetimepicker$DateTimePicker_Geometry$Point, moveData.offsetX, moveData.offsetY));
 		var closestHour = A2(
 			_elm_lang$core$Maybe$map,
 			_elm_lang$core$Tuple$first,
@@ -11186,7 +11287,7 @@ var _abadi199$datetimepicker$DateTimePicker_AnalogClock$updateHourState = F3(
 								_1: _elm_lang$core$Basics$abs(_p4 - currentAngle)
 							};
 						},
-						_elm_lang$core$Dict$toList(_abadi199$datetimepicker$DateTimePicker_AnalogClock$hours)))));
+						_elm_lang$core$Dict$toList(_abadi199$datetimepicker$DateTimePicker_ClockUtils$hours)))));
 		return _abadi199$datetimepicker$DateTimePicker_Internal$InternalState(
 			_elm_lang$core$Native_Utils.update(
 				stateValue,
@@ -11199,7 +11300,7 @@ var _abadi199$datetimepicker$DateTimePicker_AnalogClock$updateHourState = F3(
 				}));
 	});
 var _abadi199$datetimepicker$DateTimePicker_AnalogClock$updateMinuteState = F3(
-	function (stateValue, date, mouseMoveData) {
+	function (stateValue, date, moveData) {
 		var updateTime = F2(
 			function (time, minute) {
 				return _elm_lang$core$Native_Utils.update(
@@ -11218,7 +11319,7 @@ var _abadi199$datetimepicker$DateTimePicker_AnalogClock$updateMinuteState = F3(
 			_abadi199$datetimepicker$DateTimePicker_Geometry$calculateAngle,
 			_abadi199$datetimepicker$DateTimePicker_AnalogClock$originPoint,
 			_abadi199$datetimepicker$DateTimePicker_AnalogClock$axisPoint,
-			A2(_abadi199$datetimepicker$DateTimePicker_Geometry$Point, mouseMoveData.offsetX, mouseMoveData.offsetY));
+			A2(_abadi199$datetimepicker$DateTimePicker_Geometry$Point, moveData.offsetX, moveData.offsetY));
 		var closestMinute = A2(
 			_elm_lang$core$Maybe$map,
 			_elm_lang$core$Tuple$first,
@@ -11237,7 +11338,7 @@ var _abadi199$datetimepicker$DateTimePicker_AnalogClock$updateMinuteState = F3(
 								_1: _elm_lang$core$Basics$abs(_p8 - currentAngle)
 							};
 						},
-						_elm_lang$core$Dict$toList(_abadi199$datetimepicker$DateTimePicker_AnalogClock$minutes)))));
+						_elm_lang$core$Dict$toList(_abadi199$datetimepicker$DateTimePicker_ClockUtils$minutes)))));
 		return _abadi199$datetimepicker$DateTimePicker_Internal$InternalState(
 			_elm_lang$core$Native_Utils.update(
 				stateValue,
@@ -11250,7 +11351,7 @@ var _abadi199$datetimepicker$DateTimePicker_AnalogClock$updateMinuteState = F3(
 				}));
 	});
 var _abadi199$datetimepicker$DateTimePicker_AnalogClock$mouseOverHandler = F4(
-	function (state, date, onChange, mouseMoveData) {
+	function (state, date, onChange, moveData) {
 		var decoder = function (updatedState) {
 			return _elm_lang$core$Json_Decode$succeed(
 				A2(onChange, updatedState, date));
@@ -11263,10 +11364,10 @@ var _abadi199$datetimepicker$DateTimePicker_AnalogClock$mouseOverHandler = F4(
 				switch (_p9._0.ctor) {
 					case 'HourIndicator':
 						return decoder(
-							A3(_abadi199$datetimepicker$DateTimePicker_AnalogClock$updateHourState, stateValue, date, mouseMoveData));
+							A3(_abadi199$datetimepicker$DateTimePicker_AnalogClock$updateHourState, stateValue, date, moveData));
 					case 'MinuteIndicator':
 						return decoder(
-							A3(_abadi199$datetimepicker$DateTimePicker_AnalogClock$updateMinuteState, stateValue, date, mouseMoveData));
+							A3(_abadi199$datetimepicker$DateTimePicker_AnalogClock$updateMinuteState, stateValue, date, moveData));
 					default:
 						break _v3_2;
 				}
@@ -11301,7 +11402,12 @@ var _abadi199$datetimepicker$DateTimePicker_AnalogClock$clockFace = F5(
 								ctor: '::',
 								_0: _abadi199$datetimepicker$DateTimePicker_Events$onMouseDownPreventDefault(
 									A4(_abadi199$datetimepicker$DateTimePicker_AnalogClock$mouseDownHandler, pickerType, state, date, onChange)),
-								_1: {ctor: '[]'}
+								_1: {
+									ctor: '::',
+									_0: _abadi199$datetimepicker$DateTimePicker_Events$onPointerUp(
+										A4(_abadi199$datetimepicker$DateTimePicker_AnalogClock$mouseDownHandler, pickerType, state, date, onChange)),
+									_1: {ctor: '[]'}
+								}
 							}
 						}
 					}
@@ -11334,7 +11440,7 @@ var _abadi199$datetimepicker$DateTimePicker_AnalogClock$currentTime = F4(
 					A2(
 						_elm_lang$core$Dict$get,
 						_elm_lang$core$Basics$toString(minute),
-						_abadi199$datetimepicker$DateTimePicker_AnalogClock$minutes)));
+						_abadi199$datetimepicker$DateTimePicker_ClockUtils$minutes)));
 		};
 		var hourArrowLength = 50;
 		var drawHour = F2(
@@ -11365,7 +11471,7 @@ var _abadi199$datetimepicker$DateTimePicker_AnalogClock$currentTime = F4(
 							A2(
 								_elm_lang$core$Dict$get,
 								_elm_lang$core$Basics$toString(hour),
-								_abadi199$datetimepicker$DateTimePicker_AnalogClock$hours))));
+								_abadi199$datetimepicker$DateTimePicker_ClockUtils$hours))));
 			});
 		var stateValue = _abadi199$datetimepicker$DateTimePicker_Internal$getStateValue(state);
 		var time = stateValue.time;
@@ -11391,22 +11497,30 @@ var _abadi199$datetimepicker$DateTimePicker_AnalogClock$currentTime = F4(
 var _abadi199$datetimepicker$DateTimePicker_AnalogClock$hourArrowLength = 50;
 var _abadi199$datetimepicker$DateTimePicker_AnalogClock$arrow = F4(
 	function (pickerType, onChange, state, date) {
+		var isJust = function (maybe) {
+			var _p16 = maybe;
+			if (_p16.ctor === 'Just') {
+				return true;
+			} else {
+				return false;
+			}
+		};
 		var stateValue = _abadi199$datetimepicker$DateTimePicker_Internal$getStateValue(state);
 		var length = function () {
-			var _p16 = stateValue.activeTimeIndicator;
-			_v6_2:
+			var _p17 = stateValue.activeTimeIndicator;
+			_v7_2:
 			do {
-				if (_p16.ctor === 'Just') {
-					switch (_p16._0.ctor) {
+				if (_p17.ctor === 'Just') {
+					switch (_p17._0.ctor) {
 						case 'HourIndicator':
 							return _abadi199$datetimepicker$DateTimePicker_AnalogClock$hourArrowLength;
 						case 'MinuteIndicator':
 							return _abadi199$datetimepicker$DateTimePicker_AnalogClock$minuteArrowLength;
 						default:
-							break _v6_2;
+							break _v7_2;
 					}
 				} else {
-					break _v6_2;
+					break _v7_2;
 				}
 			} while(false);
 			return 0;
@@ -11414,23 +11528,42 @@ var _abadi199$datetimepicker$DateTimePicker_AnalogClock$arrow = F4(
 		var arrowPoint = function (angle) {
 			return A3(_abadi199$datetimepicker$DateTimePicker_Geometry$calculateArrowPoint, _abadi199$datetimepicker$DateTimePicker_AnalogClock$originPoint, length, angle);
 		};
-		var _p17 = stateValue.currentAngle;
-		if (_p17.ctor === 'Nothing') {
+		var shouldDrawArrow = function () {
+			var _p18 = stateValue.activeTimeIndicator;
+			_v8_2:
+			do {
+				if (_p18.ctor === 'Just') {
+					switch (_p18._0.ctor) {
+						case 'HourIndicator':
+							return isJust(stateValue.time.hour);
+						case 'MinuteIndicator':
+							return isJust(stateValue.time.minute);
+						default:
+							break _v8_2;
+					}
+				} else {
+					break _v8_2;
+				}
+			} while(false);
+			return false;
+		}();
+		var _p19 = stateValue.currentAngle;
+		if (_p19.ctor === 'Nothing') {
 			return _elm_lang$svg$Svg$text('');
 		} else {
-			return A5(
+			return shouldDrawArrow ? A5(
 				_abadi199$datetimepicker$DateTimePicker_AnalogClock$drawArrow,
 				pickerType,
 				onChange,
 				state,
 				date,
-				arrowPoint(_p17._0));
+				arrowPoint(_p19._0)) : _elm_lang$svg$Svg$text('');
 		}
 	});
-var _abadi199$datetimepicker$DateTimePicker_AnalogClock$_p18 = _abadi199$datetimepicker$DateTimePicker_SharedStyles$datepickerNamespace;
-var _abadi199$datetimepicker$DateTimePicker_AnalogClock$id = _abadi199$datetimepicker$DateTimePicker_AnalogClock$_p18.id;
-var _abadi199$datetimepicker$DateTimePicker_AnalogClock$class = _abadi199$datetimepicker$DateTimePicker_AnalogClock$_p18.$class;
-var _abadi199$datetimepicker$DateTimePicker_AnalogClock$classList = _abadi199$datetimepicker$DateTimePicker_AnalogClock$_p18.classList;
+var _abadi199$datetimepicker$DateTimePicker_AnalogClock$_p20 = _abadi199$datetimepicker$DateTimePicker_SharedStyles$datepickerNamespace;
+var _abadi199$datetimepicker$DateTimePicker_AnalogClock$id = _abadi199$datetimepicker$DateTimePicker_AnalogClock$_p20.id;
+var _abadi199$datetimepicker$DateTimePicker_AnalogClock$class = _abadi199$datetimepicker$DateTimePicker_AnalogClock$_p20.$class;
+var _abadi199$datetimepicker$DateTimePicker_AnalogClock$classList = _abadi199$datetimepicker$DateTimePicker_AnalogClock$_p20.classList;
 var _abadi199$datetimepicker$DateTimePicker_AnalogClock$clock = F4(
 	function (pickerType, onChange, state, date) {
 		var stateValue = _abadi199$datetimepicker$DateTimePicker_Internal$getStateValue(state);
@@ -11481,13 +11614,28 @@ var _abadi199$datetimepicker$DateTimePicker_AnalogClock$clock = F4(
 											_0: _elm_lang$svg$Svg_Attributes$fill('#eee'),
 											_1: {
 												ctor: '::',
-												_0: _abadi199$datetimepicker$DateTimePicker_Events$onMouseOverWithPosition(
-													A3(_abadi199$datetimepicker$DateTimePicker_AnalogClock$mouseOverHandler, state, date, onChange)),
+												_0: _abadi199$datetimepicker$DateTimePicker_Events$onMouseDownPreventDefault(
+													A4(_abadi199$datetimepicker$DateTimePicker_AnalogClock$mouseDownHandler, pickerType, state, date, onChange)),
 												_1: {
 													ctor: '::',
-													_0: _abadi199$datetimepicker$DateTimePicker_Events$onMouseDownPreventDefault(
+													_0: _abadi199$datetimepicker$DateTimePicker_Events$onPointerUp(
 														A4(_abadi199$datetimepicker$DateTimePicker_AnalogClock$mouseDownHandler, pickerType, state, date, onChange)),
-													_1: {ctor: '[]'}
+													_1: {
+														ctor: '::',
+														_0: _abadi199$datetimepicker$DateTimePicker_Events$onMouseMoveWithPosition(
+															A3(_abadi199$datetimepicker$DateTimePicker_AnalogClock$mouseOverHandler, state, date, onChange)),
+														_1: {
+															ctor: '::',
+															_0: _abadi199$datetimepicker$DateTimePicker_Events$onTouchMovePreventDefault(
+																A2(onChange, state, date)),
+															_1: {
+																ctor: '::',
+																_0: _abadi199$datetimepicker$DateTimePicker_Events$onPointerMoveWithPosition(
+																	A3(_abadi199$datetimepicker$DateTimePicker_AnalogClock$mouseOverHandler, state, date, onChange)),
+																_1: {ctor: '[]'}
+															}
+														}
+													}
 												}
 											}
 										}
@@ -11498,15 +11646,15 @@ var _abadi199$datetimepicker$DateTimePicker_AnalogClock$clock = F4(
 						_1: {
 							ctor: '::',
 							_0: function () {
-								var _p19 = stateValue.activeTimeIndicator;
-								if ((_p19.ctor === 'Just') && (_p19._0.ctor === 'MinuteIndicator')) {
+								var _p21 = stateValue.activeTimeIndicator;
+								if ((_p21.ctor === 'Just') && (_p21._0.ctor === 'MinuteIndicator')) {
 									return A2(
 										_elm_lang$svg$Svg$g,
 										{ctor: '[]'},
 										A2(
 											_elm_lang$core$List$map,
 											A4(_abadi199$datetimepicker$DateTimePicker_AnalogClock$clockFace, pickerType, onChange, state, date),
-											_elm_lang$core$Dict$toList(_abadi199$datetimepicker$DateTimePicker_AnalogClock$minutesPerFive)));
+											_elm_lang$core$Dict$toList(_abadi199$datetimepicker$DateTimePicker_ClockUtils$minutesPerFive)));
 								} else {
 									return A2(
 										_elm_lang$svg$Svg$g,
@@ -11514,7 +11662,7 @@ var _abadi199$datetimepicker$DateTimePicker_AnalogClock$clock = F4(
 										A2(
 											_elm_lang$core$List$map,
 											A4(_abadi199$datetimepicker$DateTimePicker_AnalogClock$clockFace, pickerType, onChange, state, date),
-											_elm_lang$core$Dict$toList(_abadi199$datetimepicker$DateTimePicker_AnalogClock$hours)));
+											_elm_lang$core$Dict$toList(_abadi199$datetimepicker$DateTimePicker_ClockUtils$hours)));
 								}
 							}(),
 							_1: {
@@ -13138,12 +13286,35 @@ var _abadi199$datetimepicker$DateTimePicker$amPmIndicatorHandler = F3(
 	});
 var _abadi199$datetimepicker$DateTimePicker$timeIndicatorHandler = F4(
 	function (config, stateValue, currentDate, timeIndicator) {
+		var currentAngle = function () {
+			var _p1 = {ctor: '_Tuple3', _0: timeIndicator, _1: stateValue.time.hour, _2: stateValue.time.minute};
+			_v1_2:
+			do {
+				switch (_p1._0.ctor) {
+					case 'HourIndicator':
+						if (_p1._1.ctor === 'Just') {
+							return _abadi199$datetimepicker$DateTimePicker_ClockUtils$hourToAngle(_p1._1._0);
+						} else {
+							break _v1_2;
+						}
+					case 'MinuteIndicator':
+						if (_p1._2.ctor === 'Just') {
+							return _abadi199$datetimepicker$DateTimePicker_ClockUtils$minuteToAngle(_p1._2._0);
+						} else {
+							break _v1_2;
+						}
+					default:
+						break _v1_2;
+				}
+			} while(false);
+			return _elm_lang$core$Maybe$Nothing;
+		}();
+		var updatedActiveTimeIndicator = _elm_lang$core$Native_Utils.eq(
+			stateValue.activeTimeIndicator,
+			_elm_lang$core$Maybe$Just(timeIndicator)) ? _elm_lang$core$Maybe$Nothing : _elm_lang$core$Maybe$Just(timeIndicator);
 		var updatedState = _elm_lang$core$Native_Utils.update(
 			stateValue,
-			{
-				activeTimeIndicator: _elm_lang$core$Maybe$Just(timeIndicator),
-				currentAngle: _elm_lang$core$Maybe$Nothing
-			});
+			{activeTimeIndicator: updatedActiveTimeIndicator, currentAngle: currentAngle});
 		return A2(
 			config.onChange,
 			_abadi199$datetimepicker$DateTimePicker_Internal$InternalState(updatedState),
@@ -13192,13 +13363,13 @@ var _abadi199$datetimepicker$DateTimePicker$hourUpHandler = F3(
 var _abadi199$datetimepicker$DateTimePicker$onChangeHandler = F3(
 	function (pickerType, stateValue, currentDate) {
 		var withTimeHandler = function (config) {
-			var _p1 = {ctor: '_Tuple4', _0: stateValue.date, _1: stateValue.time.hour, _2: stateValue.time.minute, _3: stateValue.time.amPm};
-			if (((((_p1.ctor === '_Tuple4') && (_p1._0.ctor === 'Just')) && (_p1._1.ctor === 'Just')) && (_p1._2.ctor === 'Just')) && (_p1._3.ctor === 'Just')) {
+			var _p2 = {ctor: '_Tuple4', _0: stateValue.date, _1: stateValue.time.hour, _2: stateValue.time.minute, _3: stateValue.time.amPm};
+			if (((((_p2.ctor === '_Tuple4') && (_p2._0.ctor === 'Just')) && (_p2._1.ctor === 'Just')) && (_p2._2.ctor === 'Just')) && (_p2._3.ctor === 'Just')) {
 				return A2(
 					config.onChange,
 					_abadi199$datetimepicker$DateTimePicker_Internal$InternalState(stateValue),
 					_elm_lang$core$Maybe$Just(
-						A4(_abadi199$datetimepicker$DateTimePicker_DateUtils$setTime, _p1._0._0, _p1._1._0, _p1._2._0, _p1._3._0)));
+						A4(_abadi199$datetimepicker$DateTimePicker_DateUtils$setTime, _p2._0._0, _p2._1._0, _p2._2._0, _p2._3._0)));
 			} else {
 				return A2(
 					config.onChange,
@@ -13212,21 +13383,21 @@ var _abadi199$datetimepicker$DateTimePicker$onChangeHandler = F3(
 				_abadi199$datetimepicker$DateTimePicker_Internal$InternalState(stateValue),
 				stateValue.date);
 		};
-		var _p2 = pickerType;
-		switch (_p2.ctor) {
+		var _p3 = pickerType;
+		switch (_p3.ctor) {
 			case 'DateType':
-				return justDateHandler(_p2._0);
+				return justDateHandler(_p3._0);
 			case 'DateTimeType':
-				return withTimeHandler(_p2._0);
+				return withTimeHandler(_p3._0);
 			default:
-				return withTimeHandler(_p2._0);
+				return withTimeHandler(_p3._0);
 		}
 	});
 var _abadi199$datetimepicker$DateTimePicker$datePickerFocused = F3(
 	function (config, stateValue, currentDate) {
 		var updatedTitleDate = function () {
-			var _p3 = currentDate;
-			if (_p3.ctor === 'Nothing') {
+			var _p4 = currentDate;
+			if (_p4.ctor === 'Nothing') {
 				return stateValue.titleDate;
 			} else {
 				return currentDate;
@@ -13242,21 +13413,21 @@ var _abadi199$datetimepicker$DateTimePicker$datePickerFocused = F3(
 	});
 var _abadi199$datetimepicker$DateTimePicker$amPmClickHandler = F3(
 	function (pickerType, stateValue, amPm) {
-		var _p4 = function () {
-			var _p5 = {ctor: '_Tuple3', _0: stateValue.time.hour, _1: stateValue.time.minute, _2: stateValue.date};
-			if ((((_p5.ctor === '_Tuple3') && (_p5._0.ctor === 'Just')) && (_p5._1.ctor === 'Just')) && (_p5._2.ctor === 'Just')) {
+		var _p5 = function () {
+			var _p6 = {ctor: '_Tuple3', _0: stateValue.time.hour, _1: stateValue.time.minute, _2: stateValue.date};
+			if ((((_p6.ctor === '_Tuple3') && (_p6._0.ctor === 'Just')) && (_p6._1.ctor === 'Just')) && (_p6._2.ctor === 'Just')) {
 				return {
 					ctor: '_Tuple2',
 					_0: _elm_lang$core$Maybe$Just(
-						A4(_abadi199$datetimepicker$DateTimePicker_DateUtils$setTime, _p5._2._0, _p5._0._0, _p5._1._0, amPm)),
+						A4(_abadi199$datetimepicker$DateTimePicker_DateUtils$setTime, _p6._2._0, _p6._0._0, _p6._1._0, amPm)),
 					_1: true
 				};
 			} else {
 				return {ctor: '_Tuple2', _0: _elm_lang$core$Maybe$Nothing, _1: false};
 			}
 		}();
-		var updatedDate = _p4._0;
-		var forceCloseWithDate = _p4._1;
+		var updatedDate = _p5._0;
+		var forceCloseWithDate = _p5._1;
 		var time = stateValue.time;
 		var updatedStateValue = _elm_lang$core$Native_Utils.update(
 			stateValue,
@@ -13268,21 +13439,21 @@ var _abadi199$datetimepicker$DateTimePicker$amPmClickHandler = F3(
 					}),
 				event: 'amPmClickHandler'
 			});
-		var _p6 = function () {
-			var _p7 = {ctor: '_Tuple2', _0: updatedStateValue.time.hour, _1: updatedStateValue.time.minute};
-			if (((_p7.ctor === '_Tuple2') && (_p7._0.ctor === 'Just')) && (_p7._1.ctor === 'Just')) {
+		var _p7 = function () {
+			var _p8 = {ctor: '_Tuple2', _0: updatedStateValue.time.hour, _1: updatedStateValue.time.minute};
+			if (((_p8.ctor === '_Tuple2') && (_p8._0.ctor === 'Just')) && (_p8._1.ctor === 'Just')) {
 				return {
 					ctor: '_Tuple2',
 					_0: _elm_lang$core$Maybe$Just(
-						A3(_abadi199$datetimepicker$DateTimePicker_DateUtils$toTime, _p7._0._0, _p7._1._0, amPm)),
+						A3(_abadi199$datetimepicker$DateTimePicker_DateUtils$toTime, _p8._0._0, _p8._1._0, amPm)),
 					_1: true
 				};
 			} else {
 				return {ctor: '_Tuple2', _0: _elm_lang$core$Maybe$Nothing, _1: false};
 			}
 		}();
-		var updatedTime = _p6._0;
-		var forceCloseTimeOnly = _p6._1;
+		var updatedTime = _p7._0;
+		var forceCloseTimeOnly = _p7._1;
 		var withDateHandler = function (config) {
 			return A2(
 				config.onChange,
@@ -13301,33 +13472,33 @@ var _abadi199$datetimepicker$DateTimePicker$amPmClickHandler = F3(
 						{forceClose: forceCloseTimeOnly})),
 				updatedTime);
 		};
-		var _p8 = pickerType;
-		switch (_p8.ctor) {
+		var _p9 = pickerType;
+		switch (_p9.ctor) {
 			case 'DateType':
-				return withDateHandler(_p8._0);
+				return withDateHandler(_p9._0);
 			case 'DateTimeType':
-				return withDateHandler(_p8._0);
+				return withDateHandler(_p9._0);
 			default:
-				return justTimeHandler(_p8._0);
+				return justTimeHandler(_p9._0);
 		}
 	});
 var _abadi199$datetimepicker$DateTimePicker$minuteClickHandler = F3(
 	function (pickerType, stateValue, minute) {
-		var _p9 = function () {
-			var _p10 = {ctor: '_Tuple3', _0: stateValue.time.hour, _1: stateValue.time.amPm, _2: stateValue.date};
-			if ((((_p10.ctor === '_Tuple3') && (_p10._0.ctor === 'Just')) && (_p10._1.ctor === 'Just')) && (_p10._2.ctor === 'Just')) {
+		var _p10 = function () {
+			var _p11 = {ctor: '_Tuple3', _0: stateValue.time.hour, _1: stateValue.time.amPm, _2: stateValue.date};
+			if ((((_p11.ctor === '_Tuple3') && (_p11._0.ctor === 'Just')) && (_p11._1.ctor === 'Just')) && (_p11._2.ctor === 'Just')) {
 				return {
 					ctor: '_Tuple2',
 					_0: _elm_lang$core$Maybe$Just(
-						A4(_abadi199$datetimepicker$DateTimePicker_DateUtils$setTime, _p10._2._0, _p10._0._0, minute, _p10._1._0)),
+						A4(_abadi199$datetimepicker$DateTimePicker_DateUtils$setTime, _p11._2._0, _p11._0._0, minute, _p11._1._0)),
 					_1: true
 				};
 			} else {
 				return {ctor: '_Tuple2', _0: _elm_lang$core$Maybe$Nothing, _1: false};
 			}
 		}();
-		var updatedDate = _p9._0;
-		var forceCloseWithDate = _p9._1;
+		var updatedDate = _p10._0;
+		var forceCloseWithDate = _p10._1;
 		var time = stateValue.time;
 		var updatedStateValue = _elm_lang$core$Native_Utils.update(
 			stateValue,
@@ -13339,21 +13510,21 @@ var _abadi199$datetimepicker$DateTimePicker$minuteClickHandler = F3(
 					}),
 				event: 'minuteClickHandler'
 			});
-		var _p11 = function () {
-			var _p12 = {ctor: '_Tuple2', _0: updatedStateValue.time.hour, _1: updatedStateValue.time.amPm};
-			if (((_p12.ctor === '_Tuple2') && (_p12._0.ctor === 'Just')) && (_p12._1.ctor === 'Just')) {
+		var _p12 = function () {
+			var _p13 = {ctor: '_Tuple2', _0: updatedStateValue.time.hour, _1: updatedStateValue.time.amPm};
+			if (((_p13.ctor === '_Tuple2') && (_p13._0.ctor === 'Just')) && (_p13._1.ctor === 'Just')) {
 				return {
 					ctor: '_Tuple2',
 					_0: _elm_lang$core$Maybe$Just(
-						A3(_abadi199$datetimepicker$DateTimePicker_DateUtils$toTime, _p12._0._0, minute, _p12._1._0)),
+						A3(_abadi199$datetimepicker$DateTimePicker_DateUtils$toTime, _p13._0._0, minute, _p13._1._0)),
 					_1: true
 				};
 			} else {
 				return {ctor: '_Tuple2', _0: _elm_lang$core$Maybe$Nothing, _1: false};
 			}
 		}();
-		var updatedTime = _p11._0;
-		var forceCloseTimeOnly = _p11._1;
+		var updatedTime = _p12._0;
+		var forceCloseTimeOnly = _p12._1;
 		var withDateHandler = function (config) {
 			return A2(
 				config.onChange,
@@ -13372,33 +13543,33 @@ var _abadi199$datetimepicker$DateTimePicker$minuteClickHandler = F3(
 						{forceClose: forceCloseTimeOnly})),
 				updatedTime);
 		};
-		var _p13 = pickerType;
-		switch (_p13.ctor) {
+		var _p14 = pickerType;
+		switch (_p14.ctor) {
 			case 'DateType':
-				return withDateHandler(_p13._0);
+				return withDateHandler(_p14._0);
 			case 'DateTimeType':
-				return withDateHandler(_p13._0);
+				return withDateHandler(_p14._0);
 			default:
-				return justTimeHandler(_p13._0);
+				return justTimeHandler(_p14._0);
 		}
 	});
 var _abadi199$datetimepicker$DateTimePicker$hourClickHandler = F3(
 	function (pickerType, stateValue, hour) {
-		var _p14 = function () {
-			var _p15 = {ctor: '_Tuple3', _0: stateValue.time.minute, _1: stateValue.time.amPm, _2: stateValue.date};
-			if ((((_p15.ctor === '_Tuple3') && (_p15._0.ctor === 'Just')) && (_p15._1.ctor === 'Just')) && (_p15._2.ctor === 'Just')) {
+		var _p15 = function () {
+			var _p16 = {ctor: '_Tuple3', _0: stateValue.time.minute, _1: stateValue.time.amPm, _2: stateValue.date};
+			if ((((_p16.ctor === '_Tuple3') && (_p16._0.ctor === 'Just')) && (_p16._1.ctor === 'Just')) && (_p16._2.ctor === 'Just')) {
 				return {
 					ctor: '_Tuple2',
 					_0: _elm_lang$core$Maybe$Just(
-						A4(_abadi199$datetimepicker$DateTimePicker_DateUtils$setTime, _p15._2._0, hour, _p15._0._0, _p15._1._0)),
+						A4(_abadi199$datetimepicker$DateTimePicker_DateUtils$setTime, _p16._2._0, hour, _p16._0._0, _p16._1._0)),
 					_1: true
 				};
 			} else {
 				return {ctor: '_Tuple2', _0: _elm_lang$core$Maybe$Nothing, _1: false};
 			}
 		}();
-		var updatedDate = _p14._0;
-		var forceCloseWithDate = _p14._1;
+		var updatedDate = _p15._0;
+		var forceCloseWithDate = _p15._1;
 		var time = stateValue.time;
 		var updatedStateValue = _elm_lang$core$Native_Utils.update(
 			stateValue,
@@ -13410,21 +13581,21 @@ var _abadi199$datetimepicker$DateTimePicker$hourClickHandler = F3(
 					}),
 				event: 'hourClickHandler'
 			});
-		var _p16 = function () {
-			var _p17 = {ctor: '_Tuple2', _0: updatedStateValue.time.minute, _1: updatedStateValue.time.amPm};
-			if (((_p17.ctor === '_Tuple2') && (_p17._0.ctor === 'Just')) && (_p17._1.ctor === 'Just')) {
+		var _p17 = function () {
+			var _p18 = {ctor: '_Tuple2', _0: updatedStateValue.time.minute, _1: updatedStateValue.time.amPm};
+			if (((_p18.ctor === '_Tuple2') && (_p18._0.ctor === 'Just')) && (_p18._1.ctor === 'Just')) {
 				return {
 					ctor: '_Tuple2',
 					_0: _elm_lang$core$Maybe$Just(
-						A3(_abadi199$datetimepicker$DateTimePicker_DateUtils$toTime, hour, _p17._0._0, _p17._1._0)),
+						A3(_abadi199$datetimepicker$DateTimePicker_DateUtils$toTime, hour, _p18._0._0, _p18._1._0)),
 					_1: true
 				};
 			} else {
 				return {ctor: '_Tuple2', _0: _elm_lang$core$Maybe$Nothing, _1: false};
 			}
 		}();
-		var updatedTime = _p16._0;
-		var forceCloseTimeOnly = _p16._1;
+		var updatedTime = _p17._0;
+		var forceCloseTimeOnly = _p17._1;
 		var withDateHandler = function (config) {
 			return A2(
 				config.onChange,
@@ -13443,39 +13614,39 @@ var _abadi199$datetimepicker$DateTimePicker$hourClickHandler = F3(
 						{forceClose: forceCloseTimeOnly})),
 				updatedTime);
 		};
-		var _p18 = pickerType;
-		switch (_p18.ctor) {
+		var _p19 = pickerType;
+		switch (_p19.ctor) {
 			case 'DateType':
-				return withDateHandler(_p18._0);
+				return withDateHandler(_p19._0);
 			case 'DateTimeType':
-				return withDateHandler(_p18._0);
+				return withDateHandler(_p19._0);
 			default:
-				return justTimeHandler(_p18._0);
+				return justTimeHandler(_p19._0);
 		}
 	});
-var _abadi199$datetimepicker$DateTimePicker$inputChangeHandler = F3(
-	function (config, stateValue, maybeDate) {
-		var _p19 = maybeDate;
-		if (_p19.ctor === 'Just') {
-			var _p20 = _p19._0;
+var _abadi199$datetimepicker$DateTimePicker$inputChangeHandler = F4(
+	function (config, stateValue, currentDate, maybeDate) {
+		var _p20 = maybeDate;
+		if (_p20.ctor === 'Just') {
+			var _p21 = _p20._0;
 			var updateTime = function (time) {
 				return _elm_lang$core$Native_Utils.update(
 					time,
 					{
 						hour: _elm_lang$core$Maybe$Just(
 							_abadi199$datetimepicker$DateTimePicker_DateUtils$fromMillitaryHour(
-								_elm_lang$core$Date$hour(_p20))),
+								_elm_lang$core$Date$hour(_p21))),
 						minute: _elm_lang$core$Maybe$Just(
-							_elm_lang$core$Date$minute(_p20)),
+							_elm_lang$core$Date$minute(_p21)),
 						amPm: _elm_lang$core$Maybe$Just(
 							_abadi199$datetimepicker$DateTimePicker_DateUtils$fromMillitaryAmPm(
-								_elm_lang$core$Date$hour(_p20)))
+								_elm_lang$core$Date$hour(_p21)))
 					});
 			};
 			var updatedValue = _elm_lang$core$Native_Utils.update(
 				stateValue,
 				{
-					date: _elm_lang$core$Maybe$Just(_p20),
+					date: _elm_lang$core$Maybe$Just(_p21),
 					time: updateTime(stateValue.time),
 					inputFocused: false,
 					event: 'inputChangeHandler'
@@ -13485,16 +13656,25 @@ var _abadi199$datetimepicker$DateTimePicker$inputChangeHandler = F3(
 				_abadi199$datetimepicker$DateTimePicker_Internal$InternalState(updatedValue),
 				maybeDate);
 		} else {
+			var _p22 = function () {
+				var _p23 = currentDate;
+				if (_p23.ctor === 'Just') {
+					return {
+						ctor: '_Tuple3',
+						_0: {hour: _elm_lang$core$Maybe$Nothing, minute: _elm_lang$core$Maybe$Nothing, amPm: _elm_lang$core$Maybe$Nothing},
+						_1: _elm_lang$core$Maybe$Just(_abadi199$datetimepicker$DateTimePicker_Internal$HourIndicator),
+						_2: _elm_lang$core$Maybe$Nothing
+					};
+				} else {
+					return {ctor: '_Tuple3', _0: stateValue.time, _1: stateValue.activeTimeIndicator, _2: stateValue.date};
+				}
+			}();
+			var updatedTime = _p22._0;
+			var updatedActiveTimeIndicator = _p22._1;
+			var updatedDate = _p22._2;
 			var updatedValue = _elm_lang$core$Native_Utils.update(
 				stateValue,
-				{
-					date: _elm_lang$core$Maybe$Nothing,
-					time: {hour: _elm_lang$core$Maybe$Nothing, minute: _elm_lang$core$Maybe$Nothing, amPm: _elm_lang$core$Maybe$Nothing},
-					hourPickerStart: _abadi199$datetimepicker$DateTimePicker_Internal$initialStateValue.hourPickerStart,
-					minutePickerStart: _abadi199$datetimepicker$DateTimePicker_Internal$initialStateValue.minutePickerStart,
-					inputFocused: false,
-					event: 'inputChangeHandler'
-				});
+				{date: updatedDate, time: updatedTime, hourPickerStart: _abadi199$datetimepicker$DateTimePicker_Internal$initialStateValue.hourPickerStart, minutePickerStart: _abadi199$datetimepicker$DateTimePicker_Internal$initialStateValue.minutePickerStart, inputFocused: false, event: 'inputChangeHandler', activeTimeIndicator: updatedActiveTimeIndicator});
 			return A2(
 				config.onChange,
 				_abadi199$datetimepicker$DateTimePicker_Internal$InternalState(updatedValue),
@@ -13581,16 +13761,16 @@ var _abadi199$datetimepicker$DateTimePicker$dayNames = function (config) {
 			}
 		}
 	};
-	return function (_p21) {
-		var _p22 = _p21;
-		return A2(_elm_lang$core$Basics_ops['++'], _p22._1, _p22._0);
+	return function (_p24) {
+		var _p25 = _p24;
+		return A2(_elm_lang$core$Basics_ops['++'], _p25._1, _p25._0);
 	}(
 		A2(_elm_community$list_extra$List_Extra$splitAt, shiftAmount, days));
 };
-var _abadi199$datetimepicker$DateTimePicker$_p23 = _abadi199$datetimepicker$DateTimePicker_SharedStyles$datepickerNamespace;
-var _abadi199$datetimepicker$DateTimePicker$id = _abadi199$datetimepicker$DateTimePicker$_p23.id;
-var _abadi199$datetimepicker$DateTimePicker$class = _abadi199$datetimepicker$DateTimePicker$_p23.$class;
-var _abadi199$datetimepicker$DateTimePicker$classList = _abadi199$datetimepicker$DateTimePicker$_p23.classList;
+var _abadi199$datetimepicker$DateTimePicker$_p26 = _abadi199$datetimepicker$DateTimePicker_SharedStyles$datepickerNamespace;
+var _abadi199$datetimepicker$DateTimePicker$id = _abadi199$datetimepicker$DateTimePicker$_p26.id;
+var _abadi199$datetimepicker$DateTimePicker$class = _abadi199$datetimepicker$DateTimePicker$_p26.$class;
+var _abadi199$datetimepicker$DateTimePicker$classList = _abadi199$datetimepicker$DateTimePicker$_p26.classList;
 var _abadi199$datetimepicker$DateTimePicker$digitalTimePickerDialog = F3(
 	function (pickerType, state, currentDate) {
 		var ampmList = {
@@ -13624,37 +13804,42 @@ var _abadi199$datetimepicker$DateTimePicker$digitalTimePickerDialog = F3(
 						A3(_abadi199$datetimepicker$DateTimePicker$hourClickHandler, pickerType, stateValue, hour)),
 					_1: {
 						ctor: '::',
-						_0: A2(
-							_elm_lang$core$Maybe$withDefault,
-							_abadi199$datetimepicker$DateTimePicker$class(
-								{ctor: '[]'}),
-							A2(
-								_elm_lang$core$Maybe$map,
-								function (selected) {
-									return selected ? _abadi199$datetimepicker$DateTimePicker$class(
-										{
-											ctor: '::',
-											_0: _abadi199$datetimepicker$DateTimePicker_SharedStyles$SelectedHour,
-											_1: {ctor: '[]'}
-										}) : _abadi199$datetimepicker$DateTimePicker$class(
-										{ctor: '[]'});
-								},
+						_0: _abadi199$datetimepicker$DateTimePicker_Events$onTouchStartPreventDefault(
+							A3(_abadi199$datetimepicker$DateTimePicker$hourClickHandler, pickerType, stateValue, hour)),
+						_1: {
+							ctor: '::',
+							_0: A2(
+								_elm_lang$core$Maybe$withDefault,
+								_abadi199$datetimepicker$DateTimePicker$class(
+									{ctor: '[]'}),
 								A2(
 									_elm_lang$core$Maybe$map,
-									F2(
-										function (x, y) {
-											return _elm_lang$core$Native_Utils.eq(x, y);
-										})(hour),
-									stateValue.time.hour))),
-						_1: {ctor: '[]'}
+									function (selected) {
+										return selected ? _abadi199$datetimepicker$DateTimePicker$class(
+											{
+												ctor: '::',
+												_0: _abadi199$datetimepicker$DateTimePicker_SharedStyles$SelectedHour,
+												_1: {ctor: '[]'}
+											}) : _abadi199$datetimepicker$DateTimePicker$class(
+											{ctor: '[]'});
+									},
+									A2(
+										_elm_lang$core$Maybe$map,
+										F2(
+											function (x, y) {
+												return _elm_lang$core$Native_Utils.eq(x, y);
+											})(hour),
+										stateValue.time.hour))),
+							_1: {ctor: '[]'}
+						}
 					}
 				},
 				{
 					ctor: '::',
 					_0: _elm_lang$html$Html$text(
-						function (_p24) {
+						function (_p27) {
 							return _abadi199$datetimepicker$DateTimePicker_DateUtils$padding(
-								_elm_lang$core$Basics$toString(_p24));
+								_elm_lang$core$Basics$toString(_p27));
 						}(hour)),
 					_1: {ctor: '[]'}
 				});
@@ -13668,37 +13853,42 @@ var _abadi199$datetimepicker$DateTimePicker$digitalTimePickerDialog = F3(
 						A3(_abadi199$datetimepicker$DateTimePicker$minuteClickHandler, pickerType, stateValue, min)),
 					_1: {
 						ctor: '::',
-						_0: A2(
-							_elm_lang$core$Maybe$withDefault,
-							_abadi199$datetimepicker$DateTimePicker$class(
-								{ctor: '[]'}),
-							A2(
-								_elm_lang$core$Maybe$map,
-								function (selected) {
-									return selected ? _abadi199$datetimepicker$DateTimePicker$class(
-										{
-											ctor: '::',
-											_0: _abadi199$datetimepicker$DateTimePicker_SharedStyles$SelectedMinute,
-											_1: {ctor: '[]'}
-										}) : _abadi199$datetimepicker$DateTimePicker$class(
-										{ctor: '[]'});
-								},
+						_0: _abadi199$datetimepicker$DateTimePicker_Events$onTouchStartPreventDefault(
+							A3(_abadi199$datetimepicker$DateTimePicker$minuteClickHandler, pickerType, stateValue, min)),
+						_1: {
+							ctor: '::',
+							_0: A2(
+								_elm_lang$core$Maybe$withDefault,
+								_abadi199$datetimepicker$DateTimePicker$class(
+									{ctor: '[]'}),
 								A2(
 									_elm_lang$core$Maybe$map,
-									F2(
-										function (x, y) {
-											return _elm_lang$core$Native_Utils.eq(x, y);
-										})(min),
-									stateValue.time.minute))),
-						_1: {ctor: '[]'}
+									function (selected) {
+										return selected ? _abadi199$datetimepicker$DateTimePicker$class(
+											{
+												ctor: '::',
+												_0: _abadi199$datetimepicker$DateTimePicker_SharedStyles$SelectedMinute,
+												_1: {ctor: '[]'}
+											}) : _abadi199$datetimepicker$DateTimePicker$class(
+											{ctor: '[]'});
+									},
+									A2(
+										_elm_lang$core$Maybe$map,
+										F2(
+											function (x, y) {
+												return _elm_lang$core$Native_Utils.eq(x, y);
+											})(min),
+										stateValue.time.minute))),
+							_1: {ctor: '[]'}
+						}
 					}
 				},
 				{
 					ctor: '::',
 					_0: _elm_lang$html$Html$text(
-						function (_p25) {
+						function (_p28) {
 							return _abadi199$datetimepicker$DateTimePicker_DateUtils$padding(
-								_elm_lang$core$Basics$toString(_p25));
+								_elm_lang$core$Basics$toString(_p28));
 						}(min)),
 					_1: {ctor: '[]'}
 				});
@@ -13742,7 +13932,12 @@ var _abadi199$datetimepicker$DateTimePicker$digitalTimePickerDialog = F3(
 						ctor: '::',
 						_0: _abadi199$datetimepicker$DateTimePicker_Events$onMouseDownPreventDefault(
 							A3(_abadi199$datetimepicker$DateTimePicker$amPmClickHandler, pickerType, stateValue, ampm)),
-						_1: {ctor: '[]'}
+						_1: {
+							ctor: '::',
+							_0: _abadi199$datetimepicker$DateTimePicker_Events$onTouchStartPreventDefault(
+								A3(_abadi199$datetimepicker$DateTimePicker$amPmClickHandler, pickerType, stateValue, ampm)),
+							_1: {ctor: '[]'}
+						}
 					}),
 				{
 					ctor: '::',
@@ -13801,7 +13996,12 @@ var _abadi199$datetimepicker$DateTimePicker$digitalTimePickerDialog = F3(
 								ctor: '::',
 								_0: _abadi199$datetimepicker$DateTimePicker_Events$onMouseDownPreventDefault(
 									A3(_abadi199$datetimepicker$DateTimePicker$hourUpHandler, config, stateValue, currentDate)),
-								_1: {ctor: '[]'}
+								_1: {
+									ctor: '::',
+									_0: _abadi199$datetimepicker$DateTimePicker_Events$onTouchStartPreventDefault(
+										A3(_abadi199$datetimepicker$DateTimePicker$hourUpHandler, config, stateValue, currentDate)),
+									_1: {ctor: '[]'}
+								}
 							},
 							{
 								ctor: '::',
@@ -13816,7 +14016,12 @@ var _abadi199$datetimepicker$DateTimePicker$digitalTimePickerDialog = F3(
 									ctor: '::',
 									_0: _abadi199$datetimepicker$DateTimePicker_Events$onMouseDownPreventDefault(
 										A3(_abadi199$datetimepicker$DateTimePicker$minuteUpHandler, config, stateValue, currentDate)),
-									_1: {ctor: '[]'}
+									_1: {
+										ctor: '::',
+										_0: _abadi199$datetimepicker$DateTimePicker_Events$onTouchStartPreventDefault(
+											A3(_abadi199$datetimepicker$DateTimePicker$minuteUpHandler, config, stateValue, currentDate)),
+										_1: {ctor: '[]'}
+									}
 								},
 								{
 									ctor: '::',
@@ -13859,7 +14064,12 @@ var _abadi199$datetimepicker$DateTimePicker$digitalTimePickerDialog = F3(
 								ctor: '::',
 								_0: _abadi199$datetimepicker$DateTimePicker_Events$onMouseDownPreventDefault(
 									A3(_abadi199$datetimepicker$DateTimePicker$hourDownHandler, config, stateValue, currentDate)),
-								_1: {ctor: '[]'}
+								_1: {
+									ctor: '::',
+									_0: _abadi199$datetimepicker$DateTimePicker_Events$onTouchStartPreventDefault(
+										A3(_abadi199$datetimepicker$DateTimePicker$hourDownHandler, config, stateValue, currentDate)),
+									_1: {ctor: '[]'}
+								}
 							},
 							{
 								ctor: '::',
@@ -13874,7 +14084,12 @@ var _abadi199$datetimepicker$DateTimePicker$digitalTimePickerDialog = F3(
 									ctor: '::',
 									_0: _abadi199$datetimepicker$DateTimePicker_Events$onMouseDownPreventDefault(
 										A3(_abadi199$datetimepicker$DateTimePicker$minuteDownHandler, config, stateValue, currentDate)),
-									_1: {ctor: '[]'}
+									_1: {
+										ctor: '::',
+										_0: _abadi199$datetimepicker$DateTimePicker_Events$onTouchStartPreventDefault(
+											A3(_abadi199$datetimepicker$DateTimePicker$hourDownHandler, config, stateValue, currentDate)),
+										_1: {ctor: '[]'}
+									}
 								},
 								{
 									ctor: '::',
@@ -13973,14 +14188,14 @@ var _abadi199$datetimepicker$DateTimePicker$digitalTimePickerDialog = F3(
 					}
 				});
 		};
-		var _p26 = pickerType;
-		switch (_p26.ctor) {
+		var _p29 = pickerType;
+		switch (_p29.ctor) {
 			case 'DateType':
 				return _elm_lang$html$Html$text('');
 			case 'DateTimeType':
-				return html(_p26._0);
+				return html(_p29._0);
 			default:
-				return html(_p26._0);
+				return html(_p29._0);
 		}
 	});
 var _abadi199$datetimepicker$DateTimePicker$analogTimePickerDialog = F3(
@@ -14018,29 +14233,34 @@ var _abadi199$datetimepicker$DateTimePicker$analogTimePickerDialog = F3(
 								A5(_abadi199$datetimepicker$DateTimePicker$amPmPickerHandler, pickerType, config, stateValue, currentDate, 'AM')),
 							_1: {
 								ctor: '::',
-								_0: function () {
-									var _p27 = stateValue.time.amPm;
-									if ((_p27.ctor === 'Just') && (_p27._0 === 'AM')) {
-										return _abadi199$datetimepicker$DateTimePicker$class(
-											{
-												ctor: '::',
-												_0: _abadi199$datetimepicker$DateTimePicker_SharedStyles$AM,
-												_1: {
+								_0: _abadi199$datetimepicker$DateTimePicker_Events$onTouchStartPreventDefault(
+									A5(_abadi199$datetimepicker$DateTimePicker$amPmPickerHandler, pickerType, config, stateValue, currentDate, 'AM')),
+								_1: {
+									ctor: '::',
+									_0: function () {
+										var _p30 = stateValue.time.amPm;
+										if ((_p30.ctor === 'Just') && (_p30._0 === 'AM')) {
+											return _abadi199$datetimepicker$DateTimePicker$class(
+												{
 													ctor: '::',
-													_0: _abadi199$datetimepicker$DateTimePicker_SharedStyles$SelectedAmPm,
+													_0: _abadi199$datetimepicker$DateTimePicker_SharedStyles$AM,
+													_1: {
+														ctor: '::',
+														_0: _abadi199$datetimepicker$DateTimePicker_SharedStyles$SelectedAmPm,
+														_1: {ctor: '[]'}
+													}
+												});
+										} else {
+											return _abadi199$datetimepicker$DateTimePicker$class(
+												{
+													ctor: '::',
+													_0: _abadi199$datetimepicker$DateTimePicker_SharedStyles$AM,
 													_1: {ctor: '[]'}
-												}
-											});
-									} else {
-										return _abadi199$datetimepicker$DateTimePicker$class(
-											{
-												ctor: '::',
-												_0: _abadi199$datetimepicker$DateTimePicker_SharedStyles$AM,
-												_1: {ctor: '[]'}
-											});
-									}
-								}(),
-								_1: {ctor: '[]'}
+												});
+										}
+									}(),
+									_1: {ctor: '[]'}
+								}
 							}
 						},
 						{
@@ -14058,29 +14278,34 @@ var _abadi199$datetimepicker$DateTimePicker$analogTimePickerDialog = F3(
 									A5(_abadi199$datetimepicker$DateTimePicker$amPmPickerHandler, pickerType, config, stateValue, currentDate, 'PM')),
 								_1: {
 									ctor: '::',
-									_0: function () {
-										var _p28 = stateValue.time.amPm;
-										if ((_p28.ctor === 'Just') && (_p28._0 === 'PM')) {
-											return _abadi199$datetimepicker$DateTimePicker$class(
-												{
-													ctor: '::',
-													_0: _abadi199$datetimepicker$DateTimePicker_SharedStyles$PM,
-													_1: {
+									_0: _abadi199$datetimepicker$DateTimePicker_Events$onTouchStartPreventDefault(
+										A5(_abadi199$datetimepicker$DateTimePicker$amPmPickerHandler, pickerType, config, stateValue, currentDate, 'PM')),
+									_1: {
+										ctor: '::',
+										_0: function () {
+											var _p31 = stateValue.time.amPm;
+											if ((_p31.ctor === 'Just') && (_p31._0 === 'PM')) {
+												return _abadi199$datetimepicker$DateTimePicker$class(
+													{
 														ctor: '::',
-														_0: _abadi199$datetimepicker$DateTimePicker_SharedStyles$SelectedAmPm,
+														_0: _abadi199$datetimepicker$DateTimePicker_SharedStyles$PM,
+														_1: {
+															ctor: '::',
+															_0: _abadi199$datetimepicker$DateTimePicker_SharedStyles$SelectedAmPm,
+															_1: {ctor: '[]'}
+														}
+													});
+											} else {
+												return _abadi199$datetimepicker$DateTimePicker$class(
+													{
+														ctor: '::',
+														_0: _abadi199$datetimepicker$DateTimePicker_SharedStyles$PM,
 														_1: {ctor: '[]'}
-													}
-												});
-										} else {
-											return _abadi199$datetimepicker$DateTimePicker$class(
-												{
-													ctor: '::',
-													_0: _abadi199$datetimepicker$DateTimePicker_SharedStyles$PM,
-													_1: {ctor: '[]'}
-												});
-										}
-									}(),
-									_1: {ctor: '[]'}
+													});
+											}
+										}(),
+										_1: {ctor: '[]'}
+									}
 								}
 							},
 							{
@@ -14133,13 +14358,18 @@ var _abadi199$datetimepicker$DateTimePicker$analogTimePickerDialog = F3(
 										A4(_abadi199$datetimepicker$DateTimePicker$timeIndicatorHandler, config, stateValue, currentDate, _abadi199$datetimepicker$DateTimePicker_Internal$HourIndicator)),
 									_1: {
 										ctor: '::',
-										_0: _abadi199$datetimepicker$DateTimePicker$class(
-											{
-												ctor: '::',
-												_0: _abadi199$datetimepicker$DateTimePicker_SharedStyles$Hour,
-												_1: isActive(_abadi199$datetimepicker$DateTimePicker_Internal$HourIndicator)
-											}),
-										_1: {ctor: '[]'}
+										_0: _abadi199$datetimepicker$DateTimePicker_Events$onTouchStartPreventDefault(
+											A4(_abadi199$datetimepicker$DateTimePicker$timeIndicatorHandler, config, stateValue, currentDate, _abadi199$datetimepicker$DateTimePicker_Internal$HourIndicator)),
+										_1: {
+											ctor: '::',
+											_0: _abadi199$datetimepicker$DateTimePicker$class(
+												{
+													ctor: '::',
+													_0: _abadi199$datetimepicker$DateTimePicker_SharedStyles$Hour,
+													_1: isActive(_abadi199$datetimepicker$DateTimePicker_Internal$HourIndicator)
+												}),
+											_1: {ctor: '[]'}
+										}
 									}
 								},
 								{
@@ -14150,9 +14380,9 @@ var _abadi199$datetimepicker$DateTimePicker$analogTimePickerDialog = F3(
 											'--',
 											A2(
 												_elm_lang$core$Maybe$map,
-												function (_p29) {
+												function (_p32) {
 													return _abadi199$datetimepicker$DateTimePicker_DateUtils$padding(
-														_elm_lang$core$Basics$toString(_p29));
+														_elm_lang$core$Basics$toString(_p32));
 												},
 												stateValue.time.hour))),
 									_1: {ctor: '[]'}
@@ -14186,13 +14416,18 @@ var _abadi199$datetimepicker$DateTimePicker$analogTimePickerDialog = F3(
 												A4(_abadi199$datetimepicker$DateTimePicker$timeIndicatorHandler, config, stateValue, currentDate, _abadi199$datetimepicker$DateTimePicker_Internal$MinuteIndicator)),
 											_1: {
 												ctor: '::',
-												_0: _abadi199$datetimepicker$DateTimePicker$class(
-													{
-														ctor: '::',
-														_0: _abadi199$datetimepicker$DateTimePicker_SharedStyles$Minute,
-														_1: isActive(_abadi199$datetimepicker$DateTimePicker_Internal$MinuteIndicator)
-													}),
-												_1: {ctor: '[]'}
+												_0: _abadi199$datetimepicker$DateTimePicker_Events$onTouchStartPreventDefault(
+													A4(_abadi199$datetimepicker$DateTimePicker$timeIndicatorHandler, config, stateValue, currentDate, _abadi199$datetimepicker$DateTimePicker_Internal$MinuteIndicator)),
+												_1: {
+													ctor: '::',
+													_0: _abadi199$datetimepicker$DateTimePicker$class(
+														{
+															ctor: '::',
+															_0: _abadi199$datetimepicker$DateTimePicker_SharedStyles$Minute,
+															_1: isActive(_abadi199$datetimepicker$DateTimePicker_Internal$MinuteIndicator)
+														}),
+													_1: {ctor: '[]'}
+												}
 											}
 										},
 										{
@@ -14203,9 +14438,9 @@ var _abadi199$datetimepicker$DateTimePicker$analogTimePickerDialog = F3(
 													'--',
 													A2(
 														_elm_lang$core$Maybe$map,
-														function (_p30) {
+														function (_p33) {
 															return _abadi199$datetimepicker$DateTimePicker_DateUtils$padding(
-																_elm_lang$core$Basics$toString(_p30));
+																_elm_lang$core$Basics$toString(_p33));
 														},
 														stateValue.time.minute))),
 											_1: {ctor: '[]'}
@@ -14220,13 +14455,18 @@ var _abadi199$datetimepicker$DateTimePicker$analogTimePickerDialog = F3(
 													A4(_abadi199$datetimepicker$DateTimePicker$timeIndicatorHandler, config, stateValue, currentDate, _abadi199$datetimepicker$DateTimePicker_Internal$AMPMIndicator)),
 												_1: {
 													ctor: '::',
-													_0: _abadi199$datetimepicker$DateTimePicker$class(
-														{
-															ctor: '::',
-															_0: _abadi199$datetimepicker$DateTimePicker_SharedStyles$AMPM,
-															_1: isActive(_abadi199$datetimepicker$DateTimePicker_Internal$AMPMIndicator)
-														}),
-													_1: {ctor: '[]'}
+													_0: _abadi199$datetimepicker$DateTimePicker_Events$onTouchStartPreventDefault(
+														A4(_abadi199$datetimepicker$DateTimePicker$timeIndicatorHandler, config, stateValue, currentDate, _abadi199$datetimepicker$DateTimePicker_Internal$AMPMIndicator)),
+													_1: {
+														ctor: '::',
+														_0: _abadi199$datetimepicker$DateTimePicker$class(
+															{
+																ctor: '::',
+																_0: _abadi199$datetimepicker$DateTimePicker_SharedStyles$AMPM,
+																_1: isActive(_abadi199$datetimepicker$DateTimePicker_Internal$AMPMIndicator)
+															}),
+														_1: {ctor: '[]'}
+													}
 												}
 											},
 											{
@@ -14257,8 +14497,8 @@ var _abadi199$datetimepicker$DateTimePicker$analogTimePickerDialog = F3(
 							{
 								ctor: '::',
 								_0: function () {
-									var _p31 = stateValue.activeTimeIndicator;
-									if ((_p31.ctor === 'Just') && (_p31._0.ctor === 'AMPMIndicator')) {
+									var _p34 = stateValue.activeTimeIndicator;
+									if ((_p34.ctor === 'Just') && (_p34._0.ctor === 'AMPMIndicator')) {
 										return amPmPicker(config);
 									} else {
 										return A4(_abadi199$datetimepicker$DateTimePicker_AnalogClock$clock, pickerType, config.onChange, state, currentDate);
@@ -14270,34 +14510,34 @@ var _abadi199$datetimepicker$DateTimePicker$analogTimePickerDialog = F3(
 					}
 				});
 		};
-		var _p32 = pickerType;
-		switch (_p32.ctor) {
+		var _p35 = pickerType;
+		switch (_p35.ctor) {
 			case 'DateType':
 				return _elm_lang$html$Html$text('');
 			case 'DateTimeType':
-				return html(_p32._0);
+				return html(_p35._0);
 			default:
-				return html(_p32._0);
+				return html(_p35._0);
 		}
 	});
 var _abadi199$datetimepicker$DateTimePicker$timePickerDialog = F3(
 	function (pickerType, state, currentDate) {
 		var html = function (config) {
-			var _p33 = config.timePickerType;
-			if (_p33.ctor === 'Digital') {
+			var _p36 = config.timePickerType;
+			if (_p36.ctor === 'Digital') {
 				return A3(_abadi199$datetimepicker$DateTimePicker$digitalTimePickerDialog, pickerType, state, currentDate);
 			} else {
 				return A3(_abadi199$datetimepicker$DateTimePicker$analogTimePickerDialog, pickerType, state, currentDate);
 			}
 		};
-		var _p34 = pickerType;
-		switch (_p34.ctor) {
+		var _p37 = pickerType;
+		switch (_p37.ctor) {
 			case 'DateType':
 				return _elm_lang$html$Html$text('');
 			case 'DateTimeType':
-				return html(_p34._0);
+				return html(_p37._0);
 			default:
-				return html(_p34._0);
+				return html(_p37._0);
 		}
 	});
 var _abadi199$datetimepicker$DateTimePicker$gotoPreviousMonth = F2(
@@ -14329,22 +14569,22 @@ var _abadi199$datetimepicker$DateTimePicker$gotoNextMonth = F2(
 var _abadi199$datetimepicker$DateTimePicker$dateClickHandler = F5(
 	function (pickerType, stateValue, year, month, day) {
 		var selectedDate = A3(_abadi199$datetimepicker$DateTimePicker_DateUtils$toDate, year, month, day);
-		var _p35 = function () {
-			var _p36 = {ctor: '_Tuple4', _0: pickerType, _1: stateValue.time.hour, _2: stateValue.time.minute, _3: stateValue.time.amPm};
-			_v22_2:
+		var _p38 = function () {
+			var _p39 = {ctor: '_Tuple4', _0: pickerType, _1: stateValue.time.hour, _2: stateValue.time.minute, _3: stateValue.time.amPm};
+			_v24_2:
 			do {
-				if (_p36.ctor === '_Tuple4') {
-					switch (_p36._0.ctor) {
+				if (_p39.ctor === '_Tuple4') {
+					switch (_p39._0.ctor) {
 						case 'DateTimeType':
-							if (((_p36._1.ctor === 'Just') && (_p36._2.ctor === 'Just')) && (_p36._3.ctor === 'Just')) {
+							if (((_p39._1.ctor === 'Just') && (_p39._2.ctor === 'Just')) && (_p39._3.ctor === 'Just')) {
 								return {
 									ctor: '_Tuple2',
 									_0: _elm_lang$core$Maybe$Just(
-										A4(_abadi199$datetimepicker$DateTimePicker_DateUtils$setTime, selectedDate, _p36._1._0, _p36._2._0, _p36._3._0)),
+										A4(_abadi199$datetimepicker$DateTimePicker_DateUtils$setTime, selectedDate, _p39._1._0, _p39._2._0, _p39._3._0)),
 									_1: true
 								};
 							} else {
-								break _v22_2;
+								break _v24_2;
 							}
 						case 'DateType':
 							return {
@@ -14353,16 +14593,16 @@ var _abadi199$datetimepicker$DateTimePicker$dateClickHandler = F5(
 								_1: true
 							};
 						default:
-							break _v22_2;
+							break _v24_2;
 					}
 				} else {
-					break _v22_2;
+					break _v24_2;
 				}
 			} while(false);
 			return {ctor: '_Tuple2', _0: _elm_lang$core$Maybe$Nothing, _1: false};
 		}();
-		var updatedDate = _p35._0;
-		var forceClose = _p35._1;
+		var updatedDate = _p38._0;
+		var forceClose = _p38._1;
 		var updatedStateValue = _elm_lang$core$Native_Utils.update(
 			stateValue,
 			{
@@ -14370,8 +14610,8 @@ var _abadi199$datetimepicker$DateTimePicker$dateClickHandler = F5(
 				forceClose: forceClose
 			});
 		var handler = function (config) {
-			var _p37 = day.monthType;
-			switch (_p37.ctor) {
+			var _p40 = day.monthType;
+			switch (_p40.ctor) {
 				case 'Previous':
 					return A3(
 						_abadi199$datetimepicker$DateTimePicker$gotoPreviousMonth,
@@ -14391,25 +14631,25 @@ var _abadi199$datetimepicker$DateTimePicker$dateClickHandler = F5(
 						updatedDate);
 			}
 		};
-		var _p38 = pickerType;
-		switch (_p38.ctor) {
+		var _p41 = pickerType;
+		switch (_p41.ctor) {
 			case 'DateType':
-				return handler(_p38._0);
+				return handler(_p41._0);
 			case 'DateTimeType':
-				return handler(_p38._0);
+				return handler(_p41._0);
 			default:
-				return handler(_p38._0);
+				return handler(_p41._0);
 		}
 	});
 var _abadi199$datetimepicker$DateTimePicker$calendar = F3(
 	function (pickerType, state, currentDate) {
 		var stateValue = _abadi199$datetimepicker$DateTimePicker_Internal$getStateValue(state);
 		var html = function (config) {
-			var _p39 = stateValue.titleDate;
-			if (_p39.ctor === 'Nothing') {
+			var _p42 = stateValue.titleDate;
+			if (_p42.ctor === 'Nothing') {
 				return _elm_lang$html$Html$text('');
 			} else {
-				var _p41 = _p39._0;
+				var _p44 = _p42._0;
 				var header = A2(
 					_elm_lang$html$Html$thead,
 					{
@@ -14430,8 +14670,8 @@ var _abadi199$datetimepicker$DateTimePicker$calendar = F3(
 							_abadi199$datetimepicker$DateTimePicker$dayNames(config)),
 						_1: {ctor: '[]'}
 					});
-				var year = _elm_lang$core$Date$year(_p41);
-				var month = _elm_lang$core$Date$month(_p41);
+				var year = _elm_lang$core$Date$year(_p44);
+				var month = _elm_lang$core$Date$month(_p44);
 				var days = A3(_abadi199$datetimepicker$DateTimePicker_DateUtils$generateCalendar, config.firstDayOfWeek, month, year);
 				var isHighlighted = function (day) {
 					return A2(
@@ -14474,8 +14714,8 @@ var _abadi199$datetimepicker$DateTimePicker$calendar = F3(
 							ctor: '::',
 							_0: _abadi199$datetimepicker$DateTimePicker$class(
 								function () {
-									var _p40 = day.monthType;
-									switch (_p40.ctor) {
+									var _p43 = day.monthType;
+									switch (_p43.ctor) {
 										case 'Previous':
 											return {
 												ctor: '::',
@@ -14508,7 +14748,12 @@ var _abadi199$datetimepicker$DateTimePicker$calendar = F3(
 								ctor: '::',
 								_0: _abadi199$datetimepicker$DateTimePicker_Events$onMouseDownPreventDefault(
 									A5(_abadi199$datetimepicker$DateTimePicker$dateClickHandler, pickerType, stateValue, year, month, day)),
-								_1: {ctor: '[]'}
+								_1: {
+									ctor: '::',
+									_0: _abadi199$datetimepicker$DateTimePicker_Events$onTouchStartPreventDefault(
+										A5(_abadi199$datetimepicker$DateTimePicker$dateClickHandler, pickerType, stateValue, year, month, day)),
+									_1: {ctor: '[]'}
+								}
 							}
 						},
 						{
@@ -14544,7 +14789,7 @@ var _abadi199$datetimepicker$DateTimePicker$calendar = F3(
 					_abadi199$datetimepicker$DateTimePicker_DateUtils$dayToInt,
 					config.firstDayOfWeek,
 					_elm_lang$core$Date$dayOfWeek(
-						_rluiten$elm_date_extra$Date_Extra_Core$toFirstOfMonth(_p41)));
+						_rluiten$elm_date_extra$Date_Extra_Core$toFirstOfMonth(_p44)));
 				return A2(
 					_elm_lang$html$Html$table,
 					{
@@ -14568,12 +14813,12 @@ var _abadi199$datetimepicker$DateTimePicker$calendar = F3(
 					});
 			}
 		};
-		var _p42 = pickerType;
-		switch (_p42.ctor) {
+		var _p45 = pickerType;
+		switch (_p45.ctor) {
 			case 'DateType':
-				return html(_p42._0);
+				return html(_p45._0);
 			case 'DateTimeType':
-				return html(_p42._0);
+				return html(_p45._0);
 			default:
 				return _elm_lang$html$Html$text('');
 		}
@@ -14604,7 +14849,12 @@ var _abadi199$datetimepicker$DateTimePicker$datePickerDialog = F3(
 						ctor: '::',
 						_0: _abadi199$datetimepicker$DateTimePicker_Events$onMouseDownPreventDefault(
 							A3(_abadi199$datetimepicker$DateTimePicker$gotoNextMonth, config, state, currentDate)),
-						_1: {ctor: '[]'}
+						_1: {
+							ctor: '::',
+							_0: _abadi199$datetimepicker$DateTimePicker_Events$onTouchStartPreventDefault(
+								A3(_abadi199$datetimepicker$DateTimePicker$gotoNextMonth, config, state, currentDate)),
+							_1: {ctor: '[]'}
+						}
 					}
 				},
 				{
@@ -14628,7 +14878,12 @@ var _abadi199$datetimepicker$DateTimePicker$datePickerDialog = F3(
 						ctor: '::',
 						_0: _abadi199$datetimepicker$DateTimePicker_Events$onMouseDownPreventDefault(
 							A3(_abadi199$datetimepicker$DateTimePicker$gotoPreviousMonth, config, state, currentDate)),
-						_1: {ctor: '[]'}
+						_1: {
+							ctor: '::',
+							_0: _abadi199$datetimepicker$DateTimePicker_Events$onTouchStartPreventDefault(
+								A3(_abadi199$datetimepicker$DateTimePicker$gotoPreviousMonth, config, state, currentDate)),
+							_1: {ctor: '[]'}
+						}
 					}
 				},
 				{
@@ -14738,12 +14993,12 @@ var _abadi199$datetimepicker$DateTimePicker$datePickerDialog = F3(
 					}
 				});
 		};
-		var _p43 = pickerType;
-		switch (_p43.ctor) {
+		var _p46 = pickerType;
+		switch (_p46.ctor) {
 			case 'DateType':
-				return html(_p43._0);
+				return html(_p46._0);
 			case 'DateTimeType':
-				return html(_p43._0);
+				return html(_p46._0);
 			default:
 				return _elm_lang$html$Html$text('');
 		}
@@ -14779,12 +15034,12 @@ var _abadi199$datetimepicker$DateTimePicker$dialog = F3(
 				}
 			};
 		};
-		var _p44 = pickerType;
-		switch (_p44.ctor) {
+		var _p47 = pickerType;
+		switch (_p47.ctor) {
 			case 'DateType':
 				return A2(
 					_elm_lang$html$Html$div,
-					attributes(_p44._0),
+					attributes(_p47._0),
 					{
 						ctor: '::',
 						_0: A3(_abadi199$datetimepicker$DateTimePicker$datePickerDialog, pickerType, state, currentDate),
@@ -14793,7 +15048,7 @@ var _abadi199$datetimepicker$DateTimePicker$dialog = F3(
 			case 'TimeType':
 				return A2(
 					_elm_lang$html$Html$div,
-					attributes(_p44._0),
+					attributes(_p47._0),
 					{
 						ctor: '::',
 						_0: A3(_abadi199$datetimepicker$DateTimePicker$timePickerDialog, pickerType, state, currentDate),
@@ -14802,7 +15057,7 @@ var _abadi199$datetimepicker$DateTimePicker$dialog = F3(
 			default:
 				return A2(
 					_elm_lang$html$Html$div,
-					attributes(_p44._0),
+					attributes(_p47._0),
 					{
 						ctor: '::',
 						_0: A3(_abadi199$datetimepicker$DateTimePicker$datePickerDialog, pickerType, state, currentDate),
@@ -14820,14 +15075,14 @@ var _abadi199$datetimepicker$DateTimePicker$view = F4(
 			return dateTimePickerConfig.timeFormatter;
 		};
 		var formatter = function () {
-			var _p45 = pickerType;
-			switch (_p45.ctor) {
+			var _p48 = pickerType;
+			switch (_p48.ctor) {
 				case 'DateType':
-					return _p45._0.dateFormatter;
+					return _p48._0.dateFormatter;
 				case 'DateTimeType':
-					return _p45._0.dateTimeFormatter;
+					return _p48._0.dateTimeFormatter;
 				default:
-					return timeFormatter(_p45._0);
+					return timeFormatter(_p48._0);
 			}
 		}();
 		var stateValue = _abadi199$datetimepicker$DateTimePicker_Internal$getStateValue(state);
@@ -14842,7 +15097,7 @@ var _abadi199$datetimepicker$DateTimePicker$view = F4(
 					_1: {
 						ctor: '::',
 						_0: _abadi199$datetimepicker$DateTimePicker_Events$onBlurWithChange(
-							A2(_abadi199$datetimepicker$DateTimePicker$inputChangeHandler, config, stateValue)),
+							A3(_abadi199$datetimepicker$DateTimePicker$inputChangeHandler, config, stateValue, currentDate)),
 						_1: {
 							ctor: '::',
 							_0: _elm_lang$html$Html_Attributes$value(
@@ -14880,12 +15135,12 @@ var _abadi199$datetimepicker$DateTimePicker$view = F4(
 						}
 					});
 			});
-		var _p46 = pickerType;
-		switch (_p46.ctor) {
+		var _p49 = pickerType;
+		switch (_p49.ctor) {
 			case 'DateType':
 				return A2(
 					html,
-					_p46._0,
+					_p49._0,
 					_abadi199$datetimepicker$DateTimePicker$class(
 						{
 							ctor: '::',
@@ -14895,7 +15150,7 @@ var _abadi199$datetimepicker$DateTimePicker$view = F4(
 			case 'DateTimeType':
 				return A2(
 					html,
-					_p46._0,
+					_p49._0,
 					_abadi199$datetimepicker$DateTimePicker$class(
 						{
 							ctor: '::',
@@ -14909,7 +15164,7 @@ var _abadi199$datetimepicker$DateTimePicker$view = F4(
 			default:
 				return A2(
 					html,
-					_p46._0,
+					_p49._0,
 					_abadi199$datetimepicker$DateTimePicker$class(
 						{
 							ctor: '::',
@@ -14954,9 +15209,9 @@ var _abadi199$datetimepicker$DateTimePicker$initialCmd = F2(
 		return A2(
 			_elm_lang$core$Task$perform,
 			_elm_lang$core$Basics$flip(
-				function (_p47) {
+				function (_p50) {
 					return onChange(
-						setDate(_p47));
+						setDate(_p50));
 				})(_elm_lang$core$Maybe$Nothing),
 			_elm_lang$core$Date$now);
 	});
