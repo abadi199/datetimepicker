@@ -530,7 +530,7 @@ digitalTimePickerDialog pickerType state currentDate =
                     [ DateTimePicker.Svg.downArrow ]
                 , td
                     [ onMouseDownPreventDefault <| minuteDownHandler config stateValue currentDate
-                    , onTouchStartPreventDefault <| hourDownHandler config stateValue currentDate
+                    , onTouchStartPreventDefault <| minuteDownHandler config stateValue currentDate
                     ]
                     [ DateTimePicker.Svg.downArrow ]
                 , td [] []
