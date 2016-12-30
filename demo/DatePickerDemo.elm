@@ -1,8 +1,8 @@
 module DatePickerDemo exposing (main)
 
 import Html exposing (Html, text, p, label, form, ul, li, div)
+import Html.Attributes exposing (autocomplete)
 import DateTimePicker
-import DateTimePicker.Config exposing (defaultDatePickerConfig, defaultDateTimePickerConfig)
 import Date exposing (Date)
 
 
@@ -47,7 +47,7 @@ view model =
                 [ text "Date Picker: "
                 , DateTimePicker.datePicker
                     DateChange
-                    []
+                    [ autocomplete False ]
                     model.datePickerState
                     model.selectedDate
                 ]

@@ -1,6 +1,7 @@
 module DigitalDateTimePickerDemo exposing (main)
 
 import Html exposing (Html, text, p, label, form, ul, li, div)
+import Html.Attributes exposing (autocomplete)
 import DateTimePicker
 import DateTimePicker.Config exposing (defaultDatePickerConfig, defaultDateTimePickerConfig)
 import Date exposing (Date)
@@ -54,7 +55,7 @@ view model =
                     [ text "Digital Date Time Picker: "
                     , DateTimePicker.dateTimePickerWithConfig
                         config
-                        []
+                        [ autocomplete False ]
                         model.datePickerState
                         model.selectedDate
                     ]
