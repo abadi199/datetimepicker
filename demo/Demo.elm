@@ -79,31 +79,29 @@ view model =
         form []
             [ Html.node "style" [] [ Html.text css ]
             , div [ class [ Container ] ]
-                [ {- p
-                         []
-                         [ label []
-                             [ text "Date Picker: "
-                             , DateTimePicker.datePicker
-                                 DateChanged
-                                 []
-                                 model.datePickerState
-                                 model.dateValue
-                             ]
-                         ]
-                     , p
-                         []
-                         [ label []
-                             [ text "Digital Date Time Picker: "
-                             , DateTimePicker.dateTimePickerWithConfig
-                                 digitalDateTimePickerConfig
-                                 []
-                                 model.dateTimePickerState
-                                 model.dateTimeValue
-                             ]
-                         ]
-                     ,
-                  -}
-                  p
+                [ p
+                    []
+                    [ label []
+                        [ text "Date Picker: "
+                        , DateTimePicker.datePicker
+                            DateChanged
+                            []
+                            model.datePickerState
+                            model.dateValue
+                        ]
+                    ]
+                , p
+                    []
+                    [ label []
+                        [ text "Digital Date Time Picker: "
+                        , DateTimePicker.dateTimePickerWithConfig
+                            digitalDateTimePickerConfig
+                            []
+                            model.dateTimePickerState
+                            model.dateTimeValue
+                        ]
+                    ]
+                , p
                     []
                     [ label []
                         [ text "Analog Date Time Picker: "

@@ -107,8 +107,8 @@ type alias MoveData =
 mouseMoveDecoder : Json.Decode.Decoder MoveData
 mouseMoveDecoder =
     Json.Decode.map2 MoveData
-        (Json.Decode.field "offsetX" Json.Decode.int)
-        (Json.Decode.field "offsetY" Json.Decode.int)
+        (Json.Decode.field "offsetX" Json.Decode.float |> Json.Decode.map round)
+        (Json.Decode.field "offsetY" Json.Decode.float |> Json.Decode.map round)
 
 
 touches : Json.Decode.Decoder a -> Json.Decode.Decoder (List a)
