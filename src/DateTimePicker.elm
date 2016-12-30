@@ -28,7 +28,6 @@ import Html exposing (Html, input, div, span, text, button, table, tr, td, th, t
 import Html.Attributes exposing (value)
 import Html.Events exposing (onFocus, onBlur, onClick)
 import Task
-import DateTimePicker.Formatter
 import DateTimePicker.Svg
 import DateTimePicker.DateUtils
 import DateTimePicker.AnalogClock
@@ -41,6 +40,7 @@ import List.Extra
 import DateTimePicker.SharedStyles exposing (datepickerNamespace, CssClasses(..))
 import String
 import DateTimePicker.Events exposing (onMouseDownPreventDefault, onMouseUpPreventDefault, onBlurWithChange)
+import DateTimePicker.ClockUtils
 
 
 -- MODEL
@@ -272,7 +272,7 @@ view pickerType attributes state currentDate =
         inputAttributes config =
             attributes
                 ++ [ onFocus (datePickerFocused config stateValue currentDate)
-                   , onBlurWithChange (inputChangeHandler config stateValue)
+                   , onBlurWithChange (inputChangeHandler config stateValue currentDate)
                    , value <| Maybe.withDefault "" <| Maybe.map formatter <| currentDate
                    ]
 
@@ -737,8 +737,8 @@ dayNames config =
 -- EVENT HANDLERS
 
 
-inputChangeHandler : Config a msg -> StateValue -> Maybe Date -> msg
-inputChangeHandler config stateValue maybeDate =
+inputChangeHandler : Config a msg -> StateValue -> Maybe Date -> Maybe Date -> msg
+inputChangeHandler config stateValue currentDate maybeDate =
     case maybeDate of
         Just date ->
             let
@@ -761,14 +761,32 @@ inputChangeHandler config stateValue maybeDate =
 
         Nothing ->
             let
+                updatedTime =
+                    case currentDate of
+                        Just _ ->
+                            { hour = Nothing, minute = Nothing, amPm = Nothing }
+
+                        Nothing ->
+                            stateValue.time
+
+                updatedActiveTimeIndicator =
+                    case currentDate of
+                        Just _ ->
+                            Just DateTimePicker.Internal.HourIndicator
+
+                        Nothing ->
+                            stateValue.activeTimeIndicator
+
                 updatedValue =
                     { stateValue
-                        | date = Nothing
-                        , time = { hour = Nothing, minute = Nothing, amPm = Nothing }
+                        | date =
+                            Nothing
+                        , time = updatedTime
                         , hourPickerStart = initialStateValue.hourPickerStart
                         , minutePickerStart = initialStateValue.minutePickerStart
                         , inputFocused = False
                         , event = "inputChangeHandler"
+                        , activeTimeIndicator = updatedActiveTimeIndicator
                     }
             in
                 config.onChange (InternalState updatedValue) maybeDate
@@ -1068,7 +1086,27 @@ timeIndicatorHandler : Config config msg -> StateValue -> Maybe Date -> DateTime
 timeIndicatorHandler config stateValue currentDate timeIndicator =
     let
         updatedState =
-            { stateValue | activeTimeIndicator = Just timeIndicator, currentAngle = Nothing }
+            { stateValue
+                | activeTimeIndicator = updatedActiveTimeIndicator
+                , currentAngle = currentAngle
+            }
+
+        updatedActiveTimeIndicator =
+            if (stateValue.activeTimeIndicator == Just timeIndicator) then
+                Nothing
+            else
+                Just timeIndicator
+
+        currentAngle =
+            case ( timeIndicator, stateValue.time.hour, stateValue.time.minute ) of
+                ( DateTimePicker.Internal.HourIndicator, Just hour, _ ) ->
+                    DateTimePicker.ClockUtils.hourToAngle hour
+
+                ( DateTimePicker.Internal.MinuteIndicator, _, Just minute ) ->
+                    DateTimePicker.ClockUtils.minuteToAngle minute
+
+                ( _, _, _ ) ->
+                    Nothing
     in
         config.onChange (InternalState updatedState) currentDate
 

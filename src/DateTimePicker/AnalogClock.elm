@@ -3,7 +3,6 @@ module DateTimePicker.AnalogClock exposing (clock)
 import Html exposing (Html, div)
 import Svg exposing (Svg, svg, circle, line, g, text, text_)
 import Svg.Attributes exposing (textAnchor, width, height, viewBox, cx, cy, r, fill, stroke, strokeWidth, x1, y1, x2, y2, x, y)
-import Svg.Events
 import DateTimePicker.SharedStyles exposing (datepickerNamespace, CssClasses(..))
 import DateTimePicker.Internal exposing (InternalState(..), StateValue, getStateValue)
 import DateTimePicker.Config exposing (Type(..))
@@ -14,6 +13,7 @@ import DateTimePicker.Geometry exposing (Point)
 import Dict
 import String
 import DateTimePicker.Helpers exposing (updateCurrentDate, updateTimeIndicator)
+import DateTimePicker.ClockUtils exposing (hours, minutes, minutesPerFive)
 
 
 { id, class, classList } =
@@ -257,50 +257,3 @@ updateMinuteState stateValue date mouseMoveData =
                     Maybe.map Tuple.second closestMinute
                 , time = updateTime stateValue.time (Maybe.map Tuple.first closestMinute)
             }
-
-
-
--- Hour Position
-
-
-hours : Dict.Dict String Float
-hours =
-    Dict.fromList
-        [ ( "1", pi * 2 / 6 )
-        , ( "2", pi * 1 / 6 )
-        , ( "3", pi * 2 )
-        , ( "4", pi * 11 / 6 )
-        , ( "5", pi * 10 / 6 )
-        , ( "6", pi * 9 / 6 )
-        , ( "7", pi * 8 / 6 )
-        , ( "8", pi * 7 / 6 )
-        , ( "9", pi )
-        , ( "10", pi * 5 / 6 )
-        , ( "11", pi * 4 / 6 )
-        , ( "12", pi / 2 )
-        ]
-
-
-minutesPerFive : Dict.Dict String Float
-minutesPerFive =
-    Dict.fromList
-        [ ( "5", pi * 2 / 6 )
-        , ( "10", pi * 1 / 6 )
-        , ( "15", pi * 2 )
-        , ( "20", pi * 11 / 6 )
-        , ( "25", pi * 10 / 6 )
-        , ( "30", pi * 9 / 6 )
-        , ( "35", pi * 8 / 6 )
-        , ( "40", pi * 7 / 6 )
-        , ( "45", pi )
-        , ( "50", pi * 5 / 6 )
-        , ( "55", pi * 4 / 6 )
-        , ( "0", pi / 2 )
-        ]
-
-
-minutes : Dict.Dict String Float
-minutes =
-    List.range 0 59
-        |> List.map (\minute -> ( toString minute, pi * toFloat (60 - ((45 + minute) % 60)) / 30 ))
-        |> Dict.fromList
