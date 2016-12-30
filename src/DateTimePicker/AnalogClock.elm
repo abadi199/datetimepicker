@@ -6,7 +6,7 @@ import Svg.Attributes exposing (textAnchor, width, height, viewBox, cx, cy, r, f
 import DateTimePicker.SharedStyles exposing (datepickerNamespace, CssClasses(..))
 import DateTimePicker.Internal exposing (InternalState(..), StateValue, getStateValue)
 import DateTimePicker.Config exposing (Type(..))
-import DateTimePicker.Events exposing (onMouseDownPreventDefault, onMouseOverWithPosition, MouseMoveData)
+import DateTimePicker.Events exposing (onMouseDownPreventDefault, onMouseMoveWithPosition, onPointerMoveWithPosition, onTouchMovePreventDefault, onPointerUp, MoveData)
 import Date exposing (Date)
 import Json.Decode
 import DateTimePicker.Geometry exposing (Point)
@@ -36,15 +36,24 @@ clock pickerType onChange state date =
         stateValue =
             getStateValue state
     in
-        div [ class [ AnalogClock ] ]
-            [ svg [ width "200", height "200", viewBox "0 0 200 200" ]
+        div
+            [ class [ AnalogClock ]
+            ]
+            [ svg
+                [ width "200"
+                , height "200"
+                , viewBox "0 0 200 200"
+                ]
                 [ circle
                     [ cx "100"
                     , cy "100"
                     , r "100"
                     , fill "#eee"
-                    , onMouseOverWithPosition (mouseOverHandler state date onChange)
                     , onMouseDownPreventDefault (mouseDownHandler pickerType state date onChange)
+                    , onPointerUp (mouseDownHandler pickerType state date onChange)
+                    , onMouseMoveWithPosition (mouseOverHandler state date onChange)
+                    , onTouchMovePreventDefault (onChange state date)
+                    , onPointerMoveWithPosition (mouseOverHandler state date onChange)
                     ]
                     []
                 , case stateValue.activeTimeIndicator of
@@ -102,6 +111,7 @@ clockFace pickerType onChange state date ( number, radians ) =
             , textAnchor "middle"
             , Svg.Attributes.dominantBaseline "central"
             , onMouseDownPreventDefault (mouseDownHandler pickerType state date onChange)
+            , onPointerUp (mouseDownHandler pickerType state date onChange)
             ]
             [ text number ]
 
@@ -136,15 +146,37 @@ arrow pickerType onChange state date =
         arrowPoint angle =
             angle
                 |> DateTimePicker.Geometry.calculateArrowPoint originPoint length
+
+        isJust maybe =
+            case maybe of
+                Just _ ->
+                    True
+
+                Nothing ->
+                    False
+
+        shouldDrawArrow =
+            case stateValue.activeTimeIndicator of
+                Just (DateTimePicker.Internal.HourIndicator) ->
+                    isJust stateValue.time.hour
+
+                Just (DateTimePicker.Internal.MinuteIndicator) ->
+                    isJust stateValue.time.minute
+
+                _ ->
+                    False
     in
         case stateValue.currentAngle of
             Nothing ->
                 text ""
 
             Just angle ->
-                angle
-                    |> arrowPoint
-                    |> (drawArrow pickerType onChange state date)
+                if shouldDrawArrow then
+                    angle
+                        |> arrowPoint
+                        |> (drawArrow pickerType onChange state date)
+                else
+                    text ""
 
 
 drawArrow : Type msg -> (InternalState -> Maybe Date -> msg) -> InternalState -> Maybe Date -> Point -> Svg msg
@@ -157,6 +189,7 @@ drawArrow pickerType onChange state date point =
         , strokeWidth "2px"
         , stroke "#aaa"
         , onMouseDownPreventDefault (mouseDownHandler pickerType state date onChange)
+        , onPointerUp (mouseDownHandler pickerType state date onChange)
         ]
         []
 
@@ -173,24 +206,24 @@ mouseDownHandler pickerType state date onChange =
         updatedStateValue =
             case ( updatedDate, stateValue.activeTimeIndicator ) of
                 ( Just _, _ ) ->
-                    { stateValue | activeTimeIndicator = Nothing }
+                    { stateValue | event = "analog.mouseDownHandler", activeTimeIndicator = Nothing, currentAngle = Nothing }
 
                 ( _, Just (DateTimePicker.Internal.HourIndicator) ) ->
-                    { stateValue | activeTimeIndicator = Just DateTimePicker.Internal.MinuteIndicator }
+                    { stateValue | event = "analog.mouseDownHandler", activeTimeIndicator = Just DateTimePicker.Internal.MinuteIndicator, currentAngle = Nothing }
 
                 ( _, Just (DateTimePicker.Internal.MinuteIndicator) ) ->
-                    { stateValue | activeTimeIndicator = Just DateTimePicker.Internal.AMPMIndicator }
+                    { stateValue | event = "analog.mouseDownHandler", activeTimeIndicator = Just DateTimePicker.Internal.AMPMIndicator, currentAngle = Nothing }
 
                 _ ->
-                    { stateValue | activeTimeIndicator = Just DateTimePicker.Internal.HourIndicator }
+                    { stateValue | event = "analog.mouseDownHandler", activeTimeIndicator = Just DateTimePicker.Internal.HourIndicator, currentAngle = Nothing }
     in
         onChange
             (InternalState <| updateTimeIndicator stateValue)
             updatedDate
 
 
-mouseOverHandler : InternalState -> Maybe Date -> (InternalState -> Maybe Date -> msg) -> MouseMoveData -> Json.Decode.Decoder msg
-mouseOverHandler state date onChange mouseMoveData =
+mouseOverHandler : InternalState -> Maybe Date -> (InternalState -> Maybe Date -> msg) -> MoveData -> Json.Decode.Decoder msg
+mouseOverHandler state date onChange moveData =
     let
         stateValue =
             getStateValue state
@@ -200,20 +233,20 @@ mouseOverHandler state date onChange mouseMoveData =
     in
         case stateValue.activeTimeIndicator of
             Just (DateTimePicker.Internal.HourIndicator) ->
-                decoder (updateHourState stateValue date mouseMoveData)
+                decoder (updateHourState stateValue date moveData)
 
             Just (DateTimePicker.Internal.MinuteIndicator) ->
-                decoder (updateMinuteState stateValue date mouseMoveData)
+                decoder (updateMinuteState stateValue date moveData)
 
             _ ->
                 decoder (InternalState stateValue)
 
 
-updateHourState : StateValue -> Maybe Date -> MouseMoveData -> InternalState
-updateHourState stateValue date mouseMoveData =
+updateHourState : StateValue -> Maybe Date -> MoveData -> InternalState
+updateHourState stateValue date moveData =
     let
         currentAngle =
-            DateTimePicker.Geometry.calculateAngle originPoint axisPoint (Point mouseMoveData.offsetX mouseMoveData.offsetY)
+            DateTimePicker.Geometry.calculateAngle originPoint axisPoint (Point moveData.offsetX moveData.offsetY)
 
         closestHour =
             hours
@@ -234,11 +267,11 @@ updateHourState stateValue date mouseMoveData =
             }
 
 
-updateMinuteState : StateValue -> Maybe Date -> MouseMoveData -> InternalState
-updateMinuteState stateValue date mouseMoveData =
+updateMinuteState : StateValue -> Maybe Date -> MoveData -> InternalState
+updateMinuteState stateValue date moveData =
     let
         currentAngle =
-            DateTimePicker.Geometry.calculateAngle originPoint axisPoint (Point mouseMoveData.offsetX mouseMoveData.offsetY)
+            DateTimePicker.Geometry.calculateAngle originPoint axisPoint (Point moveData.offsetX moveData.offsetY)
 
         closestMinute =
             minutes
