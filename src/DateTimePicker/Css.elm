@@ -157,9 +157,19 @@ datePickerDialogCss =
         , children
             [ (.) ArrowLeft
                 [ arrowMixin
+                , left (px 22)
+                , withClass NoYearNavigation [ left (px 0) ]
+                ]
+            , (.) DoubleArrowLeft
+                [ arrowMixin
                 , left (px 0)
                 ]
             , (.) ArrowRight
+                [ arrowMixin
+                , right (px 22)
+                , withClass NoYearNavigation [ right (px 0) ]
+                ]
+            , (.) DoubleArrowRight
                 [ arrowMixin
                 , right (px 0)
                 ]

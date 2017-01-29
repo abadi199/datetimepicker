@@ -113,6 +113,18 @@ gotoNextMonth config state =
         config.onChange <| InternalState { stateValue | event = "next", titleDate = updatedTitleDate }
 
 
+gotoNextYear : Config a msg -> State -> (Maybe Date -> msg)
+gotoNextYear config state =
+    let
+        stateValue =
+            getStateValue state
+
+        updatedTitleDate =
+            Maybe.map (Date.Extra.Duration.add Date.Extra.Duration.Year 1) stateValue.titleDate
+    in
+        config.onChange <| InternalState { stateValue | event = "nextYear", titleDate = updatedTitleDate }
+
+
 gotoPreviousMonth : Config a msg -> State -> (Maybe Date -> msg)
 gotoPreviousMonth config state =
     let
@@ -123,6 +135,18 @@ gotoPreviousMonth config state =
             Maybe.map (Date.Extra.Duration.add Date.Extra.Duration.Month -1) stateValue.titleDate
     in
         config.onChange <| InternalState { stateValue | event = "previous", titleDate = updatedTitleDate }
+
+
+gotoPreviousYear : Config a msg -> State -> (Maybe Date -> msg)
+gotoPreviousYear config state =
+    let
+        stateValue =
+            getStateValue state
+
+        updatedTitleDate =
+            Maybe.map (Date.Extra.Duration.add Date.Extra.Duration.Year -1) stateValue.titleDate
+    in
+        config.onChange <| InternalState { stateValue | event = "previousYear", titleDate = updatedTitleDate }
 
 
 
@@ -286,7 +310,7 @@ view pickerType attributes state currentDate =
                 , if stateValue.inputFocused && not (shouldForceClose config) then
                     dialog pickerType state currentDate
                   else
-                    text ""
+                    Html.text ""
                 ]
     in
         case pickerType of
@@ -336,44 +360,10 @@ datePickerDialog pickerType state currentDate =
         stateValue =
             getStateValue state
 
-        title config =
-            let
-                date =
-                    stateValue.titleDate
-            in
-                span
-                    [ class [ Title ]
-                    , onMouseDownPreventDefault <| switchMode config state currentDate
-                    ]
-                    [ date
-                        |> Maybe.map config.titleFormatter
-                        |> Maybe.withDefault "N/A"
-                        |> text
-                    ]
-
-        previousButton config =
-            span
-                [ class [ ArrowLeft ]
-                , onMouseDownPreventDefault <| gotoPreviousMonth config state currentDate
-                , onTouchStartPreventDefault <| gotoPreviousMonth config state currentDate
-                ]
-                [ DateTimePicker.Svg.leftArrow ]
-
-        nextButton config =
-            span
-                [ class [ ArrowRight ]
-                , onMouseDownPreventDefault <| gotoNextMonth config state currentDate
-                , onTouchStartPreventDefault <| gotoNextMonth config state currentDate
-                ]
-                [ DateTimePicker.Svg.rightArrow ]
-
         html config =
             div [ class [ DatePickerDialog ] ]
                 [ div [ class [ Header ] ]
-                    [ previousButton config
-                    , title config
-                    , nextButton config
-                    ]
+                    (navigation config state currentDate)
                 , calendar pickerType state currentDate
                 , div
                     [ class [ Footer ] ]
@@ -389,6 +379,90 @@ datePickerDialog pickerType state currentDate =
 
             TimeType _ ->
                 text ""
+
+
+navigation : DatePickerConfig (Config config msg) -> State -> Maybe Date -> List (Html msg)
+navigation config state currentDate =
+    [ previousYearButton config state currentDate
+    , previousButton config state currentDate
+    , title config state currentDate
+    , nextButton config state currentDate
+    , nextYearButton config state currentDate
+    ]
+
+
+title : DatePickerConfig (Config config msg) -> State -> Maybe Date -> Html msg
+title config state currentDate =
+    let
+        stateValue =
+            getStateValue state
+
+        date =
+            stateValue.titleDate
+    in
+        span
+            [ class [ Title ]
+            , onMouseDownPreventDefault <| switchMode config state currentDate
+            ]
+            [ date
+                |> Maybe.map config.titleFormatter
+                |> Maybe.withDefault "N/A"
+                |> text
+            ]
+
+
+previousYearButton : Config config msg -> State -> Maybe Date -> Html msg
+previousYearButton config state currentDate =
+    if config.allowYearNavigation then
+        span
+            [ class [ DoubleArrowLeft ]
+            , onMouseDownPreventDefault <| gotoPreviousYear config state currentDate
+            , onTouchStartPreventDefault <| gotoPreviousYear config state currentDate
+            ]
+            [ DateTimePicker.Svg.doubleLeftArrow ]
+    else
+        Html.text ""
+
+
+noYearNavigationClass : Config config msg -> List CssClasses
+noYearNavigationClass config =
+    if config.allowYearNavigation then
+        []
+    else
+        [ NoYearNavigation ]
+
+
+previousButton : Config config msg -> State -> Maybe Date -> Html msg
+previousButton config state currentDate =
+    span
+        [ class <| ArrowLeft :: noYearNavigationClass config
+        , onMouseDownPreventDefault <| gotoPreviousMonth config state currentDate
+        , onTouchStartPreventDefault <| gotoPreviousMonth config state currentDate
+        ]
+        [ DateTimePicker.Svg.leftArrow ]
+
+
+nextButton : Config config msg -> State -> Maybe Date -> Html msg
+nextButton config state currentDate =
+    span
+        [ class <| ArrowRight :: noYearNavigationClass config
+        , onMouseDownPreventDefault <| gotoNextMonth config state currentDate
+        , onTouchStartPreventDefault <| gotoNextMonth config state currentDate
+        ]
+        [ DateTimePicker.Svg.rightArrow ]
+
+
+nextYearButton : Config config msg -> State -> Maybe Date -> Html msg
+nextYearButton config state currentDate =
+    if config.allowYearNavigation then
+        span
+            [ class [ DoubleArrowRight ]
+            , onMouseDownPreventDefault <| gotoNextYear config state currentDate
+            , onTouchStartPreventDefault <| gotoNextYear config state currentDate
+            ]
+            [ DateTimePicker.Svg.doubleRightArrow ]
+    else
+        Html.text ""
 
 
 timePickerDialog : Type msg -> State -> Maybe Date -> Html msg

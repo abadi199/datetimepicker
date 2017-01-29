@@ -2,6 +2,8 @@ module DateTimePicker.Svg
     exposing
         ( leftArrow
         , rightArrow
+        , doubleLeftArrow
+        , doubleRightArrow
         , upArrow
         , downArrow
         )
@@ -17,14 +19,29 @@ type Orientation
     | Right
 
 
+type DoubleOrientation
+    = DoubleLeft
+    | DoubleRight
+
+
 rightArrow : Svg msg
 rightArrow =
     arrow Right
 
 
+doubleRightArrow : Svg msg
+doubleRightArrow =
+    doubleArrow DoubleRight
+
+
 leftArrow : Svg msg
 leftArrow =
     arrow Left
+
+
+doubleLeftArrow : Svg msg
+doubleLeftArrow =
+    doubleArrow DoubleLeft
 
 
 downArrow : Svg msg
@@ -56,4 +73,21 @@ arrow orientation =
     in
         svg [ width "8", height "12", viewBox "0 0 16 16", style <| "transform: rotate(" ++ rotation ++ "deg);" ]
             [ polygon [ points "0 0, 0 20, 16 10" ] []
+            ]
+
+
+doubleArrow : DoubleOrientation -> Svg msg
+doubleArrow orientation =
+    let
+        rotation =
+            case orientation of
+                DoubleRight ->
+                    "0"
+
+                DoubleLeft ->
+                    "180"
+    in
+        svg [ width "16", height "12", viewBox "0 0 32 16", style <| "transform: rotate(" ++ rotation ++ "deg);" ]
+            [ polygon [ points "0 0, 0 20, 16 10" ] []
+            , polygon [ points "16 0, 16 20, 32 10" ] []
             ]

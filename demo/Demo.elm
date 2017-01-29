@@ -67,7 +67,7 @@ view model =
                 defaultDateTimeConfig =
                     defaultDateTimePickerConfig AnalogDateTimeChanged
             in
-                { defaultDateTimeConfig | timePickerType = DateTimePicker.Config.Analog }
+                { defaultDateTimeConfig | timePickerType = DateTimePicker.Config.Analog, allowYearNavigation = False }
 
         digitalDateTimePickerConfig =
             let

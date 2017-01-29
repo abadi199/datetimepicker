@@ -22,8 +22,11 @@ type CssClasses
     | NextMonth
     | Days
     | Title
+    | NoYearNavigation
     | ArrowLeft
     | ArrowRight
+    | DoubleArrowLeft
+    | DoubleArrowRight
     | ArrowUp
     | ArrowDown
     | Dialog

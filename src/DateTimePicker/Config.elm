@@ -41,6 +41,7 @@ type Type msg
  * `dateFormatter` is a Date to string formatter used to display the date in the input text
  * `dateTimeFormatter` is a Date to string formatter used to display the date in the footer section.
  * `autoClose` is a flag to indicate whether the dialog should be automatically closed when a date and/or time is selected.
+ * `allowYearNavigation` show/hide year navigation button.
 -}
 type alias Config otherConfig msg =
     { otherConfig
@@ -48,6 +49,7 @@ type alias Config otherConfig msg =
         , dateFormatter : Date -> String
         , dateTimeFormatter : Date -> String
         , autoClose : Bool
+        , allowYearNavigation : Bool
     }
 
 
@@ -58,7 +60,7 @@ type alias Config otherConfig msg =
  * `formatter` is the Date to String formatter for the input value.
  * `titleFormatter` is the Date to String formatter for the dialog's title.
  * `fullDateFormatter` is the Date to String formatter for the dialog's footer.
-
+ * `allowYearNavigation` show/hide year navigation button.
 -}
 type alias DatePickerConfig otherConfig =
     { otherConfig
@@ -79,6 +81,7 @@ type alias DatePickerConfig otherConfig =
  * `firstDayOfWeek` Default: Sunday.
  * `titleFormatter`  Default: `"%B %Y"`
  * `fullDateFormatter` Default:  `"%A, %B %d, %Y"`
+ * `allowYearNavigation` Default : True
 -}
 defaultDatePickerConfig : (State -> Maybe Date -> msg) -> Config (DatePickerConfig {}) msg
 defaultDatePickerConfig onChange =
@@ -90,6 +93,7 @@ defaultDatePickerConfig onChange =
     , firstDayOfWeek = Date.Sun
     , titleFormatter = DateTimePicker.Formatter.titleFormatter
     , fullDateFormatter = DateTimePicker.Formatter.fullDateFormatter
+    , allowYearNavigation = True
     }
 
 
@@ -118,6 +122,7 @@ type TimePickerType
   * `autoClose` Default: False
   * `timeFormatter` Default: `"%I:%M %p"`
   * `timePickerType` Default: Analog
+  * `allowYearNavigation` Default : True
 -}
 defaultTimePickerConfig : (State -> Maybe Date -> msg) -> Config TimePickerConfig msg
 defaultTimePickerConfig onChange =
@@ -127,6 +132,7 @@ defaultTimePickerConfig onChange =
     , autoClose = False
     , timeFormatter = DateTimePicker.Formatter.timeFormatter
     , timePickerType = Analog
+    , allowYearNavigation = True
     }
 
 
@@ -142,6 +148,7 @@ defaultTimePickerConfig onChange =
  * `fullDateFormatter` Default:  `"%A, %B %d, %Y"`
  * `timeFormatter` Default: `"%I:%M %p"`
  * `timePickerType` Default:  Analog
+ * `allowYearNavigation` Default : True
 -}
 defaultDateTimePickerConfig : (State -> Maybe Date -> msg) -> Config (DatePickerConfig TimePickerConfig) msg
 defaultDateTimePickerConfig onChange =
@@ -155,6 +162,7 @@ defaultDateTimePickerConfig onChange =
     , fullDateFormatter = DateTimePicker.Formatter.fullDateFormatter
     , timeFormatter = DateTimePicker.Formatter.timeFormatter
     , timePickerType = Analog
+    , allowYearNavigation = True
     }
 
 
