@@ -31,10 +31,38 @@
     position: absolute;
     padding: 0px 8px;
     cursor: pointer;
+    left: 22px;
+}
+
+.elm-input-datepickerDialog > .elm-input-datepickerDatePickerDialog > .elm-input-datepickerHeader > .elm-input-datepickerArrowLeft.elm-input-datepickerNoYearNavigation {
+    left: 0px;
+}
+
+.elm-input-datepickerDialog > .elm-input-datepickerDatePickerDialog > .elm-input-datepickerHeader > .elm-input-datepickerDoubleArrowLeft {
+    box-sizing: border-box;
+    text-align: center;
+    transform: scale(0.8);
+    position: absolute;
+    padding: 0px 8px;
+    cursor: pointer;
     left: 0px;
 }
 
 .elm-input-datepickerDialog > .elm-input-datepickerDatePickerDialog > .elm-input-datepickerHeader > .elm-input-datepickerArrowRight {
+    box-sizing: border-box;
+    text-align: center;
+    transform: scale(0.8);
+    position: absolute;
+    padding: 0px 8px;
+    cursor: pointer;
+    right: 22px;
+}
+
+.elm-input-datepickerDialog > .elm-input-datepickerDatePickerDialog > .elm-input-datepickerHeader > .elm-input-datepickerArrowRight.elm-input-datepickerNoYearNavigation {
+    right: 0px;
+}
+
+.elm-input-datepickerDialog > .elm-input-datepickerDatePickerDialog > .elm-input-datepickerHeader > .elm-input-datepickerDoubleArrowRight {
     box-sizing: border-box;
     text-align: center;
     transform: scale(0.8);
