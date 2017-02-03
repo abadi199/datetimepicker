@@ -1102,6 +1102,7 @@ datePickerFocused config stateValue currentDate =
                     | inputFocused = True
                     , event = "onFocus"
                     , titleDate = updatedTitleDate
+                    , date = currentDate
                     , forceClose = False
                 }
             )

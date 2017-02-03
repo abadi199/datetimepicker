@@ -10,7 +10,6 @@ import Css
 import DateTimePicker.Css
 import DemoCss exposing (CssClasses(..))
 import Html.CssHelpers
-import Http
 import Json.Decode
 import Random
 
