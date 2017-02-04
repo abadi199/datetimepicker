@@ -55,6 +55,13 @@ view model =
     let
         { css } =
             Css.compile [ DateTimePicker.Css.css, DemoCss.css ]
+
+        analogDateTimePickerConfig =
+            let
+                defaultDateTimeConfig =
+                    defaultDateTimePickerConfig DateChanged
+            in
+                { defaultDateTimeConfig | timePickerType = DateTimePicker.Config.Digital, allowYearNavigation = False }
     in
         form []
             [ Html.node "style" [] [ Html.text css ]
@@ -63,8 +70,8 @@ view model =
                     []
                     [ label []
                         [ text "Date Picker: "
-                        , DateTimePicker.datePicker
-                            DateChanged
+                        , DateTimePicker.dateTimePickerWithConfig
+                            analogDateTimePickerConfig
                             []
                             model.datePickerState
                             model.dateValue

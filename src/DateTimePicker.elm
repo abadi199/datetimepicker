@@ -1095,6 +1095,13 @@ datePickerFocused config stateValue currentDate =
 
                 Just _ ->
                     currentDate
+
+        updateTime time =
+            { time
+                | hour = currentDate |> Maybe.map (Date.hour >> DateTimePicker.DateUtils.fromMillitaryHour)
+                , minute = currentDate |> Maybe.map Date.minute
+                , amPm = currentDate |> Maybe.map (Date.hour >> DateTimePicker.DateUtils.fromMillitaryAmPm)
+            }
     in
         config.onChange
             (InternalState
@@ -1104,6 +1111,8 @@ datePickerFocused config stateValue currentDate =
                     , titleDate = updatedTitleDate
                     , date = currentDate
                     , forceClose = False
+                    , time = updateTime stateValue.time
+                    , activeTimeIndicator = Nothing
                 }
             )
             currentDate
