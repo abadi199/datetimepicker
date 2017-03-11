@@ -308,7 +308,7 @@ view pickerType attributes state currentDate =
 
         inputAttributes config =
             attributes
-                ++ [ onFocus (datePickerFocused config stateValue currentDate)
+                ++ [ onFocus (datePickerFocused pickerType config stateValue currentDate)
                    , onBlurWithChange
                         config.i18n.inputFormat.inputParser
                         (inputChangeHandler config stateValue currentDate)
@@ -1064,7 +1064,19 @@ dateClickHandler pickerType stateValue year month day =
             DateTimePicker.DateUtils.toDate year month day
 
         updatedStateValue =
-            { stateValue | date = Just <| selectedDate, forceClose = forceClose }
+            { stateValue
+                | date = Just <| selectedDate
+                , forceClose = forceClose
+                , activeTimeIndicator =
+                    if stateValue.time.hour == Nothing then
+                        Just DateTimePicker.Internal.HourIndicator
+                    else if stateValue.time.minute == Nothing then
+                        Just DateTimePicker.Internal.MinuteIndicator
+                    else if stateValue.time.amPm == Nothing then
+                        Just DateTimePicker.Internal.AMPMIndicator
+                    else
+                        Nothing
+            }
 
         ( updatedDate, forceClose ) =
             case ( pickerType, stateValue.time.hour, stateValue.time.minute, stateValue.time.amPm ) of
@@ -1103,8 +1115,8 @@ dateClickHandler pickerType stateValue year month day =
                 handler config
 
 
-datePickerFocused : Config a msg -> StateValue -> Maybe Date -> msg
-datePickerFocused config stateValue currentDate =
+datePickerFocused : Type msg -> Config a msg -> StateValue -> Maybe Date -> msg
+datePickerFocused pickerType config stateValue currentDate =
     let
         updatedTitleDate =
             case currentDate of
@@ -1130,7 +1142,13 @@ datePickerFocused config stateValue currentDate =
                     , date = currentDate
                     , forceClose = False
                     , time = updateTime stateValue.time
-                    , activeTimeIndicator = Nothing
+                    , activeTimeIndicator =
+                        case pickerType of
+                            TimeType _ ->
+                                Just DateTimePicker.Internal.HourIndicator
+
+                            _ ->
+                                Nothing
                 }
             )
             currentDate
