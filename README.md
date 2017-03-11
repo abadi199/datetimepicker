@@ -98,6 +98,9 @@ The date time picker package provides multiple view functions, depending on how 
 You customize the date picker configuration by passing a `DateTimePicker.Config.Config` value to the picker's view function.
 The DateTimePicker.Config module provides some default configurations for both date picker and date time picker.
 
+## Internationalization
+In order to localize your date format, you need to provide the date time picker with a `Date` to `String` formatter and `String` to `Maybe Date` parser. The author recommend using [rluiten/elm-date-extra](package.elm-lang.org/packages/rluiten/elm-date-extra/latest) for the formatter, and [abadi199/dateparser](http://package.elm-lang.org/packages/abadi199/dateparser/latest) for the parser.
+
 ### CSS
 The CSS for this date time picker can be downloaded from [here](https://raw.githubusercontent.com/abadi199/datetimepicker/master/styles/styles.css), or if you're using rtfeldman/elm-css package, you can just include the `Stylesheet` from `DateTimePicker.Css` module.
 Date and Time Picker written entirely in Elm. 
