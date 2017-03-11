@@ -282,22 +282,16 @@ view pickerType attributes state currentDate =
         timeFormatter dateTimePickerConfig =
             dateTimePickerConfig.timeFormatter
 
-        formatter =
-            case pickerType of
-                DateType datePickerConfig ->
-                    datePickerConfig.dateFormatter
-
-                DateTimeType dateTimePickerConfig ->
-                    dateTimePickerConfig.dateTimeFormatter
-
-                TimeType dateTimePickerConfig ->
-                    timeFormatter dateTimePickerConfig
-
         inputAttributes config =
             attributes
                 ++ [ onFocus (datePickerFocused config stateValue currentDate)
-                   , onBlurWithChange (inputChangeHandler config stateValue currentDate)
-                   , value <| Maybe.withDefault "" <| Maybe.map formatter <| currentDate
+                   , onBlurWithChange
+                        config.i18n.inputFormat.inputParser
+                        (inputChangeHandler config stateValue currentDate)
+                   , currentDate
+                        |> Maybe.map config.i18n.inputFormat.inputFormatter
+                        |> Maybe.withDefault ""
+                        |> value
                    ]
 
         shouldForceClose config =
@@ -367,7 +361,7 @@ datePickerDialog pickerType state currentDate =
                 , calendar pickerType state currentDate
                 , div
                     [ class [ Footer ] ]
-                    [ currentDate |> Maybe.map config.fullDateFormatter |> Maybe.withDefault "--" |> text ]
+                    [ stateValue.date |> Maybe.map config.i18n.footerFormatter |> Maybe.withDefault "--" |> text ]
                 ]
     in
         case pickerType of
@@ -405,7 +399,7 @@ title config state currentDate =
             , onMouseDownPreventDefault <| switchMode config state currentDate
             ]
             [ date
-                |> Maybe.map config.titleFormatter
+                |> Maybe.map config.i18n.titleFormatter
                 |> Maybe.withDefault "N/A"
                 |> text
             ]
@@ -614,7 +608,7 @@ digitalTimePickerDialog pickerType state currentDate =
         html config =
             div [ class [ TimePickerDialog, DigitalTime ] ]
                 [ div [ class [ Header ] ]
-                    [ Maybe.map config.timeFormatter currentDate |> Maybe.withDefault "-- : --" |> text ]
+                    [ Maybe.map config.i18n.timeTitleFormatter currentDate |> Maybe.withDefault "-- : --" |> text ]
                 , div [ class [ Body ] ]
                     [ table []
                         [ tbody []

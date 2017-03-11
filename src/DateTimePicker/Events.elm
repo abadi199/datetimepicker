@@ -20,10 +20,10 @@ import Svg.Events
 import Svg
 
 
-onBlurWithChange : (Maybe Date -> msg) -> Html.Attribute msg
-onBlurWithChange tagger =
+onBlurWithChange : (String -> Maybe Date) -> (Maybe Date -> msg) -> Html.Attribute msg
+onBlurWithChange parser tagger =
     Html.Events.on "blur"
-        (Json.Decode.map (Date.fromString >> Result.toMaybe >> tagger) Html.Events.targetValue)
+        (Json.Decode.map (parser >> tagger) Html.Events.targetValue)
 
 
 onMouseDownPreventDefault : msg -> Html.Attribute msg

@@ -6,21 +6,31 @@ module DateTimePicker.Config
         , TimePickerType(..)
         , NameOfDays
         , Type(..)
+        , InputFormat
+        , I18n
         , defaultDatePickerConfig
         , defaultTimePickerConfig
         , defaultDateTimePickerConfig
+        , defaultI18n
+        , defaultDateInputFormat
+        , defaultDateTimeInputFormat
         )
 
 {-| DateTimePicker configuration
 
 # Configuration
-@docs Config, DatePickerConfig, TimePickerConfig, defaultDatePickerConfig, defaultTimePickerConfig, defaultDateTimePickerConfig, NameOfDays, TimePickerType, Type
+@docs Config, I18n, InputFormat, DatePickerConfig, TimePickerConfig, NameOfDays, TimePickerType, Type
 
+
+# Default Configuration
+@docs defaultDatePickerConfig, defaultTimePickerConfig, defaultDateTimePickerConfig, defaultI18n, defaultDateInputFormat, defaultDateTimeInputFormat
 -}
 
 import Date exposing (Date)
 import DateTimePicker.Internal exposing (InternalState)
 import DateTimePicker.Formatter
+import DateParser
+import Date.Extra.Config.Config_en_us exposing (config)
 
 
 type alias State =
@@ -38,18 +48,31 @@ type Type msg
 {-| Configuration
 
  * `onChange` is the message for when the selected value and internal `State` in the date picker has changed.
- * `dateFormatter` is a Date to string formatter used to display the date in the input text
- * `dateTimeFormatter` is a Date to string formatter used to display the date in the footer section.
  * `autoClose` is a flag to indicate whether the dialog should be automatically closed when a date and/or time is selected.
  * `allowYearNavigation` show/hide year navigation button.
+ * `i18n` is internationalization configuration.
 -}
 type alias Config otherConfig msg =
     { otherConfig
         | onChange : State -> Maybe Date -> msg
-        , dateFormatter : Date -> String
-        , dateTimeFormatter : Date -> String
         , autoClose : Bool
         , allowYearNavigation : Bool
+        , i18n : I18n
+    }
+
+
+{-| Internationalization configuration
+
+ * `footerFormatter` is a Date to string formatter used to display the date in the footer section.
+ * `titleFormatter` is a Date to string formatter used to display the date in the title section.
+ * `timeTitleFormatter` is a Date to string formatter used to display the time in the title section.
+ * `inputFormat` is an input date formatter and parser.
+-}
+type alias I18n =
+    { titleFormatter : Date -> String
+    , footerFormatter : Date -> String
+    , timeTitleFormatter : Date -> String
+    , inputFormat : InputFormat
     }
 
 
@@ -57,54 +80,95 @@ type alias Config otherConfig msg =
 
  * `nameOfDays` is the configuration for name of days in a week.
  * `firstDayOfWeek` is the first day of the week.
- * `formatter` is the Date to String formatter for the input value.
  * `titleFormatter` is the Date to String formatter for the dialog's title.
- * `fullDateFormatter` is the Date to String formatter for the dialog's footer.
+ * `footerFormatter` is the Date to String formatter for the dialog's footer.
  * `allowYearNavigation` show/hide year navigation button.
 -}
 type alias DatePickerConfig otherConfig =
     { otherConfig
         | nameOfDays : NameOfDays
         , firstDayOfWeek : Date.Day
-        , titleFormatter : Date -> String
-        , fullDateFormatter : Date -> String
+    }
+
+
+{-| Input formatter and parser
+
+* `inputFormatter` is a Date to string formatter used to display the date in the input text
+* `inputParser` is a String to Date parser used to parsed input text into Date
+-}
+type alias InputFormat =
+    { inputFormatter : Date -> String
+    , inputParser : String -> Maybe Date
     }
 
 
 {-| Default configuration for DatePicker
 
  * `onChange` No Default
- * `dateFormatter` Default: `"%m/%d/%Y"`
- * `dateTimeFormatter` Default: `"%m/%d/%Y %I:%M %p"`
  * `autoClose` Default: True
  * `nameOfDays` see `NameOfDays` for the default values.
  * `firstDayOfWeek` Default: Sunday.
- * `titleFormatter`  Default: `"%B %Y"`
- * `fullDateFormatter` Default:  `"%A, %B %d, %Y"`
  * `allowYearNavigation` Default : True
 -}
 defaultDatePickerConfig : (State -> Maybe Date -> msg) -> Config (DatePickerConfig {}) msg
 defaultDatePickerConfig onChange =
     { onChange = onChange
-    , dateFormatter = DateTimePicker.Formatter.dateFormatter
-    , dateTimeFormatter = DateTimePicker.Formatter.dateTimeFormatter
     , autoClose = True
     , nameOfDays = defaultNameOfDays
     , firstDayOfWeek = Date.Sun
-    , titleFormatter = DateTimePicker.Formatter.titleFormatter
-    , fullDateFormatter = DateTimePicker.Formatter.fullDateFormatter
     , allowYearNavigation = True
+    , i18n = defaultI18n
+    }
+
+
+{-| Default internationalization
+
+ * `titleFormatter`  Default: `"%B %Y"`
+ * `footerFormatter` Default:  `"%A, %B %d, %Y"`
+ * `inputFormat` Default: browser default format and pattern
+-}
+defaultI18n : I18n
+defaultI18n =
+    { titleFormatter = DateTimePicker.Formatter.titleFormatter
+    , footerFormatter = DateTimePicker.Formatter.footerFormatter
+    , timeTitleFormatter = DateTimePicker.Formatter.timeFormatter
+    , inputFormat = defaultDateInputFormat
+    }
+
+
+{-| Default input format for date picker
+-}
+defaultDateInputFormat : InputFormat
+defaultDateInputFormat =
+    { inputFormatter = DateTimePicker.Formatter.dateFormatter
+    , inputParser = DateParser.parse config DateTimePicker.Formatter.datePattern >> Result.toMaybe
+    }
+
+
+{-| Default input format for date and time picker
+-}
+defaultDateTimeInputFormat : InputFormat
+defaultDateTimeInputFormat =
+    { inputFormatter = DateTimePicker.Formatter.dateTimeFormatter
+    , inputParser = DateParser.parse config DateTimePicker.Formatter.dateTimePattern >> Result.toMaybe
+    }
+
+
+{-| Default input format for time picker
+-}
+defaultTimeInputFormat : InputFormat
+defaultTimeInputFormat =
+    { inputFormatter = DateTimePicker.Formatter.timeFormatter
+    , inputParser = DateParser.parse config DateTimePicker.Formatter.timePattern >> Result.toMaybe
     }
 
 
 {-| Configuration for TimePicker
 
- * `timeFormatter` is the time to String formatter.
  * `timePickerType` is the type of the time picker, either Analog or Digital
 -}
 type alias TimePickerConfig =
-    { timeFormatter : Date -> String
-    , timePickerType : TimePickerType
+    { timePickerType : TimePickerType
     }
 
 
@@ -127,12 +191,10 @@ type TimePickerType
 defaultTimePickerConfig : (State -> Maybe Date -> msg) -> Config TimePickerConfig msg
 defaultTimePickerConfig onChange =
     { onChange = onChange
-    , dateFormatter = DateTimePicker.Formatter.dateFormatter
-    , dateTimeFormatter = DateTimePicker.Formatter.dateTimeFormatter
     , autoClose = False
-    , timeFormatter = DateTimePicker.Formatter.timeFormatter
     , timePickerType = Analog
     , allowYearNavigation = True
+    , i18n = defaultI18n
     }
 
 
@@ -153,16 +215,12 @@ defaultTimePickerConfig onChange =
 defaultDateTimePickerConfig : (State -> Maybe Date -> msg) -> Config (DatePickerConfig TimePickerConfig) msg
 defaultDateTimePickerConfig onChange =
     { onChange = onChange
-    , dateFormatter = DateTimePicker.Formatter.dateFormatter
-    , dateTimeFormatter = DateTimePicker.Formatter.dateTimeFormatter
     , autoClose = False
     , nameOfDays = defaultNameOfDays
     , firstDayOfWeek = Date.Sun
-    , titleFormatter = DateTimePicker.Formatter.titleFormatter
-    , fullDateFormatter = DateTimePicker.Formatter.fullDateFormatter
-    , timeFormatter = DateTimePicker.Formatter.timeFormatter
     , timePickerType = Analog
     , allowYearNavigation = True
+    , i18n = defaultI18n
     }
 
 
