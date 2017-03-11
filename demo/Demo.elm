@@ -2,7 +2,7 @@ module Demo exposing (main)
 
 import Html exposing (Html, text, p, label, form, ul, li, div)
 import DateTimePicker
-import DateTimePicker.Config exposing (Config, DatePickerConfig, TimePickerConfig, defaultDatePickerConfig, defaultDateTimePickerConfig, defaultI18n)
+import DateTimePicker.Config exposing (Config, DatePickerConfig, TimePickerConfig, defaultDatePickerConfig, defaultDateTimePickerConfig, defaultDateTimeI18n, defaultTimePickerConfig)
 import Date exposing (Date)
 import Css
 import DateTimePicker.Css
@@ -32,6 +32,8 @@ type alias Model =
     , analogDateTimePickerState : DateTimePicker.State
     , customI18nValue : Maybe Date
     , customI18nPickerState : DateTimePicker.State
+    , timeValue : Maybe Date
+    , timePickerState : DateTimePicker.State
     }
 
 
@@ -45,12 +47,15 @@ init =
       , analogDateTimePickerState = DateTimePicker.initialState
       , customI18nValue = Nothing
       , customI18nPickerState = DateTimePicker.initialState
+      , timeValue = Nothing
+      , timePickerState = DateTimePicker.initialState
       }
     , Cmd.batch
         [ DateTimePicker.initialCmd DateChanged DateTimePicker.initialState
         , DateTimePicker.initialCmd DateTimeChanged DateTimePicker.initialState
         , DateTimePicker.initialCmd AnalogDateTimeChanged DateTimePicker.initialState
         , DateTimePicker.initialCmd CustomI18Changed DateTimePicker.initialState
+        , DateTimePicker.initialCmd TimeChanged DateTimePicker.initialState
         ]
     )
 
@@ -76,6 +81,17 @@ analogDateTimePickerConfig =
         }
 
 
+timePickerConfig : Config TimePickerConfig Msg
+timePickerConfig =
+    let
+        defaultDateTimeConfig =
+            defaultTimePickerConfig TimeChanged
+    in
+        { defaultDateTimeConfig
+            | timePickerType = DateTimePicker.Config.Analog
+        }
+
+
 customI18nConfig : Config (DatePickerConfig TimePickerConfig) Msg
 customI18nConfig =
     let
@@ -85,7 +101,7 @@ customI18nConfig =
         { defaultDateTimeConfig
             | timePickerType = DateTimePicker.Config.Analog
             , allowYearNavigation = False
-            , i18n = { defaultI18n | inputFormat = customInputFormat }
+            , i18n = { defaultDateTimeI18n | inputFormat = customInputFormat }
         }
 
 
@@ -165,6 +181,17 @@ view model =
                             model.customI18nValue
                         ]
                     ]
+                , p
+                    []
+                    [ label []
+                        [ text "Time Picker: "
+                        , DateTimePicker.timePicker
+                            TimeChanged
+                            []
+                            model.timePickerState
+                            model.timeValue
+                        ]
+                    ]
                 , p []
                     [ ul []
                         [ li []
@@ -175,6 +202,8 @@ view model =
                             [ text "Analog Date Time: ", text <| toString model.analogDateTimeValue ]
                         , li []
                             [ text "Custom i18n: ", text <| toString model.customI18nValue ]
+                        , li []
+                            [ text "Time: ", text <| toString model.timeValue ]
                         ]
                     ]
                 ]
@@ -187,6 +216,7 @@ type Msg
     | DateTimeChanged DateTimePicker.State (Maybe Date)
     | AnalogDateTimeChanged DateTimePicker.State (Maybe Date)
     | CustomI18Changed DateTimePicker.State (Maybe Date)
+    | TimeChanged DateTimePicker.State (Maybe Date)
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -206,3 +236,6 @@ update msg model =
 
         CustomI18Changed state value ->
             ( { model | customI18nValue = value, customI18nPickerState = state }, Cmd.none )
+
+        TimeChanged state value ->
+            ( { model | timeValue = value, timePickerState = state }, Cmd.none )

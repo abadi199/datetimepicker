@@ -11,7 +11,9 @@ module DateTimePicker.Config
         , defaultDatePickerConfig
         , defaultTimePickerConfig
         , defaultDateTimePickerConfig
-        , defaultI18n
+        , defaultDateI18n
+        , defaultTimeI18n
+        , defaultDateTimeI18n
         , defaultDateInputFormat
         , defaultDateTimeInputFormat
         )
@@ -23,7 +25,7 @@ module DateTimePicker.Config
 
 
 # Default Configuration
-@docs defaultDatePickerConfig, defaultTimePickerConfig, defaultDateTimePickerConfig, defaultI18n, defaultDateInputFormat, defaultDateTimeInputFormat
+@docs defaultDatePickerConfig, defaultTimePickerConfig, defaultDateTimePickerConfig, defaultDateI18n, defaultTimeI18n, defaultDateTimeI18n, defaultDateInputFormat, defaultDateTimeInputFormat
 -}
 
 import Date exposing (Date)
@@ -49,14 +51,12 @@ type Type msg
 
  * `onChange` is the message for when the selected value and internal `State` in the date picker has changed.
  * `autoClose` is a flag to indicate whether the dialog should be automatically closed when a date and/or time is selected.
- * `allowYearNavigation` show/hide year navigation button.
  * `i18n` is internationalization configuration.
 -}
 type alias Config otherConfig msg =
     { otherConfig
         | onChange : State -> Maybe Date -> msg
         , autoClose : Bool
-        , allowYearNavigation : Bool
         , i18n : I18n
     }
 
@@ -88,6 +88,7 @@ type alias DatePickerConfig otherConfig =
     { otherConfig
         | nameOfDays : NameOfDays
         , firstDayOfWeek : Date.Day
+        , allowYearNavigation : Bool
     }
 
 
@@ -102,37 +103,48 @@ type alias InputFormat =
     }
 
 
-{-| Default configuration for DatePicker
-
- * `onChange` No Default
- * `autoClose` Default: True
- * `nameOfDays` see `NameOfDays` for the default values.
- * `firstDayOfWeek` Default: Sunday.
- * `allowYearNavigation` Default : True
--}
-defaultDatePickerConfig : (State -> Maybe Date -> msg) -> Config (DatePickerConfig {}) msg
-defaultDatePickerConfig onChange =
-    { onChange = onChange
-    , autoClose = True
-    , nameOfDays = defaultNameOfDays
-    , firstDayOfWeek = Date.Sun
-    , allowYearNavigation = True
-    , i18n = defaultI18n
-    }
-
-
-{-| Default internationalization
+{-| Default Date internationalization
 
  * `titleFormatter`  Default: `"%B %Y"`
  * `footerFormatter` Default:  `"%A, %B %d, %Y"`
- * `inputFormat` Default: browser default format and pattern
+ * `inputFormat` Default: "%m/%d/%Y"
 -}
-defaultI18n : I18n
-defaultI18n =
+defaultDateI18n : I18n
+defaultDateI18n =
     { titleFormatter = DateTimePicker.Formatter.titleFormatter
     , footerFormatter = DateTimePicker.Formatter.footerFormatter
     , timeTitleFormatter = DateTimePicker.Formatter.timeFormatter
     , inputFormat = defaultDateInputFormat
+    }
+
+
+{-| Default Time internationalization
+
+ * `titleFormatter`  Default: `"%B %Y"`
+ * `footerFormatter` Default:  `"%A, %B %d, %Y"`
+ * `inputFormat` Default: "%I:%M %p"
+-}
+defaultTimeI18n : I18n
+defaultTimeI18n =
+    { titleFormatter = DateTimePicker.Formatter.titleFormatter
+    , footerFormatter = DateTimePicker.Formatter.footerFormatter
+    , timeTitleFormatter = DateTimePicker.Formatter.timeFormatter
+    , inputFormat = defaultTimeInputFormat
+    }
+
+
+{-| Default Date and Time internationalization
+
+ * `titleFormatter`  Default: `"%B %Y"`
+ * `footerFormatter` Default:  `"%A, %B %d, %Y"`
+ * `inputFormat` Default: "%m/%d/%Y %I:%M %p"
+-}
+defaultDateTimeI18n : I18n
+defaultDateTimeI18n =
+    { titleFormatter = DateTimePicker.Formatter.titleFormatter
+    , footerFormatter = DateTimePicker.Formatter.footerFormatter
+    , timeTitleFormatter = DateTimePicker.Formatter.timeFormatter
+    , inputFormat = defaultDateTimeInputFormat
     }
 
 
@@ -179,6 +191,25 @@ type TimePickerType
     | Analog
 
 
+{-| Default configuration for DatePicker
+
+ * `onChange` No Default
+ * `autoClose` Default: True
+ * `nameOfDays` see `NameOfDays` for the default values.
+ * `firstDayOfWeek` Default: Sunday.
+ * `allowYearNavigation` Default : True
+-}
+defaultDatePickerConfig : (State -> Maybe Date -> msg) -> Config (DatePickerConfig {}) msg
+defaultDatePickerConfig onChange =
+    { onChange = onChange
+    , autoClose = True
+    , nameOfDays = defaultNameOfDays
+    , firstDayOfWeek = Date.Sun
+    , allowYearNavigation = True
+    , i18n = defaultDateI18n
+    }
+
+
 {-| Default configuration for TimePicker
   * `onChange` No Default
   * `dateFormatter` Default: `"%m/%d/%Y"`
@@ -186,15 +217,13 @@ type TimePickerType
   * `autoClose` Default: False
   * `timeFormatter` Default: `"%I:%M %p"`
   * `timePickerType` Default: Analog
-  * `allowYearNavigation` Default : True
 -}
 defaultTimePickerConfig : (State -> Maybe Date -> msg) -> Config TimePickerConfig msg
 defaultTimePickerConfig onChange =
     { onChange = onChange
     , autoClose = False
     , timePickerType = Analog
-    , allowYearNavigation = True
-    , i18n = defaultI18n
+    , i18n = defaultTimeI18n
     }
 
 
@@ -220,7 +249,7 @@ defaultDateTimePickerConfig onChange =
     , firstDayOfWeek = Date.Sun
     , timePickerType = Analog
     , allowYearNavigation = True
-    , i18n = defaultI18n
+    , i18n = defaultDateTimeI18n
     }
 
 

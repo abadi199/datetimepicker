@@ -5,6 +5,8 @@ module DateTimePicker
         , datePickerWithConfig
         , dateTimePicker
         , dateTimePickerWithConfig
+        , timePicker
+        , timePickerWithConfig
         , initialState
         , initialStateWithToday
         , initialCmd
@@ -13,7 +15,7 @@ module DateTimePicker
 {-| DateTime Picker
 
 # View
-@docs datePicker, datePickerWithConfig, dateTimePicker, dateTimePickerWithConfig
+@docs datePicker, datePickerWithConfig, dateTimePicker, dateTimePickerWithConfig, timePicker, timePickerWithConfig
 
 # Initial
 @docs initialState, initialStateWithToday, initialCmd
@@ -160,9 +162,9 @@ gotoPreviousYear config state =
 {-| Date Picker view function with default configuration.
 
 Example:
-    type alias Model = { datePickerState : DateTimePicker.Internal, value : Maybe Date }
+    type alias Model = { datePickerState : DateTimePicker.State, value : Maybe Date }
 
-    type  = DatePickerChanged DateTimePicker.Internal (Maybe Date)
+    type Msg = DatePickerChanged DateTimePicker.State (Maybe Date)
 
     view =
         DateTimePicker.datePicker
@@ -180,9 +182,9 @@ datePicker onChange =
 {-| Date Picker view function with custom configuration.
 
 Example:
-    type alias Model = { datePickerState : DateTimePicker.Internal, value : Maybe Date }
+    type alias Model = { datePickerState : DateTimePicker.State, value : Maybe Date }
 
-    type Msg = DatePickerChanged DateTimePicker.Internal (Maybe Date)
+    type Msg = DatePickerChanged DateTimePicker.State (Maybe Date)
 
     customConfig =
         let default = (DateTimePicker.defaultConfig DatePickerChanged)
@@ -206,11 +208,11 @@ datePickerWithConfig config =
     view (DateType config)
 
 
-{-| Date and Time PicType view
+{-| Date and Time Picker view with default configuration
 Example:
-    type alias Model = { dateTimePickerState : DateTimePicker.Internal, value : Maybe DateType
+    type alias Model = { dateTimePickerState : DateTimePicker.State, value : Maybe DateType }
 
-    type  = DatePickerChanged DateTimePicker.Internal (Maybe Date)
+    type Msg = DatePickerChanged DateTimePicker.State (Maybe Date)
 
     view =
         DateTimePicker.dateTimePicker
@@ -224,11 +226,29 @@ dateTimePicker onChange =
     dateTimePickerWithConfig (defaultDateTimePickerConfig onChange)
 
 
-{-| Date and Time Picker view
+{-| Time Picker view with default configuration
 Example:
-    type alias Model = { dateTimePickerState : DateTimePicker.Internal, value : Maybe Date }
+    type alias Model = { timePickerState : DateTimePicker.State, value : Maybe DateType }
 
-    type  = DatePickerChanged DateTimePicker.Internal (Maybe Date)
+    type Msg = TimePickerChanged DateTimePicker.State (Maybe Date)
+
+    view =
+        DateTimePicker.timePicker
+                 TimePickerChanged
+                [ class "my-timepicker" ]
+                model.timePickerState
+                model.value
+-}
+timePicker : (State -> Maybe Date -> msg) -> List (Html.Attribute msg) -> State -> Maybe Date -> Html msg
+timePicker onChange =
+    timePickerWithConfig (defaultTimePickerConfig onChange)
+
+
+{-| Date and Time Picker view with custom configuration
+Example:
+    type alias Model = { dateTimePickerState : DateTimePicker.State, value : Maybe Date }
+
+    type Msg = DatePickerChanged DateTimePicker.State (Maybe Date)
 
     customConfig =
         let
@@ -240,7 +260,7 @@ Example:
             }
 
     view =
-        DateTimePicker.dateTimePicker
+        DateTimePicker.dateTimePickerWithConfig
                 customConfig
                 [ class "my-datetimepicker" ]
                 model.dateTimePickerState
@@ -251,26 +271,30 @@ dateTimePickerWithConfig config =
     view (DateTimeType config)
 
 
-{-| Time Picker view
+{-| Time Picker view with custom configuration
 Example:
-    type alias Model = { timePickerState : DateTimePicker.Internal, value : Maybe Date }
+    type alias Model = { timePickerState : DateTimePicker.State, value : Maybe Date }
 
-    type  = DatePickerChanged DateTimePicker.Internal (Maybe Date)
+    type Msg = TimePickerChanged DateTimePicker.State (Maybe Date)
 
-    DateTimePicker.timePicker
-            (DateTimePicker.defaultConfig DatePickerChanged)
-            DateTimePicker.defaultTimePickerConfig
-            [ class "my-datetimepicker" ]
-            model.timePickerState
-            model.value
+    customConfig =
+        let
+            default = DateTimePicker.defaultTimePickerConfig TimePickerChanged
+        in
+            { default
+                | autoClose = True
+            }
+
+    view =
+        DateTimePicker.timePickerWithConfig
+                customConfig
+                [ class "my-datetimepicker" ]
+                model.timePickerState
+                model.value
 -}
 timePickerWithConfig : Config TimePickerConfig msg -> List (Html.Attribute msg) -> State -> Maybe Date -> Html msg
 timePickerWithConfig config =
     view (TimeType config)
-
-
-
--- timePicker : Config TimePickerConfig msg -> List (Html.Attribute msg) -> State -> Maybe Date -> Html msg
 
 
 view : Type msg -> List (Html.Attribute msg) -> State -> Maybe Date -> Html msg
@@ -405,7 +429,7 @@ title config state currentDate =
             ]
 
 
-previousYearButton : Config config msg -> State -> Maybe Date -> Html msg
+previousYearButton : DatePickerConfig (Config config msg) -> State -> Maybe Date -> Html msg
 previousYearButton config state currentDate =
     if config.allowYearNavigation then
         span
@@ -418,7 +442,7 @@ previousYearButton config state currentDate =
         Html.text ""
 
 
-noYearNavigationClass : Config config msg -> List CssClasses
+noYearNavigationClass : DatePickerConfig (Config config msg) -> List CssClasses
 noYearNavigationClass config =
     if config.allowYearNavigation then
         []
@@ -426,7 +450,7 @@ noYearNavigationClass config =
         [ NoYearNavigation ]
 
 
-previousButton : Config config msg -> State -> Maybe Date -> Html msg
+previousButton : DatePickerConfig (Config config msg) -> State -> Maybe Date -> Html msg
 previousButton config state currentDate =
     span
         [ class <| ArrowLeft :: noYearNavigationClass config
@@ -436,7 +460,7 @@ previousButton config state currentDate =
         [ DateTimePicker.Svg.leftArrow ]
 
 
-nextButton : Config config msg -> State -> Maybe Date -> Html msg
+nextButton : DatePickerConfig (Config config msg) -> State -> Maybe Date -> Html msg
 nextButton config state currentDate =
     span
         [ class <| ArrowRight :: noYearNavigationClass config
@@ -446,7 +470,7 @@ nextButton config state currentDate =
         [ DateTimePicker.Svg.rightArrow ]
 
 
-nextYearButton : Config config msg -> State -> Maybe Date -> Html msg
+nextYearButton : DatePickerConfig (Config config msg) -> State -> Maybe Date -> Html msg
 nextYearButton config state currentDate =
     if config.allowYearNavigation then
         span
