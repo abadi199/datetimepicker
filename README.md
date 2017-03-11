@@ -59,6 +59,26 @@ view model =
         model.value
 ```
 
+### Time Picker
+
+Just the date picker without the time.
+
+![alt text](https://github.com/abadi199/datetimepicker/raw/master/images/timepicker.gif "Time Picker Preview")
+
+Code:
+```elm
+type Msg = TimeChange DateTimePicker.State (Maybe Date)
+
+type alias Model = { value : Maybe Date, state : DateTimePicker.State }
+
+view model =
+    DateTimePicker.timePicker
+        TimeChange
+        [ class "my-timepicker" ]
+        model.state
+        model.value
+```
+
 ## Documentation
 
 This package follows the `evancz\sortable-table` package approach where it's not a nested elm architecture 'component'. It's just view functions where you feed the data and the message constructor to the function. It does use an opaque `State` to maintain its internal state.
