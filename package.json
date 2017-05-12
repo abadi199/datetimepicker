@@ -9,7 +9,7 @@
   "scripts": {
     "test": "elm-test",
     "make": "elm-make src/DateTimePicker.elm --output dist/elm.js",
-    "css": "elm-css styles/Stylesheets.elm --output styles"
+    "css": "cd styles && elm-css Stylesheets.elm --output ."
   },
   "repository": {
     "type": "git",

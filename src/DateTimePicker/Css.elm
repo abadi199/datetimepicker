@@ -20,9 +20,9 @@ import DateTimePicker.SharedStyles exposing (CssClasses(..), datepickerNamespace
 css : Css.Stylesheet
 css =
     (Css.stylesheet << namespace datepickerNamespace.name)
-        [ (.) DatePicker
+        [ class DatePicker
             [ position relative, minWidth (px 475) ]
-        , (.) Dialog
+        , class Dialog
             [ fontFamilies [ "Arial", "Helvetica", "sans-serif" ]
             , fontSize (px 14)
             , borderBoxMixin
@@ -37,12 +37,12 @@ css =
 
 dialogCss : List Css.Snippet
 dialogCss =
-    [ (.) DatePickerDialog
+    [ class DatePickerDialog
         [ float left
           -- , height calendarHeight
         , children datePickerDialogCss
         ]
-    , (.) TimePickerDialog
+    , class TimePickerDialog
         [ float left
           -- , height calendarHeight
         , textAlign center
@@ -67,8 +67,8 @@ analogTimePickerDialogMixin =
 
         amPmMixin =
             mixin
-                [ fontSize (em 1.2)
-                , padding2 (em 1) (em 0)
+                [ fontSize (Css.em 1.2)
+                , padding2 (Css.em 1) (Css.em 0)
                 , cursor pointer
                 , margin2 (px 0) (auto)
                 , width (px 85)
@@ -77,24 +77,24 @@ analogTimePickerDialogMixin =
     in
         [ width (px 230)
         , descendants
-            [ (.) Header
+            [ class Header
                 [ headerMixin
-                , fontSize (em 1.2)
+                , fontSize (Css.em 1.2)
                 , descendants
-                    [ (.) Hour [ timeHeaderMixin ]
-                    , (.) Minute [ timeHeaderMixin ]
-                    , (.) AMPM [ timeHeaderMixin ]
-                    , (.) Active
+                    [ class Hour [ timeHeaderMixin ]
+                    , class Minute [ timeHeaderMixin ]
+                    , class AMPM [ timeHeaderMixin ]
+                    , class Active
                         [ activeMixin ]
                     ]
                 ]
-            , (.) Body [ backgroundColor (hex "#fff"), padding2 (px 12) (px 15), height (px 202) ]
-            , (.) AMPMPicker [ padding2 (px 40) (px 0) ]
-            , (.) AM
+            , class Body [ backgroundColor (hex "#fff"), padding2 (px 12) (px 15), height (px 202) ]
+            , class AMPMPicker [ padding2 (px 40) (px 0) ]
+            , class AM
                 [ amPmMixin
                 , withClass SelectedAmPm [ highlightMixin, hover [ highlightMixin ] ]
                 ]
-            , (.) PM
+            , class PM
                 [ amPmMixin
                 , withClass SelectedAmPm [ highlightMixin, hover [ highlightMixin ] ]
                 ]
@@ -105,13 +105,13 @@ analogTimePickerDialogMixin =
 digitalTimePickerDialogMixin : List Css.Mixin
 digitalTimePickerDialogMixin =
     [ children
-        [ (.) Header
+        [ class Header
             [ headerMixin
             ]
-        , (.) Body
+        , class Body
             [ backgroundColor (hex "#fff")
             , descendants
-                [ table
+                [ Css.Elements.table
                     [ tableMixin
                     , width (px 120)
                     , descendants
@@ -137,9 +137,9 @@ digitalTimePickerDialogMixin =
                                 ]
                             , withClass EmptyCell [ emptyCellMixin ]
                             ]
-                        , (.) SelectedHour [ highlightMixin, hover [ highlightMixin ] ]
-                        , (.) SelectedMinute [ highlightMixin, hover [ highlightMixin ] ]
-                        , (.) SelectedAmPm [ highlightMixin, hover [ highlightMixin ] ]
+                        , class SelectedHour [ highlightMixin, hover [ highlightMixin ] ]
+                        , class SelectedMinute [ highlightMixin, hover [ highlightMixin ] ]
+                        , class SelectedAmPm [ highlightMixin, hover [ highlightMixin ] ]
                         ]
                     ]
                 ]
@@ -150,30 +150,30 @@ digitalTimePickerDialogMixin =
 
 datePickerDialogCss : List Css.Snippet
 datePickerDialogCss =
-    [ (.) Header
+    [ class Header
         [ borderBoxMixin
         , headerMixin
         , position relative
         , children
-            [ (.) ArrowLeft
+            [ class ArrowLeft
                 [ arrowMixin
                 , left (px 22)
                 , withClass NoYearNavigation [ left (px 0) ]
                 ]
-            , (.) DoubleArrowLeft
+            , class DoubleArrowLeft
                 [ arrowMixin
                 , left (px 0)
                 ]
-            , (.) ArrowRight
+            , class ArrowRight
                 [ arrowMixin
                 , right (px 22)
                 , withClass NoYearNavigation [ right (px 0) ]
                 ]
-            , (.) DoubleArrowRight
+            , class DoubleArrowRight
                 [ arrowMixin
                 , right (px 0)
                 ]
-            , (.) Title
+            , class Title
                 [ borderBoxMixin
                 , display inlineBlock
                 , width (pct 100)
@@ -181,7 +181,7 @@ datePickerDialogCss =
                 ]
             ]
         ]
-    , (.) Calendar
+    , class Calendar
         [ backgroundColor (hex "#ffffff")
         , tableMixin
         , width auto
@@ -202,16 +202,16 @@ datePickerDialogCss =
                 , fontWeight normal
                 , borderBottom3 (px 1) solid (darkGray)
                 ]
-            , (.) PreviousMonth
+            , class PreviousMonth
                 [ color fadeText ]
-            , (.) NextMonth
+            , class NextMonth
                 [ color fadeText
                 ]
-            , (.) SelectedDate
+            , class SelectedDate
                 [ highlightMixin
                 , hover [ highlightMixin ]
                 ]
-            , (.) Today
+            , class Today
                 [ property "box-shadow" "inset 0 0 7px 0 #76abd9"
                 , highlightBorderMixin
                 , hover
@@ -219,7 +219,7 @@ datePickerDialogCss =
                 ]
             ]
         ]
-    , (.) Footer
+    , class Footer
         [ textAlign center
         , backgroundColor lightGray
         , padding2 (px 7) (px 7)
