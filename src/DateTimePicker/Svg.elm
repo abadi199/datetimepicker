@@ -76,8 +76,8 @@ arrow orientation =
                 Up ->
                     "270"
     in
-    svg [ width "8", height "12", viewBox "0 0 16 16", style <| "transform: rotate(" ++ rotation ++ "deg);", class [ Arrow ] ]
-        [ polygon [ points "0 0, 0 20, 16 10" ] []
+    svg [ width "8", height "12", viewBox "0 0 16 16", style <| "transform: rotate(" ++ rotation ++ "deg);" ]
+        [ polygon [ points "0 0, 0 20, 16 10", class [ Arrow ] ] []
         ]
 
 
@@ -92,7 +92,7 @@ doubleArrow orientation =
                 DoubleLeft ->
                     "180"
     in
-    svg [ width "16", height "12", viewBox "0 0 32 16", style <| "transform: rotate(" ++ rotation ++ "deg);", class [ Arrow, DoubleArrow ] ]
-        [ polygon [ points "0 0, 0 20, 16 10" ] []
+    svg [ width "16", height "12", viewBox "0 0 32 16", style <| "transform: rotate(" ++ rotation ++ "deg);" ]
+        [ polygon [ points "0 0, 0 20, 16 10", class [ Arrow, DoubleArrow ] ] []
         , polygon [ points "16 0, 16 20, 32 10" ] []
         ]

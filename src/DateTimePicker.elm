@@ -348,9 +348,7 @@ view pickerType attributes state currentDate =
                 , if stateValue.inputFocused && not (shouldForceClose config) then
                     dialog pickerType state currentDate
                   else
-                    dialog pickerType state currentDate
-
-                -- Html.text ""
+                    Html.text ""
                 ]
     in
     case pickerType of

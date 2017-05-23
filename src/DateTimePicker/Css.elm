@@ -23,39 +23,46 @@ import DateTimePicker.Theme as Theme exposing (Theme)
 -}
 css : Theme -> Css.Stylesheet
 css theme =
+    let
+        foregroundColor =
+            Theme.foregroundColor .headerFooter theme
+
+        borderColor =
+            Theme.borderColor .headerFooter theme
+    in
     (Css.stylesheet << namespace htmlNamespace.name)
-        [ (.) DatePicker
+        [ class DatePicker
             [ position relative, minWidth (px 475) ]
         , class Dialog
             [ fontFamilies [ "Arial", "Helvetica", "sans-serif" ]
             , fontSize (px 14)
             , borderBoxMixin
             , position absolute
-            , border3 (px 1) solid darkGray
+            , border3 (px 1) solid borderColor
             , boxShadow4 (px 0) (px 5) (px 10) (rgba 0 0 0 0.2)
             , children (dialogCss theme)
             , property "z-index" "1"
             ]
+        , class Arrow
+            [ fill foregroundColor
+            ]
         ]
 
 
-dialogCss : List Css.Snippet
-dialogCss =
-    [ class DatePickerDialog
 dialogCss : Theme -> List Css.Snippet
 dialogCss theme =
-    [ (.) DatePickerDialog
+    let
+        borderColor =
+            Theme.borderColor .headerFooter theme
+    in
+    [ class DatePickerDialog
         [ float left
-
-        -- , height calendarHeight
         , children (datePickerDialogCss theme)
         ]
     , class TimePickerDialog
         [ float left
-
-        -- , height calendarHeight
         , textAlign center
-        , borderLeft3 (px 1) solid darkGray
+        , borderLeft3 (px 1) solid borderColor
         , withClass DigitalTime (digitalTimePickerDialogMixin theme)
         , withClass AnalogTime (analogTimePickerDialogMixin theme)
         ]
@@ -65,6 +72,9 @@ dialogCss theme =
 analogTimePickerDialogMixin : Theme -> List Css.Mixin
 analogTimePickerDialogMixin theme =
     let
+        hoverColor =
+            Theme.hoverColor .body theme
+
         timeHeaderMixin =
             mixin
                 [ padding2 (px 3) (px 10)
@@ -81,7 +91,7 @@ analogTimePickerDialogMixin theme =
                 , cursor pointer
                 , margin2 (px 0) auto
                 , width (px 85)
-                , hover [ backgroundColor highlightedDay ]
+                , hover [ backgroundColor hoverColor ]
                 ]
 
         highlightMixin =
@@ -89,24 +99,24 @@ analogTimePickerDialogMixin theme =
     in
     [ width (px 230)
     , descendants
-        [ (.) Header
+        [ class Header
             [ headerMixin theme
-            , fontSize (em 1.2)
+            , fontSize (Css.em 1.2)
             , descendants
-                [ (.) Hour [ timeHeaderMixin ]
-                , (.) Minute [ timeHeaderMixin ]
-                , (.) AMPM [ timeHeaderMixin ]
-                , (.) Active
+                [ class Hour [ timeHeaderMixin ]
+                , class Minute [ timeHeaderMixin ]
+                , class AMPM [ timeHeaderMixin ]
+                , class Active
                     [ activeMixin ]
                 ]
             ]
-        , (.) Body [ backgroundColor (hex "#fff"), padding2 (px 12) (px 15), height (px 202) ]
-        , (.) AMPMPicker [ padding2 (px 40) (px 0) ]
-        , (.) AM
+        , class Body [ backgroundColor (hex "#fff"), padding2 (px 12) (px 15), height (px 202) ]
+        , class AMPMPicker [ padding2 (px 40) (px 0) ]
+        , class AM
             [ amPmMixin
             , withClass SelectedAmPm [ highlightMixin, hover [ highlightMixin ] ]
             ]
-        , (.) PM
+        , class PM
             [ amPmMixin
             , withClass SelectedAmPm [ highlightMixin, hover [ highlightMixin ] ]
             ]
@@ -120,38 +130,57 @@ digitalTimePickerDialogMixin theme =
         highlightMixin =
             Theme.highlight theme
 
-        background =
-            Theme.backgroundColor theme
+        backgroundColor =
+            Theme.backgroundColor .headerFooter theme
+
+        borderColor =
+            Theme.borderColor .headerFooter theme
+
+        bodyHoverColor =
+            Theme.hoverColor .body theme
     in
     [ children
-        [ (.) Header
+        [ class Header
             [ headerMixin theme
             ]
         , class Body
-            [ backgroundColor (hex "#fff")
+            [ Css.backgroundColor (hex "#fff")
             , descendants
                 [ Css.Elements.table
-                    [ tableMixin
+                    [ tableMixin theme
                     , width (px 120)
                     , descendants
                         [ tr
                             [ verticalAlign top
                             , withClass ArrowUp
-                                [ backgroundColor background
+                                [ Css.backgroundColor backgroundColor
                                 , children
-                                    [ td [ borderBottom3 (px 1) solid darkGray ]
+                                    [ td
+                                        [ borderBottom3 (px 1) solid borderColor
+                                        , hover
+                                            [ Css.backgroundColor backgroundColor
+                                            ]
+                                        ]
                                     ]
                                 ]
                             , withClass ArrowDown
-                                [ backgroundColor background
-                                , children [ td [ borderTop3 (px 1) solid darkGray ] ]
+                                [ Css.backgroundColor backgroundColor
+                                , children
+                                    [ td
+                                        [ borderTop3 (px 1) solid borderColor
+                                        , hover
+                                            [ Css.backgroundColor backgroundColor
+                                            , highlightBorderMixin
+                                            ]
+                                        ]
+                                    ]
                                 ]
                             ]
                         , td
                             [ width (pct 33)
                             , cellMixin
                             , hover
-                                [ backgroundColor highlightedDay
+                                [ Css.backgroundColor bodyHoverColor
                                 , highlightBorderMixin
                                 ]
                             , withClass EmptyCell [ emptyCellMixin ]
@@ -173,13 +202,19 @@ datePickerDialogCss theme =
         highlightMixin =
             Theme.highlight theme
 
-        background =
-            Theme.backgroundColor theme
+        backgroundColor =
+            Theme.backgroundColor .headerFooter theme
 
-        foreground =
-            Theme.foregroundColor theme
+        foregroundColor =
+            Theme.foregroundColor .headerFooter theme
+
+        borderColor =
+            Theme.borderColor .headerFooter theme
+
+        hoverColor =
+            Theme.hoverColor .body theme
     in
-    [ (.) Header
+    [ class Header
         [ borderBoxMixin
         , headerMixin theme
         , position relative
@@ -211,8 +246,7 @@ datePickerDialogCss theme =
             ]
         ]
     , class Calendar
-        [ backgroundColor (hex "#ffffff")
-        , tableMixin
+        [ tableMixin theme
         , width auto
         , margin (px 0)
         , descendants
@@ -221,16 +255,16 @@ datePickerDialogCss theme =
             , td
                 [ dayMixin
                 , hover
-                    [ backgroundColor highlightedDay
+                    [ Css.backgroundColor hoverColor
                     , highlightBorderMixin
                     ]
                 ]
             , th
                 [ dayMixin
-                , backgroundColor background
-                , color foreground
+                , Css.backgroundColor backgroundColor
+                , color foregroundColor
                 , fontWeight normal
-                , borderBottom3 (px 1) solid darkGray
+                , borderBottom3 (px 1) solid borderColor
                 ]
             , class PreviousMonth
                 [ color fadeText ]
@@ -245,16 +279,17 @@ datePickerDialogCss theme =
                 [ property "box-shadow" "inset 0 0 7px 0 #76abd9"
                 , highlightBorderMixin
                 , hover
-                    [ backgroundColor highlightSelectedDay ]
+                    [ Css.backgroundColor highlightSelectedDay ]
                 ]
             ]
         ]
     , class Footer
         [ textAlign center
-        , backgroundColor background
+        , Css.backgroundColor backgroundColor
         , padding2 (px 7) (px 7)
-        , borderTop3 (px 1) solid darkGray
+        , borderTop3 (px 1) solid borderColor
         , height (px 16)
+        , color foregroundColor
         ]
     ]
 
@@ -272,16 +307,6 @@ selectedDate =
 fadeText : Css.Color
 fadeText =
     hex "#a1a1a1"
-
-
-darkGray : Css.Color
-darkGray =
-    hex "#ccc"
-
-
-highlightedDay : Css.Color
-highlightedDay =
-    hex "#ebebeb"
 
 
 dayMixin : Css.Mixin
@@ -327,8 +352,8 @@ headerMixin : Theme -> Css.Mixin
 headerMixin theme =
     mixin
         [ padding2 (px 10) (px 7)
-        , backgroundColor (Theme.backgroundColor theme)
-        , color (Theme.foregroundColor theme)
+        , backgroundColor (Theme.backgroundColor .headerFooter theme)
+        , color (Theme.foregroundColor .headerFooter theme)
         ]
 
 
@@ -337,13 +362,18 @@ calendarHeight =
     px 277
 
 
-tableMixin : Css.Mixin
-tableMixin =
+tableMixin : Theme -> Css.Mixin
+tableMixin theme =
+    let
+        bodyBackgroundColor =
+            Theme.backgroundColor .body theme
+    in
     mixin
         [ property "border-spacing" "0"
         , property "border-width" "0"
         , property "table-layout" "fixed"
         , margin (px 0)
+        , backgroundColor bodyBackgroundColor
         ]
 
 

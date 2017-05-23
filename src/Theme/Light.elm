@@ -9,6 +9,16 @@ themeConfiguration =
         , backgroundColor (hex "#428bca")
         , color (hex "#fff")
         ]
-    , backgroundColor = hex "#f5f5f5"
-    , foregroundColor = hex "#555555"
+    , headerFooter =
+        { background = hex "#f5f5f5"
+        , foreground = hex "#555555"
+        , hover = hex "#f5f5f5"
+        , border = hex "#ccc"
+        }
+    , body =
+        { background = hex "#ffffff"
+        , foreground = hex "#555555"
+        , hover = hex "#ebebeb"
+        , border = hex "#ccc"
+        }
     }

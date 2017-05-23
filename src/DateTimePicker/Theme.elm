@@ -3,9 +3,11 @@ module DateTimePicker.Theme
         ( Theme(..)
         , ThemeConfiguration
         , backgroundColor
+        , borderColor
         , configuration
         , foregroundColor
         , highlight
+        , hoverColor
         )
 
 import Css
@@ -21,8 +23,16 @@ type Theme
 
 type alias ThemeConfiguration =
     { highlight : List Css.Mixin
-    , backgroundColor : Css.Color
-    , foregroundColor : Css.Color
+    , headerFooter : Palette
+    , body : Palette
+    }
+
+
+type alias Palette =
+    { background : Css.Color
+    , foreground : Css.Color
+    , hover : Css.Color
+    , border : Css.Color
     }
 
 
@@ -46,13 +56,29 @@ highlight theme =
         |> Css.mixin
 
 
-backgroundColor : Theme -> Css.Color
-backgroundColor theme =
+backgroundColor : (ThemeConfiguration -> Palette) -> Theme -> Css.Color
+backgroundColor section theme =
     configuration theme
-        |> .backgroundColor
+        |> section
+        |> .background
 
 
-foregroundColor : Theme -> Css.Color
-foregroundColor theme =
+foregroundColor : (ThemeConfiguration -> Palette) -> Theme -> Css.Color
+foregroundColor section theme =
     configuration theme
-        |> .foregroundColor
+        |> section
+        |> .foreground
+
+
+borderColor : (ThemeConfiguration -> Palette) -> Theme -> Css.Color
+borderColor section theme =
+    configuration theme
+        |> section
+        |> .border
+
+
+hoverColor : (ThemeConfiguration -> Palette) -> Theme -> Css.Color
+hoverColor section theme =
+    configuration theme
+        |> section
+        |> .hover
