@@ -26,7 +26,7 @@ css theme =
     (Css.stylesheet << namespace htmlNamespace.name)
         [ (.) DatePicker
             [ position relative, minWidth (px 475) ]
-        , (.) Dialog
+        , class Dialog
             [ fontFamilies [ "Arial", "Helvetica", "sans-serif" ]
             , fontSize (px 14)
             , borderBoxMixin
@@ -39,6 +39,9 @@ css theme =
         ]
 
 
+dialogCss : List Css.Snippet
+dialogCss =
+    [ class DatePickerDialog
 dialogCss : Theme -> List Css.Snippet
 dialogCss theme =
     [ (.) DatePickerDialog
@@ -47,7 +50,7 @@ dialogCss theme =
         -- , height calendarHeight
         , children (datePickerDialogCss theme)
         ]
-    , (.) TimePickerDialog
+    , class TimePickerDialog
         [ float left
 
         -- , height calendarHeight
@@ -73,8 +76,8 @@ analogTimePickerDialogMixin theme =
 
         amPmMixin =
             mixin
-                [ fontSize (em 1.2)
-                , padding2 (em 1) (em 0)
+                [ fontSize (Css.em 1.2)
+                , padding2 (Css.em 1) (Css.em 0)
                 , cursor pointer
                 , margin2 (px 0) auto
                 , width (px 85)
@@ -124,10 +127,10 @@ digitalTimePickerDialogMixin theme =
         [ (.) Header
             [ headerMixin theme
             ]
-        , (.) Body
+        , class Body
             [ backgroundColor (hex "#fff")
             , descendants
-                [ table
+                [ Css.Elements.table
                     [ tableMixin
                     , width (px 120)
                     , descendants
@@ -153,9 +156,9 @@ digitalTimePickerDialogMixin theme =
                                 ]
                             , withClass EmptyCell [ emptyCellMixin ]
                             ]
-                        , (.) SelectedHour [ highlightMixin, hover [ highlightMixin ] ]
-                        , (.) SelectedMinute [ highlightMixin, hover [ highlightMixin ] ]
-                        , (.) SelectedAmPm [ highlightMixin, hover [ highlightMixin ] ]
+                        , class SelectedHour [ highlightMixin, hover [ highlightMixin ] ]
+                        , class SelectedMinute [ highlightMixin, hover [ highlightMixin ] ]
+                        , class SelectedAmPm [ highlightMixin, hover [ highlightMixin ] ]
                         ]
                     ]
                 ]
@@ -181,25 +184,25 @@ datePickerDialogCss theme =
         , headerMixin theme
         , position relative
         , children
-            [ (.) ArrowLeft
+            [ class ArrowLeft
                 [ arrowMixin
                 , left (px 22)
                 , withClass NoYearNavigation [ left (px 0) ]
                 ]
-            , (.) DoubleArrowLeft
+            , class DoubleArrowLeft
                 [ arrowMixin
                 , left (px 0)
                 ]
-            , (.) ArrowRight
+            , class ArrowRight
                 [ arrowMixin
                 , right (px 22)
                 , withClass NoYearNavigation [ right (px 0) ]
                 ]
-            , (.) DoubleArrowRight
+            , class DoubleArrowRight
                 [ arrowMixin
                 , right (px 0)
                 ]
-            , (.) Title
+            , class Title
                 [ borderBoxMixin
                 , display inlineBlock
                 , width (pct 100)
@@ -207,7 +210,7 @@ datePickerDialogCss theme =
                 ]
             ]
         ]
-    , (.) Calendar
+    , class Calendar
         [ backgroundColor (hex "#ffffff")
         , tableMixin
         , width auto
@@ -229,16 +232,16 @@ datePickerDialogCss theme =
                 , fontWeight normal
                 , borderBottom3 (px 1) solid darkGray
                 ]
-            , (.) PreviousMonth
+            , class PreviousMonth
                 [ color fadeText ]
-            , (.) NextMonth
+            , class NextMonth
                 [ color fadeText
                 ]
-            , (.) SelectedDate
+            , class SelectedDate
                 [ highlightMixin
                 , hover [ highlightMixin ]
                 ]
-            , (.) Today
+            , class Today
                 [ property "box-shadow" "inset 0 0 7px 0 #76abd9"
                 , highlightBorderMixin
                 , hover
@@ -246,7 +249,7 @@ datePickerDialogCss theme =
                 ]
             ]
         ]
-    , (.) Footer
+    , class Footer
         [ textAlign center
         , backgroundColor background
         , padding2 (px 7) (px 7)
