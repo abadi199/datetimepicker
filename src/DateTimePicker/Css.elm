@@ -5,21 +5,25 @@ module DateTimePicker.Css exposing (css)
 Using [rtfeldman/elm-css](http://package.elm-lang.org/packages/rtfeldman/elm-css/latest)
 Include this in your elm-css port module to be included in your project's css file.
 
+
 # Css
+
 @docs css
+
 -}
 
 import Css exposing (..)
 import Css.Elements exposing (..)
 import Css.Namespace exposing (namespace)
-import DateTimePicker.SharedStyles exposing (CssClasses(..), datepickerNamespace)
+import DateTimePicker.SharedStyles exposing (CssClasses(..), htmlNamespace)
+import DateTimePicker.Theme as Theme exposing (Theme)
 
 
 {-| DatePicker's Css Stylesheet
 -}
-css : Css.Stylesheet
-css =
-    (Css.stylesheet << namespace datepickerNamespace.name)
+css : Theme -> Css.Stylesheet
+css theme =
+    (Css.stylesheet << namespace htmlNamespace.name)
         [ (.) DatePicker
             [ position relative, minWidth (px 475) ]
         , (.) Dialog
@@ -27,34 +31,36 @@ css =
             , fontSize (px 14)
             , borderBoxMixin
             , position absolute
-            , border3 (px 1) solid (darkGray)
+            , border3 (px 1) solid darkGray
             , boxShadow4 (px 0) (px 5) (px 10) (rgba 0 0 0 0.2)
-            , children dialogCss
+            , children (dialogCss theme)
             , property "z-index" "1"
             ]
         ]
 
 
-dialogCss : List Css.Snippet
-dialogCss =
+dialogCss : Theme -> List Css.Snippet
+dialogCss theme =
     [ (.) DatePickerDialog
         [ float left
-          -- , height calendarHeight
-        , children datePickerDialogCss
+
+        -- , height calendarHeight
+        , children (datePickerDialogCss theme)
         ]
     , (.) TimePickerDialog
         [ float left
-          -- , height calendarHeight
+
+        -- , height calendarHeight
         , textAlign center
-        , borderLeft3 (px 1) solid (darkGray)
-        , withClass DigitalTime digitalTimePickerDialogMixin
-        , withClass AnalogTime analogTimePickerDialogMixin
+        , borderLeft3 (px 1) solid darkGray
+        , withClass DigitalTime (digitalTimePickerDialogMixin theme)
+        , withClass AnalogTime (analogTimePickerDialogMixin theme)
         ]
     ]
 
 
-analogTimePickerDialogMixin : List Css.Mixin
-analogTimePickerDialogMixin =
+analogTimePickerDialogMixin : Theme -> List Css.Mixin
+analogTimePickerDialogMixin theme =
     let
         timeHeaderMixin =
             mixin
@@ -70,43 +76,53 @@ analogTimePickerDialogMixin =
                 [ fontSize (em 1.2)
                 , padding2 (em 1) (em 0)
                 , cursor pointer
-                , margin2 (px 0) (auto)
+                , margin2 (px 0) auto
                 , width (px 85)
                 , hover [ backgroundColor highlightedDay ]
                 ]
+
+        highlightMixin =
+            Theme.highlight theme
     in
-        [ width (px 230)
-        , descendants
-            [ (.) Header
-                [ headerMixin
-                , fontSize (em 1.2)
-                , descendants
-                    [ (.) Hour [ timeHeaderMixin ]
-                    , (.) Minute [ timeHeaderMixin ]
-                    , (.) AMPM [ timeHeaderMixin ]
-                    , (.) Active
-                        [ activeMixin ]
-                    ]
-                ]
-            , (.) Body [ backgroundColor (hex "#fff"), padding2 (px 12) (px 15), height (px 202) ]
-            , (.) AMPMPicker [ padding2 (px 40) (px 0) ]
-            , (.) AM
-                [ amPmMixin
-                , withClass SelectedAmPm [ highlightMixin, hover [ highlightMixin ] ]
-                ]
-            , (.) PM
-                [ amPmMixin
-                , withClass SelectedAmPm [ highlightMixin, hover [ highlightMixin ] ]
+    [ width (px 230)
+    , descendants
+        [ (.) Header
+            [ headerMixin theme
+            , fontSize (em 1.2)
+            , descendants
+                [ (.) Hour [ timeHeaderMixin ]
+                , (.) Minute [ timeHeaderMixin ]
+                , (.) AMPM [ timeHeaderMixin ]
+                , (.) Active
+                    [ activeMixin ]
                 ]
             ]
+        , (.) Body [ backgroundColor (hex "#fff"), padding2 (px 12) (px 15), height (px 202) ]
+        , (.) AMPMPicker [ padding2 (px 40) (px 0) ]
+        , (.) AM
+            [ amPmMixin
+            , withClass SelectedAmPm [ highlightMixin, hover [ highlightMixin ] ]
+            ]
+        , (.) PM
+            [ amPmMixin
+            , withClass SelectedAmPm [ highlightMixin, hover [ highlightMixin ] ]
+            ]
         ]
+    ]
 
 
-digitalTimePickerDialogMixin : List Css.Mixin
-digitalTimePickerDialogMixin =
+digitalTimePickerDialogMixin : Theme -> List Css.Mixin
+digitalTimePickerDialogMixin theme =
+    let
+        highlightMixin =
+            Theme.highlight theme
+
+        background =
+            Theme.backgroundColor theme
+    in
     [ children
         [ (.) Header
-            [ headerMixin
+            [ headerMixin theme
             ]
         , (.) Body
             [ backgroundColor (hex "#fff")
@@ -118,13 +134,13 @@ digitalTimePickerDialogMixin =
                         [ tr
                             [ verticalAlign top
                             , withClass ArrowUp
-                                [ backgroundColor lightGray
+                                [ backgroundColor background
                                 , children
                                     [ td [ borderBottom3 (px 1) solid darkGray ]
                                     ]
                                 ]
                             , withClass ArrowDown
-                                [ backgroundColor lightGray
+                                [ backgroundColor background
                                 , children [ td [ borderTop3 (px 1) solid darkGray ] ]
                                 ]
                             ]
@@ -148,11 +164,21 @@ digitalTimePickerDialogMixin =
     ]
 
 
-datePickerDialogCss : List Css.Snippet
-datePickerDialogCss =
+datePickerDialogCss : Theme -> List Css.Snippet
+datePickerDialogCss theme =
+    let
+        highlightMixin =
+            Theme.highlight theme
+
+        background =
+            Theme.backgroundColor theme
+
+        foreground =
+            Theme.foregroundColor theme
+    in
     [ (.) Header
         [ borderBoxMixin
-        , headerMixin
+        , headerMixin theme
         , position relative
         , children
             [ (.) ArrowLeft
@@ -198,9 +224,10 @@ datePickerDialogCss =
                 ]
             , th
                 [ dayMixin
-                , backgroundColor (lightGray)
+                , backgroundColor background
+                , color foreground
                 , fontWeight normal
-                , borderBottom3 (px 1) solid (darkGray)
+                , borderBottom3 (px 1) solid darkGray
                 ]
             , (.) PreviousMonth
                 [ color fadeText ]
@@ -221,22 +248,12 @@ datePickerDialogCss =
         ]
     , (.) Footer
         [ textAlign center
-        , backgroundColor lightGray
+        , backgroundColor background
         , padding2 (px 7) (px 7)
         , borderTop3 (px 1) solid darkGray
         , height (px 16)
         ]
     ]
-
-
-highlightMixin : Css.Mixin
-highlightMixin =
-    mixin
-        [ property "box-shadow" "inset 0 0 10px 3px #3276b1"
-        , backgroundColor selectedDate
-        , color (hex "#fff")
-        , highlightBorderMixin
-        ]
 
 
 highlightSelectedDay : Css.Color
@@ -252,11 +269,6 @@ selectedDate =
 fadeText : Css.Color
 fadeText =
     hex "#a1a1a1"
-
-
-lightGray : Css.Color
-lightGray =
-    hex "#f5f5f5"
 
 
 darkGray : Css.Color
@@ -308,11 +320,12 @@ highlightBorderMixin =
     mixin [ borderRadius (px 0) ]
 
 
-headerMixin : Css.Mixin
-headerMixin =
+headerMixin : Theme -> Css.Mixin
+headerMixin theme =
     mixin
         [ padding2 (px 10) (px 7)
-        , backgroundColor (lightGray)
+        , backgroundColor (Theme.backgroundColor theme)
+        , color (Theme.foregroundColor theme)
         ]
 
 

@@ -1,15 +1,27 @@
 module DateTimePicker.SharedStyles
     exposing
         ( CssClasses(..)
-        , datepickerNamespace
+        , htmlNamespace
+        , svgNamespace
         )
 
 import Html.CssHelpers
+import Svg.CssHelpers
 
 
-datepickerNamespace : Html.CssHelpers.Namespace String class id msg
-datepickerNamespace =
-    Html.CssHelpers.withNamespace "elm-input-datepicker"
+htmlNamespace : Html.CssHelpers.Namespace String class id msg
+htmlNamespace =
+    Html.CssHelpers.withNamespace namespace
+
+
+svgNamespace : Html.CssHelpers.Namespace String class id msg
+svgNamespace =
+    Svg.CssHelpers.withNamespace namespace
+
+
+namespace : String
+namespace =
+    "elm-input-datepicker"
 
 
 type CssClasses
@@ -23,6 +35,8 @@ type CssClasses
     | Days
     | Title
     | NoYearNavigation
+    | Arrow
+    | DoubleArrow
     | ArrowLeft
     | ArrowRight
     | DoubleArrowLeft

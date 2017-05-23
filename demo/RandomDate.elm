@@ -1,15 +1,16 @@
 module RandomDate exposing (main)
 
-import Html exposing (Html, text, p, label, form, ul, li, div, button)
-import Html.Events exposing (onClick)
-import Html.Attributes exposing (type_)
+import Css
+import Date exposing (Date)
 import DateTimePicker
 import DateTimePicker.Config exposing (defaultDatePickerConfig, defaultDateTimePickerConfig)
-import Date exposing (Date)
-import Css
 import DateTimePicker.Css
+import DateTimePicker.Theme as Theme
 import DemoCss exposing (CssClasses(..))
+import Html exposing (Html, button, div, form, label, li, p, text, ul)
+import Html.Attributes exposing (type_)
 import Html.CssHelpers
+import Html.Events exposing (onClick)
 import Json.Decode
 import Random
 
@@ -54,32 +55,32 @@ view : Model -> Html Msg
 view model =
     let
         { css } =
-            Css.compile [ DateTimePicker.Css.css, DemoCss.css ]
+            Css.compile [ DateTimePicker.Css.css Theme.Dark, DemoCss.css ]
 
         analogDateTimePickerConfig =
             let
                 defaultDateTimeConfig =
                     defaultDateTimePickerConfig DateChanged
             in
-                { defaultDateTimeConfig | timePickerType = DateTimePicker.Config.Digital, allowYearNavigation = False }
+            { defaultDateTimeConfig | timePickerType = DateTimePicker.Config.Digital, allowYearNavigation = False }
     in
-        form []
-            [ Html.node "style" [] [ Html.text css ]
-            , div [ class [ Container ] ]
-                [ p
-                    []
-                    [ label []
-                        [ text "Date Picker: "
-                        , DateTimePicker.dateTimePickerWithConfig
-                            analogDateTimePickerConfig
-                            []
-                            model.datePickerState
-                            model.dateValue
-                        ]
+    form []
+        [ Html.node "style" [] [ Html.text css ]
+        , div [ class [ Container ] ]
+            [ p
+                []
+                [ label []
+                    [ text "Date Picker: "
+                    , DateTimePicker.dateTimePickerWithConfig
+                        analogDateTimePickerConfig
+                        []
+                        model.datePickerState
+                        model.dateValue
                     ]
                 ]
-            , button [ type_ "button", onClick GetRandomDate ] [ text "Random Date" ]
             ]
+        , button [ type_ "button", onClick GetRandomDate ] [ text "Random Date" ]
+        ]
 
 
 type Msg
@@ -112,4 +113,4 @@ getRandomDate =
             Random.float 10000000 1000000000000000
                 |> Random.map (Date.fromTime >> Just)
     in
-        Random.generate GetRandomDateCompleted dateGenerator
+    Random.generate GetRandomDateCompleted dateGenerator

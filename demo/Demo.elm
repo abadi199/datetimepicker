@@ -1,16 +1,17 @@
 module Demo exposing (main)
 
-import Html exposing (Html, text, p, label, form, ul, li, div)
-import DateTimePicker
-import DateTimePicker.Config exposing (Config, DatePickerConfig, TimePickerConfig, defaultDatePickerConfig, defaultDateTimePickerConfig, defaultDateTimeI18n, defaultTimePickerConfig)
-import Date exposing (Date)
 import Css
-import DateTimePicker.Css
-import DemoCss exposing (CssClasses(..))
-import Html.CssHelpers
-import Date.Extra.Format
+import Date exposing (Date)
 import Date.Extra.Config.Config_en_us exposing (config)
+import Date.Extra.Format
 import DateParser
+import DateTimePicker
+import DateTimePicker.Config exposing (Config, DatePickerConfig, TimePickerConfig, defaultDatePickerConfig, defaultDateTimeI18n, defaultDateTimePickerConfig, defaultTimePickerConfig)
+import DateTimePicker.Css
+import DateTimePicker.Theme as Theme
+import DemoCss exposing (CssClasses(..))
+import Html exposing (Html, div, form, label, li, p, text, ul)
+import Html.CssHelpers
 
 
 main : Program Never Model Msg
@@ -75,10 +76,10 @@ analogDateTimePickerConfig =
         defaultDateTimeConfig =
             defaultDateTimePickerConfig AnalogDateTimeChanged
     in
-        { defaultDateTimeConfig
-            | timePickerType = DateTimePicker.Config.Analog
-            , allowYearNavigation = False
-        }
+    { defaultDateTimeConfig
+        | timePickerType = DateTimePicker.Config.Analog
+        , allowYearNavigation = False
+    }
 
 
 timePickerConfig : Config TimePickerConfig Msg
@@ -87,9 +88,9 @@ timePickerConfig =
         defaultDateTimeConfig =
             defaultTimePickerConfig TimeChanged
     in
-        { defaultDateTimeConfig
-            | timePickerType = DateTimePicker.Config.Analog
-        }
+    { defaultDateTimeConfig
+        | timePickerType = DateTimePicker.Config.Analog
+    }
 
 
 customI18nConfig : Config (DatePickerConfig TimePickerConfig) Msg
@@ -98,11 +99,11 @@ customI18nConfig =
         defaultDateTimeConfig =
             defaultDateTimePickerConfig CustomI18Changed
     in
-        { defaultDateTimeConfig
-            | timePickerType = DateTimePicker.Config.Analog
-            , allowYearNavigation = False
-            , i18n = { defaultDateTimeI18n | inputFormat = customInputFormat }
-        }
+    { defaultDateTimeConfig
+        | timePickerType = DateTimePicker.Config.Analog
+        , allowYearNavigation = False
+        , i18n = { defaultDateTimeI18n | inputFormat = customInputFormat }
+    }
 
 
 customDatePattern : String
@@ -123,91 +124,91 @@ digitalDateTimePickerConfig =
         defaultDateTimeConfig =
             defaultDateTimePickerConfig DateTimeChanged
     in
-        { defaultDateTimeConfig
-            | timePickerType = DateTimePicker.Config.Digital
-        }
+    { defaultDateTimeConfig
+        | timePickerType = DateTimePicker.Config.Digital
+    }
 
 
 view : Model -> Html Msg
 view model =
     let
         { css } =
-            Css.compile [ DateTimePicker.Css.css, DemoCss.css ]
+            Css.compile [ DateTimePicker.Css.css Theme.Dark, DemoCss.css ]
     in
-        form []
-            [ Html.node "style" [] [ Html.text css ]
-            , div [ class [ Container ] ]
-                [ p
-                    []
-                    [ label []
-                        [ text "Date Picker: "
-                        , DateTimePicker.datePicker
-                            DateChanged
-                            []
-                            model.datePickerState
-                            model.dateValue
-                        ]
+    form []
+        [ Html.node "style" [] [ Html.text css ]
+        , div [ class [ Container ] ]
+            [ p
+                []
+                [ label []
+                    [ text "Date Picker: "
+                    , DateTimePicker.datePicker
+                        DateChanged
+                        []
+                        model.datePickerState
+                        model.dateValue
                     ]
-                , p
-                    []
-                    [ label []
-                        [ text "Digital Date Time Picker: "
-                        , DateTimePicker.dateTimePickerWithConfig
-                            digitalDateTimePickerConfig
-                            []
-                            model.dateTimePickerState
-                            model.dateTimeValue
-                        ]
+                ]
+            , p
+                []
+                [ label []
+                    [ text "Digital Date Time Picker: "
+                    , DateTimePicker.dateTimePickerWithConfig
+                        digitalDateTimePickerConfig
+                        []
+                        model.dateTimePickerState
+                        model.dateTimeValue
                     ]
-                , p
-                    []
-                    [ label []
-                        [ text "Analog Date Time Picker: "
-                        , DateTimePicker.dateTimePickerWithConfig
-                            analogDateTimePickerConfig
-                            []
-                            model.analogDateTimePickerState
-                            model.analogDateTimeValue
-                        ]
+                ]
+            , p
+                []
+                [ label []
+                    [ text "Analog Date Time Picker: "
+                    , DateTimePicker.dateTimePickerWithConfig
+                        analogDateTimePickerConfig
+                        []
+                        model.analogDateTimePickerState
+                        model.analogDateTimeValue
                     ]
-                , p
-                    []
-                    [ label []
-                        [ text "Custom i18n: "
-                        , DateTimePicker.dateTimePickerWithConfig
-                            customI18nConfig
-                            []
-                            model.customI18nPickerState
-                            model.customI18nValue
-                        ]
+                ]
+            , p
+                []
+                [ label []
+                    [ text "Custom i18n: "
+                    , DateTimePicker.dateTimePickerWithConfig
+                        customI18nConfig
+                        []
+                        model.customI18nPickerState
+                        model.customI18nValue
                     ]
-                , p
-                    []
-                    [ label []
-                        [ text "Time Picker: "
-                        , DateTimePicker.timePicker
-                            TimeChanged
-                            []
-                            model.timePickerState
-                            model.timeValue
-                        ]
+                ]
+            , p
+                []
+                [ label []
+                    [ text "Time Picker: "
+                    , DateTimePicker.timePicker
+                        TimeChanged
+                        []
+                        model.timePickerState
+                        model.timeValue
                     ]
-                , p []
-                    [ ul []
-                        [ li []
-                            [ text "Date: ", text <| toString model.dateValue ]
-                        , li []
-                            [ text "Digital Date Time: ", text <| toString model.dateTimeValue ]
-                        , li []
-                            [ text "Analog Date Time: ", text <| toString model.analogDateTimeValue ]
-                        , li []
-                            [ text "Custom i18n: ", text <| toString model.customI18nValue ]
-                        , li []
-                            [ text "Time: ", text <| toString model.timeValue ]
-                        ]
+                ]
+            , p []
+                [ ul []
+                    [ li []
+                        [ text "Date: ", text <| toString model.dateValue ]
+                    , li []
+                        [ text "Digital Date Time: ", text <| toString model.dateTimeValue ]
+                    , li []
+                        [ text "Analog Date Time: ", text <| toString model.analogDateTimeValue ]
+                    , li []
+                        [ text "Custom i18n: ", text <| toString model.customI18nValue ]
+                    , li []
+                        [ text "Time: ", text <| toString model.timeValue ]
                     ]
                 ]
             ]
+        ]
 
 
 type Msg
