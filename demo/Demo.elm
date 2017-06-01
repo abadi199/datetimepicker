@@ -127,6 +127,16 @@ digitalDateTimePickerConfig =
             | timePickerType = DateTimePicker.Config.Digital
         }
 
+digitalTimePickerConfig : Config TimePickerConfig Msg
+digitalTimePickerConfig =
+    let
+        defaultDateTimeConfig =
+            defaultTimePickerConfig TimeChanged
+    in
+        { defaultDateTimeConfig
+            | timePickerType = DateTimePicker.Config.Digital
+        }
+
 
 view : Model -> Html Msg
 view model =
@@ -185,8 +195,8 @@ view model =
                     []
                     [ label []
                         [ text "Time Picker: "
-                        , DateTimePicker.timePicker
-                            TimeChanged
+                        , DateTimePicker.timePickerWithConfig
+                            digitalTimePickerConfig
                             []
                             model.timePickerState
                             model.timeValue
@@ -238,4 +248,4 @@ update msg model =
             ( { model | customI18nValue = value, customI18nPickerState = state }, Cmd.none )
 
         TimeChanged state value ->
-            ( { model | timeValue = value, timePickerState = state }, Cmd.none )
+            (  { model | timeValue = value, timePickerState = state }, Cmd.none )

@@ -354,19 +354,26 @@ dialog pickerType state currentDate =
 
         attributes config =
             [ onMouseDownPreventDefault <| config.onChange (InternalState { stateValue | event = "dialog.onMouseDownPreventDefault" }) currentDate
-            , onClick <| onChangeHandler pickerType stateValue currentDate
             , class [ Dialog ]
             ]
+
+        withTimeAttributes config timePickerType =
+            case timePickerType of 
+                Analog -> 
+                    (onClick <| onChangeHandler pickerType stateValue currentDate) :: attributes config
+
+                Digital ->
+                    attributes config
     in
         case pickerType of
             DateType datePickerConfig ->
                 div (attributes datePickerConfig) [ datePickerDialog pickerType state currentDate ]
 
             TimeType timePickerConfig ->
-                div (attributes timePickerConfig) [ timePickerDialog pickerType state currentDate ]
+                    div (withTimeAttributes timePickerConfig timePickerConfig.timePickerType) [ timePickerDialog pickerType state currentDate ]
 
             DateTimeType timePickerConfig ->
-                div (attributes timePickerConfig)
+                div (withTimeAttributes timePickerConfig timePickerConfig.timePickerType)
                     [ datePickerDialog pickerType state currentDate
                     , timePickerDialog pickerType state currentDate
                     ]
