@@ -61,7 +61,7 @@ view model =
 
 ### Time Picker
 
-Just the date picker without the time.
+Just the time picker without the date.
 
 ![alt text](https://github.com/abadi199/datetimepicker/raw/master/images/timepicker.gif "Time Picker Preview")
 
@@ -83,15 +83,17 @@ view model =
 
 This package follows the `evancz\sortable-table` package approach where it's not a nested elm architecture 'component'. It's just view functions where you feed the data and the message constructor to the function. It does use an opaque `State` to maintain its internal state.
 
-The picker requires the initial value of the date (usually today) to set the initial position of the calendar. To feed this date to the picker's internal state, you can use 2 approach
+The picker requires the initial value of the date (usually today) to set the initial position of the calendar. To feed this date to the picker's internal state, you can use 2 approaches
 - By passing a `Date` value to the `DateTimePicker.initialStateWithToday` function when initialing the picker's State.
 - By calling the `DateTimePicker.initialCmd` as part of your `init` commands.
 
 ### Views
 The date time picker package provides multiple view functions, depending on how you want to use the picker.
 - `datePicker` is a simple date picker view, with no time picker, and comes with all default configuration.
+- `timePicker` is a simple time picker view, with no date picker, and comes with all default configuration.
 - `dateTimePicker` is a simple date and time picker view, comes with all default configuration.
 - `datePickerWithConfig` is a configurable date picker view.
+- `timePickerWithConfig` is a configurable time picker view.
 - `dateTimePickerWithConfig` is a configurable date and time picker view.
 
 ### Config
@@ -99,7 +101,7 @@ You customize the date picker configuration by passing a `DateTimePicker.Config.
 The DateTimePicker.Config module provides some default configurations for both date picker and date time picker.
 
 ## Internationalization
-In order to localize your date format, you need to provide the date time picker with a `Date` to `String` formatter and `String` to `Maybe Date` parser. The author recommend using [rluiten/elm-date-extra](package.elm-lang.org/packages/rluiten/elm-date-extra/latest) for the formatter, and [abadi199/dateparser](http://package.elm-lang.org/packages/abadi199/dateparser/latest) for the parser.
+In order to localize your date format, you need to provide the date time picker with a `Date` to `String` formatter and `String` to `Maybe Date` parser. The author recommends using [rluiten/elm-date-extra](package.elm-lang.org/packages/rluiten/elm-date-extra/latest) for the formatter, and [abadi199/dateparser](http://package.elm-lang.org/packages/abadi199/dateparser/latest) for the parser.
 
 ### CSS
 The CSS for this date time picker can be downloaded from [here](https://raw.githubusercontent.com/abadi199/datetimepicker/master/styles/styles.css), or if you're using rtfeldman/elm-css package, you can just include the `Stylesheet` from `DateTimePicker.Css` module.
