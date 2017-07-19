@@ -1,6 +1,5 @@
 .elm-input-datepickerDatePicker {
     position: relative;
-    min-width: 475px;
 }
 
 .elm-input-datepickerDialog {
@@ -11,6 +10,7 @@
     border: 1px solid #ccc;
     box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
     z-index: 1;
+    display: flex;
 }
 
 .elm-input-datepickerDialog > .elm-input-datepickerDatePickerDialog {
