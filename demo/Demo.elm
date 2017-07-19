@@ -34,6 +34,8 @@ type alias Model =
     , customI18nPickerState : DateTimePicker.State
     , timeValue : Maybe Date
     , timePickerState : DateTimePicker.State
+    , noPickerValue : Maybe Date
+    , noPickerPickerState : DateTimePicker.State
     }
 
 
@@ -49,6 +51,8 @@ init =
       , customI18nPickerState = DateTimePicker.initialState
       , timeValue = Nothing
       , timePickerState = DateTimePicker.initialState
+      , noPickerValue = Nothing
+      , noPickerPickerState = DateTimePicker.initialState
       }
     , Cmd.batch
         [ DateTimePicker.initialCmd DateChanged DateTimePicker.initialState
@@ -56,6 +60,7 @@ init =
         , DateTimePicker.initialCmd AnalogDateTimeChanged DateTimePicker.initialState
         , DateTimePicker.initialCmd CustomI18Changed DateTimePicker.initialState
         , DateTimePicker.initialCmd TimeChanged DateTimePicker.initialState
+        , DateTimePicker.initialCmd NoPickerChanged DateTimePicker.initialState
         ]
     )
 
@@ -89,6 +94,17 @@ timePickerConfig =
     in
     { defaultDateTimeConfig
         | timePickerType = DateTimePicker.Config.Analog
+    }
+
+
+noPickerConfig : Config (DatePickerConfig {}) Msg
+noPickerConfig =
+    let
+        defaultDateConfig =
+            defaultDatePickerConfig NoPickerChanged
+    in
+    { defaultDateConfig
+        | usePicker = False
     }
 
 
@@ -203,6 +219,17 @@ view model =
                         model.timeValue
                     ]
                 ]
+            , p
+                []
+                [ label []
+                    [ text "No Picker: "
+                    , DateTimePicker.datePickerWithConfig
+                        noPickerConfig
+                        []
+                        model.noPickerPickerState
+                        model.noPickerValue
+                    ]
+                ]
             , p []
                 [ ul []
                     [ li []
@@ -228,6 +255,7 @@ type Msg
     | AnalogDateTimeChanged DateTimePicker.State (Maybe Date)
     | CustomI18Changed DateTimePicker.State (Maybe Date)
     | TimeChanged DateTimePicker.State (Maybe Date)
+    | NoPickerChanged DateTimePicker.State (Maybe Date)
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -250,3 +278,6 @@ update msg model =
 
         TimeChanged state value ->
             ( { model | timeValue = value, timePickerState = state }, Cmd.none )
+
+        NoPickerChanged state value ->
+            ( { model | noPickerValue = value, noPickerPickerState = state }, Cmd.none )

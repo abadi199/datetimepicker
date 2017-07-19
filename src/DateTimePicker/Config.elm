@@ -63,6 +63,7 @@ type alias Config otherConfig msg =
         | onChange : State -> Maybe Date -> msg
         , autoClose : Bool
         , i18n : I18n
+        , usePicker : Bool
     }
 
 
@@ -164,7 +165,13 @@ defaultDateTimeI18n =
 defaultDateInputFormat : InputFormat
 defaultDateInputFormat =
     { inputFormatter = DateTimePicker.Formatter.dateFormatter
-    , inputParser = DateParser.parse config DateTimePicker.Formatter.datePattern >> Result.toMaybe
+    , inputParser =
+        \input ->
+            input
+                |> DateParser.parse config DateTimePicker.Formatter.datePattern
+                |> Result.toMaybe
+                |> Maybe.map Just
+                |> Maybe.withDefault (Date.fromString input |> Result.toMaybe)
     }
 
 
@@ -173,7 +180,13 @@ defaultDateInputFormat =
 defaultDateTimeInputFormat : InputFormat
 defaultDateTimeInputFormat =
     { inputFormatter = DateTimePicker.Formatter.dateTimeFormatter
-    , inputParser = DateParser.parse config DateTimePicker.Formatter.dateTimePattern >> Result.toMaybe
+    , inputParser =
+        \input ->
+            input
+                |> DateParser.parse config DateTimePicker.Formatter.dateTimePattern
+                |> Result.toMaybe
+                |> Maybe.map Just
+                |> Maybe.withDefault (Date.fromString input |> Result.toMaybe)
     }
 
 
@@ -182,7 +195,11 @@ defaultDateTimeInputFormat =
 defaultTimeInputFormat : InputFormat
 defaultTimeInputFormat =
     { inputFormatter = DateTimePicker.Formatter.timeFormatter
-    , inputParser = DateParser.parse config DateTimePicker.Formatter.timePattern >> Result.toMaybe
+    , inputParser =
+        \input ->
+            input
+                |> DateParser.parse config DateTimePicker.Formatter.timePattern
+                |> Result.toMaybe
     }
 
 
@@ -220,6 +237,7 @@ defaultDatePickerConfig onChange =
     , firstDayOfWeek = Date.Sun
     , allowYearNavigation = True
     , i18n = defaultDateI18n
+    , usePicker = True
     }
 
 
@@ -239,6 +257,7 @@ defaultTimePickerConfig onChange =
     , autoClose = False
     , timePickerType = Analog
     , i18n = defaultTimeI18n
+    , usePicker = True
     }
 
 
@@ -266,6 +285,7 @@ defaultDateTimePickerConfig onChange =
     , timePickerType = Analog
     , allowYearNavigation = True
     , i18n = defaultDateTimeI18n
+    , usePicker = True
     }
 
 

@@ -345,7 +345,7 @@ view pickerType attributes state currentDate =
             div
                 [ cssClasses ]
                 [ input (inputAttributes config) []
-                , if stateValue.inputFocused && not (shouldForceClose config) then
+                , if config.usePicker && stateValue.inputFocused && not (shouldForceClose config) then
                     dialog pickerType state currentDate
                   else
                     Html.text ""
