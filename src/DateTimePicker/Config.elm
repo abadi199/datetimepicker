@@ -37,6 +37,7 @@ import Date.Extra.Config.Config_en_us exposing (config)
 import DateParser
 import DateTimePicker.Formatter
 import DateTimePicker.Internal exposing (InternalState)
+import Html
 
 
 type alias State =
@@ -64,6 +65,7 @@ type alias Config otherConfig msg =
         , autoClose : Bool
         , i18n : I18n
         , usePicker : Bool
+        , attributes : List (Html.Attribute msg)
     }
 
 
@@ -238,6 +240,7 @@ defaultDatePickerConfig onChange =
     , allowYearNavigation = True
     , i18n = defaultDateI18n
     , usePicker = True
+    , attributes = []
     }
 
 
@@ -258,6 +261,7 @@ defaultTimePickerConfig onChange =
     , timePickerType = Analog
     , i18n = defaultTimeI18n
     , usePicker = True
+    , attributes = []
     }
 
 
@@ -286,6 +290,7 @@ defaultDateTimePickerConfig onChange =
     , allowYearNavigation = True
     , i18n = defaultDateTimeI18n
     , usePicker = True
+    , attributes = []
     }
 
 

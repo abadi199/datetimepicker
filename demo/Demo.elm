@@ -105,6 +105,7 @@ noPickerConfig =
     in
     { defaultDateConfig
         | usePicker = False
+        , attributes = [ class [ "Test" ] ]
     }
 
 

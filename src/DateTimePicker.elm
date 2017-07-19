@@ -343,7 +343,7 @@ view pickerType attributes state currentDate =
 
         html config cssClasses =
             div
-                [ cssClasses ]
+                (cssClasses :: config.attributes)
                 [ input (inputAttributes config) []
                 , if config.usePicker && stateValue.inputFocused && not (shouldForceClose config) then
                     dialog pickerType state currentDate
