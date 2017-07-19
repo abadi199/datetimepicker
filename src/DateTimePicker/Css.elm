@@ -24,7 +24,7 @@ css : Css.Stylesheet
 css =
     (Css.stylesheet << namespace datepickerNamespace.name)
         [ class DatePicker
-            [ position relative, minWidth (px 475) ]
+            [ position relative ]
         , class Dialog
             [ fontFamilies [ "Arial", "Helvetica", "sans-serif" ]
             , fontSize (px 14)
@@ -34,6 +34,7 @@ css =
             , boxShadow4 (px 0) (px 5) (px 10) (rgba 0 0 0 0.2)
             , children dialogCss
             , property "z-index" "1"
+            , displayFlex
             ]
         ]
 
