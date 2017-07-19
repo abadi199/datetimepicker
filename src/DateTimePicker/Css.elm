@@ -5,8 +5,11 @@ module DateTimePicker.Css exposing (css)
 Using [rtfeldman/elm-css](http://package.elm-lang.org/packages/rtfeldman/elm-css/latest)
 Include this in your elm-css port module to be included in your project's css file.
 
+
 # Css
+
 @docs css
+
 -}
 
 import Css exposing (..)
@@ -27,7 +30,7 @@ css =
             , fontSize (px 14)
             , borderBoxMixin
             , position absolute
-            , border3 (px 1) solid (darkGray)
+            , border3 (px 1) solid darkGray
             , boxShadow4 (px 0) (px 5) (px 10) (rgba 0 0 0 0.2)
             , children dialogCss
             , property "z-index" "1"
@@ -39,14 +42,16 @@ dialogCss : List Css.Snippet
 dialogCss =
     [ class DatePickerDialog
         [ float left
-          -- , height calendarHeight
+
+        -- , height calendarHeight
         , children datePickerDialogCss
         ]
     , class TimePickerDialog
         [ float left
-          -- , height calendarHeight
+
+        -- , height calendarHeight
         , textAlign center
-        , borderLeft3 (px 1) solid (darkGray)
+        , borderLeft3 (px 1) solid darkGray
         , withClass DigitalTime digitalTimePickerDialogMixin
         , withClass AnalogTime analogTimePickerDialogMixin
         ]
@@ -70,36 +75,36 @@ analogTimePickerDialogMixin =
                 [ fontSize (Css.em 1.2)
                 , padding2 (Css.em 1) (Css.em 0)
                 , cursor pointer
-                , margin2 (px 0) (auto)
+                , margin2 (px 0) auto
                 , width (px 85)
                 , hover [ backgroundColor highlightedDay ]
                 ]
     in
-        [ width (px 230)
-        , descendants
-            [ class Header
-                [ headerMixin
-                , fontSize (Css.em 1.2)
-                , descendants
-                    [ class Hour [ timeHeaderMixin ]
-                    , class Minute [ timeHeaderMixin ]
-                    , class AMPM [ timeHeaderMixin ]
-                    , class Active
-                        [ activeMixin ]
-                    ]
-                ]
-            , class Body [ backgroundColor (hex "#fff"), padding2 (px 12) (px 15), height (px 202) ]
-            , class AMPMPicker [ padding2 (px 40) (px 0) ]
-            , class AM
-                [ amPmMixin
-                , withClass SelectedAmPm [ highlightMixin, hover [ highlightMixin ] ]
-                ]
-            , class PM
-                [ amPmMixin
-                , withClass SelectedAmPm [ highlightMixin, hover [ highlightMixin ] ]
+    [ width (px 230)
+    , descendants
+        [ class Header
+            [ headerMixin
+            , fontSize (Css.em 1.2)
+            , descendants
+                [ class Hour [ timeHeaderMixin ]
+                , class Minute [ timeHeaderMixin ]
+                , class AMPM [ timeHeaderMixin ]
+                , class Active
+                    [ activeMixin ]
                 ]
             ]
+        , class Body [ backgroundColor (hex "#fff"), padding2 (px 12) (px 15), height (px 202) ]
+        , class AMPMPicker [ padding2 (px 40) (px 0) ]
+        , class AM
+            [ amPmMixin
+            , withClass SelectedAmPm [ highlightMixin, hover [ highlightMixin ] ]
+            ]
+        , class PM
+            [ amPmMixin
+            , withClass SelectedAmPm [ highlightMixin, hover [ highlightMixin ] ]
+            ]
         ]
+    ]
 
 
 digitalTimePickerDialogMixin : List Css.Mixin
@@ -198,9 +203,9 @@ datePickerDialogCss =
                 ]
             , th
                 [ dayMixin
-                , backgroundColor (lightGray)
+                , backgroundColor lightGray
                 , fontWeight normal
-                , borderBottom3 (px 1) solid (darkGray)
+                , borderBottom3 (px 1) solid darkGray
                 ]
             , class PreviousMonth
                 [ color fadeText ]
@@ -312,7 +317,7 @@ headerMixin : Css.Mixin
 headerMixin =
     mixin
         [ padding2 (px 10) (px 7)
-        , backgroundColor (lightGray)
+        , backgroundColor lightGray
         ]
 
 

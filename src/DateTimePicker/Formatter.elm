@@ -1,15 +1,15 @@
 module DateTimePicker.Formatter
     exposing
-        ( titleFormatter
-        , dateFormatter
-        , dateTimeFormatter
-        , footerFormatter
-        , timeFormatter
-        , titlePattern
+        ( dateFormatter
         , datePattern
+        , dateTimeFormatter
         , dateTimePattern
+        , footerFormatter
         , footerPattern
+        , timeFormatter
         , timePattern
+        , titleFormatter
+        , titlePattern
         )
 
 import Date exposing (Date)

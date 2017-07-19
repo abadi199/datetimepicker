@@ -53,18 +53,18 @@ calculateAngle p1 p2 p3 =
                 / (2 * p12 * p13)
                 |> acos
     in
-        case quadrant of
-            Quadrant3 ->
-                angle
+    case quadrant of
+        Quadrant3 ->
+            angle
 
-            Quadrant4 ->
-                angle
+        Quadrant4 ->
+            angle
 
-            Quadrant1 ->
-                (2 * pi) - angle
+        Quadrant1 ->
+            (2 * pi) - angle
 
-            Quadrant2 ->
-                (2 * pi) - angle
+        Quadrant2 ->
+            (2 * pi) - angle
 
 
 calculateArrowPoint : Point -> Int -> Float -> Point
@@ -76,4 +76,4 @@ calculateArrowPoint origin length radians =
         y =
             round (toFloat length * sin radians)
     in
-        { x = origin.x + x, y = origin.y - y }
+    { x = origin.x + x, y = origin.y - y }

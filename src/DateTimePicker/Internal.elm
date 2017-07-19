@@ -10,8 +10,8 @@ module DateTimePicker.Internal
         )
 
 import Date exposing (Date)
-import DateTimePicker.Geometry exposing (Point)
 import Date.Extra.Core
+import DateTimePicker.Geometry exposing (Point)
 
 
 type InternalState

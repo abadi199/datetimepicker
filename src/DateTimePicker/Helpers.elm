@@ -1,9 +1,9 @@
 module DateTimePicker.Helpers exposing (updateCurrentDate, updateTimeIndicator)
 
-import DateTimePicker.Config exposing (Type(..))
-import DateTimePicker.Internal exposing (StateValue, TimeIndicator(..))
 import Date exposing (Date)
+import DateTimePicker.Config exposing (Type(..))
 import DateTimePicker.DateUtils
+import DateTimePicker.Internal exposing (StateValue, TimeIndicator(..))
 
 
 updateCurrentDate : Type msg -> StateValue -> Maybe Date
@@ -28,15 +28,15 @@ updateCurrentDate pickerType stateValue =
                 _ ->
                     Nothing
     in
-        case pickerType of
-            DateType _ ->
-                updatedDate
+    case pickerType of
+        DateType _ ->
+            updatedDate
 
-            DateTimeType _ ->
-                updatedDateTime
+        DateTimeType _ ->
+            updatedDateTime
 
-            TimeType _ ->
-                updatedTime
+        TimeType _ ->
+            updatedTime
 
 
 updateTimeIndicator : StateValue -> StateValue

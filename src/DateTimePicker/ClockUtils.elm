@@ -1,10 +1,10 @@
 module DateTimePicker.ClockUtils
     exposing
-        ( hours
+        ( hourToAngle
+        , hours
+        , minuteToAngle
         , minutes
         , minutesPerFive
-        , hourToAngle
-        , minuteToAngle
         )
 
 import Dict

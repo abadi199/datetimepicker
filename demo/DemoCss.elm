@@ -1,4 +1,4 @@
-module DemoCss exposing (css, CssClasses(..))
+module DemoCss exposing (CssClasses(..), css)
 
 import Css exposing (..)
 import Css.Elements exposing (..)
@@ -6,7 +6,7 @@ import Css.Elements exposing (..)
 
 css : Css.Stylesheet
 css =
-    (Css.stylesheet)
+    Css.stylesheet
         []
 
 
