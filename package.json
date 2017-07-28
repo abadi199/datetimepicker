@@ -8,8 +8,9 @@
   },
   "scripts": {
     "test": "elm-test",
-    "make": "elm-make src/DateTimePicker.elm --output dist/elm.js",
-    "css": "cd styles && elm-css Stylesheets.elm --output ."
+    "make": "elm-make --yes src/DateTimePicker.elm --output dist/elm.js",
+    "css": "cd styles && elm-css Stylesheets.elm --output .",
+    "make-demos": "cd demo && elm-make --yes Demo.elm --output /dev/null && elm-make --yes RandomDate.elm --output /dev/null"
   },
   "repository": {
     "type": "git",
