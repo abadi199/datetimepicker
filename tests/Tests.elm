@@ -1,8 +1,8 @@
 module Tests exposing (..)
 
-import Test exposing (Test, describe)
 import DateUtilsTests
 import GeometryTests
+import Test exposing (Test, describe)
 
 
 all : Test
