@@ -23,6 +23,7 @@
   "homepage": "https://github.com/abadi199/datetimepicker#readme",
   "devDependencies": {
     "elm": "^0.18.0",
-    "elm-css": "^0.6.0"
+    "elm-css": "^0.6.0",
+    "elm-test": "0.18.7"
   }
 }
