@@ -3,6 +3,12 @@ sudo: false
 language: node_js
 node_js: "5.1"
 
+before_install:
+  # DateUtils.toTime is currently timezone sensitive
+  # as a result, the Elm tests will fail if run in a timezone where
+  # (Date.fromTime 0) is in Jan 1970 instead of Dec 1969
+  - export TZ=America/Chicago
+
 install:
   - |
     if [ ! -d sysconfcpus/bin ];
