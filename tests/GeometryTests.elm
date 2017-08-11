@@ -1,8 +1,8 @@
 module GeometryTests exposing (..)
 
-import Test exposing (..)
-import Expect
 import DateTimePicker.Geometry as Geometry exposing (Point)
+import Expect
+import Test exposing (..)
 
 
 all : Test
@@ -68,7 +68,7 @@ calculateArrowPointTests =
                     |> Expect.equal (Point 13 150)
         , test "calculateArrowPoint for 9:00" <|
             \() ->
-                Geometry.calculateArrowPoint (Point 100 100) 100 (pi)
+                Geometry.calculateArrowPoint (Point 100 100) 100 pi
                     |> Expect.equal (Point 0 100)
         , test "calculateArrowPoint for 10:00" <|
             \() ->

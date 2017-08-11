@@ -1,0 +1,38 @@
+sudo: false
+
+language: node_js
+node_js: "5.1"
+
+before_install:
+  # DateUtils.toTime is currently timezone sensitive
+  # as a result, the Elm tests will fail if run in a timezone where
+  # (Date.fromTime 0) is in Jan 1970 instead of Dec 1969
+  - export TZ=America/Chicago
+
+install:
+  - |
+    if [ ! -d sysconfcpus/bin ];
+    then
+      git clone https://github.com/obmarg/libsysconfcpus.git;
+      cd libsysconfcpus;
+      ./configure --prefix=$TRAVIS_BUILD_DIR/sysconfcpus;
+      make && make install;
+      cd ..;
+    fi
+  - npm install
+  - export PATH="`pwd`/node_modules/.bin:$PATH"
+  - elm-package install --yes
+  - (cd demo; elm-package install --yes)
+
+script:
+  - $TRAVIS_BUILD_DIR/sysconfcpus/bin/sysconfcpus -n 2 npm run make
+  - $TRAVIS_BUILD_DIR/sysconfcpus/bin/sysconfcpus -n 2 npm test
+  - $TRAVIS_BUILD_DIR/sysconfcpus/bin/sysconfcpus -n 2 npm run css
+  - $TRAVIS_BUILD_DIR/sysconfcpus/bin/sysconfcpus -n 2 npm run make-demos
+
+cache:
+  directories:
+    - sysconfcpus
+    - elm-stuff/build-artifacts
+    - tests/elm-stuff/build-artifacts
+    - demo/elm-stuff/build-artifacts

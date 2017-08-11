@@ -1,10 +1,10 @@
 module DateUtilsTests exposing (..)
 
-import Test exposing (..)
-import Expect
-import DateTimePicker.DateUtils as DateUtils
 import Date
 import Date.Extra.Create
+import DateTimePicker.DateUtils as DateUtils
+import Expect
+import Test exposing (..)
 
 
 -- TEST SUITE
@@ -59,20 +59,20 @@ generateCalendarTest =
         next =
             DateUtils.Day DateUtils.Next
     in
-        describe "DateUtil.generateCalendar"
-            [ test "generateCalendar for February 2016 (leap) should return a list of date" <|
-                \() ->
-                    DateUtils.generateCalendar Date.Sun Date.Feb 2016
-                        |> Expect.equal ([ previous 31 ] ++ (List.range 1 29 |> List.map current) ++ (List.range 1 12 |> List.map next))
-            , test "generateCalendar for February 2015 should return a list of date" <|
-                \() ->
-                    DateUtils.generateCalendar Date.Sun Date.Feb 2015
-                        |> Expect.equal ((List.range 25 31 |> List.map previous) ++ (List.range 1 28 |> List.map current) ++ (List.range 1 7 |> List.map next))
-            , test "generateCalendar for January 2099 should return a list of date" <|
-                \() ->
-                    DateUtils.generateCalendar Date.Sun Date.Jan 2099
-                        |> Expect.equal ((List.range 28 31 |> List.map previous) ++ (List.range 1 31 |> List.map current) ++ (List.range 1 7 |> List.map next))
-            ]
+    describe "DateUtil.generateCalendar"
+        [ test "generateCalendar for February 2016 (leap) should return a list of date" <|
+            \() ->
+                DateUtils.generateCalendar Date.Sun Date.Feb 2016
+                    |> Expect.equal ([ previous 31 ] ++ (List.range 1 29 |> List.map current) ++ (List.range 1 12 |> List.map next))
+        , test "generateCalendar for February 2015 should return a list of date" <|
+            \() ->
+                DateUtils.generateCalendar Date.Sun Date.Feb 2015
+                    |> Expect.equal ((List.range 25 31 |> List.map previous) ++ (List.range 1 28 |> List.map current) ++ (List.range 1 7 |> List.map next))
+        , test "generateCalendar for January 2099 should return a list of date" <|
+            \() ->
+                DateUtils.generateCalendar Date.Sun Date.Jan 2099
+                    |> Expect.equal ((List.range 28 31 |> List.map previous) ++ (List.range 1 31 |> List.map current) ++ (List.range 1 7 |> List.map next))
+        ]
 
 
 toDateTest : Test
@@ -121,24 +121,24 @@ setTimeTest =
         date =
             Date.Extra.Create.dateFromFields 2017 Date.Jan 1 0 0 0 0
     in
-        describe "DateUtils.setTime"
-            [ test "setTime for 12:00 AM should return the right time" <|
-                \() ->
-                    DateUtils.setTime date 12 0 "AM"
-                        |> Expect.equal (Date.Extra.Create.dateFromFields 2017 Date.Jan 1 0 0 0 0)
-            , test "setTime for 12:00 PM should return the right time" <|
-                \() ->
-                    DateUtils.setTime date 12 0 "PM"
-                        |> Expect.equal (Date.Extra.Create.dateFromFields 2017 Date.Jan 1 12 0 0 0)
-            , test "setTime for 3:15 PM should return the right time" <|
-                \() ->
-                    DateUtils.setTime date 3 15 "PM"
-                        |> Expect.equal (Date.Extra.Create.dateFromFields 2017 Date.Jan 1 15 15 0 0)
-            , test "setTime for 3:15 AM should return the right time" <|
-                \() ->
-                    DateUtils.setTime date 3 15 "AM"
-                        |> Expect.equal (Date.Extra.Create.dateFromFields 2017 Date.Jan 1 3 15 0 0)
-            ]
+    describe "DateUtils.setTime"
+        [ test "setTime for 12:00 AM should return the right time" <|
+            \() ->
+                DateUtils.setTime date 12 0 "AM"
+                    |> Expect.equal (Date.Extra.Create.dateFromFields 2017 Date.Jan 1 0 0 0 0)
+        , test "setTime for 12:00 PM should return the right time" <|
+            \() ->
+                DateUtils.setTime date 12 0 "PM"
+                    |> Expect.equal (Date.Extra.Create.dateFromFields 2017 Date.Jan 1 12 0 0 0)
+        , test "setTime for 3:15 PM should return the right time" <|
+            \() ->
+                DateUtils.setTime date 3 15 "PM"
+                    |> Expect.equal (Date.Extra.Create.dateFromFields 2017 Date.Jan 1 15 15 0 0)
+        , test "setTime for 3:15 AM should return the right time" <|
+            \() ->
+                DateUtils.setTime date 3 15 "AM"
+                    |> Expect.equal (Date.Extra.Create.dateFromFields 2017 Date.Jan 1 3 15 0 0)
+        ]
 
 
 paddingTest : Test
