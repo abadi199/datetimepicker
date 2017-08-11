@@ -56,5 +56,16 @@ datePickerTests =
                     |> render
                     |> Query.findAll [ tag "td" ]
                     |> Query.each
-                        (Query.has [ attribute <| Html.Attributes.attribute "role" "button" ])
+                        (Query.has [ attribute "role" "button" ])
+        , test "date cells should have labels" <|
+            \() ->
+                DateTimePicker.initialStateWithToday now
+                    |> open
+                    |> render
+                    |> Query.has [ tag "td", attribute "aria-label" "15, Tuesday August 2017" ]
         ]
+
+
+attribute : String -> String -> Selector
+attribute attr value =
+    Test.Html.Selector.attribute <| Html.Attributes.attribute attr value

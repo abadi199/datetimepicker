@@ -32,8 +32,10 @@ module DateTimePicker
 -}
 
 import Date exposing (Date)
+import Date.Extra.Config.Config_en_us
 import Date.Extra.Core
 import Date.Extra.Duration
+import Date.Extra.Format
 import DateTimePicker.AnalogClock
 import DateTimePicker.ClockUtils
 import DateTimePicker.Config exposing (Config, DatePickerConfig, TimePickerConfig, TimePickerType(..), Type(..), defaultDatePickerConfig, defaultDateTimePickerConfig, defaultTimePickerConfig)
@@ -811,6 +813,10 @@ calendar pickerType state currentDate =
                                 |> Maybe.withDefault False
 
                         toCell day =
+                            let
+                                selectedDate =
+                                    DateTimePicker.DateUtils.toDate year month day
+                            in
                             td
                                 [ class
                                     (case day.monthType of
@@ -831,6 +837,7 @@ calendar pickerType state currentDate =
                                             [ NextMonth ]
                                     )
                                 , Html.Attributes.attribute "role" "button"
+                                , Html.Attributes.attribute "aria-label" (Date.Extra.Format.format Date.Extra.Config.Config_en_us.config "%e, %A %B %Y" selectedDate)
                                 , onMouseDownPreventDefault <| dateClickHandler pickerType stateValue year month day
                                 , onTouchStartPreventDefault <| dateClickHandler pickerType stateValue year month day
                                 ]
