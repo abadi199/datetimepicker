@@ -830,6 +830,7 @@ calendar pickerType state currentDate =
                                         DateTimePicker.DateUtils.Next ->
                                             [ NextMonth ]
                                     )
+                                , Html.Attributes.attribute "role" "button"
                                 , onMouseDownPreventDefault <| dateClickHandler pickerType stateValue year month day
                                 , onTouchStartPreventDefault <| dateClickHandler pickerType stateValue year month day
                                 ]
