@@ -15,8 +15,19 @@ now =
     Date.fromTime 1502490656000
 
 
-open : DateTimePicker.State -> DateTimePicker.State
-open oldState =
+type alias TestResult =
+    ( DateTimePicker.State, Maybe Date )
+
+
+init : Date -> TestResult
+init now =
+    ( DateTimePicker.initialStateWithToday now
+    , Nothing
+    )
+
+
+open : TestResult -> TestResult
+open ( oldState, selection ) =
     DateTimePicker.datePicker
         (,)
         []
@@ -32,12 +43,12 @@ open oldState =
                         Debug.crash ("Can't open datetimepicker:" ++ message)
 
                     Ok ( state, date ) ->
-                        state
+                        ( state, date )
            )
 
 
-render : DateTimePicker.State -> Query.Single ()
-render state =
+render : TestResult -> Query.Single ()
+render ( state, date ) =
     DateTimePicker.datePicker
         (\_ _ -> ())
         []
@@ -51,7 +62,7 @@ datePickerTests =
     describe "date picker accessibility"
         [ test "date cells should have role=button" <|
             \() ->
-                DateTimePicker.initialStateWithToday now
+                init now
                     |> open
                     |> render
                     |> Query.findAll [ tag "td" ]
@@ -59,7 +70,7 @@ datePickerTests =
                         (Query.has [ attribute "role" "button" ])
         , test "date cells should have labels" <|
             \() ->
-                DateTimePicker.initialStateWithToday now
+                init now
                     |> open
                     |> render
                     |> Query.has [ tag "td", attribute "aria-label" "15, Tuesday August 2017" ]
