@@ -41,7 +41,7 @@ module DateTimePicker
 
 -}
 
-import Date exposing (Date)
+import Date
 import Date.Extra.Config.Config_en_us
 import Date.Extra.Core
 import Date.Extra.Duration
@@ -90,7 +90,7 @@ initialStateWithToday today =
 
 {-| Initial Cmd to set the initial month to be displayed in the datepicker to the current month.
 -}
-initialCmd : (State -> Maybe Date -> msg) -> State -> Cmd msg
+initialCmd : (State -> Maybe Date.Date -> msg) -> State -> Cmd msg
 initialCmd onChange state =
     let
         stateValue =
@@ -112,7 +112,7 @@ initialCmd onChange state =
 -- ACTIONS
 
 
-switchMode : Config a msg -> State -> (Maybe Date -> msg)
+switchMode : Config a msg -> State -> (Maybe Date.Date -> msg)
 switchMode config state =
     let
         stateValue =
@@ -121,7 +121,7 @@ switchMode config state =
     config.onChange <| InternalState { stateValue | event = "title" }
 
 
-gotoNextMonth : Config a msg -> State -> (Maybe Date -> msg)
+gotoNextMonth : Config a msg -> State -> (Maybe Date.Date -> msg)
 gotoNextMonth config state =
     let
         stateValue =
@@ -133,7 +133,7 @@ gotoNextMonth config state =
     config.onChange <| InternalState { stateValue | event = "next", titleDate = updatedTitleDate }
 
 
-gotoNextYear : Config a msg -> State -> (Maybe Date -> msg)
+gotoNextYear : Config a msg -> State -> (Maybe Date.Date -> msg)
 gotoNextYear config state =
     let
         stateValue =
@@ -145,7 +145,7 @@ gotoNextYear config state =
     config.onChange <| InternalState { stateValue | event = "nextYear", titleDate = updatedTitleDate }
 
 
-gotoPreviousMonth : Config a msg -> State -> (Maybe Date -> msg)
+gotoPreviousMonth : Config a msg -> State -> (Maybe Date.Date -> msg)
 gotoPreviousMonth config state =
     let
         stateValue =
@@ -157,7 +157,7 @@ gotoPreviousMonth config state =
     config.onChange <| InternalState { stateValue | event = "previous", titleDate = updatedTitleDate }
 
 
-gotoPreviousYear : Config a msg -> State -> (Maybe Date -> msg)
+gotoPreviousYear : Config a msg -> State -> (Maybe Date.Date -> msg)
 gotoPreviousYear config state =
     let
         stateValue =
@@ -193,7 +193,7 @@ type alias Model = { datePickerState : DateTimePicker.State, value : Maybe Date 
             model.value
 
 -}
-datePicker : (State -> Maybe Date -> msg) -> List (Html.Attribute msg) -> State -> Maybe Date -> Html msg
+datePicker : (State -> Maybe Date.Date -> msg) -> List (Html.Attribute msg) -> State -> Maybe Date.Date -> Html msg
 datePicker onChange =
     datePickerWithConfig (defaultDatePickerConfig onChange)
 
@@ -225,7 +225,7 @@ type alias Model = { datePickerState : DateTimePicker.State, value : Maybe Date 
             model.value
 
 -}
-datePickerWithConfig : Config (DatePickerConfig {}) msg -> List (Html.Attribute msg) -> State -> Maybe Date -> Html msg
+datePickerWithConfig : Config (DatePickerConfig {}) msg -> List (Html.Attribute msg) -> State -> Maybe Date.Date -> Html msg
 datePickerWithConfig config =
     view (DateType config)
 
@@ -245,7 +245,7 @@ type alias Model = { dateTimePickerState : DateTimePicker.State, value : Maybe D
             model.value
 
 -}
-dateTimePicker : (State -> Maybe Date -> msg) -> List (Html.Attribute msg) -> State -> Maybe Date -> Html msg
+dateTimePicker : (State -> Maybe Date.Date -> msg) -> List (Html.Attribute msg) -> State -> Maybe Date.Date -> Html msg
 dateTimePicker onChange =
     dateTimePickerWithConfig (defaultDateTimePickerConfig onChange)
 
@@ -265,7 +265,7 @@ type alias Model = { timePickerState : DateTimePicker.State, value : Maybe DateT
             model.value
 
 -}
-timePicker : (State -> Maybe Date -> msg) -> List (Html.Attribute msg) -> State -> Maybe Date -> Html msg
+timePicker : (State -> Maybe Date.Date -> msg) -> List (Html.Attribute msg) -> State -> Maybe Date.Date -> Html msg
 timePicker onChange =
     timePickerWithConfig (defaultTimePickerConfig onChange)
 
@@ -295,7 +295,7 @@ type alias Model = { dateTimePickerState : DateTimePicker.State, value : Maybe D
             model.value
 
 -}
-dateTimePickerWithConfig : Config (DatePickerConfig TimePickerConfig) msg -> List (Html.Attribute msg) -> State -> Maybe Date -> Html msg
+dateTimePickerWithConfig : Config (DatePickerConfig TimePickerConfig) msg -> List (Html.Attribute msg) -> State -> Maybe Date.Date -> Html msg
 dateTimePickerWithConfig config =
     view (DateTimeType config)
 
@@ -324,12 +324,12 @@ type alias Model = { timePickerState : DateTimePicker.State, value : Maybe Date 
             model.value
 
 -}
-timePickerWithConfig : Config TimePickerConfig msg -> List (Html.Attribute msg) -> State -> Maybe Date -> Html msg
+timePickerWithConfig : Config TimePickerConfig msg -> List (Html.Attribute msg) -> State -> Maybe Date.Date -> Html msg
 timePickerWithConfig config =
     view (TimeType config)
 
 
-view : Type msg -> List (Html.Attribute msg) -> State -> Maybe Date -> Html msg
+view : Type msg -> List (Html.Attribute msg) -> State -> Maybe Date.Date -> Html msg
 view pickerType attributes state currentDate =
     let
         stateValue =
@@ -378,7 +378,7 @@ view pickerType attributes state currentDate =
 -- VIEW HELPERSs
 
 
-dialog : Type msg -> State -> Maybe Date -> Html msg
+dialog : Type msg -> State -> Maybe Date.Date -> Html msg
 dialog pickerType state currentDate =
     let
         stateValue =
@@ -411,7 +411,7 @@ dialog pickerType state currentDate =
                 ]
 
 
-datePickerDialog : Type msg -> State -> Maybe Date -> Html msg
+datePickerDialog : Type msg -> State -> Maybe Date.Date -> Html msg
 datePickerDialog pickerType state currentDate =
     let
         stateValue =
@@ -438,7 +438,7 @@ datePickerDialog pickerType state currentDate =
             text ""
 
 
-navigation : DatePickerConfig (Config config msg) -> State -> Maybe Date -> List (Html msg)
+navigation : DatePickerConfig (Config config msg) -> State -> Maybe Date.Date -> List (Html msg)
 navigation config state currentDate =
     [ previousYearButton config state currentDate
     , previousButton config state currentDate
@@ -448,7 +448,7 @@ navigation config state currentDate =
     ]
 
 
-title : DatePickerConfig (Config config msg) -> State -> Maybe Date -> Html msg
+title : DatePickerConfig (Config config msg) -> State -> Maybe Date.Date -> Html msg
 title config state currentDate =
     let
         stateValue =
@@ -468,7 +468,7 @@ title config state currentDate =
         ]
 
 
-previousYearButton : DatePickerConfig (Config config msg) -> State -> Maybe Date -> Html msg
+previousYearButton : DatePickerConfig (Config config msg) -> State -> Maybe Date.Date -> Html msg
 previousYearButton config state currentDate =
     if config.allowYearNavigation then
         span
@@ -489,7 +489,7 @@ noYearNavigationClass config =
         [ NoYearNavigation ]
 
 
-previousButton : DatePickerConfig (Config config msg) -> State -> Maybe Date -> Html msg
+previousButton : DatePickerConfig (Config config msg) -> State -> Maybe Date.Date -> Html msg
 previousButton config state currentDate =
     span
         [ class <| ArrowLeft :: noYearNavigationClass config
@@ -499,7 +499,7 @@ previousButton config state currentDate =
         [ DateTimePicker.Svg.leftArrow ]
 
 
-nextButton : DatePickerConfig (Config config msg) -> State -> Maybe Date -> Html msg
+nextButton : DatePickerConfig (Config config msg) -> State -> Maybe Date.Date -> Html msg
 nextButton config state currentDate =
     span
         [ class <| ArrowRight :: noYearNavigationClass config
@@ -509,7 +509,7 @@ nextButton config state currentDate =
         [ DateTimePicker.Svg.rightArrow ]
 
 
-nextYearButton : DatePickerConfig (Config config msg) -> State -> Maybe Date -> Html msg
+nextYearButton : DatePickerConfig (Config config msg) -> State -> Maybe Date.Date -> Html msg
 nextYearButton config state currentDate =
     if config.allowYearNavigation then
         span
@@ -522,7 +522,7 @@ nextYearButton config state currentDate =
         Html.text ""
 
 
-timePickerDialog : Type msg -> State -> Maybe Date -> Html msg
+timePickerDialog : Type msg -> State -> Maybe Date.Date -> Html msg
 timePickerDialog pickerType state currentDate =
     let
         html config =
@@ -544,7 +544,7 @@ timePickerDialog pickerType state currentDate =
             html config
 
 
-digitalTimePickerDialog : Type msg -> State -> Maybe Date -> Html msg
+digitalTimePickerDialog : Type msg -> State -> Maybe Date.Date -> Html msg
 digitalTimePickerDialog pickerType state currentDate =
     let
         stateValue =
@@ -695,7 +695,7 @@ digitalTimePickerDialog pickerType state currentDate =
             html config
 
 
-analogTimePickerDialog : Type msg -> State -> Maybe Date -> Html msg
+analogTimePickerDialog : Type msg -> State -> Maybe Date.Date -> Html msg
 analogTimePickerDialog pickerType state currentDate =
     let
         stateValue =
@@ -777,7 +777,7 @@ analogTimePickerDialog pickerType state currentDate =
             html config
 
 
-calendar : Type msg -> State -> Maybe Date -> Html msg
+calendar : Type msg -> State -> Maybe Date.Date -> Html msg
 calendar pickerType state currentDate =
     let
         stateValue =
@@ -904,7 +904,7 @@ dayNames config =
 -- EVENT HANDLERS
 
 
-inputChangeHandler : Config a msg -> StateValue -> Maybe Date -> Maybe Date -> msg
+inputChangeHandler : Config a msg -> StateValue -> Maybe Date.Date -> Maybe Date.Date -> msg
 inputChangeHandler config stateValue currentDate maybeDate =
     case maybeDate of
         Just date ->
@@ -1162,7 +1162,7 @@ dateClickHandler pickerType stateValue year month day =
             handler config
 
 
-datePickerFocused : Type msg -> Config a msg -> StateValue -> Maybe Date -> msg
+datePickerFocused : Type msg -> Config a msg -> StateValue -> Maybe Date.Date -> msg
 datePickerFocused pickerType config stateValue currentDate =
     let
         updatedTitleDate =
@@ -1201,7 +1201,7 @@ datePickerFocused pickerType config stateValue currentDate =
         currentDate
 
 
-onChangeHandler : Type msg -> StateValue -> Maybe Date -> msg
+onChangeHandler : Type msg -> StateValue -> Maybe Date.Date -> msg
 onChangeHandler pickerType stateValue currentDate =
     let
         justDateHandler config =
@@ -1226,7 +1226,7 @@ onChangeHandler pickerType stateValue currentDate =
             withTimeHandler config
 
 
-hourUpHandler : Config config msg -> StateValue -> Maybe Date -> msg
+hourUpHandler : Config config msg -> StateValue -> Maybe Date.Date -> msg
 hourUpHandler config stateValue currentDate =
     let
         updatedState =
@@ -1238,7 +1238,7 @@ hourUpHandler config stateValue currentDate =
     config.onChange (InternalState updatedState) currentDate
 
 
-hourDownHandler : Config config msg -> StateValue -> Maybe Date -> msg
+hourDownHandler : Config config msg -> StateValue -> Maybe Date.Date -> msg
 hourDownHandler config stateValue currentDate =
     let
         updatedState =
@@ -1250,7 +1250,7 @@ hourDownHandler config stateValue currentDate =
     config.onChange (InternalState updatedState) currentDate
 
 
-minuteUpHandler : Config config msg -> StateValue -> Maybe Date -> msg
+minuteUpHandler : Config config msg -> StateValue -> Maybe Date.Date -> msg
 minuteUpHandler config stateValue currentDate =
     let
         updatedState =
@@ -1262,7 +1262,7 @@ minuteUpHandler config stateValue currentDate =
     config.onChange (InternalState updatedState) currentDate
 
 
-minuteDownHandler : Config config msg -> StateValue -> Maybe Date -> msg
+minuteDownHandler : Config config msg -> StateValue -> Maybe Date.Date -> msg
 minuteDownHandler config stateValue currentDate =
     let
         updatedState =
@@ -1274,7 +1274,7 @@ minuteDownHandler config stateValue currentDate =
     config.onChange (InternalState updatedState) currentDate
 
 
-timeIndicatorHandler : Config config msg -> StateValue -> Maybe Date -> DateTimePicker.Internal.TimeIndicator -> msg
+timeIndicatorHandler : Config config msg -> StateValue -> Maybe Date.Date -> DateTimePicker.Internal.TimeIndicator -> msg
 timeIndicatorHandler config stateValue currentDate timeIndicator =
     let
         updatedState =
@@ -1303,7 +1303,7 @@ timeIndicatorHandler config stateValue currentDate timeIndicator =
     config.onChange (InternalState updatedState) currentDate
 
 
-amPmIndicatorHandler : Config config msg -> StateValue -> Maybe Date -> msg
+amPmIndicatorHandler : Config config msg -> StateValue -> Maybe Date.Date -> msg
 amPmIndicatorHandler config stateValue currentDate =
     let
         updateTime time =
@@ -1326,7 +1326,7 @@ amPmIndicatorHandler config stateValue currentDate =
     config.onChange (InternalState updatedState) currentDate
 
 
-amPmPickerHandler : Type msg -> Config config msg -> StateValue -> Maybe Date -> String -> msg
+amPmPickerHandler : Type msg -> Config config msg -> StateValue -> Maybe Date.Date -> String -> msg
 amPmPickerHandler pickerType config stateValue currentDate amPm =
     let
         time =
