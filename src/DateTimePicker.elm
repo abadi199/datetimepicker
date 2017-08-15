@@ -15,9 +15,19 @@ module DateTimePicker
 {-| DateTime Picker
 
 
-# View
+# Picking date and time
 
-@docs datePicker, datePickerWithConfig, dateTimePicker, dateTimePickerWithConfig, timePicker, timePickerWithConfig
+@docs dateTimePicker, dateTimePickerWithConfig
+
+
+# Picking dates
+
+@docs datePicker, datePickerWithConfig
+
+
+# Picking times
+
+@docs timePicker, timePickerWithConfig
 
 
 # Initial
