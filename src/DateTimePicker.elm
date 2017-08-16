@@ -42,10 +42,8 @@ module DateTimePicker
 -}
 
 import Date
-import Date.Extra.Config.Config_en_us
 import Date.Extra.Core
-import Date.Extra.Duration
-import Date.Extra.Format
+import DatePickerPanel
 import DateTimePicker.AnalogClock
 import DateTimePicker.ClockUtils
 import DateTimePicker.Config exposing (Config, DatePickerConfig, TimePickerConfig, TimePickerType(..), Type(..), defaultDatePickerConfig, defaultDateTimePickerConfig, defaultTimePickerConfig)
@@ -58,7 +56,6 @@ import DateTimePicker.Svg
 import Html exposing (Html, button, div, input, li, span, table, tbody, td, text, th, thead, tr, ul)
 import Html.Attributes exposing (value)
 import Html.Events exposing (onBlur, onClick, onFocus)
-import List.Extra
 import String
 import Task
 
@@ -106,67 +103,6 @@ initialCmd onChange state =
     Task.perform
         ((setDate >> onChange |> flip) Nothing)
         Date.now
-
-
-
--- ACTIONS
-
-
-switchMode : State -> State
-switchMode (InternalState state) =
-    InternalState { state | event = "title" }
-
-
-gotoNextMonth : State -> State
-gotoNextMonth (InternalState state) =
-    let
-        updatedTitleDate =
-            Maybe.map (Date.Extra.Duration.add Date.Extra.Duration.Month 1) state.titleDate
-    in
-    InternalState
-        { state
-            | event = "next"
-            , titleDate = updatedTitleDate
-        }
-
-
-gotoNextYear : State -> State
-gotoNextYear (InternalState state) =
-    let
-        updatedTitleDate =
-            Maybe.map (Date.Extra.Duration.add Date.Extra.Duration.Year 1) state.titleDate
-    in
-    InternalState
-        { state
-            | event = "nextYear"
-            , titleDate = updatedTitleDate
-        }
-
-
-gotoPreviousMonth : State -> State
-gotoPreviousMonth (InternalState state) =
-    let
-        updatedTitleDate =
-            Maybe.map (Date.Extra.Duration.add Date.Extra.Duration.Month -1) state.titleDate
-    in
-    InternalState
-        { state
-            | event = "previous"
-            , titleDate = updatedTitleDate
-        }
-
-
-gotoPreviousYear : State -> State
-gotoPreviousYear (InternalState state) =
-    let
-        updatedTitleDate =
-            Maybe.map (Date.Extra.Duration.add Date.Extra.Duration.Year -1) state.titleDate
-    in
-    InternalState
-        { state
-            | event = "previousYear"
-            , titleDate = updatedTitleDate
-        }
 
 
 
@@ -413,113 +349,35 @@ dialog pickerType state currentDate =
 
 datePickerDialog : Type msg -> State -> Maybe Date.Date -> Html msg
 datePickerDialog pickerType state currentDate =
-    let
-        stateValue =
-            getStateValue state
-
-        html config =
-            div [ class [ DatePickerDialog ] ]
-                [ div [ class [ Header ] ]
-                    (navigation config state currentDate)
-                , calendar pickerType state currentDate
-                , div
-                    [ class [ Footer ] ]
-                    [ stateValue.date |> Maybe.map config.i18n.footerFormatter |> Maybe.withDefault "--" |> text ]
-                ]
-    in
     case pickerType of
         DateType config ->
-            html config
+            DatePickerPanel.view
+                { onChange = config.onChange
+                , nameOfDays = config.nameOfDays
+                , firstDayOfWeek = config.firstDayOfWeek
+                , allowYearNavigation = config.allowYearNavigation
+                , titleFormatter = config.i18n.titleFormatter
+                , footerFormatter = config.i18n.footerFormatter
+                , requiresTime = False
+                }
+                state
+                currentDate
 
         DateTimeType config ->
-            html config
+            DatePickerPanel.view
+                { onChange = config.onChange
+                , nameOfDays = config.nameOfDays
+                , firstDayOfWeek = config.firstDayOfWeek
+                , allowYearNavigation = config.allowYearNavigation
+                , titleFormatter = config.i18n.titleFormatter
+                , footerFormatter = config.i18n.footerFormatter
+                , requiresTime = True
+                }
+                state
+                currentDate
 
         TimeType _ ->
             text ""
-
-
-navigation : DatePickerConfig (Config config msg) -> State -> Maybe Date.Date -> List (Html msg)
-navigation config state currentDate =
-    [ previousYearButton config state currentDate
-    , previousButton config state currentDate
-    , title config state currentDate
-    , nextButton config state currentDate
-    , nextYearButton config state currentDate
-    ]
-
-
-title : DatePickerConfig (Config config msg) -> State -> Maybe Date.Date -> Html msg
-title config state currentDate =
-    let
-        stateValue =
-            getStateValue state
-
-        date =
-            stateValue.titleDate
-    in
-    span
-        [ class [ Title ]
-        , onMouseDownPreventDefault <| config.onChange (switchMode state) currentDate
-        ]
-        [ date
-            |> Maybe.map config.i18n.titleFormatter
-            |> Maybe.withDefault "N/A"
-            |> text
-        ]
-
-
-previousYearButton : DatePickerConfig (Config config msg) -> State -> Maybe Date.Date -> Html msg
-previousYearButton config state currentDate =
-    if config.allowYearNavigation then
-        span
-            [ class [ DoubleArrowLeft ]
-            , onMouseDownPreventDefault <| config.onChange (gotoPreviousYear state) currentDate
-            , onTouchStartPreventDefault <| config.onChange (gotoPreviousYear state) currentDate
-            ]
-            [ DateTimePicker.Svg.doubleLeftArrow ]
-    else
-        Html.text ""
-
-
-noYearNavigationClass : DatePickerConfig (Config config msg) -> List CssClasses
-noYearNavigationClass config =
-    if config.allowYearNavigation then
-        []
-    else
-        [ NoYearNavigation ]
-
-
-previousButton : DatePickerConfig (Config config msg) -> State -> Maybe Date.Date -> Html msg
-previousButton config state currentDate =
-    span
-        [ class <| ArrowLeft :: noYearNavigationClass config
-        , onMouseDownPreventDefault <| config.onChange (gotoPreviousMonth state) currentDate
-        , onTouchStartPreventDefault <| config.onChange (gotoPreviousMonth state) currentDate
-        ]
-        [ DateTimePicker.Svg.leftArrow ]
-
-
-nextButton : DatePickerConfig (Config config msg) -> State -> Maybe Date.Date -> Html msg
-nextButton config state currentDate =
-    span
-        [ class <| ArrowRight :: noYearNavigationClass config
-        , onMouseDownPreventDefault <| config.onChange (gotoNextMonth state) currentDate
-        , onTouchStartPreventDefault <| config.onChange (gotoNextMonth state) currentDate
-        ]
-        [ DateTimePicker.Svg.rightArrow ]
-
-
-nextYearButton : DatePickerConfig (Config config msg) -> State -> Maybe Date.Date -> Html msg
-nextYearButton config state currentDate =
-    if config.allowYearNavigation then
-        span
-            [ class [ DoubleArrowRight ]
-            , onMouseDownPreventDefault <| config.onChange (gotoNextYear state) currentDate
-            , onTouchStartPreventDefault <| config.onChange (gotoNextYear state) currentDate
-            ]
-            [ DateTimePicker.Svg.doubleRightArrow ]
-    else
-        Html.text ""
 
 
 timePickerDialog : Type msg -> State -> Maybe Date.Date -> Html msg
@@ -777,129 +635,6 @@ analogTimePickerDialog pickerType state currentDate =
             html config
 
 
-calendar : Type msg -> State -> Maybe Date.Date -> Html msg
-calendar pickerType state currentDate =
-    let
-        stateValue =
-            getStateValue state
-
-        html : Config (DatePickerConfig a) msg -> Html msg
-        html config =
-            case stateValue.titleDate of
-                Nothing ->
-                    Html.text ""
-
-                Just titleDate ->
-                    let
-                        firstDay =
-                            Date.Extra.Core.toFirstOfMonth titleDate
-                                |> Date.dayOfWeek
-                                |> DateTimePicker.DateUtils.dayToInt config.firstDayOfWeek
-
-                        month =
-                            Date.month titleDate
-
-                        year =
-                            Date.year titleDate
-
-                        days =
-                            DateTimePicker.DateUtils.generateCalendar config.firstDayOfWeek month year
-
-                        header =
-                            thead [ class [ DaysOfWeek ] ]
-                                [ tr
-                                    []
-                                    (dayNames config)
-                                ]
-
-                        isHighlighted day =
-                            stateValue.date
-                                |> Maybe.map (\current -> day.day == Date.day current && month == Date.month current && year == Date.year current)
-                                |> Maybe.withDefault False
-
-                        isToday day =
-                            stateValue.today
-                                |> Maybe.map (\today -> day.day == Date.day today && month == Date.month today && year == Date.year today)
-                                |> Maybe.withDefault False
-
-                        toCell day =
-                            let
-                                selectedDate =
-                                    DateTimePicker.DateUtils.toDate year month day
-                            in
-                            td
-                                [ class
-                                    (case day.monthType of
-                                        DateTimePicker.DateUtils.Previous ->
-                                            [ PreviousMonth ]
-
-                                        DateTimePicker.DateUtils.Current ->
-                                            CurrentMonth
-                                                :: (if isHighlighted day then
-                                                        [ SelectedDate ]
-                                                    else if isToday day then
-                                                        [ Today ]
-                                                    else
-                                                        []
-                                                   )
-
-                                        DateTimePicker.DateUtils.Next ->
-                                            [ NextMonth ]
-                                    )
-                                , Html.Attributes.attribute "role" "button"
-                                , Html.Attributes.attribute "aria-label" (Date.Extra.Format.format Date.Extra.Config.Config_en_us.config "%e, %A %B %Y" selectedDate)
-                                , onMouseDownPreventDefault <| dateClickHandler pickerType state year month day
-                                , onTouchStartPreventDefault <| dateClickHandler pickerType state year month day
-                                ]
-                                [ text <| toString day.day ]
-
-                        toWeekRow week =
-                            tr [] (List.map toCell week)
-
-                        body =
-                            tbody [ class [ Days ] ]
-                                (days
-                                    |> List.Extra.groupsOf 7
-                                    |> List.map toWeekRow
-                                )
-                    in
-                    table [ class [ Calendar ] ]
-                        [ header
-                        , body
-                        ]
-    in
-    case pickerType of
-        DateType config ->
-            html config
-
-        DateTimeType config ->
-            html config
-
-        TimeType config ->
-            text ""
-
-
-dayNames : Config (DatePickerConfig a) msg -> List (Html msg)
-dayNames config =
-    let
-        days =
-            [ th [] [ text config.nameOfDays.sunday ]
-            , th [] [ text config.nameOfDays.monday ]
-            , th [] [ text config.nameOfDays.tuesday ]
-            , th [] [ text config.nameOfDays.wednesday ]
-            , th [] [ text config.nameOfDays.thursday ]
-            , th [] [ text config.nameOfDays.friday ]
-            , th [] [ text config.nameOfDays.saturday ]
-            ]
-
-        shiftAmount =
-            DateTimePicker.DateUtils.dayToInt Date.Sun config.firstDayOfWeek
-    in
-    days
-        |> List.Extra.splitAt shiftAmount
-        |> (\( head, tail ) -> tail ++ head)
-
-
 
 -- EVENT HANDLERS
 
@@ -1102,65 +837,6 @@ amPmClickHandler pickerType stateValue amPm =
 
         TimeType config ->
             justTimeHandler config
-
-
-dateClickHandler : Type msg -> State -> Int -> Date.Month -> DateTimePicker.DateUtils.Day -> msg
-dateClickHandler pickerType (InternalState state) year month day =
-    let
-        selectedDate =
-            DateTimePicker.DateUtils.toDate year month day
-
-        updatedState =
-            InternalState
-                { state
-                    | date = Just <| selectedDate
-                    , forceClose = forceClose
-                    , activeTimeIndicator =
-                        if state.time.hour == Nothing then
-                            Just DateTimePicker.Internal.HourIndicator
-                        else if state.time.minute == Nothing then
-                            Just DateTimePicker.Internal.MinuteIndicator
-                        else if state.time.amPm == Nothing then
-                            Just DateTimePicker.Internal.AMPMIndicator
-                        else
-                            Nothing
-                }
-
-        ( updatedDate, forceClose ) =
-            case ( pickerType, state.time.hour, state.time.minute, state.time.amPm ) of
-                ( DateTimeType _, Just hour, Just minute, Just amPm ) ->
-                    ( Just <| DateTimePicker.DateUtils.setTime selectedDate hour minute amPm
-                    , True
-                    )
-
-                ( DateType _, _, _, _ ) ->
-                    ( Just selectedDate
-                    , True
-                    )
-
-                _ ->
-                    ( Nothing, False )
-
-        handler config =
-            case day.monthType of
-                DateTimePicker.DateUtils.Previous ->
-                    config.onChange (gotoPreviousMonth updatedState) updatedDate
-
-                DateTimePicker.DateUtils.Next ->
-                    config.onChange (gotoNextMonth updatedState) updatedDate
-
-                DateTimePicker.DateUtils.Current ->
-                    config.onChange updatedState updatedDate
-    in
-    case pickerType of
-        DateType config ->
-            handler config
-
-        DateTimeType config ->
-            handler config
-
-        TimeType config ->
-            handler config
 
 
 datePickerFocused : Type msg -> Config a msg -> StateValue -> Maybe Date.Date -> msg
