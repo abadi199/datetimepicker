@@ -2,10 +2,9 @@ module DateTimePicker.AnalogClock exposing (clock)
 
 import Date exposing (Date)
 import DateTimePicker.ClockUtils exposing (hours, minutes, minutesPerFive)
-import DateTimePicker.Config exposing (Type(..))
 import DateTimePicker.Events exposing (MoveData, onMouseDownPreventDefault, onMouseMoveWithPosition, onPointerMoveWithPosition, onPointerUp, onTouchMovePreventDefault)
 import DateTimePicker.Geometry exposing (Point)
-import DateTimePicker.Helpers exposing (updateCurrentDate, updateTimeIndicator)
+import DateTimePicker.Helpers exposing (Type(..), updateCurrentDate, updateTimeIndicator)
 import DateTimePicker.Internal exposing (InternalState(..), StateValue, getStateValue)
 import DateTimePicker.SharedStyles exposing (CssClasses(..), datepickerNamespace)
 import Dict
@@ -30,8 +29,8 @@ minuteArrowLength =
     70
 
 
-clock : Type msg -> (InternalState -> Maybe Date -> msg) -> InternalState -> Maybe Date -> Html msg
-clock pickerType onChange state date =
+clock : (InternalState -> Maybe Date -> msg) -> InternalState -> Maybe Date -> Html msg
+clock onChange state date =
     let
         stateValue =
             getStateValue state
@@ -49,8 +48,8 @@ clock pickerType onChange state date =
                 , cy "100"
                 , r "100"
                 , fill "#eee"
-                , onMouseDownPreventDefault (mouseDownHandler pickerType state date onChange)
-                , onPointerUp (mouseDownHandler pickerType state date onChange)
+                , onMouseDownPreventDefault (mouseDownHandler state date onChange)
+                , onPointerUp (mouseDownHandler state date onChange)
                 , onMouseMoveWithPosition (mouseOverHandler state date onChange)
                 , onTouchMovePreventDefault (onChange state date)
                 , onPointerMoveWithPosition (mouseOverHandler state date onChange)
@@ -58,18 +57,18 @@ clock pickerType onChange state date =
                 []
             , case stateValue.activeTimeIndicator of
                 Just DateTimePicker.Internal.MinuteIndicator ->
-                    g [] (minutesPerFive |> Dict.toList |> List.map (clockFace pickerType onChange state date))
+                    g [] (minutesPerFive |> Dict.toList |> List.map (clockFace onChange state date))
 
                 _ ->
-                    g [] (hours |> Dict.toList |> List.map (clockFace pickerType onChange state date))
-            , arrow pickerType onChange state date
-            , currentTime pickerType onChange state date
+                    g [] (hours |> Dict.toList |> List.map (clockFace onChange state date))
+            , arrow onChange state date
+            , currentTime onChange state date
             ]
         ]
 
 
-currentTime : Type msg -> (InternalState -> Maybe Date -> msg) -> InternalState -> Maybe Date -> Svg msg
-currentTime pickerType onChange state date =
+currentTime : (InternalState -> Maybe Date -> msg) -> InternalState -> Maybe Date -> Svg msg
+currentTime onChange state date =
     let
         stateValue =
             getStateValue state
@@ -83,12 +82,12 @@ currentTime pickerType onChange state date =
         drawHour hour minute =
             Dict.get (toString hour) hours
                 |> Maybe.map (flip (-) (toFloat minute * pi / 360))
-                |> Maybe.map (DateTimePicker.Geometry.calculateArrowPoint originPoint hourArrowLength >> drawArrow pickerType onChange state date)
+                |> Maybe.map (DateTimePicker.Geometry.calculateArrowPoint originPoint hourArrowLength >> drawArrow onChange state date)
                 |> Maybe.withDefault (text "")
 
         drawMinute minute =
             Dict.get (toString minute) minutes
-                |> Maybe.map (DateTimePicker.Geometry.calculateArrowPoint originPoint minuteArrowLength >> drawArrow pickerType onChange state date)
+                |> Maybe.map (DateTimePicker.Geometry.calculateArrowPoint originPoint minuteArrowLength >> drawArrow onChange state date)
                 |> Maybe.withDefault (text "")
     in
     case ( stateValue.activeTimeIndicator, time.hour, time.minute, time.amPm ) of
@@ -99,8 +98,8 @@ currentTime pickerType onChange state date =
             text ""
 
 
-clockFace : Type msg -> (InternalState -> Maybe Date -> msg) -> InternalState -> Maybe Date -> ( String, Float ) -> Svg msg
-clockFace pickerType onChange state date ( number, radians ) =
+clockFace : (InternalState -> Maybe Date -> msg) -> InternalState -> Maybe Date -> ( String, Float ) -> Svg msg
+clockFace onChange state date ( number, radians ) =
     let
         point =
             DateTimePicker.Geometry.calculateArrowPoint originPoint 85 radians
@@ -110,8 +109,8 @@ clockFace pickerType onChange state date ( number, radians ) =
         , y <| toString point.y
         , textAnchor "middle"
         , Svg.Attributes.dominantBaseline "central"
-        , onMouseDownPreventDefault (mouseDownHandler pickerType state date onChange)
-        , onPointerUp (mouseDownHandler pickerType state date onChange)
+        , onMouseDownPreventDefault (mouseDownHandler state date onChange)
+        , onPointerUp (mouseDownHandler state date onChange)
         ]
         [ text number ]
 
@@ -126,8 +125,8 @@ axisPoint =
     Point 200 100
 
 
-arrow : Type msg -> (InternalState -> Maybe Date -> msg) -> InternalState -> Maybe Date -> Svg msg
-arrow pickerType onChange state date =
+arrow : (InternalState -> Maybe Date -> msg) -> InternalState -> Maybe Date -> Svg msg
+arrow onChange state date =
     let
         stateValue =
             getStateValue state
@@ -174,13 +173,13 @@ arrow pickerType onChange state date =
             if shouldDrawArrow then
                 angle
                     |> arrowPoint
-                    |> drawArrow pickerType onChange state date
+                    |> drawArrow onChange state date
             else
                 text ""
 
 
-drawArrow : Type msg -> (InternalState -> Maybe Date -> msg) -> InternalState -> Maybe Date -> Point -> Svg msg
-drawArrow pickerType onChange state date point =
+drawArrow : (InternalState -> Maybe Date -> msg) -> InternalState -> Maybe Date -> Point -> Svg msg
+drawArrow onChange state date point =
     line
         [ x1 "100"
         , y1 "100"
@@ -188,20 +187,20 @@ drawArrow pickerType onChange state date point =
         , y2 <| toString point.y
         , strokeWidth "2px"
         , stroke "#aaa"
-        , onMouseDownPreventDefault (mouseDownHandler pickerType state date onChange)
-        , onPointerUp (mouseDownHandler pickerType state date onChange)
+        , onMouseDownPreventDefault (mouseDownHandler state date onChange)
+        , onPointerUp (mouseDownHandler state date onChange)
         ]
         []
 
 
-mouseDownHandler : Type msg -> InternalState -> Maybe Date -> (InternalState -> Maybe Date -> msg) -> msg
-mouseDownHandler pickerType state date onChange =
+mouseDownHandler : InternalState -> Maybe Date -> (InternalState -> Maybe Date -> msg) -> msg
+mouseDownHandler state date onChange =
     let
         stateValue =
             getStateValue state
 
         updatedDate =
-            updateCurrentDate pickerType stateValue
+            updateCurrentDate TimeType stateValue
 
         updatedStateValue =
             case ( updatedDate, stateValue.activeTimeIndicator ) of

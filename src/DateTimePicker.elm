@@ -49,7 +49,7 @@ import DateTimePicker.ClockUtils
 import DateTimePicker.Config exposing (Config, DatePickerConfig, TimePickerConfig, TimePickerType(..), Type(..), defaultDatePickerConfig, defaultDateTimePickerConfig, defaultTimePickerConfig)
 import DateTimePicker.DateUtils
 import DateTimePicker.Events exposing (onBlurWithChange, onMouseDownPreventDefault, onMouseUpPreventDefault, onTouchEndPreventDefault, onTouchStartPreventDefault)
-import DateTimePicker.Helpers exposing (updateCurrentDate, updateTimeIndicator)
+import DateTimePicker.Helpers as Helpers exposing (updateCurrentDate, updateTimeIndicator)
 import DateTimePicker.Internal exposing (InternalState(..), StateValue, Time, getStateValue, initialStateValue, initialStateValueWithToday)
 import DateTimePicker.SharedStyles exposing (CssClasses(..), datepickerNamespace)
 import DateTimePicker.Svg
@@ -594,15 +594,15 @@ analogTimePickerDialog pickerType state currentDate =
                             amPmPicker config
 
                         _ ->
-                            DateTimePicker.AnalogClock.clock pickerType config.onChange state currentDate
+                            DateTimePicker.AnalogClock.clock config.onChange state currentDate
                     ]
                 ]
 
         amPmPicker config =
             div [ class [ AMPMPicker ] ]
                 [ div
-                    [ onMouseDownPreventDefault <| amPmPickerHandler pickerType config stateValue currentDate "AM"
-                    , onTouchStartPreventDefault <| amPmPickerHandler pickerType config stateValue currentDate "AM"
+                    [ onMouseDownPreventDefault <| amPmPickerHandler config stateValue currentDate "AM"
+                    , onTouchStartPreventDefault <| amPmPickerHandler config stateValue currentDate "AM"
                     , case stateValue.time.amPm of
                         Just "AM" ->
                             class [ AM, SelectedAmPm ]
@@ -612,8 +612,8 @@ analogTimePickerDialog pickerType state currentDate =
                     ]
                     [ text "AM" ]
                 , div
-                    [ onMouseDownPreventDefault <| amPmPickerHandler pickerType config stateValue currentDate "PM"
-                    , onTouchStartPreventDefault <| amPmPickerHandler pickerType config stateValue currentDate "PM"
+                    [ onMouseDownPreventDefault <| amPmPickerHandler config stateValue currentDate "PM"
+                    , onTouchStartPreventDefault <| amPmPickerHandler config stateValue currentDate "PM"
                     , case stateValue.time.amPm of
                         Just "PM" ->
                             class [ PM, SelectedAmPm ]
@@ -1003,8 +1003,8 @@ amPmIndicatorHandler config stateValue currentDate =
     config.onChange (InternalState updatedState) currentDate
 
 
-amPmPickerHandler : Type msg -> Config config msg -> StateValue -> Maybe Date.Date -> String -> msg
-amPmPickerHandler pickerType config stateValue currentDate amPm =
+amPmPickerHandler : Config config msg -> StateValue -> Maybe Date.Date -> String -> msg
+amPmPickerHandler config stateValue currentDate amPm =
     let
         time =
             stateValue.time
@@ -1018,4 +1018,4 @@ amPmPickerHandler pickerType config stateValue currentDate amPm =
     in
     config.onChange
         (InternalState updatedState)
-        (updateCurrentDate pickerType updatedState)
+        (updateCurrentDate Helpers.TimeType updatedState)

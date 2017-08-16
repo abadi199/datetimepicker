@@ -1,12 +1,17 @@
-module DateTimePicker.Helpers exposing (updateCurrentDate, updateTimeIndicator)
+module DateTimePicker.Helpers exposing (Type(..), updateCurrentDate, updateTimeIndicator)
 
 import Date exposing (Date)
-import DateTimePicker.Config exposing (Type(..))
 import DateTimePicker.DateUtils
 import DateTimePicker.Internal exposing (StateValue, TimeIndicator(..))
 
 
-updateCurrentDate : Type msg -> StateValue -> Maybe Date
+type Type
+    = DateType
+    | DateTimeType
+    | TimeType
+
+
+updateCurrentDate : Type -> StateValue -> Maybe Date
 updateCurrentDate pickerType stateValue =
     let
         updatedDate =
@@ -29,13 +34,13 @@ updateCurrentDate pickerType stateValue =
                     Nothing
     in
     case pickerType of
-        DateType _ ->
+        DateType ->
             updatedDate
 
-        DateTimeType _ ->
+        DateTimeType ->
             updatedDateTime
 
-        TimeType _ ->
+        TimeType ->
             updatedTime
 
 
