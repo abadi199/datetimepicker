@@ -112,61 +112,61 @@ initialCmd onChange state =
 -- ACTIONS
 
 
-switchMode : Config a msg -> State -> (Maybe Date.Date -> msg)
-switchMode config state =
+switchMode : State -> State
+switchMode (InternalState state) =
+    InternalState { state | event = "title" }
+
+
+gotoNextMonth : State -> State
+gotoNextMonth (InternalState state) =
     let
-        stateValue =
-            getStateValue state
-    in
-    config.onChange <| InternalState { stateValue | event = "title" }
-
-
-gotoNextMonth : Config a msg -> State -> (Maybe Date.Date -> msg)
-gotoNextMonth config state =
-    let
-        stateValue =
-            getStateValue state
-
         updatedTitleDate =
-            Maybe.map (Date.Extra.Duration.add Date.Extra.Duration.Month 1) stateValue.titleDate
+            Maybe.map (Date.Extra.Duration.add Date.Extra.Duration.Month 1) state.titleDate
     in
-    config.onChange <| InternalState { stateValue | event = "next", titleDate = updatedTitleDate }
+    InternalState
+        { state
+            | event = "next"
+            , titleDate = updatedTitleDate
+        }
 
 
-gotoNextYear : Config a msg -> State -> (Maybe Date.Date -> msg)
-gotoNextYear config state =
+gotoNextYear : State -> State
+gotoNextYear (InternalState state) =
     let
-        stateValue =
-            getStateValue state
-
         updatedTitleDate =
-            Maybe.map (Date.Extra.Duration.add Date.Extra.Duration.Year 1) stateValue.titleDate
+            Maybe.map (Date.Extra.Duration.add Date.Extra.Duration.Year 1) state.titleDate
     in
-    config.onChange <| InternalState { stateValue | event = "nextYear", titleDate = updatedTitleDate }
+    InternalState
+        { state
+            | event = "nextYear"
+            , titleDate = updatedTitleDate
+        }
 
 
-gotoPreviousMonth : Config a msg -> State -> (Maybe Date.Date -> msg)
-gotoPreviousMonth config state =
+gotoPreviousMonth : State -> State
+gotoPreviousMonth (InternalState state) =
     let
-        stateValue =
-            getStateValue state
-
         updatedTitleDate =
-            Maybe.map (Date.Extra.Duration.add Date.Extra.Duration.Month -1) stateValue.titleDate
+            Maybe.map (Date.Extra.Duration.add Date.Extra.Duration.Month -1) state.titleDate
     in
-    config.onChange <| InternalState { stateValue | event = "previous", titleDate = updatedTitleDate }
+    InternalState
+        { state
+            | event = "previous"
+            , titleDate = updatedTitleDate
+        }
 
 
-gotoPreviousYear : Config a msg -> State -> (Maybe Date.Date -> msg)
-gotoPreviousYear config state =
+gotoPreviousYear : State -> State
+gotoPreviousYear (InternalState state) =
     let
-        stateValue =
-            getStateValue state
-
         updatedTitleDate =
-            Maybe.map (Date.Extra.Duration.add Date.Extra.Duration.Year -1) stateValue.titleDate
+            Maybe.map (Date.Extra.Duration.add Date.Extra.Duration.Year -1) state.titleDate
     in
-    config.onChange <| InternalState { stateValue | event = "previousYear", titleDate = updatedTitleDate }
+    InternalState
+        { state
+            | event = "previousYear"
+            , titleDate = updatedTitleDate
+        }
 
 
 
@@ -459,7 +459,7 @@ title config state currentDate =
     in
     span
         [ class [ Title ]
-        , onMouseDownPreventDefault <| switchMode config state currentDate
+        , onMouseDownPreventDefault <| config.onChange (switchMode state) currentDate
         ]
         [ date
             |> Maybe.map config.i18n.titleFormatter
@@ -473,8 +473,8 @@ previousYearButton config state currentDate =
     if config.allowYearNavigation then
         span
             [ class [ DoubleArrowLeft ]
-            , onMouseDownPreventDefault <| gotoPreviousYear config state currentDate
-            , onTouchStartPreventDefault <| gotoPreviousYear config state currentDate
+            , onMouseDownPreventDefault <| config.onChange (gotoPreviousYear state) currentDate
+            , onTouchStartPreventDefault <| config.onChange (gotoPreviousYear state) currentDate
             ]
             [ DateTimePicker.Svg.doubleLeftArrow ]
     else
@@ -493,8 +493,8 @@ previousButton : DatePickerConfig (Config config msg) -> State -> Maybe Date.Dat
 previousButton config state currentDate =
     span
         [ class <| ArrowLeft :: noYearNavigationClass config
-        , onMouseDownPreventDefault <| gotoPreviousMonth config state currentDate
-        , onTouchStartPreventDefault <| gotoPreviousMonth config state currentDate
+        , onMouseDownPreventDefault <| config.onChange (gotoPreviousMonth state) currentDate
+        , onTouchStartPreventDefault <| config.onChange (gotoPreviousMonth state) currentDate
         ]
         [ DateTimePicker.Svg.leftArrow ]
 
@@ -503,8 +503,8 @@ nextButton : DatePickerConfig (Config config msg) -> State -> Maybe Date.Date ->
 nextButton config state currentDate =
     span
         [ class <| ArrowRight :: noYearNavigationClass config
-        , onMouseDownPreventDefault <| gotoNextMonth config state currentDate
-        , onTouchStartPreventDefault <| gotoNextMonth config state currentDate
+        , onMouseDownPreventDefault <| config.onChange (gotoNextMonth state) currentDate
+        , onTouchStartPreventDefault <| config.onChange (gotoNextMonth state) currentDate
         ]
         [ DateTimePicker.Svg.rightArrow ]
 
@@ -514,8 +514,8 @@ nextYearButton config state currentDate =
     if config.allowYearNavigation then
         span
             [ class [ DoubleArrowRight ]
-            , onMouseDownPreventDefault <| gotoNextYear config state currentDate
-            , onTouchStartPreventDefault <| gotoNextYear config state currentDate
+            , onMouseDownPreventDefault <| config.onChange (gotoNextYear state) currentDate
+            , onTouchStartPreventDefault <| config.onChange (gotoNextYear state) currentDate
             ]
             [ DateTimePicker.Svg.doubleRightArrow ]
     else
@@ -848,8 +848,8 @@ calendar pickerType state currentDate =
                                     )
                                 , Html.Attributes.attribute "role" "button"
                                 , Html.Attributes.attribute "aria-label" (Date.Extra.Format.format Date.Extra.Config.Config_en_us.config "%e, %A %B %Y" selectedDate)
-                                , onMouseDownPreventDefault <| dateClickHandler pickerType stateValue year month day
-                                , onTouchStartPreventDefault <| dateClickHandler pickerType stateValue year month day
+                                , onMouseDownPreventDefault <| dateClickHandler pickerType state year month day
+                                , onTouchStartPreventDefault <| dateClickHandler pickerType state year month day
                                 ]
                                 [ text <| toString day.day ]
 
@@ -1104,29 +1104,30 @@ amPmClickHandler pickerType stateValue amPm =
             justTimeHandler config
 
 
-dateClickHandler : Type msg -> StateValue -> Int -> Date.Month -> DateTimePicker.DateUtils.Day -> msg
-dateClickHandler pickerType stateValue year month day =
+dateClickHandler : Type msg -> State -> Int -> Date.Month -> DateTimePicker.DateUtils.Day -> msg
+dateClickHandler pickerType (InternalState state) year month day =
     let
         selectedDate =
             DateTimePicker.DateUtils.toDate year month day
 
-        updatedStateValue =
-            { stateValue
-                | date = Just <| selectedDate
-                , forceClose = forceClose
-                , activeTimeIndicator =
-                    if stateValue.time.hour == Nothing then
-                        Just DateTimePicker.Internal.HourIndicator
-                    else if stateValue.time.minute == Nothing then
-                        Just DateTimePicker.Internal.MinuteIndicator
-                    else if stateValue.time.amPm == Nothing then
-                        Just DateTimePicker.Internal.AMPMIndicator
-                    else
-                        Nothing
-            }
+        updatedState =
+            InternalState
+                { state
+                    | date = Just <| selectedDate
+                    , forceClose = forceClose
+                    , activeTimeIndicator =
+                        if state.time.hour == Nothing then
+                            Just DateTimePicker.Internal.HourIndicator
+                        else if state.time.minute == Nothing then
+                            Just DateTimePicker.Internal.MinuteIndicator
+                        else if state.time.amPm == Nothing then
+                            Just DateTimePicker.Internal.AMPMIndicator
+                        else
+                            Nothing
+                }
 
         ( updatedDate, forceClose ) =
-            case ( pickerType, stateValue.time.hour, stateValue.time.minute, stateValue.time.amPm ) of
+            case ( pickerType, state.time.hour, state.time.minute, state.time.amPm ) of
                 ( DateTimeType _, Just hour, Just minute, Just amPm ) ->
                     ( Just <| DateTimePicker.DateUtils.setTime selectedDate hour minute amPm
                     , True
@@ -1143,13 +1144,13 @@ dateClickHandler pickerType stateValue year month day =
         handler config =
             case day.monthType of
                 DateTimePicker.DateUtils.Previous ->
-                    gotoPreviousMonth config (InternalState updatedStateValue) updatedDate
+                    config.onChange (gotoPreviousMonth updatedState) updatedDate
 
                 DateTimePicker.DateUtils.Next ->
-                    gotoNextMonth config (InternalState updatedStateValue) updatedDate
+                    config.onChange (gotoNextMonth updatedState) updatedDate
 
                 DateTimePicker.DateUtils.Current ->
-                    config.onChange (InternalState updatedStateValue) updatedDate
+                    config.onChange updatedState updatedDate
     in
     case pickerType of
         DateType config ->
