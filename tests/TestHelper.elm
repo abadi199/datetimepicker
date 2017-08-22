@@ -33,10 +33,10 @@ import Test.Html.Selector exposing (..)
 -}
 type TestResult config
     = TestResult
-        { config : Config config (TestResult config)
+        { config : Config config ( DateTimePicker.State, Maybe Date )
         , state : DateTimePicker.State
         , date : Maybe Date
-        , view : Config config (TestResult config) -> DateTimePicker.State -> Maybe Date -> Html (TestResult config)
+        , view : Config config ( DateTimePicker.State, Maybe Date ) -> DateTimePicker.State -> Maybe Date -> Html ( DateTimePicker.State, Maybe Date )
         }
 
 
@@ -51,7 +51,7 @@ datePicker now initialValue =
     let
         help s d =
             TestResult
-                { config = defaultDatePickerConfig help
+                { config = defaultDatePickerConfig (,)
                 , state = s
                 , date = d
                 , view =
@@ -65,17 +65,13 @@ datePicker now initialValue =
 
 
 withConfig :
-    (Config config (TestResult config)
-     -> Config config (TestResult config)
+    (Config config ( DateTimePicker.State, Maybe Date )
+     -> Config config ( DateTimePicker.State, Maybe Date )
     )
     -> TestResult config
     -> TestResult config
 withConfig fn (TestResult t) =
-    let
-        newConfig =
-            fn t.config
-    in
-    TestResult { t | config = newConfig }
+    TestResult { t | config = fn t.config }
 
 
 selection : TestResult config -> Maybe Date
@@ -126,6 +122,14 @@ render (TestResult t) =
         t.config
         t.state
         t.date
+        |> Html.map
+            (\( state, date ) ->
+                TestResult
+                    { t
+                        | state = state
+                        , date = date
+                    }
+            )
         |> Query.fromHtml
 
 
