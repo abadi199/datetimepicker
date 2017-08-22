@@ -1,11 +1,27 @@
-module TestHelper exposing (TestResult, init, open, render, selection, simulate, withConfig)
+module TestHelper
+    exposing
+        ( TestResult
+        , attribute
+        , clickDay
+        , date
+        , init
+        , open
+        , render
+        , selection
+        , simulate
+        , typeString
+        , withConfig
+        )
 
 {-| This module provides functions that allow high-level test interactions with datetimepickers
 -}
 
 import Date exposing (Date)
+import Date.Extra.Core
+import Date.Extra.Create
 import DateTimePicker
 import DateTimePicker.Config exposing (Config, DatePickerConfig, defaultDatePickerConfig)
+import Html.Attributes
 import Json.Encode as Json
 import Test.Html.Event as Event
 import Test.Html.Query as Query
@@ -25,10 +41,11 @@ type TestResult
 {-| Initialize a new DateTimePicker with no initial date selected.
 
   - `now`: the simulated current time in the test scenario
+  - `value`: the intially-selected value
 
 -}
-init : Date -> TestResult
-init now =
+init : Date -> Maybe Date -> TestResult
+init now initialValue =
     let
         help s d =
             TestResult
@@ -39,7 +56,7 @@ init now =
     in
     help
         (DateTimePicker.initialStateWithToday now)
-        Nothing
+        initialValue
 
 
 withConfig : (Config (DatePickerConfig {}) TestResult -> Config (DatePickerConfig {}) TestResult) -> TestResult -> TestResult
@@ -56,11 +73,38 @@ selection (TestResult t) =
     t.date
 
 
+{-| Simulate typing into the input field
+-}
+typeString : String -> TestResult -> TestResult
+typeString string =
+    simulate
+        ( "blur"
+        , Json.object
+            [ ( "target"
+              , Json.object
+                    [ ( "value", Json.string string )
+                    ]
+              )
+            ]
+        )
+        [ tag "input" ]
+
+
 {-| Simulate opening the datetimpicker (by focusing the input field)
 -}
 open : TestResult -> TestResult
 open =
     simulate Event.focus [ tag "input" ]
+
+
+{-| Simulate clicking a day in the date picker calendar
+-}
+clickDay : String -> TestResult -> TestResult
+clickDay dayText =
+    simulate Event.mouseDown
+        [ tag "td"
+        , attribute "aria-label" dayText
+        ]
 
 
 {-| Render the view of the datetimepicker with the given state,
@@ -90,3 +134,24 @@ simulate event selector (TestResult t) =
                     Ok result ->
                         result
            )
+
+
+{-| This is for convienience in testing Html attributes
+-}
+attribute : String -> String -> Selector
+attribute attr value =
+    Test.Html.Selector.attribute <| Html.Attributes.attribute attr value
+
+
+{-| Concise way to make a date in tests
+-}
+date : Int -> Int -> Int -> Int -> Int -> Date
+date year month day hour minute =
+    Date.Extra.Create.dateFromFields
+        year
+        (Date.Extra.Core.intToMonth month)
+        day
+        hour
+        minute
+        0
+        0

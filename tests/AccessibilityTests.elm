@@ -1,11 +1,10 @@
 module AccessibilityTests exposing (..)
 
 import Date exposing (Date)
-import Html.Attributes
 import Test exposing (..)
 import Test.Html.Query as Query
-import Test.Html.Selector exposing (..)
-import TestHelper exposing (init, open, render)
+import Test.Html.Selector exposing (tag)
+import TestHelper exposing (attribute, init, open, render)
 
 
 now : Date
@@ -19,7 +18,7 @@ datePickerTests =
     describe "date picker accessibility"
         [ test "date cells should have role=button" <|
             \() ->
-                init now
+                init now Nothing
                     |> open
                     |> render
                     |> Query.findAll [ tag "td" ]
@@ -27,7 +26,7 @@ datePickerTests =
                         (Query.has [ attribute "role" "button" ])
         , test "date cells should have labels" <|
             \() ->
-                init now
+                init now Nothing
                     |> open
                     |> render
                     |> Query.has
@@ -35,8 +34,3 @@ datePickerTests =
                         , attribute "aria-label" "15, Tuesday August 2017"
                         ]
         ]
-
-
-attribute : String -> String -> Selector
-attribute attr value =
-    Test.Html.Selector.attribute <| Html.Attributes.attribute attr value
