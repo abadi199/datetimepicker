@@ -10,6 +10,7 @@ import DateTimePicker.Internal exposing (InternalState(..), StateValue, Time, ge
 import DateTimePicker.SharedStyles exposing (CssClasses(..), datepickerNamespace)
 import DateTimePicker.Svg
 import Html exposing (Html, button, div, input, li, span, table, tbody, td, text, th, thead, tr, ul)
+import Html.Attributes
 import String
 
 
@@ -79,6 +80,8 @@ digital config state currentDate =
                                 class []
                         )
                     |> Maybe.withDefault (class [])
+                , Html.Attributes.attribute "role" "button"
+                , Html.Attributes.attribute "aria-label" ("hour " ++ toString hour)
                 ]
                 [ text <| (toString >> DateTimePicker.DateUtils.padding) hour ]
 
@@ -96,6 +99,8 @@ digital config state currentDate =
                                 class []
                         )
                     |> Maybe.withDefault (class [])
+                , Html.Attributes.attribute "role" "button"
+                , Html.Attributes.attribute "aria-label" ("minute " ++ toString min)
                 ]
                 [ text <| (toString >> DateTimePicker.DateUtils.padding) min ]
 
@@ -119,6 +124,8 @@ digital config state currentDate =
                                 defaultClasses
                         )
                     |> Maybe.withDefault defaultClasses
+                 , Html.Attributes.attribute "role" "button"
+                 , Html.Attributes.attribute "aria-label" ampm
                  ]
                     ++ (if ampm == "" then
                             []

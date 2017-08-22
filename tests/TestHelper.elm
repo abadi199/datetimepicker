@@ -2,13 +2,18 @@ module TestHelper
     exposing
         ( TestResult
         , attribute
+        , clickAM
         , clickDay
+        , clickHour
+        , clickMinute
+        , clickPM
         , date
         , datePicker
         , open
         , render
         , selection
         , simulate
+        , timePicker
         , typeString
         , withConfig
         )
@@ -20,7 +25,7 @@ import Date exposing (Date)
 import Date.Extra.Core
 import Date.Extra.Create
 import DateTimePicker
-import DateTimePicker.Config exposing (Config, DatePickerConfig, TimePickerConfig, defaultDatePickerConfig)
+import DateTimePicker.Config exposing (Config, DatePickerConfig, TimePickerConfig, defaultDatePickerConfig, defaultTimePickerConfig)
 import Html exposing (Html)
 import Html.Attributes
 import Json.Encode as Json
@@ -48,20 +53,32 @@ type TestResult config
 -}
 datePicker : Date -> Maybe Date -> TestResult (DatePickerConfig {})
 datePicker now initialValue =
-    let
-        help s d =
-            TestResult
-                { config = defaultDatePickerConfig (,)
-                , state = s
-                , date = d
-                , view =
-                    \config state date ->
-                        DateTimePicker.datePickerWithConfig config [] state date
-                }
-    in
-    help
-        (DateTimePicker.initialStateWithToday now)
-        initialValue
+    TestResult
+        { config = defaultDatePickerConfig (,)
+        , state = DateTimePicker.initialStateWithToday now
+        , date = initialValue
+        , view =
+            \config state date ->
+                DateTimePicker.datePickerWithConfig config [] state date
+        }
+
+
+{-| Initialize a new TimePicker with no initial time selected.
+
+  - `now`: the simulated current time in the test scenario
+  - `value`: the intially-selected value
+
+-}
+timePicker : Date -> Maybe Date -> TestResult TimePickerConfig
+timePicker now initialValue =
+    TestResult
+        { config = defaultTimePickerConfig (,)
+        , state = DateTimePicker.initialStateWithToday now
+        , date = initialValue
+        , view =
+            \config state date ->
+                DateTimePicker.timePickerWithConfig config [] state date
+        }
 
 
 withConfig :
@@ -110,6 +127,46 @@ clickDay dayText =
     simulate Event.mouseDown
         [ tag "td"
         , attribute "aria-label" dayText
+        ]
+
+
+{-| Simulate clicking an hour in the digital date picker
+-}
+clickHour : Int -> TestResult config -> TestResult config
+clickHour hour =
+    simulate Event.mouseDown
+        [ tag "td"
+        , attribute "aria-label" ("hour " ++ toString hour)
+        ]
+
+
+{-| Simulate clicking a minute in the digital date picker
+-}
+clickMinute : Int -> TestResult config -> TestResult config
+clickMinute minute =
+    simulate Event.mouseDown
+        [ tag "td"
+        , attribute "aria-label" ("minute " ++ toString minute)
+        ]
+
+
+{-| Simulate clicking "AM" in the digital date picker
+-}
+clickAM : TestResult config -> TestResult config
+clickAM =
+    simulate Event.mouseDown
+        [ tag "td"
+        , attribute "aria-label" "AM"
+        ]
+
+
+{-| Simulate clicking "PM" in the digital date picker
+-}
+clickPM : TestResult config -> TestResult config
+clickPM =
+    simulate Event.mouseDown
+        [ tag "td"
+        , attribute "aria-label" "PM"
         ]
 
 
