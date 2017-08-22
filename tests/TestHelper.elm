@@ -4,7 +4,7 @@ module TestHelper
         , attribute
         , clickDay
         , date
-        , init
+        , datePicker
         , open
         , render
         , selection
@@ -20,7 +20,8 @@ import Date exposing (Date)
 import Date.Extra.Core
 import Date.Extra.Create
 import DateTimePicker
-import DateTimePicker.Config exposing (Config, DatePickerConfig, defaultDatePickerConfig)
+import DateTimePicker.Config exposing (Config, DatePickerConfig, TimePickerConfig, defaultDatePickerConfig)
+import Html exposing (Html)
 import Html.Attributes
 import Json.Encode as Json
 import Test.Html.Event as Event
@@ -30,11 +31,12 @@ import Test.Html.Selector exposing (..)
 
 {-| The state of a datetimepicker
 -}
-type TestResult
+type TestResult config
     = TestResult
-        { config : Config (DatePickerConfig {}) TestResult
+        { config : Config config (TestResult config)
         , state : DateTimePicker.State
         , date : Maybe Date
+        , view : Config config (TestResult config) -> DateTimePicker.State -> Maybe Date -> Html (TestResult config)
         }
 
 
@@ -44,14 +46,17 @@ type TestResult
   - `value`: the intially-selected value
 
 -}
-init : Date -> Maybe Date -> TestResult
-init now initialValue =
+datePicker : Date -> Maybe Date -> TestResult (DatePickerConfig {})
+datePicker now initialValue =
     let
         help s d =
             TestResult
                 { config = defaultDatePickerConfig help
                 , state = s
                 , date = d
+                , view =
+                    \config state date ->
+                        DateTimePicker.datePickerWithConfig config [] state date
                 }
     in
     help
@@ -59,7 +64,12 @@ init now initialValue =
         initialValue
 
 
-withConfig : (Config (DatePickerConfig {}) TestResult -> Config (DatePickerConfig {}) TestResult) -> TestResult -> TestResult
+withConfig :
+    (Config config (TestResult config)
+     -> Config config (TestResult config)
+    )
+    -> TestResult config
+    -> TestResult config
 withConfig fn (TestResult t) =
     let
         newConfig =
@@ -68,14 +78,14 @@ withConfig fn (TestResult t) =
     TestResult { t | config = newConfig }
 
 
-selection : TestResult -> Maybe Date
+selection : TestResult config -> Maybe Date
 selection (TestResult t) =
     t.date
 
 
 {-| Simulate typing into the input field
 -}
-typeString : String -> TestResult -> TestResult
+typeString : String -> TestResult config -> TestResult config
 typeString string =
     simulate
         ( "blur"
@@ -92,14 +102,14 @@ typeString string =
 
 {-| Simulate opening the datetimpicker (by focusing the input field)
 -}
-open : TestResult -> TestResult
+open : TestResult config -> TestResult config
 open =
     simulate Event.focus [ tag "input" ]
 
 
 {-| Simulate clicking a day in the date picker calendar
 -}
-clickDay : String -> TestResult -> TestResult
+clickDay : String -> TestResult config -> TestResult config
 clickDay dayText =
     simulate Event.mouseDown
         [ tag "td"
@@ -110,17 +120,16 @@ clickDay dayText =
 {-| Render the view of the datetimepicker with the given state,
 and return a `Test.Html.Query.Single` of the resulting Html.
 -}
-render : TestResult -> Query.Single TestResult
+render : TestResult config -> Query.Single (TestResult config)
 render (TestResult t) =
-    DateTimePicker.datePickerWithConfig
+    t.view
         t.config
-        []
         t.state
         t.date
         |> Query.fromHtml
 
 
-simulate : ( String, Json.Value ) -> List Selector -> TestResult -> TestResult
+simulate : ( String, Json.Value ) -> List Selector -> TestResult config -> TestResult config
 simulate event selector (TestResult t) =
     render (TestResult t)
         |> Query.find selector

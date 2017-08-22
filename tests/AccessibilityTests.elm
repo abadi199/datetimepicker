@@ -4,7 +4,7 @@ import Date exposing (Date)
 import Test exposing (..)
 import Test.Html.Query as Query
 import Test.Html.Selector exposing (tag)
-import TestHelper exposing (attribute, init, open, render)
+import TestHelper exposing (attribute, datePicker, open, render)
 
 
 now : Date
@@ -18,7 +18,7 @@ datePickerTests =
     describe "date picker accessibility"
         [ test "date cells should have role=button" <|
             \() ->
-                init now Nothing
+                datePicker now Nothing
                     |> open
                     |> render
                     |> Query.findAll [ tag "td" ]
@@ -26,7 +26,7 @@ datePickerTests =
                         (Query.has [ attribute "role" "button" ])
         , test "date cells should have labels" <|
             \() ->
-                init now Nothing
+                datePicker now Nothing
                     |> open
                     |> render
                     |> Query.has

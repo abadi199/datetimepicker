@@ -5,7 +5,7 @@ import Expect
 import Test exposing (..)
 import Test.Html.Query as Query
 import Test.Html.Selector exposing (tag)
-import TestHelper exposing (attribute, clickDay, date, init, open, render, selection, typeString)
+import TestHelper exposing (attribute, clickDay, date, datePicker, open, render, selection, typeString)
 
 
 now : Date
@@ -19,7 +19,7 @@ all =
     describe "datePicker dialog"
         [ test "initial value is Nothing" <|
             \() ->
-                init now Nothing
+                datePicker now Nothing
                     |> render
                     |> Query.has
                         [ tag "input"
@@ -27,7 +27,7 @@ all =
                         ]
         , test "initial value is a date" <|
             \() ->
-                init now (Just <| date 2017 8 29 0 0)
+                datePicker now (Just <| date 2017 8 29 0 0)
                     |> render
                     |> Query.has
                         [ tag "input"
@@ -35,7 +35,7 @@ all =
                         ]
         , test "initial value is a date with a time" <|
             \() ->
-                init now (Just <| date 2017 8 29 23 59)
+                datePicker now (Just <| date 2017 8 29 23 59)
                     |> render
                     |> Query.has
                         [ tag "input"
@@ -43,25 +43,25 @@ all =
                         ]
         , test "typing a date" <|
             \() ->
-                init now Nothing
+                datePicker now Nothing
                     |> typeString "08/14/2017"
                     |> selection
                     |> Expect.equal (Just <| date 2017 8 14 0 0)
         , test "typing an invalid date" <|
             \() ->
-                init now Nothing
+                datePicker now Nothing
                     |> typeString "WOWEP"
                     |> selection
                     |> Expect.equal Nothing
         , test "clearing the input" <|
             \() ->
-                init now (Just <| date 2017 8 1 0 0)
+                datePicker now (Just <| date 2017 8 1 0 0)
                     |> typeString ""
                     |> selection
                     |> Expect.equal Nothing
         , test "selecting a date" <|
             \() ->
-                init now Nothing
+                datePicker now Nothing
                     |> open
                     |> clickDay "13, Sunday August 2017"
                     |> selection
