@@ -378,7 +378,6 @@ datePanelConfig pickerType =
                 , allowYearNavigation = config.allowYearNavigation
                 , titleFormatter = config.i18n.titleFormatter
                 , footerFormatter = config.i18n.footerFormatter
-                , requiresTime = False
                 }
 
         DateTimeType config ->
@@ -389,7 +388,6 @@ datePanelConfig pickerType =
                 , allowYearNavigation = config.allowYearNavigation
                 , titleFormatter = config.i18n.titleFormatter
                 , footerFormatter = config.i18n.footerFormatter
-                , requiresTime = True
                 }
 
         TimeType _ ->
@@ -423,7 +421,6 @@ timePanelConfig pickerType =
                 ( config.timePickerType
                 , { onChange = config.onChange
                   , titleFormatter = config.i18n.timeTitleFormatter
-                  , requiresDate = True
                   }
                 )
 
@@ -432,7 +429,6 @@ timePanelConfig pickerType =
                 ( config.timePickerType
                 , { onChange = config.onChange
                   , titleFormatter = config.i18n.timeTitleFormatter
-                  , requiresDate = False
                   }
                 )
 

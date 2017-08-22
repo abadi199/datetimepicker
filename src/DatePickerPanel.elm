@@ -27,7 +27,6 @@ type alias Config msg =
     , allowYearNavigation : Bool
     , titleFormatter : Date -> String
     , footerFormatter : Date -> String
-    , requiresTime : Bool
     }
 
 
@@ -304,13 +303,14 @@ dateClickHandler : Config msg -> StateValue -> Int -> Date.Month -> DateTimePick
 dateClickHandler config state year month day =
     let
         selectedDate =
-            DateTimePicker.DateUtils.toDate year month day
+            Just <|
+                DateTimePicker.DateUtils.toDate year month day
 
         updatedState =
             InternalState
                 { state
-                    | date = Just <| selectedDate
-                    , forceClose = forceClose
+                    | date = selectedDate
+                    , forceClose = True
                     , activeTimeIndicator =
                         if state.time.hour == Nothing then
                             Just DateTimePicker.Internal.HourIndicator
@@ -321,28 +321,13 @@ dateClickHandler config state year month day =
                         else
                             Nothing
                 }
-
-        ( updatedDate, forceClose ) =
-            case ( config.requiresTime, state.time.hour, state.time.minute, state.time.amPm ) of
-                ( True, Just hour, Just minute, Just amPm ) ->
-                    ( Just <| DateTimePicker.DateUtils.setTime selectedDate hour minute amPm
-                    , True
-                    )
-
-                ( False, _, _, _ ) ->
-                    ( Just selectedDate
-                    , True
-                    )
-
-                _ ->
-                    ( Nothing, False )
     in
     case day.monthType of
         DateTimePicker.DateUtils.Previous ->
-            config.onChange (gotoPreviousMonth updatedState) updatedDate
+            config.onChange (gotoPreviousMonth updatedState) selectedDate
 
         DateTimePicker.DateUtils.Next ->
-            config.onChange (gotoNextMonth updatedState) updatedDate
+            config.onChange (gotoNextMonth updatedState) selectedDate
 
         DateTimePicker.DateUtils.Current ->
-            config.onChange updatedState updatedDate
+            config.onChange updatedState selectedDate

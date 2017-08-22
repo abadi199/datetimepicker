@@ -26,7 +26,6 @@ type alias State =
 type alias Config msg =
     { onChange : State -> Maybe Date -> msg
     , titleFormatter : Date -> String
-    , requiresDate : Bool
     }
 
 
@@ -264,17 +263,7 @@ hourClickHandler config stateValue hour =
         updatedStateValue =
             { stateValue | time = { time | hour = Just hour }, event = "hourClickHandler" }
 
-        ( updatedDate, forceCloseWithDate ) =
-            case ( stateValue.time.minute, stateValue.time.amPm, stateValue.date ) of
-                ( Just minute, Just amPm, Just date ) ->
-                    ( Just <| DateTimePicker.DateUtils.setTime date hour minute amPm
-                    , True
-                    )
-
-                _ ->
-                    ( Nothing, False )
-
-        ( updatedTime, forceCloseTimeOnly ) =
+        ( updatedTime, forceClose ) =
             case ( updatedStateValue.time.minute, updatedStateValue.time.amPm ) of
                 ( Just minute, Just amPm ) ->
                     ( Just <| DateTimePicker.DateUtils.toTime hour minute amPm
@@ -283,17 +272,8 @@ hourClickHandler config stateValue hour =
 
                 _ ->
                     ( Nothing, False )
-
-        withDateHandler config =
-            config.onChange (InternalState { updatedStateValue | forceClose = forceCloseWithDate }) updatedDate
-
-        justTimeHandler config =
-            config.onChange (InternalState { updatedStateValue | forceClose = forceCloseTimeOnly }) updatedTime
     in
-    if config.requiresDate then
-        withDateHandler config
-    else
-        justTimeHandler config
+    config.onChange (InternalState { updatedStateValue | forceClose = forceClose }) updatedTime
 
 
 minuteClickHandler : Config msg -> StateValue -> Int -> msg
@@ -305,17 +285,7 @@ minuteClickHandler config stateValue minute =
         updatedStateValue =
             { stateValue | time = { time | minute = Just minute }, event = "minuteClickHandler" }
 
-        ( updatedDate, forceCloseWithDate ) =
-            case ( stateValue.time.hour, stateValue.time.amPm, stateValue.date ) of
-                ( Just hour, Just amPm, Just date ) ->
-                    ( Just <| DateTimePicker.DateUtils.setTime date hour minute amPm
-                    , True
-                    )
-
-                _ ->
-                    ( Nothing, False )
-
-        ( updatedTime, forceCloseTimeOnly ) =
+        ( updatedTime, forceClose ) =
             case ( updatedStateValue.time.hour, updatedStateValue.time.amPm ) of
                 ( Just hour, Just amPm ) ->
                     ( Just <| DateTimePicker.DateUtils.toTime hour minute amPm
@@ -324,17 +294,8 @@ minuteClickHandler config stateValue minute =
 
                 _ ->
                     ( Nothing, False )
-
-        withDateHandler config =
-            config.onChange (InternalState { updatedStateValue | forceClose = forceCloseWithDate }) updatedDate
-
-        justTimeHandler config =
-            config.onChange (InternalState { updatedStateValue | forceClose = forceCloseTimeOnly }) updatedTime
     in
-    if config.requiresDate then
-        withDateHandler config
-    else
-        justTimeHandler config
+    config.onChange (InternalState { updatedStateValue | forceClose = forceClose }) updatedTime
 
 
 amPmClickHandler : Config msg -> StateValue -> String -> msg
@@ -356,17 +317,7 @@ amPmClickHandler config stateValue amPm =
                 , event = "amPmClickHandler"
             }
 
-        ( updatedDate, forceCloseWithDate ) =
-            case ( stateValue.time.hour, stateValue.time.minute, stateValue.date ) of
-                ( Just hour, Just minute, Just date ) ->
-                    ( Just <| DateTimePicker.DateUtils.setTime date hour minute amPm
-                    , True
-                    )
-
-                _ ->
-                    ( Nothing, False )
-
-        ( updatedTime, forceCloseTimeOnly ) =
+        ( updatedTime, forceClose ) =
             case ( updatedStateValue.time.hour, updatedStateValue.time.minute ) of
                 ( Just hour, Just minute ) ->
                     ( Just <| DateTimePicker.DateUtils.toTime hour minute amPm
@@ -375,17 +326,8 @@ amPmClickHandler config stateValue amPm =
 
                 _ ->
                     ( Nothing, False )
-
-        withDateHandler config =
-            config.onChange (InternalState { updatedStateValue | forceClose = forceCloseWithDate }) updatedDate
-
-        justTimeHandler config =
-            config.onChange (InternalState { updatedStateValue | forceClose = forceCloseTimeOnly }) updatedTime
     in
-    if config.requiresDate then
-        withDateHandler config
-    else
-        justTimeHandler config
+    config.onChange (InternalState { updatedStateValue | forceClose = forceClose }) updatedTime
 
 
 hourUpHandler : Config msg -> StateValue -> Maybe Date.Date -> msg
