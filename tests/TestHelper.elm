@@ -9,6 +9,7 @@ module TestHelper
         , clickPM
         , date
         , datePicker
+        , dateTimePicker
         , open
         , render
         , selection
@@ -25,7 +26,7 @@ import Date exposing (Date)
 import Date.Extra.Core
 import Date.Extra.Create
 import DateTimePicker
-import DateTimePicker.Config exposing (Config, DatePickerConfig, TimePickerConfig, defaultDatePickerConfig, defaultTimePickerConfig)
+import DateTimePicker.Config exposing (Config, DatePickerConfig, TimePickerConfig, defaultDatePickerConfig, defaultDateTimePickerConfig, defaultTimePickerConfig)
 import Html exposing (Html)
 import Html.Attributes
 import Json.Encode as Json
@@ -45,7 +46,7 @@ type TestResult config
         }
 
 
-{-| Initialize a new DateTimePicker with no initial date selected.
+{-| Initialize a new DatePicker with no initial date selected.
 
   - `now`: the simulated current time in the test scenario
   - `value`: the intially-selected value
@@ -60,6 +61,24 @@ datePicker now initialValue =
         , view =
             \config state date ->
                 DateTimePicker.datePickerWithConfig config [] state date
+        }
+
+
+{-| Initialize a new DateTimePicker with no initial date selected.
+
+  - `now`: the simulated current time in the test scenario
+  - `value`: the intially-selected value
+
+-}
+dateTimePicker : Date -> Maybe Date -> TestResult (DatePickerConfig TimePickerConfig)
+dateTimePicker now initialValue =
+    TestResult
+        { config = defaultDateTimePickerConfig (,)
+        , state = DateTimePicker.initialStateWithToday now
+        , date = initialValue
+        , view =
+            \config state date ->
+                DateTimePicker.dateTimePickerWithConfig config [] state date
         }
 
 
