@@ -5,8 +5,7 @@ import DateTimePicker.ClockUtils exposing (hours, minutes, minutesPerFive)
 import DateTimePicker.DateUtils
 import DateTimePicker.Events exposing (MoveData, onBlurWithChange, onMouseDownPreventDefault, onMouseMoveWithPosition, onMouseUpPreventDefault, onPointerMoveWithPosition, onPointerUp, onTouchEndPreventDefault, onTouchMovePreventDefault, onTouchStartPreventDefault)
 import DateTimePicker.Geometry exposing (Point)
-import DateTimePicker.Helpers exposing (updateCurrentDate, updateTimeIndicator)
-import DateTimePicker.Internal exposing (InternalState(..), Time)
+import DateTimePicker.Internal exposing (InternalState(..), Time, TimeIndicator(..))
 import DateTimePicker.SharedStyles exposing (CssClasses(..), datepickerNamespace)
 import Dict
 import Html exposing (Html, button, div, input, li, span, table, tbody, td, text, th, thead, tr, ul)
@@ -396,3 +395,56 @@ amPmPickerHandler config (InternalState state) currentDate amPm =
     config.onChange
         updatedState
         (updateCurrentDate updatedState)
+
+
+updateCurrentDate : InternalState -> Maybe Date
+updateCurrentDate (InternalState state) =
+    case ( state.time.hour, state.time.minute, state.time.amPm ) of
+        ( Just hour, Just minute, Just amPm ) ->
+            Just (DateTimePicker.DateUtils.toTime hour minute amPm)
+
+        _ ->
+            Nothing
+
+
+updateTimeIndicator : Maybe TimeIndicator -> Time -> Maybe TimeIndicator
+updateTimeIndicator activeIndicator time =
+    case ( activeIndicator, time.hour, time.minute, time.amPm ) of
+        ( Just HourIndicator, _, Nothing, _ ) ->
+            Just MinuteIndicator
+
+        ( Just HourIndicator, _, Just _, Nothing ) ->
+            Just AMPMIndicator
+
+        ( Just HourIndicator, _, Just _, Just _ ) ->
+            Nothing
+
+        ( Just MinuteIndicator, _, _, Nothing ) ->
+            Just AMPMIndicator
+
+        ( Just MinuteIndicator, Nothing, _, Just _ ) ->
+            Just HourIndicator
+
+        ( Just MinuteIndicator, Just _, _, Just _ ) ->
+            Nothing
+
+        ( Just AMPMIndicator, Nothing, _, _ ) ->
+            Just HourIndicator
+
+        ( Just AMPMIndicator, Just _, Nothing, _ ) ->
+            Just MinuteIndicator
+
+        ( Just AMPMIndicator, Just _, Just _, _ ) ->
+            Nothing
+
+        ( Nothing, Nothing, _, _ ) ->
+            Just HourIndicator
+
+        ( Nothing, Just _, Nothing, _ ) ->
+            Just MinuteIndicator
+
+        ( Nothing, Just _, Just _, Nothing ) ->
+            Just AMPMIndicator
+
+        ( _, Just _, Just _, Just _ ) ->
+            Nothing
