@@ -5,7 +5,7 @@ import DateTimePicker.ClockUtils exposing (hours, minutes, minutesPerFive)
 import DateTimePicker.DateUtils
 import DateTimePicker.Events exposing (MoveData, onBlurWithChange, onMouseDownPreventDefault, onMouseMoveWithPosition, onMouseUpPreventDefault, onPointerMoveWithPosition, onPointerUp, onTouchEndPreventDefault, onTouchMovePreventDefault, onTouchStartPreventDefault)
 import DateTimePicker.Geometry exposing (Point)
-import DateTimePicker.Helpers exposing (Type(..), updateCurrentDate, updateTimeIndicator)
+import DateTimePicker.Helpers exposing (updateCurrentDate, updateTimeIndicator)
 import DateTimePicker.Internal exposing (InternalState(..), Time)
 import DateTimePicker.SharedStyles exposing (CssClasses(..), datepickerNamespace)
 import Dict
@@ -268,7 +268,7 @@ mouseDownHandler : InternalState -> Maybe Date -> (InternalState -> Maybe Date -
 mouseDownHandler (InternalState state) date onChange =
     let
         updatedDate =
-            updateCurrentDate TimeType (InternalState state)
+            updateCurrentDate (InternalState state)
 
         updatedState =
             InternalState
@@ -395,4 +395,4 @@ amPmPickerHandler config (InternalState state) currentDate amPm =
     in
     config.onChange
         updatedState
-        (updateCurrentDate TimeType updatedState)
+        (updateCurrentDate updatedState)

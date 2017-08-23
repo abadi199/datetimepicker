@@ -1,47 +1,18 @@
-module DateTimePicker.Helpers exposing (Type(..), updateCurrentDate, updateTimeIndicator)
+module DateTimePicker.Helpers exposing (updateCurrentDate, updateTimeIndicator)
 
 import Date exposing (Date)
 import DateTimePicker.DateUtils
 import DateTimePicker.Internal exposing (InternalState(..), Time, TimeIndicator(..))
 
 
-type Type
-    = DateType
-    | DateTimeType
-    | TimeType
+updateCurrentDate : InternalState -> Maybe Date
+updateCurrentDate (InternalState state) =
+    case ( state.time.hour, state.time.minute, state.time.amPm ) of
+        ( Just hour, Just minute, Just amPm ) ->
+            Just (DateTimePicker.DateUtils.toTime hour minute amPm)
 
-
-updateCurrentDate : Type -> InternalState -> Maybe Date
-updateCurrentDate pickerType (InternalState state) =
-    let
-        updatedDate =
-            state.date
-
-        updatedDateTime =
-            case ( state.date, state.time.hour, state.time.minute, state.time.amPm ) of
-                ( Just date, Just hour, Just minute, Just amPm ) ->
-                    Just (DateTimePicker.DateUtils.setTime date hour minute amPm)
-
-                _ ->
-                    Nothing
-
-        updatedTime =
-            case ( state.time.hour, state.time.minute, state.time.amPm ) of
-                ( Just hour, Just minute, Just amPm ) ->
-                    Just (DateTimePicker.DateUtils.toTime hour minute amPm)
-
-                _ ->
-                    Nothing
-    in
-    case pickerType of
-        DateType ->
-            updatedDate
-
-        DateTimeType ->
-            updatedDateTime
-
-        TimeType ->
-            updatedTime
+        _ ->
+            Nothing
 
 
 updateTimeIndicator : Maybe TimeIndicator -> Time -> Maybe TimeIndicator
