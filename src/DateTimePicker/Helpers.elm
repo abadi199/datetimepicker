@@ -2,7 +2,7 @@ module DateTimePicker.Helpers exposing (Type(..), updateCurrentDate, updateTimeI
 
 import Date exposing (Date)
 import DateTimePicker.DateUtils
-import DateTimePicker.Internal exposing (InternalState(..), TimeIndicator(..))
+import DateTimePicker.Internal exposing (InternalState(..), Time, TimeIndicator(..))
 
 
 type Type
@@ -44,45 +44,44 @@ updateCurrentDate pickerType (InternalState state) =
             updatedTime
 
 
-updateTimeIndicator : InternalState -> InternalState
-updateTimeIndicator (InternalState state) =
-    InternalState <|
-        case ( state.activeTimeIndicator, state.time.hour, state.time.minute, state.time.amPm ) of
-            ( Just HourIndicator, _, Nothing, _ ) ->
-                { state | activeTimeIndicator = Just MinuteIndicator }
+updateTimeIndicator : Maybe TimeIndicator -> Time -> Maybe TimeIndicator
+updateTimeIndicator activeIndicator time =
+    case ( activeIndicator, time.hour, time.minute, time.amPm ) of
+        ( Just HourIndicator, _, Nothing, _ ) ->
+            Just MinuteIndicator
 
-            ( Just HourIndicator, _, Just _, Nothing ) ->
-                { state | activeTimeIndicator = Just AMPMIndicator }
+        ( Just HourIndicator, _, Just _, Nothing ) ->
+            Just AMPMIndicator
 
-            ( Just HourIndicator, _, Just _, Just _ ) ->
-                { state | activeTimeIndicator = Nothing }
+        ( Just HourIndicator, _, Just _, Just _ ) ->
+            Nothing
 
-            ( Just MinuteIndicator, _, _, Nothing ) ->
-                { state | activeTimeIndicator = Just AMPMIndicator }
+        ( Just MinuteIndicator, _, _, Nothing ) ->
+            Just AMPMIndicator
 
-            ( Just MinuteIndicator, Nothing, _, Just _ ) ->
-                { state | activeTimeIndicator = Just HourIndicator }
+        ( Just MinuteIndicator, Nothing, _, Just _ ) ->
+            Just HourIndicator
 
-            ( Just MinuteIndicator, Just _, _, Just _ ) ->
-                { state | activeTimeIndicator = Nothing }
+        ( Just MinuteIndicator, Just _, _, Just _ ) ->
+            Nothing
 
-            ( Just AMPMIndicator, Nothing, _, _ ) ->
-                { state | activeTimeIndicator = Just HourIndicator }
+        ( Just AMPMIndicator, Nothing, _, _ ) ->
+            Just HourIndicator
 
-            ( Just AMPMIndicator, Just _, Nothing, _ ) ->
-                { state | activeTimeIndicator = Just MinuteIndicator }
+        ( Just AMPMIndicator, Just _, Nothing, _ ) ->
+            Just MinuteIndicator
 
-            ( Just AMPMIndicator, Just _, Just _, _ ) ->
-                { state | activeTimeIndicator = Nothing }
+        ( Just AMPMIndicator, Just _, Just _, _ ) ->
+            Nothing
 
-            ( Nothing, Nothing, _, _ ) ->
-                { state | activeTimeIndicator = Just HourIndicator }
+        ( Nothing, Nothing, _, _ ) ->
+            Just HourIndicator
 
-            ( Nothing, Just _, Nothing, _ ) ->
-                { state | activeTimeIndicator = Just MinuteIndicator }
+        ( Nothing, Just _, Nothing, _ ) ->
+            Just MinuteIndicator
 
-            ( Nothing, Just _, Just _, Nothing ) ->
-                { state | activeTimeIndicator = Just AMPMIndicator }
+        ( Nothing, Just _, Just _, Nothing ) ->
+            Just AMPMIndicator
 
-            ( _, Just _, Just _, Just _ ) ->
-                { state | activeTimeIndicator = Nothing }
+        ( _, Just _, Just _, Just _ ) ->
+            Nothing

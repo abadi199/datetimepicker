@@ -434,8 +434,12 @@ amPmPickerHandler config (InternalState state) currentDate amPm =
             { time | amPm = Just amPm }
 
         updatedState =
-            InternalState { state | time = updatedTime }
-                |> updateTimeIndicator
+            InternalState
+                { state
+                    | time = updatedTime
+                    , activeTimeIndicator =
+                        updateTimeIndicator state.activeTimeIndicator updatedTime
+                }
     in
     config.onChange
         updatedState

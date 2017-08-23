@@ -188,10 +188,15 @@ mouseDownHandler (InternalState state) date onChange =
     let
         updatedDate =
             updateCurrentDate TimeType (InternalState state)
+
+        updatedState =
+            InternalState
+                { state
+                    | activeTimeIndicator =
+                        updateTimeIndicator state.activeTimeIndicator state.time
+                }
     in
-    onChange
-        (updateTimeIndicator <| InternalState state)
-        updatedDate
+    onChange updatedState updatedDate
 
 
 mouseOverHandler : InternalState -> Maybe Date -> (InternalState -> Maybe Date -> msg) -> MoveData -> Json.Decode.Decoder msg
