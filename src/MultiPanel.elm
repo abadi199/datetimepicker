@@ -2,11 +2,12 @@ module MultiPanel exposing (view)
 
 import Date
 import DatePickerPanel
+import DateTimePicker.AnalogClock as AnalogClock
 import DateTimePicker.Config exposing (TimePickerType(..))
 import DateTimePicker.DateUtils
 import DateTimePicker.Internal exposing (InternalState(..))
 import Html exposing (Html)
-import TimePickerPanel exposing (analog, digital)
+import TimePickerPanel exposing (digital)
 
 
 type alias State =
@@ -42,5 +43,5 @@ view dateConfig ( timeType, timeConfig ) state currentDate =
             TimePickerPanel.digital safeTimeConfig state currentDate
 
         Analog ->
-            TimePickerPanel.analog safeTimeConfig state currentDate
+            AnalogClock.view safeTimeConfig state currentDate
     ]
