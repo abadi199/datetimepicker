@@ -331,105 +331,56 @@ dialog pickerType state currentDate =
                     attributes config
     in
     case pickerType of
-        DateType datePickerConfig ->
-            div (attributes datePickerConfig) [ datePickerDialog pickerType state currentDate ]
-
-        TimeType timePickerConfig ->
-            div (withTimeAttributes timePickerConfig timePickerConfig.timePickerType) [ timePickerDialog pickerType state currentDate ]
-
-        DateTimeType timePickerConfig ->
-            div (withTimeAttributes timePickerConfig timePickerConfig.timePickerType)
-                (Maybe.map2
-                    (\dateConfig timeConfig ->
-                        MultiPanel.view
-                            dateConfig
-                            timeConfig
-                            state
-                            currentDate
-                    )
-                    (datePanelConfig pickerType)
-                    (timePanelConfig pickerType)
-                    |> (\result ->
-                            case result of
-                                Nothing ->
-                                    Debug.crash "Can't get here; TODO simplify this"
-
-                                Just view ->
-                                    view
-                       )
-                )
-
-
-datePickerDialog : Type msg -> State -> Maybe Date.Date -> Html msg
-datePickerDialog pickerType state currentDate =
-    datePanelConfig pickerType
-        |> Maybe.map (\config -> DatePickerPanel.view config state currentDate)
-        |> Maybe.withDefault (text "")
-
-
-datePanelConfig : Type msg -> Maybe (DatePickerPanel.Config msg)
-datePanelConfig pickerType =
-    case pickerType of
         DateType config ->
-            Just
-                { onChange = config.onChange
-                , nameOfDays = config.nameOfDays
-                , firstDayOfWeek = config.firstDayOfWeek
-                , allowYearNavigation = config.allowYearNavigation
-                , titleFormatter = config.i18n.titleFormatter
-                , footerFormatter = config.i18n.footerFormatter
-                }
-
-        DateTimeType config ->
-            Just
-                { onChange = config.onChange
-                , nameOfDays = config.nameOfDays
-                , firstDayOfWeek = config.firstDayOfWeek
-                , allowYearNavigation = config.allowYearNavigation
-                , titleFormatter = config.i18n.titleFormatter
-                , footerFormatter = config.i18n.footerFormatter
-                }
-
-        TimeType _ ->
-            Nothing
-
-
-timePickerDialog : Type msg -> State -> Maybe Date.Date -> Html msg
-timePickerDialog pickerType state currentDate =
-    let
-        panel timeType config =
-            case timeType of
-                Digital ->
-                    TimePickerPanel.digital config state currentDate
-
-                Analog ->
-                    TimePickerPanel.analog config state currentDate
-    in
-    timePanelConfig pickerType
-        |> Maybe.map (uncurry panel)
-        |> Maybe.withDefault (text "")
-
-
-timePanelConfig : Type msg -> Maybe ( TimePickerType, TimePickerPanel.Config msg )
-timePanelConfig pickerType =
-    case pickerType of
-        DateType _ ->
-            Nothing
-
-        DateTimeType config ->
-            Just
-                ( config.timePickerType
-                , { onChange = config.onChange
-                  , titleFormatter = config.i18n.timeTitleFormatter
-                  }
-                )
+            div (attributes config)
+                [ DatePickerPanel.view
+                    { onChange = config.onChange
+                    , nameOfDays = config.nameOfDays
+                    , firstDayOfWeek = config.firstDayOfWeek
+                    , allowYearNavigation = config.allowYearNavigation
+                    , titleFormatter = config.i18n.titleFormatter
+                    , footerFormatter = config.i18n.footerFormatter
+                    }
+                    state
+                    currentDate
+                ]
 
         TimeType config ->
-            Just
-                ( config.timePickerType
-                , { onChange = config.onChange
-                  , titleFormatter = config.i18n.timeTitleFormatter
-                  }
+            let
+                dialog =
+                    case config.timePickerType of
+                        Digital ->
+                            TimePickerPanel.digital
+
+                        Analog ->
+                            TimePickerPanel.analog
+            in
+            div (withTimeAttributes config config.timePickerType)
+                [ dialog
+                    { onChange = config.onChange
+                    , titleFormatter = config.i18n.timeTitleFormatter
+                    }
+                    state
+                    currentDate
+                ]
+
+        DateTimeType config ->
+            div (withTimeAttributes config config.timePickerType)
+                (MultiPanel.view
+                    { onChange = config.onChange
+                    , nameOfDays = config.nameOfDays
+                    , firstDayOfWeek = config.firstDayOfWeek
+                    , allowYearNavigation = config.allowYearNavigation
+                    , titleFormatter = config.i18n.titleFormatter
+                    , footerFormatter = config.i18n.footerFormatter
+                    }
+                    ( config.timePickerType
+                    , { onChange = config.onChange
+                      , titleFormatter = config.i18n.timeTitleFormatter
+                      }
+                    )
+                    state
+                    currentDate
                 )
 
 
