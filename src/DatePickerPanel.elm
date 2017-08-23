@@ -8,7 +8,7 @@ import Date.Extra.Format
 import DateTimePicker.Config exposing (Config, DatePickerConfig, NameOfDays, TimePickerConfig, TimePickerType(..), Type(..), defaultDatePickerConfig, defaultDateTimePickerConfig, defaultTimePickerConfig)
 import DateTimePicker.DateUtils
 import DateTimePicker.Events exposing (onBlurWithChange, onMouseDownPreventDefault, onMouseUpPreventDefault, onTouchEndPreventDefault, onTouchStartPreventDefault)
-import DateTimePicker.Internal exposing (InternalState(..), StateValue, Time, getStateValue, initialStateValue, initialStateValueWithToday)
+import DateTimePicker.Internal exposing (InternalState(..), Time)
 import DateTimePicker.SharedStyles exposing (CssClasses(..), datepickerNamespace)
 import DateTimePicker.Svg
 import Html exposing (..)
@@ -257,8 +257,8 @@ calendar config (InternalState state) currentDate =
                             )
                         , Html.Attributes.attribute "role" "button"
                         , Html.Attributes.attribute "aria-label" (Date.Extra.Format.format Date.Extra.Config.Config_en_us.config "%e, %A %B %Y" selectedDate)
-                        , onMouseDownPreventDefault <| dateClickHandler config state year month day
-                        , onTouchStartPreventDefault <| dateClickHandler config state year month day
+                        , onMouseDownPreventDefault <| dateClickHandler config (InternalState state) year month day
+                        , onTouchStartPreventDefault <| dateClickHandler config (InternalState state) year month day
                         ]
                         [ text <| toString day.day ]
 
@@ -299,8 +299,8 @@ dayNames config =
         |> (\( head, tail ) -> tail ++ head)
 
 
-dateClickHandler : Config msg -> StateValue -> Int -> Date.Month -> DateTimePicker.DateUtils.Day -> msg
-dateClickHandler config state year month day =
+dateClickHandler : Config msg -> InternalState -> Int -> Date.Month -> DateTimePicker.DateUtils.Day -> msg
+dateClickHandler config (InternalState state) year month day =
     let
         selectedDate =
             Just <|

@@ -5,7 +5,7 @@ import DateTimePicker.ClockUtils exposing (hours, minutes, minutesPerFive)
 import DateTimePicker.Events exposing (MoveData, onMouseDownPreventDefault, onMouseMoveWithPosition, onPointerMoveWithPosition, onPointerUp, onTouchMovePreventDefault)
 import DateTimePicker.Geometry exposing (Point)
 import DateTimePicker.Helpers exposing (Type(..), updateCurrentDate, updateTimeIndicator)
-import DateTimePicker.Internal exposing (InternalState(..), StateValue, getStateValue)
+import DateTimePicker.Internal exposing (InternalState(..))
 import DateTimePicker.SharedStyles exposing (CssClasses(..), datepickerNamespace)
 import Dict
 import Html exposing (Html, div)
@@ -30,11 +30,7 @@ minuteArrowLength =
 
 
 clock : (InternalState -> Maybe Date -> msg) -> InternalState -> Maybe Date -> Html msg
-clock onChange state date =
-    let
-        stateValue =
-            getStateValue state
-    in
+clock onChange ((InternalState stateValue) as state) date =
     div
         [ class [ AnalogClock ]
         ]
@@ -68,13 +64,10 @@ clock onChange state date =
 
 
 currentTime : (InternalState -> Maybe Date -> msg) -> InternalState -> Maybe Date -> Svg msg
-currentTime onChange state date =
+currentTime onChange (InternalState state) date =
     let
-        stateValue =
-            getStateValue state
-
         time =
-            stateValue.time
+            state.time
 
         hourArrowLength =
             50
@@ -82,15 +75,15 @@ currentTime onChange state date =
         drawHour hour minute =
             Dict.get (toString hour) hours
                 |> Maybe.map (flip (-) (toFloat minute * pi / 360))
-                |> Maybe.map (DateTimePicker.Geometry.calculateArrowPoint originPoint hourArrowLength >> drawArrow onChange state date)
+                |> Maybe.map (DateTimePicker.Geometry.calculateArrowPoint originPoint hourArrowLength >> drawArrow onChange (InternalState state) date)
                 |> Maybe.withDefault (text "")
 
         drawMinute minute =
             Dict.get (toString minute) minutes
-                |> Maybe.map (DateTimePicker.Geometry.calculateArrowPoint originPoint minuteArrowLength >> drawArrow onChange state date)
+                |> Maybe.map (DateTimePicker.Geometry.calculateArrowPoint originPoint minuteArrowLength >> drawArrow onChange (InternalState state) date)
                 |> Maybe.withDefault (text "")
     in
-    case ( stateValue.activeTimeIndicator, time.hour, time.minute, time.amPm ) of
+    case ( state.activeTimeIndicator, time.hour, time.minute, time.amPm ) of
         ( Nothing, Just hour, Just minute, Just _ ) ->
             g [] [ drawHour hour minute, drawMinute minute ]
 
@@ -126,13 +119,10 @@ axisPoint =
 
 
 arrow : (InternalState -> Maybe Date -> msg) -> InternalState -> Maybe Date -> Svg msg
-arrow onChange state date =
+arrow onChange (InternalState state) date =
     let
-        stateValue =
-            getStateValue state
-
         length =
-            case stateValue.activeTimeIndicator of
+            case state.activeTimeIndicator of
                 Just DateTimePicker.Internal.HourIndicator ->
                     hourArrowLength
 
@@ -155,17 +145,17 @@ arrow onChange state date =
                     False
 
         shouldDrawArrow =
-            case stateValue.activeTimeIndicator of
+            case state.activeTimeIndicator of
                 Just DateTimePicker.Internal.HourIndicator ->
-                    isJust stateValue.time.hour
+                    isJust state.time.hour
 
                 Just DateTimePicker.Internal.MinuteIndicator ->
-                    isJust stateValue.time.minute
+                    isJust state.time.minute
 
                 _ ->
                     False
     in
-    case stateValue.currentAngle of
+    case state.currentAngle of
         Nothing ->
             text ""
 
@@ -173,7 +163,7 @@ arrow onChange state date =
             if shouldDrawArrow then
                 angle
                     |> arrowPoint
-                    |> drawArrow onChange state date
+                    |> drawArrow onChange (InternalState state) date
             else
                 text ""
 
@@ -194,55 +184,49 @@ drawArrow onChange state date point =
 
 
 mouseDownHandler : InternalState -> Maybe Date -> (InternalState -> Maybe Date -> msg) -> msg
-mouseDownHandler state date onChange =
+mouseDownHandler (InternalState state) date onChange =
     let
-        stateValue =
-            getStateValue state
-
         updatedDate =
-            updateCurrentDate TimeType stateValue
+            updateCurrentDate TimeType (InternalState state)
 
         updatedStateValue =
-            case ( updatedDate, stateValue.activeTimeIndicator ) of
+            case ( updatedDate, state.activeTimeIndicator ) of
                 ( Just _, _ ) ->
-                    { stateValue | event = "analog.mouseDownHandler", activeTimeIndicator = Nothing, currentAngle = Nothing }
+                    { state | event = "analog.mouseDownHandler", activeTimeIndicator = Nothing, currentAngle = Nothing }
 
                 ( _, Just DateTimePicker.Internal.HourIndicator ) ->
-                    { stateValue | event = "analog.mouseDownHandler", activeTimeIndicator = Just DateTimePicker.Internal.MinuteIndicator, currentAngle = Nothing }
+                    { state | event = "analog.mouseDownHandler", activeTimeIndicator = Just DateTimePicker.Internal.MinuteIndicator, currentAngle = Nothing }
 
                 ( _, Just DateTimePicker.Internal.MinuteIndicator ) ->
-                    { stateValue | event = "analog.mouseDownHandler", activeTimeIndicator = Just DateTimePicker.Internal.AMPMIndicator, currentAngle = Nothing }
+                    { state | event = "analog.mouseDownHandler", activeTimeIndicator = Just DateTimePicker.Internal.AMPMIndicator, currentAngle = Nothing }
 
                 _ ->
-                    { stateValue | event = "analog.mouseDownHandler", activeTimeIndicator = Just DateTimePicker.Internal.HourIndicator, currentAngle = Nothing }
+                    { state | event = "analog.mouseDownHandler", activeTimeIndicator = Just DateTimePicker.Internal.HourIndicator, currentAngle = Nothing }
     in
     onChange
-        (InternalState <| updateTimeIndicator stateValue)
+        (updateTimeIndicator <| InternalState state)
         updatedDate
 
 
 mouseOverHandler : InternalState -> Maybe Date -> (InternalState -> Maybe Date -> msg) -> MoveData -> Json.Decode.Decoder msg
-mouseOverHandler state date onChange moveData =
+mouseOverHandler (InternalState state) date onChange moveData =
     let
-        stateValue =
-            getStateValue state
-
         decoder updatedState =
             Json.Decode.succeed (onChange updatedState date)
     in
-    case stateValue.activeTimeIndicator of
+    case state.activeTimeIndicator of
         Just DateTimePicker.Internal.HourIndicator ->
-            decoder (updateHourState stateValue date moveData)
+            decoder (updateHourState (InternalState state) date moveData)
 
         Just DateTimePicker.Internal.MinuteIndicator ->
-            decoder (updateMinuteState stateValue date moveData)
+            decoder (updateMinuteState (InternalState state) date moveData)
 
         _ ->
-            decoder (InternalState stateValue)
+            decoder (InternalState state)
 
 
-updateHourState : StateValue -> Maybe Date -> MoveData -> InternalState
-updateHourState stateValue date moveData =
+updateHourState : InternalState -> Maybe Date -> MoveData -> InternalState
+updateHourState (InternalState state) date moveData =
     let
         currentAngle =
             DateTimePicker.Geometry.calculateAngle originPoint axisPoint (Point moveData.offsetX moveData.offsetY)
@@ -259,15 +243,15 @@ updateHourState stateValue date moveData =
             { time | hour = hour |> Maybe.andThen (String.toInt >> Result.toMaybe) }
     in
     InternalState
-        { stateValue
+        { state
             | currentAngle =
                 Maybe.map Tuple.second closestHour
-            , time = updateTime stateValue.time (Maybe.map Tuple.first closestHour)
+            , time = updateTime state.time (Maybe.map Tuple.first closestHour)
         }
 
 
-updateMinuteState : StateValue -> Maybe Date -> MoveData -> InternalState
-updateMinuteState stateValue date moveData =
+updateMinuteState : InternalState -> Maybe Date -> MoveData -> InternalState
+updateMinuteState (InternalState state) date moveData =
     let
         currentAngle =
             DateTimePicker.Geometry.calculateAngle originPoint axisPoint (Point moveData.offsetX moveData.offsetY)
@@ -284,8 +268,8 @@ updateMinuteState stateValue date moveData =
             { time | minute = minute |> Maybe.andThen (String.toInt >> Result.toMaybe) }
     in
     InternalState
-        { stateValue
+        { state
             | currentAngle =
                 Maybe.map Tuple.second closestMinute
-            , time = updateTime stateValue.time (Maybe.map Tuple.first closestMinute)
+            , time = updateTime state.time (Maybe.map Tuple.first closestMinute)
         }

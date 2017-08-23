@@ -6,7 +6,7 @@ import DateTimePicker.ClockUtils
 import DateTimePicker.DateUtils
 import DateTimePicker.Events exposing (onBlurWithChange, onMouseDownPreventDefault, onMouseUpPreventDefault, onTouchEndPreventDefault, onTouchStartPreventDefault)
 import DateTimePicker.Helpers exposing (Type(..), updateCurrentDate, updateTimeIndicator)
-import DateTimePicker.Internal exposing (InternalState(..), StateValue, Time, getStateValue, initialStateValue, initialStateValueWithToday)
+import DateTimePicker.Internal exposing (InternalState(..), Time)
 import DateTimePicker.SharedStyles exposing (CssClasses(..), datepickerNamespace)
 import DateTimePicker.Svg
 import Html exposing (Html, button, div, input, li, span, table, tbody, td, text, th, thead, tr, ul)
@@ -38,11 +38,8 @@ type alias Config msg =
 
 
 digital : Config msg -> State -> Maybe Date.Date -> Html msg
-digital config state currentDate =
+digital config ((InternalState stateValue) as state) currentDate =
     let
-        stateValue =
-            getStateValue state
-
         toListItem str =
             li [] [ text str ]
 
@@ -67,8 +64,8 @@ digital config state currentDate =
 
         hourCell hour =
             td
-                [ onMouseDownPreventDefault <| hourClickHandler config stateValue hour
-                , onTouchStartPreventDefault <| hourClickHandler config stateValue hour
+                [ onMouseDownPreventDefault <| hourClickHandler config state hour
+                , onTouchStartPreventDefault <| hourClickHandler config state hour
                 , stateValue.time.hour
                     |> Maybe.map ((==) hour)
                     |> Maybe.map
@@ -86,8 +83,8 @@ digital config state currentDate =
 
         minuteCell min =
             td
-                [ onMouseDownPreventDefault <| minuteClickHandler config stateValue min
-                , onTouchStartPreventDefault <| minuteClickHandler config stateValue min
+                [ onMouseDownPreventDefault <| minuteClickHandler config state min
+                , onTouchStartPreventDefault <| minuteClickHandler config state min
                 , stateValue.time.minute
                     |> Maybe.map ((==) min)
                     |> Maybe.map
@@ -129,8 +126,8 @@ digital config state currentDate =
                     ++ (if ampm == "" then
                             []
                         else
-                            [ onMouseDownPreventDefault <| amPmClickHandler config stateValue ampm
-                            , onTouchStartPreventDefault <| amPmClickHandler config stateValue ampm
+                            [ onMouseDownPreventDefault <| amPmClickHandler config state ampm
+                            , onTouchStartPreventDefault <| amPmClickHandler config state ampm
                             ]
                        )
                 )
@@ -139,13 +136,13 @@ digital config state currentDate =
         upArrows config =
             [ tr [ class [ ArrowUp ] ]
                 [ td
-                    [ onMouseDownPreventDefault <| hourUpHandler config stateValue currentDate
-                    , onTouchStartPreventDefault <| hourUpHandler config stateValue currentDate
+                    [ onMouseDownPreventDefault <| hourUpHandler config state currentDate
+                    , onTouchStartPreventDefault <| hourUpHandler config state currentDate
                     ]
                     [ DateTimePicker.Svg.upArrow ]
                 , td
-                    [ onMouseDownPreventDefault <| minuteUpHandler config stateValue currentDate
-                    , onTouchStartPreventDefault <| minuteUpHandler config stateValue currentDate
+                    [ onMouseDownPreventDefault <| minuteUpHandler config state currentDate
+                    , onTouchStartPreventDefault <| minuteUpHandler config state currentDate
                     ]
                     [ DateTimePicker.Svg.upArrow ]
                 , td [] []
@@ -155,13 +152,13 @@ digital config state currentDate =
         downArrows config =
             [ tr [ class [ ArrowDown ] ]
                 [ td
-                    [ onMouseDownPreventDefault <| hourDownHandler config stateValue currentDate
-                    , onTouchStartPreventDefault <| hourDownHandler config stateValue currentDate
+                    [ onMouseDownPreventDefault <| hourDownHandler config state currentDate
+                    , onTouchStartPreventDefault <| hourDownHandler config state currentDate
                     ]
                     [ DateTimePicker.Svg.downArrow ]
                 , td
-                    [ onMouseDownPreventDefault <| minuteDownHandler config stateValue currentDate
-                    , onTouchStartPreventDefault <| minuteDownHandler config stateValue currentDate
+                    [ onMouseDownPreventDefault <| minuteDownHandler config state currentDate
+                    , onTouchStartPreventDefault <| minuteDownHandler config state currentDate
                     ]
                     [ DateTimePicker.Svg.downArrow ]
                 , td [] []
@@ -184,11 +181,8 @@ digital config state currentDate =
 
 
 analog : Config msg -> State -> Maybe Date.Date -> Html msg
-analog config state currentDate =
+analog config ((InternalState stateValue) as state) currentDate =
     let
-        stateValue =
-            getStateValue state
-
         isActive timeIndicator =
             if stateValue.activeTimeIndicator == Just timeIndicator then
                 [ Active ]
@@ -198,8 +192,8 @@ analog config state currentDate =
         amPmPicker config =
             div [ class [ AMPMPicker ] ]
                 [ div
-                    [ onMouseDownPreventDefault <| amPmPickerHandler config stateValue currentDate "AM"
-                    , onTouchStartPreventDefault <| amPmPickerHandler config stateValue currentDate "AM"
+                    [ onMouseDownPreventDefault <| amPmPickerHandler config state currentDate "AM"
+                    , onTouchStartPreventDefault <| amPmPickerHandler config state currentDate "AM"
                     , case stateValue.time.amPm of
                         Just "AM" ->
                             class [ AM, SelectedAmPm ]
@@ -209,8 +203,8 @@ analog config state currentDate =
                     ]
                     [ text "AM" ]
                 , div
-                    [ onMouseDownPreventDefault <| amPmPickerHandler config stateValue currentDate "PM"
-                    , onTouchStartPreventDefault <| amPmPickerHandler config stateValue currentDate "PM"
+                    [ onMouseDownPreventDefault <| amPmPickerHandler config state currentDate "PM"
+                    , onTouchStartPreventDefault <| amPmPickerHandler config state currentDate "PM"
                     , case stateValue.time.amPm of
                         Just "PM" ->
                             class [ PM, SelectedAmPm ]
@@ -224,21 +218,21 @@ analog config state currentDate =
     div [ class [ TimePickerDialog, AnalogTime ] ]
         [ div [ class [ Header ] ]
             [ span
-                [ onMouseDownPreventDefault (timeIndicatorHandler config stateValue currentDate DateTimePicker.Internal.HourIndicator)
-                , onTouchStartPreventDefault (timeIndicatorHandler config stateValue currentDate DateTimePicker.Internal.HourIndicator)
+                [ onMouseDownPreventDefault (timeIndicatorHandler config state currentDate DateTimePicker.Internal.HourIndicator)
+                , onTouchStartPreventDefault (timeIndicatorHandler config state currentDate DateTimePicker.Internal.HourIndicator)
                 , class (Hour :: isActive DateTimePicker.Internal.HourIndicator)
                 ]
                 [ text (stateValue.time.hour |> Maybe.map (toString >> DateTimePicker.DateUtils.padding) |> Maybe.withDefault "--") ]
             , span [ class [ Separator ] ] [ text " : " ]
             , span
-                [ onMouseDownPreventDefault (timeIndicatorHandler config stateValue currentDate DateTimePicker.Internal.MinuteIndicator)
-                , onTouchStartPreventDefault (timeIndicatorHandler config stateValue currentDate DateTimePicker.Internal.MinuteIndicator)
+                [ onMouseDownPreventDefault (timeIndicatorHandler config state currentDate DateTimePicker.Internal.MinuteIndicator)
+                , onTouchStartPreventDefault (timeIndicatorHandler config state currentDate DateTimePicker.Internal.MinuteIndicator)
                 , class (Minute :: isActive DateTimePicker.Internal.MinuteIndicator)
                 ]
                 [ text (stateValue.time.minute |> Maybe.map (toString >> DateTimePicker.DateUtils.padding) |> Maybe.withDefault "--") ]
             , span
-                [ onMouseDownPreventDefault (timeIndicatorHandler config stateValue currentDate DateTimePicker.Internal.AMPMIndicator)
-                , onTouchStartPreventDefault (timeIndicatorHandler config stateValue currentDate DateTimePicker.Internal.AMPMIndicator)
+                [ onMouseDownPreventDefault (timeIndicatorHandler config state currentDate DateTimePicker.Internal.AMPMIndicator)
+                , onTouchStartPreventDefault (timeIndicatorHandler config state currentDate DateTimePicker.Internal.AMPMIndicator)
                 , class (AMPM :: isActive DateTimePicker.Internal.AMPMIndicator)
                 ]
                 [ text (stateValue.time.amPm |> Maybe.withDefault "--") ]
@@ -254,14 +248,14 @@ analog config state currentDate =
         ]
 
 
-hourClickHandler : Config msg -> StateValue -> Int -> msg
-hourClickHandler config stateValue hour =
+hourClickHandler : Config msg -> State -> Int -> msg
+hourClickHandler config (InternalState state) hour =
     let
         time =
-            stateValue.time
+            state.time
 
         updatedStateValue =
-            { stateValue | time = { time | hour = Just hour }, event = "hourClickHandler" }
+            { state | time = { time | hour = Just hour }, event = "hourClickHandler" }
 
         ( updatedTime, forceClose ) =
             case ( updatedStateValue.time.minute, updatedStateValue.time.amPm ) of
@@ -276,14 +270,14 @@ hourClickHandler config stateValue hour =
     config.onChange (InternalState { updatedStateValue | forceClose = forceClose }) updatedTime
 
 
-minuteClickHandler : Config msg -> StateValue -> Int -> msg
-minuteClickHandler config stateValue minute =
+minuteClickHandler : Config msg -> State -> Int -> msg
+minuteClickHandler config (InternalState state) minute =
     let
         time =
-            stateValue.time
+            state.time
 
         updatedStateValue =
-            { stateValue | time = { time | minute = Just minute }, event = "minuteClickHandler" }
+            { state | time = { time | minute = Just minute }, event = "minuteClickHandler" }
 
         ( updatedTime, forceClose ) =
             case ( updatedStateValue.time.hour, updatedStateValue.time.amPm ) of
@@ -298,14 +292,14 @@ minuteClickHandler config stateValue minute =
     config.onChange (InternalState { updatedStateValue | forceClose = forceClose }) updatedTime
 
 
-amPmClickHandler : Config msg -> StateValue -> String -> msg
-amPmClickHandler config stateValue amPm =
+amPmClickHandler : Config msg -> State -> String -> msg
+amPmClickHandler config (InternalState state) amPm =
     let
         time =
-            stateValue.time
+            state.time
 
         updatedStateValue =
-            { stateValue
+            { state
                 | time =
                     { time
                         | amPm =
@@ -330,71 +324,71 @@ amPmClickHandler config stateValue amPm =
     config.onChange (InternalState { updatedStateValue | forceClose = forceClose }) updatedTime
 
 
-hourUpHandler : Config msg -> StateValue -> Maybe Date.Date -> msg
-hourUpHandler config stateValue currentDate =
+hourUpHandler : Config msg -> State -> Maybe Date.Date -> msg
+hourUpHandler config (InternalState state) currentDate =
     let
         updatedState =
-            if stateValue.hourPickerStart - 6 >= 1 then
-                { stateValue | hourPickerStart = stateValue.hourPickerStart - 6 }
+            if state.hourPickerStart - 6 >= 1 then
+                { state | hourPickerStart = state.hourPickerStart - 6 }
             else
-                stateValue
+                state
     in
     config.onChange (InternalState updatedState) currentDate
 
 
-hourDownHandler : Config msg -> StateValue -> Maybe Date.Date -> msg
-hourDownHandler config stateValue currentDate =
+hourDownHandler : Config msg -> State -> Maybe Date.Date -> msg
+hourDownHandler config (InternalState state) currentDate =
     let
         updatedState =
-            if stateValue.hourPickerStart + 6 <= 12 then
-                { stateValue | hourPickerStart = stateValue.hourPickerStart + 6 }
+            if state.hourPickerStart + 6 <= 12 then
+                { state | hourPickerStart = state.hourPickerStart + 6 }
             else
-                stateValue
+                state
     in
     config.onChange (InternalState updatedState) currentDate
 
 
-minuteUpHandler : Config msg -> StateValue -> Maybe Date.Date -> msg
-minuteUpHandler config stateValue currentDate =
+minuteUpHandler : Config msg -> State -> Maybe Date.Date -> msg
+minuteUpHandler config (InternalState state) currentDate =
     let
         updatedState =
-            if stateValue.minutePickerStart - 6 >= 0 then
-                { stateValue | minutePickerStart = stateValue.minutePickerStart - 6 }
+            if state.minutePickerStart - 6 >= 0 then
+                { state | minutePickerStart = state.minutePickerStart - 6 }
             else
-                stateValue
+                state
     in
     config.onChange (InternalState updatedState) currentDate
 
 
-minuteDownHandler : Config msg -> StateValue -> Maybe Date.Date -> msg
-minuteDownHandler config stateValue currentDate =
+minuteDownHandler : Config msg -> State -> Maybe Date.Date -> msg
+minuteDownHandler config (InternalState state) currentDate =
     let
         updatedState =
-            if stateValue.minutePickerStart + 6 <= 59 then
-                { stateValue | minutePickerStart = stateValue.minutePickerStart + 6 }
+            if state.minutePickerStart + 6 <= 59 then
+                { state | minutePickerStart = state.minutePickerStart + 6 }
             else
-                stateValue
+                state
     in
     config.onChange (InternalState updatedState) currentDate
 
 
-timeIndicatorHandler : Config msg -> StateValue -> Maybe Date.Date -> DateTimePicker.Internal.TimeIndicator -> msg
-timeIndicatorHandler config stateValue currentDate timeIndicator =
+timeIndicatorHandler : Config msg -> State -> Maybe Date.Date -> DateTimePicker.Internal.TimeIndicator -> msg
+timeIndicatorHandler config (InternalState state) currentDate timeIndicator =
     let
         updatedState =
-            { stateValue
+            { state
                 | activeTimeIndicator = updatedActiveTimeIndicator
                 , currentAngle = currentAngle
             }
 
         updatedActiveTimeIndicator =
-            if stateValue.activeTimeIndicator == Just timeIndicator then
+            if state.activeTimeIndicator == Just timeIndicator then
                 Nothing
             else
                 Just timeIndicator
 
         currentAngle =
-            case ( timeIndicator, stateValue.time.hour, stateValue.time.minute ) of
+            case ( timeIndicator, state.time.hour, state.time.minute ) of
                 ( DateTimePicker.Internal.HourIndicator, Just hour, _ ) ->
                     DateTimePicker.ClockUtils.hourToAngle hour
 
@@ -407,8 +401,8 @@ timeIndicatorHandler config stateValue currentDate timeIndicator =
     config.onChange (InternalState updatedState) currentDate
 
 
-amPmIndicatorHandler : Config msg -> StateValue -> Maybe Date.Date -> msg
-amPmIndicatorHandler config stateValue currentDate =
+amPmIndicatorHandler : Config msg -> State -> Maybe Date.Date -> msg
+amPmIndicatorHandler config (InternalState state) currentDate =
     let
         updateTime time =
             case time.amPm of
@@ -422,27 +416,27 @@ amPmIndicatorHandler config stateValue currentDate =
                     { time | amPm = Just "AM" }
 
         updatedState =
-            { stateValue
+            { state
                 | activeTimeIndicator = Just DateTimePicker.Internal.AMPMIndicator
-                , time = updateTime stateValue.time
+                , time = updateTime state.time
             }
     in
     config.onChange (InternalState updatedState) currentDate
 
 
-amPmPickerHandler : Config msg -> StateValue -> Maybe Date.Date -> String -> msg
-amPmPickerHandler config stateValue currentDate amPm =
+amPmPickerHandler : Config msg -> State -> Maybe Date.Date -> String -> msg
+amPmPickerHandler config (InternalState state) currentDate amPm =
     let
         time =
-            stateValue.time
+            state.time
 
         updatedTime =
             { time | amPm = Just amPm }
 
         updatedState =
-            { stateValue | time = updatedTime }
+            InternalState { state | time = updatedTime }
                 |> updateTimeIndicator
     in
     config.onChange
-        (InternalState updatedState)
+        updatedState
         (updateCurrentDate TimeType updatedState)
