@@ -188,20 +188,6 @@ mouseDownHandler (InternalState state) date onChange =
     let
         updatedDate =
             updateCurrentDate TimeType (InternalState state)
-
-        updatedStateValue =
-            case ( updatedDate, state.activeTimeIndicator ) of
-                ( Just _, _ ) ->
-                    { state | event = "analog.mouseDownHandler", activeTimeIndicator = Nothing, currentAngle = Nothing }
-
-                ( _, Just DateTimePicker.Internal.HourIndicator ) ->
-                    { state | event = "analog.mouseDownHandler", activeTimeIndicator = Just DateTimePicker.Internal.MinuteIndicator, currentAngle = Nothing }
-
-                ( _, Just DateTimePicker.Internal.MinuteIndicator ) ->
-                    { state | event = "analog.mouseDownHandler", activeTimeIndicator = Just DateTimePicker.Internal.AMPMIndicator, currentAngle = Nothing }
-
-                _ ->
-                    { state | event = "analog.mouseDownHandler", activeTimeIndicator = Just DateTimePicker.Internal.HourIndicator, currentAngle = Nothing }
     in
     onChange
         (updateTimeIndicator <| InternalState state)
