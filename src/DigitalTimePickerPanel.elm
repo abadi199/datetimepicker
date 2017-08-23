@@ -299,26 +299,3 @@ minuteDownHandler config (InternalState state) currentDate =
                 state
     in
     config.onChange (InternalState updatedState) currentDate
-
-
-amPmIndicatorHandler : Config msg -> State -> Maybe Date.Date -> msg
-amPmIndicatorHandler config (InternalState state) currentDate =
-    let
-        updateTime time =
-            case time.amPm of
-                Just "AM" ->
-                    { time | amPm = Just "PM" }
-
-                Just "PM" ->
-                    { time | amPm = Just "AM" }
-
-                _ ->
-                    { time | amPm = Just "AM" }
-
-        updatedState =
-            { state
-                | activeTimeIndicator = Just DateTimePicker.Internal.AMPMIndicator
-                , time = updateTime state.time
-            }
-    in
-    config.onChange (InternalState updatedState) currentDate
