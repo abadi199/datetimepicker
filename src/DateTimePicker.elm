@@ -50,12 +50,12 @@ import DateTimePicker.DateUtils
 import DateTimePicker.Events exposing (onBlurWithChange, onMouseDownPreventDefault, onMouseUpPreventDefault, onTouchEndPreventDefault, onTouchStartPreventDefault)
 import DateTimePicker.Internal exposing (InternalState(..), Time)
 import DateTimePicker.SharedStyles exposing (CssClasses(..), datepickerNamespace)
+import DigitalTimePickerPanel
 import Html exposing (Html, button, div, input, li, span, table, tbody, td, text, th, thead, tr, ul)
 import Html.Attributes exposing (value)
 import Html.Events exposing (onBlur, onClick, onFocus)
 import MultiPanel
 import Task
-import TimePickerPanel
 
 
 -- MODEL
@@ -340,7 +340,7 @@ dialog pickerType (InternalState state) currentDate =
                 dialog =
                     case config.timePickerType of
                         Digital ->
-                            TimePickerPanel.digital
+                            DigitalTimePickerPanel.view
 
                         Analog ->
                             AnalogTimePickerPanel.view

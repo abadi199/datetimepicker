@@ -1,4 +1,4 @@
-module TimePickerPanel exposing (Config, digital)
+module DigitalTimePickerPanel exposing (Config, view)
 
 import Date exposing (Date)
 import DateTimePicker.DateUtils
@@ -34,8 +34,8 @@ type alias Config msg =
     datepickerNamespace
 
 
-digital : Config msg -> State -> Maybe Date.Date -> Html msg
-digital config ((InternalState stateValue) as state) currentDate =
+view : Config msg -> State -> Maybe Date.Date -> Html msg
+view config ((InternalState stateValue) as state) currentDate =
     let
         toListItem str =
             li [] [ text str ]

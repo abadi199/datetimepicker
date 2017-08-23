@@ -6,15 +6,15 @@ import DatePickerPanel
 import DateTimePicker.Config exposing (TimePickerType(..))
 import DateTimePicker.DateUtils
 import DateTimePicker.Internal exposing (InternalState(..))
+import DigitalTimePickerPanel
 import Html exposing (Html)
-import TimePickerPanel exposing (digital)
 
 
 type alias State =
     InternalState
 
 
-view : DatePickerPanel.Config msg -> ( TimePickerType, TimePickerPanel.Config msg ) -> State -> Maybe Date.Date -> List (Html msg)
+view : DatePickerPanel.Config msg -> ( TimePickerType, DigitalTimePickerPanel.Config msg ) -> State -> Maybe Date.Date -> List (Html msg)
 view dateConfig ( timeType, timeConfig ) state currentDate =
     let
         safeOnChange (InternalState state) _ =
@@ -40,7 +40,7 @@ view dateConfig ( timeType, timeConfig ) state currentDate =
     [ DatePickerPanel.view safeDateConfig state currentDate
     , case timeType of
         Digital ->
-            TimePickerPanel.digital safeTimeConfig state currentDate
+            DigitalTimePickerPanel.view safeTimeConfig state currentDate
 
         Analog ->
             AnalogTimePickerPanel.view safeTimeConfig state currentDate
