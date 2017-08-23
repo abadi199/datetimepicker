@@ -1,4 +1,4 @@
-module DateTimePicker.AnalogClock exposing (view)
+module AnalogTimePickerPanel exposing (view)
 
 import Date exposing (Date)
 import DateTimePicker.ClockUtils exposing (hours, minutes, minutesPerFive)

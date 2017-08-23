@@ -41,10 +41,10 @@ module DateTimePicker
 
 -}
 
+import AnalogTimePickerPanel
 import Date
 import Date.Extra.Core
 import DatePickerPanel
-import DateTimePicker.AnalogClock as AnalogClock
 import DateTimePicker.Config exposing (Config, DatePickerConfig, TimePickerConfig, TimePickerType(..), Type(..), defaultDatePickerConfig, defaultDateTimePickerConfig, defaultTimePickerConfig)
 import DateTimePicker.DateUtils
 import DateTimePicker.Events exposing (onBlurWithChange, onMouseDownPreventDefault, onMouseUpPreventDefault, onTouchEndPreventDefault, onTouchStartPreventDefault)
@@ -343,7 +343,7 @@ dialog pickerType (InternalState state) currentDate =
                             TimePickerPanel.digital
 
                         Analog ->
-                            AnalogClock.view
+                            AnalogTimePickerPanel.view
             in
             div (withTimeAttributes config config.timePickerType)
                 [ dialog
