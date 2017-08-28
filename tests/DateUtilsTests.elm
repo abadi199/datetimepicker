@@ -99,19 +99,19 @@ toTimeTest =
         [ test "toTime for 12:00 AM should return the right time" <|
             \() ->
                 DateUtils.toTime 12 0 "AM"
-                    |> Expect.equal (Date.Extra.Create.dateFromFields 1969 Date.Dec 31 0 0 0 0)
+                    |> Expect.equal (Date.Extra.Create.dateFromFields 0 Date.Jan 1 0 0 0 0)
         , test "toTime for 12:00 PM should return the right time" <|
             \() ->
                 DateUtils.toTime 12 0 "PM"
-                    |> Expect.equal (Date.Extra.Create.dateFromFields 1969 Date.Dec 31 12 0 0 0)
+                    |> Expect.equal (Date.Extra.Create.dateFromFields 0 Date.Jan 1 12 0 0 0)
         , test "toTime for 3:15 PM should return the right time" <|
             \() ->
                 DateUtils.toTime 3 15 "PM"
-                    |> Expect.equal (Date.Extra.Create.dateFromFields 1969 Date.Dec 31 15 15 0 0)
+                    |> Expect.equal (Date.Extra.Create.dateFromFields 0 Date.Jan 1 15 15 0 0)
         , test "toTime for 3:15 AM should return the right time" <|
             \() ->
                 DateUtils.toTime 3 15 "AM"
-                    |> Expect.equal (Date.Extra.Create.dateFromFields 1969 Date.Dec 31 3 15 0 0)
+                    |> Expect.equal (Date.Extra.Create.dateFromFields 0 Date.Jan 1 3 15 0 0)
         ]
 
 

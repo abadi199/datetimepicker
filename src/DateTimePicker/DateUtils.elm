@@ -151,7 +151,14 @@ toDate year month day =
 
 toTime : Int -> Int -> String -> Date.Date
 toTime hour minute amPm =
-    setTime (Date.fromTime 0) hour minute amPm
+    Date.Extra.Create.dateFromFields
+        0
+        Date.Jan
+        1
+        (toMillitary hour amPm)
+        minute
+        0
+        0
 
 
 setTime : Date.Date -> Int -> Int -> String -> Date.Date

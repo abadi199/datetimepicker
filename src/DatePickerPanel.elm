@@ -8,7 +8,7 @@ import Date.Extra.Format
 import DateTimePicker.Config exposing (Config, DatePickerConfig, NameOfDays, TimePickerConfig, TimePickerType(..), Type(..), defaultDatePickerConfig, defaultDateTimePickerConfig, defaultTimePickerConfig)
 import DateTimePicker.DateUtils
 import DateTimePicker.Events exposing (onBlurWithChange, onMouseDownPreventDefault, onMouseUpPreventDefault, onTouchEndPreventDefault, onTouchStartPreventDefault)
-import DateTimePicker.Internal exposing (InternalState(..), StateValue, Time, getStateValue, initialStateValue, initialStateValueWithToday)
+import DateTimePicker.Internal exposing (InternalState(..), Time)
 import DateTimePicker.SharedStyles exposing (CssClasses(..), datepickerNamespace)
 import DateTimePicker.Svg
 import Html exposing (..)
@@ -27,7 +27,6 @@ type alias Config msg =
     , allowYearNavigation : Bool
     , titleFormatter : Date -> String
     , footerFormatter : Date -> String
-    , requiresTime : Bool
     }
 
 
@@ -258,8 +257,8 @@ calendar config (InternalState state) currentDate =
                             )
                         , Html.Attributes.attribute "role" "button"
                         , Html.Attributes.attribute "aria-label" (Date.Extra.Format.format Date.Extra.Config.Config_en_us.config "%e, %A %B %Y" selectedDate)
-                        , onMouseDownPreventDefault <| dateClickHandler config state year month day
-                        , onTouchStartPreventDefault <| dateClickHandler config state year month day
+                        , onMouseDownPreventDefault <| dateClickHandler config (InternalState state) year month day
+                        , onTouchStartPreventDefault <| dateClickHandler config (InternalState state) year month day
                         ]
                         [ text <| toString day.day ]
 
@@ -300,17 +299,18 @@ dayNames config =
         |> (\( head, tail ) -> tail ++ head)
 
 
-dateClickHandler : Config msg -> StateValue -> Int -> Date.Month -> DateTimePicker.DateUtils.Day -> msg
-dateClickHandler config state year month day =
+dateClickHandler : Config msg -> InternalState -> Int -> Date.Month -> DateTimePicker.DateUtils.Day -> msg
+dateClickHandler config (InternalState state) year month day =
     let
         selectedDate =
-            DateTimePicker.DateUtils.toDate year month day
+            Just <|
+                DateTimePicker.DateUtils.toDate year month day
 
         updatedState =
             InternalState
                 { state
-                    | date = Just <| selectedDate
-                    , forceClose = forceClose
+                    | date = selectedDate
+                    , forceClose = True
                     , activeTimeIndicator =
                         if state.time.hour == Nothing then
                             Just DateTimePicker.Internal.HourIndicator
@@ -321,28 +321,13 @@ dateClickHandler config state year month day =
                         else
                             Nothing
                 }
-
-        ( updatedDate, forceClose ) =
-            case ( config.requiresTime, state.time.hour, state.time.minute, state.time.amPm ) of
-                ( True, Just hour, Just minute, Just amPm ) ->
-                    ( Just <| DateTimePicker.DateUtils.setTime selectedDate hour minute amPm
-                    , True
-                    )
-
-                ( False, _, _, _ ) ->
-                    ( Just selectedDate
-                    , True
-                    )
-
-                _ ->
-                    ( Nothing, False )
     in
     case day.monthType of
         DateTimePicker.DateUtils.Previous ->
-            config.onChange (gotoPreviousMonth updatedState) updatedDate
+            config.onChange (gotoPreviousMonth updatedState) selectedDate
 
         DateTimePicker.DateUtils.Next ->
-            config.onChange (gotoNextMonth updatedState) updatedDate
+            config.onChange (gotoNextMonth updatedState) selectedDate
 
         DateTimePicker.DateUtils.Current ->
-            config.onChange updatedState updatedDate
+            config.onChange updatedState selectedDate
