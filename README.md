@@ -127,7 +127,7 @@ type alias Model =
     }
 
 init = 
-    ( { selectedDate = Nothing, datePickerState.initialState }
+    ( { selectedDate = Nothing, datePickerState = DateTimePicker.initialState }
     , DateTimePicker.initialCmd DateChange DateTimePicker.initialState
     )
 
