@@ -3,9 +3,10 @@ module MultiPanel exposing (view)
 import AnalogTimePickerPanel
 import Date
 import DatePickerPanel
-import DateTimePicker.Config exposing (TimePickerType(..))
+import DateTimePicker.Config exposing (CssConfig, TimePickerType(..))
 import DateTimePicker.DateUtils
 import DateTimePicker.Internal exposing (InternalState(..))
+import DateTimePicker.SharedStyles exposing (CssClasses)
 import DigitalTimePickerPanel
 import Html exposing (Html)
 
@@ -14,7 +15,7 @@ type alias State =
     InternalState
 
 
-view : DatePickerPanel.Config msg -> ( TimePickerType, DigitalTimePickerPanel.Config msg ) -> State -> Maybe Date.Date -> List (Html msg)
+view : DatePickerPanel.Config (CssConfig a msg CssClasses) msg -> ( TimePickerType, DigitalTimePickerPanel.Config (CssConfig a msg CssClasses) msg ) -> State -> Maybe Date.Date -> List (Html msg)
 view dateConfig ( timeType, timeConfig ) state currentDate =
     let
         safeOnChange (InternalState state) _ =

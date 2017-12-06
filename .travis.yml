@@ -16,7 +16,7 @@ install:
   - npm install
   - export PATH="`pwd`/node_modules/.bin:$PATH"
   - elm-package install --yes
-  - (cd demo; elm-package install --yes)
+  # - (cd demo; elm-package install --yes)
 
 script:
   - $TRAVIS_BUILD_DIR/sysconfcpus/bin/sysconfcpus -n 2 npm run make
@@ -29,8 +29,7 @@ script:
   - TZ=Asia/Tehran $TRAVIS_BUILD_DIR/sysconfcpus/bin/sysconfcpus -n 2 npm test # +0330/+0430
   - TZ=Autralia/Eucla $TRAVIS_BUILD_DIR/sysconfcpus/bin/sysconfcpus -n 2 npm test # +0845/+0845
   - TZ=Antarctica/South_Pole $TRAVIS_BUILD_DIR/sysconfcpus/bin/sysconfcpus -n 2 npm test # +1200/+1300
-  - $TRAVIS_BUILD_DIR/sysconfcpus/bin/sysconfcpus -n 2 npm run css
-  - $TRAVIS_BUILD_DIR/sysconfcpus/bin/sysconfcpus -n 2 npm run make-demos
+  # - $TRAVIS_BUILD_DIR/sysconfcpus/bin/sysconfcpus -n 2 npm run make-demos
 
 cache:
   directories:

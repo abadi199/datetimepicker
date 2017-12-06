@@ -1,6 +1,7 @@
 module DateTimePicker.Config
     exposing
         ( Config
+        , CssConfig
         , DatePickerConfig
         , I18n
         , InputFormat
@@ -14,6 +15,7 @@ module DateTimePicker.Config
         , defaultDateTimeI18n
         , defaultDateTimeInputFormat
         , defaultDateTimePickerConfig
+        , defaultNamespace
         , defaultTimeI18n
         , defaultTimePickerConfig
         )
@@ -23,12 +25,12 @@ module DateTimePicker.Config
 
 # Configuration
 
-@docs Config, I18n, InputFormat, DatePickerConfig, TimePickerConfig, NameOfDays, TimePickerType, Type
+@docs Config, I18n, InputFormat, DatePickerConfig, TimePickerConfig, NameOfDays, TimePickerType, Type, CssConfig
 
 
 # Default Configuration
 
-@docs defaultDatePickerConfig, defaultTimePickerConfig, defaultDateTimePickerConfig, defaultDateI18n, defaultTimeI18n, defaultDateTimeI18n, defaultDateInputFormat, defaultDateTimeInputFormat
+@docs defaultDatePickerConfig, defaultTimePickerConfig, defaultDateTimePickerConfig, defaultDateI18n, defaultTimeI18n, defaultDateTimeI18n, defaultDateInputFormat, defaultDateTimeInputFormat, defaultNamespace
 
 -}
 
@@ -38,6 +40,7 @@ import DateParser
 import DateTimePicker.Formatter
 import DateTimePicker.Internal exposing (InternalState)
 import Html
+import Html.Attributes
 
 
 type alias State =
@@ -46,10 +49,10 @@ type alias State =
 
 {-| The type of picker (for Internal Use)
 -}
-type Type msg
-    = DateType (Config (DatePickerConfig {}) msg)
-    | DateTimeType (Config (DatePickerConfig TimePickerConfig) msg)
-    | TimeType (Config TimePickerConfig msg)
+type Type msg className
+    = DateType (Config (CssConfig (DatePickerConfig {}) msg className) msg)
+    | DateTimeType (Config (CssConfig (DatePickerConfig TimePickerConfig) msg className) msg)
+    | TimeType (Config (CssConfig TimePickerConfig msg className) msg)
 
 
 {-| Configuration
@@ -66,6 +69,17 @@ type alias Config otherConfig msg =
         , i18n : I18n
         , usePicker : Bool
         , attributes : List (Html.Attribute msg)
+    }
+
+
+{-| CSS Function Configuration
+
+  - `class` is a function that turn a list of CSS Classes into an `Html.Attribute`
+
+-}
+type alias CssConfig otherConfig msg className =
+    { otherConfig
+        | class : List className -> Html.Attribute msg
     }
 
 
@@ -231,7 +245,7 @@ type TimePickerType
   - `allowYearNavigation` Default : True
 
 -}
-defaultDatePickerConfig : (State -> Maybe Date -> msg) -> Config (DatePickerConfig {}) msg
+defaultDatePickerConfig : (State -> Maybe Date -> msg) -> Config (CssConfig (DatePickerConfig {}) msg className) msg
 defaultDatePickerConfig onChange =
     { onChange = onChange
     , autoClose = True
@@ -241,6 +255,7 @@ defaultDatePickerConfig onChange =
     , i18n = defaultDateI18n
     , usePicker = True
     , attributes = []
+    , class = defaultClass
     }
 
 
@@ -254,7 +269,7 @@ defaultDatePickerConfig onChange =
   - `timePickerType` Default: Analog
 
 -}
-defaultTimePickerConfig : (State -> Maybe Date -> msg) -> Config TimePickerConfig msg
+defaultTimePickerConfig : (State -> Maybe Date -> msg) -> Config (CssConfig TimePickerConfig msg className) msg
 defaultTimePickerConfig onChange =
     { onChange = onChange
     , autoClose = False
@@ -262,6 +277,7 @@ defaultTimePickerConfig onChange =
     , i18n = defaultTimeI18n
     , usePicker = True
     , attributes = []
+    , class = defaultClass
     }
 
 
@@ -280,7 +296,7 @@ defaultTimePickerConfig onChange =
   - `allowYearNavigation` Default : True
 
 -}
-defaultDateTimePickerConfig : (State -> Maybe Date -> msg) -> Config (DatePickerConfig TimePickerConfig) msg
+defaultDateTimePickerConfig : (State -> Maybe Date -> msg) -> Config (CssConfig (DatePickerConfig TimePickerConfig) msg className) msg
 defaultDateTimePickerConfig onChange =
     { onChange = onChange
     , autoClose = False
@@ -291,6 +307,7 @@ defaultDateTimePickerConfig onChange =
     , i18n = defaultDateTimeI18n
     , usePicker = True
     , attributes = []
+    , class = defaultClass
     }
 
 
@@ -329,3 +346,17 @@ defaultNameOfDays =
     , friday = "Fr"
     , saturday = "Sa"
     }
+
+
+defaultClass : List a -> Html.Attribute msg
+defaultClass classes =
+    classes
+        |> List.map (\class -> ( defaultNamespace ++ toString class, True ))
+        |> Html.Attributes.classList
+
+
+{-| Default CSS Namespace
+-}
+defaultNamespace : String
+defaultNamespace =
+    "elm-input-datepicker"

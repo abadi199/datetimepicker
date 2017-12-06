@@ -26,7 +26,8 @@ import Date exposing (Date)
 import Date.Extra.Core
 import Date.Extra.Create
 import DateTimePicker
-import DateTimePicker.Config exposing (Config, DatePickerConfig, TimePickerConfig, defaultDatePickerConfig, defaultDateTimePickerConfig, defaultTimePickerConfig)
+import DateTimePicker.Config exposing (Config, CssConfig, DatePickerConfig, TimePickerConfig, defaultDatePickerConfig, defaultDateTimePickerConfig, defaultTimePickerConfig)
+import DateTimePicker.SharedStyles
 import Html exposing (Html)
 import Html.Attributes
 import Json.Encode as Json
@@ -52,7 +53,7 @@ type TestResult config
   - `value`: the intially-selected value
 
 -}
-datePicker : Date -> Maybe Date -> TestResult (DatePickerConfig {})
+datePicker : Date -> Maybe Date -> TestResult (CssConfig (DatePickerConfig {}) ( DateTimePicker.State, Maybe Date ) DateTimePicker.SharedStyles.CssClasses)
 datePicker now initialValue =
     TestResult
         { config = defaultDatePickerConfig (,)
@@ -70,7 +71,7 @@ datePicker now initialValue =
   - `value`: the intially-selected value
 
 -}
-dateTimePicker : Date -> Maybe Date -> TestResult (DatePickerConfig TimePickerConfig)
+dateTimePicker : Date -> Maybe Date -> TestResult (CssConfig (DatePickerConfig TimePickerConfig) ( DateTimePicker.State, Maybe Date ) DateTimePicker.SharedStyles.CssClasses)
 dateTimePicker now initialValue =
     TestResult
         { config = defaultDateTimePickerConfig (,)
@@ -88,7 +89,7 @@ dateTimePicker now initialValue =
   - `value`: the intially-selected value
 
 -}
-timePicker : Date -> Maybe Date -> TestResult TimePickerConfig
+timePicker : Date -> Maybe Date -> TestResult (CssConfig TimePickerConfig ( DateTimePicker.State, Maybe Date ) DateTimePicker.SharedStyles.CssClasses)
 timePicker now initialValue =
     TestResult
         { config = defaultTimePickerConfig (,)
