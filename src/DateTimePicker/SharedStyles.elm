@@ -1,17 +1,17 @@
 module DateTimePicker.SharedStyles
     exposing
         ( CssClasses(..)
-        , datepickerNamespace
         )
 
-import Html.CssHelpers
+{-| Shared CSS Classes used by `DateTimePicker`. You can use this to overwrite the default CSS implementation to match your own styling.
+
+@docs CssClasses
+
+-}
 
 
-datepickerNamespace : Html.CssHelpers.Namespace String class id msg
-datepickerNamespace =
-    Html.CssHelpers.withNamespace "elm-input-datepicker"
-
-
+{-| All CSS Classes
+-}
 type CssClasses
     = Calendar
     | DaysOfWeek

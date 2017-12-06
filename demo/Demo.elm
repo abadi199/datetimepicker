@@ -6,8 +6,9 @@ import Date.Extra.Config.Config_en_us exposing (config)
 import Date.Extra.Format
 import DateParser
 import DateTimePicker
-import DateTimePicker.Config exposing (Config, DatePickerConfig, TimePickerConfig, defaultDatePickerConfig, defaultDateTimeI18n, defaultDateTimePickerConfig, defaultTimePickerConfig)
+import DateTimePicker.Config exposing (Config, CssConfig, DatePickerConfig, TimePickerConfig, defaultDatePickerConfig, defaultDateTimeI18n, defaultDateTimePickerConfig, defaultTimePickerConfig)
 import DateTimePicker.Css
+import DateTimePicker.SharedStyles
 import DemoCss exposing (CssClasses(..))
 import Dict exposing (Dict)
 import Html exposing (Html, div, form, h3, label, li, p, text, ul)
@@ -64,7 +65,7 @@ subscriptions model =
     Html.CssHelpers.withNamespace ""
 
 
-analogDateTimePickerConfig : Config (DatePickerConfig TimePickerConfig) Msg
+analogDateTimePickerConfig : Config (CssConfig (DatePickerConfig TimePickerConfig) Msg DateTimePicker.SharedStyles.CssClasses) Msg
 analogDateTimePickerConfig =
     let
         defaultDateTimeConfig =
@@ -76,7 +77,7 @@ analogDateTimePickerConfig =
     }
 
 
-timePickerConfig : Config TimePickerConfig Msg
+timePickerConfig : Config (CssConfig TimePickerConfig Msg DateTimePicker.SharedStyles.CssClasses) Msg
 timePickerConfig =
     let
         defaultDateTimeConfig =
@@ -87,7 +88,7 @@ timePickerConfig =
     }
 
 
-noPickerConfig : Config (DatePickerConfig {}) Msg
+noPickerConfig : Config (CssConfig (DatePickerConfig {}) Msg DateTimePicker.SharedStyles.CssClasses) Msg
 noPickerConfig =
     let
         defaultDateConfig =
@@ -99,7 +100,7 @@ noPickerConfig =
     }
 
 
-customI18nConfig : Config (DatePickerConfig TimePickerConfig) Msg
+customI18nConfig : Config (CssConfig (DatePickerConfig TimePickerConfig) Msg DateTimePicker.SharedStyles.CssClasses) Msg
 customI18nConfig =
     let
         defaultDateTimeConfig =
@@ -124,7 +125,7 @@ customInputFormat =
     }
 
 
-digitalDateTimePickerConfig : Config (DatePickerConfig TimePickerConfig) Msg
+digitalDateTimePickerConfig : Config (CssConfig (DatePickerConfig TimePickerConfig) Msg DateTimePicker.SharedStyles.CssClasses) Msg
 digitalDateTimePickerConfig =
     let
         defaultDateTimeConfig =
@@ -135,7 +136,7 @@ digitalDateTimePickerConfig =
     }
 
 
-digitalTimePickerConfig : Config TimePickerConfig Msg
+digitalTimePickerConfig : Config (CssConfig TimePickerConfig Msg DateTimePicker.SharedStyles.CssClasses) Msg
 digitalTimePickerConfig =
     let
         defaultDateTimeConfig =

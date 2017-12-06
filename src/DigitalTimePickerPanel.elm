@@ -1,10 +1,11 @@
 module DigitalTimePickerPanel exposing (Config, view)
 
 import Date exposing (Date)
+import DateTimePicker.Config exposing (CssConfig)
 import DateTimePicker.DateUtils
 import DateTimePicker.Events exposing (onBlurWithChange, onMouseDownPreventDefault, onMouseUpPreventDefault, onTouchEndPreventDefault, onTouchStartPreventDefault)
 import DateTimePicker.Internal exposing (InternalState(..), Time)
-import DateTimePicker.SharedStyles exposing (CssClasses(..), datepickerNamespace)
+import DateTimePicker.SharedStyles exposing (CssClasses(..))
 import DateTimePicker.Svg
 import Html exposing (Html, button, div, input, li, span, table, tbody, td, text, th, thead, tr, ul)
 import Html.Attributes
@@ -20,9 +21,10 @@ type alias State =
     InternalState
 
 
-type alias Config msg =
-    { onChange : State -> Maybe Date -> msg
-    , titleFormatter : Date -> String
+type alias Config otherConfig msg =
+    { otherConfig
+        | onChange : State -> Maybe Date -> msg
+        , titleFormatter : Date -> String
     }
 
 
@@ -30,11 +32,7 @@ type alias Config msg =
 -- VIEWS
 
 
-{ id, class, classList } =
-    datepickerNamespace
-
-
-view : Config msg -> State -> Maybe Date.Date -> Html msg
+view : Config (CssConfig a msg CssClasses) msg -> State -> Maybe Date.Date -> Html msg
 view config ((InternalState stateValue) as state) currentDate =
     let
         toListItem str =
@@ -68,11 +66,11 @@ view config ((InternalState stateValue) as state) currentDate =
                     |> Maybe.map
                         (\selected ->
                             if selected then
-                                class [ SelectedHour ]
+                                config.class [ SelectedHour ]
                             else
-                                class []
+                                config.class []
                         )
-                    |> Maybe.withDefault (class [])
+                    |> Maybe.withDefault (config.class [])
                 , Html.Attributes.attribute "role" "button"
                 , Html.Attributes.attribute "aria-label" ("hour " ++ toString hour)
                 ]
@@ -87,11 +85,11 @@ view config ((InternalState stateValue) as state) currentDate =
                     |> Maybe.map
                         (\selected ->
                             if selected then
-                                class [ SelectedMinute ]
+                                config.class [ SelectedMinute ]
                             else
-                                class []
+                                config.class []
                         )
-                    |> Maybe.withDefault (class [])
+                    |> Maybe.withDefault (config.class [])
                 , Html.Attributes.attribute "role" "button"
                 , Html.Attributes.attribute "aria-label" ("minute " ++ toString min)
                 ]
@@ -100,7 +98,7 @@ view config ((InternalState stateValue) as state) currentDate =
         amPmCell ampm =
             let
                 defaultClasses =
-                    class <|
+                    config.class <|
                         if ampm == "" then
                             [ EmptyCell ]
                         else
@@ -112,7 +110,7 @@ view config ((InternalState stateValue) as state) currentDate =
                     |> Maybe.map
                         (\selected ->
                             if selected then
-                                class [ SelectedAmPm ]
+                                config.class [ SelectedAmPm ]
                             else
                                 defaultClasses
                         )
@@ -131,7 +129,7 @@ view config ((InternalState stateValue) as state) currentDate =
                 [ text ampm ]
 
         upArrows config =
-            [ tr [ class [ ArrowUp ] ]
+            [ tr [ config.class [ ArrowUp ] ]
                 [ td
                     [ onMouseDownPreventDefault <| hourUpHandler config state currentDate
                     , onTouchStartPreventDefault <| hourUpHandler config state currentDate
@@ -147,7 +145,7 @@ view config ((InternalState stateValue) as state) currentDate =
             ]
 
         downArrows config =
-            [ tr [ class [ ArrowDown ] ]
+            [ tr [ config.class [ ArrowDown ] ]
                 [ td
                     [ onMouseDownPreventDefault <| hourDownHandler config state currentDate
                     , onTouchStartPreventDefault <| hourDownHandler config state currentDate
@@ -162,10 +160,10 @@ view config ((InternalState stateValue) as state) currentDate =
                 ]
             ]
     in
-    div [ class [ TimePickerDialog, DigitalTime ] ]
-        [ div [ class [ Header ] ]
+    div [ config.class [ TimePickerDialog, DigitalTime ] ]
+        [ div [ config.class [ Header ] ]
             [ Maybe.map config.titleFormatter currentDate |> Maybe.withDefault "-- : --" |> text ]
-        , div [ class [ Body ] ]
+        , div [ config.class [ Body ] ]
             [ table []
                 [ tbody []
                     (upArrows config
@@ -177,7 +175,7 @@ view config ((InternalState stateValue) as state) currentDate =
         ]
 
 
-hourClickHandler : Config msg -> State -> Int -> msg
+hourClickHandler : Config a msg -> State -> Int -> msg
 hourClickHandler config (InternalState state) hour =
     let
         time =
@@ -199,7 +197,7 @@ hourClickHandler config (InternalState state) hour =
     config.onChange (InternalState { updatedStateValue | forceClose = forceClose }) updatedTime
 
 
-minuteClickHandler : Config msg -> State -> Int -> msg
+minuteClickHandler : Config a msg -> State -> Int -> msg
 minuteClickHandler config (InternalState state) minute =
     let
         time =
@@ -221,7 +219,7 @@ minuteClickHandler config (InternalState state) minute =
     config.onChange (InternalState { updatedStateValue | forceClose = forceClose }) updatedTime
 
 
-amPmClickHandler : Config msg -> State -> String -> msg
+amPmClickHandler : Config a msg -> State -> String -> msg
 amPmClickHandler config (InternalState state) amPm =
     let
         time =
@@ -253,7 +251,7 @@ amPmClickHandler config (InternalState state) amPm =
     config.onChange (InternalState { updatedStateValue | forceClose = forceClose }) updatedTime
 
 
-hourUpHandler : Config msg -> State -> Maybe Date.Date -> msg
+hourUpHandler : Config a msg -> State -> Maybe Date.Date -> msg
 hourUpHandler config (InternalState state) currentDate =
     let
         updatedState =
@@ -265,7 +263,7 @@ hourUpHandler config (InternalState state) currentDate =
     config.onChange (InternalState updatedState) currentDate
 
 
-hourDownHandler : Config msg -> State -> Maybe Date.Date -> msg
+hourDownHandler : Config a msg -> State -> Maybe Date.Date -> msg
 hourDownHandler config (InternalState state) currentDate =
     let
         updatedState =
@@ -277,7 +275,7 @@ hourDownHandler config (InternalState state) currentDate =
     config.onChange (InternalState updatedState) currentDate
 
 
-minuteUpHandler : Config msg -> State -> Maybe Date.Date -> msg
+minuteUpHandler : Config a msg -> State -> Maybe Date.Date -> msg
 minuteUpHandler config (InternalState state) currentDate =
     let
         updatedState =
@@ -289,7 +287,7 @@ minuteUpHandler config (InternalState state) currentDate =
     config.onChange (InternalState updatedState) currentDate
 
 
-minuteDownHandler : Config msg -> State -> Maybe Date.Date -> msg
+minuteDownHandler : Config a msg -> State -> Maybe Date.Date -> msg
 minuteDownHandler config (InternalState state) currentDate =
     let
         updatedState =

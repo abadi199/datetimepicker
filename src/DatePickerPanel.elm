@@ -5,11 +5,11 @@ import Date.Extra.Config.Config_en_us
 import Date.Extra.Core
 import Date.Extra.Duration
 import Date.Extra.Format
-import DateTimePicker.Config exposing (Config, DatePickerConfig, NameOfDays, TimePickerConfig, TimePickerType(..), Type(..), defaultDatePickerConfig, defaultDateTimePickerConfig, defaultTimePickerConfig)
+import DateTimePicker.Config exposing (Config, CssConfig, DatePickerConfig, NameOfDays, TimePickerConfig, TimePickerType(..), Type(..), defaultDatePickerConfig, defaultDateTimePickerConfig, defaultTimePickerConfig)
 import DateTimePicker.DateUtils
 import DateTimePicker.Events exposing (onBlurWithChange, onMouseDownPreventDefault, onMouseUpPreventDefault, onTouchEndPreventDefault, onTouchStartPreventDefault)
 import DateTimePicker.Internal exposing (InternalState(..), Time)
-import DateTimePicker.SharedStyles exposing (CssClasses(..), datepickerNamespace)
+import DateTimePicker.SharedStyles exposing (CssClasses(..))
 import DateTimePicker.Svg
 import Html exposing (..)
 import Html.Attributes exposing (value)
@@ -20,13 +20,14 @@ type alias State =
     InternalState
 
 
-type alias Config msg =
-    { onChange : State -> Maybe Date -> msg
-    , nameOfDays : NameOfDays
-    , firstDayOfWeek : Date.Day
-    , allowYearNavigation : Bool
-    , titleFormatter : Date -> String
-    , footerFormatter : Date -> String
+type alias Config otherConfig msg =
+    { otherConfig
+        | onChange : State -> Maybe Date -> msg
+        , nameOfDays : NameOfDays
+        , firstDayOfWeek : Date.Day
+        , allowYearNavigation : Bool
+        , titleFormatter : Date -> String
+        , footerFormatter : Date -> String
     }
 
 
@@ -95,23 +96,19 @@ gotoPreviousYear (InternalState state) =
 -- VIEWS
 
 
-{ id, class, classList } =
-    datepickerNamespace
-
-
-view : Config msg -> State -> Maybe Date -> Html msg
+view : Config (CssConfig a msg CssClasses) msg -> State -> Maybe Date -> Html msg
 view config ((InternalState stateValue) as state) currentDate =
-    div [ class [ DatePickerDialog ] ]
-        [ div [ class [ Header ] ]
+    div [ config.class [ DatePickerDialog ] ]
+        [ div [ config.class [ Header ] ]
             (navigation config state currentDate)
         , calendar config state currentDate
         , div
-            [ class [ Footer ] ]
+            [ config.class [ Footer ] ]
             [ stateValue.date |> Maybe.map config.footerFormatter |> Maybe.withDefault "--" |> text ]
         ]
 
 
-navigation : Config msg -> State -> Maybe Date.Date -> List (Html msg)
+navigation : Config (CssConfig a msg CssClasses) msg -> State -> Maybe Date.Date -> List (Html msg)
 navigation config state currentDate =
     [ previousYearButton config state currentDate
     , previousButton config state currentDate
@@ -121,14 +118,14 @@ navigation config state currentDate =
     ]
 
 
-title : Config msg -> State -> Maybe Date.Date -> Html msg
+title : Config (CssConfig a msg CssClasses) msg -> State -> Maybe Date.Date -> Html msg
 title config ((InternalState stateValue) as state) currentDate =
     let
         date =
             stateValue.titleDate
     in
     span
-        [ class [ Title ]
+        [ config.class [ Title ]
         , onMouseDownPreventDefault <| config.onChange (switchMode state) currentDate
         ]
         [ date
@@ -138,11 +135,11 @@ title config ((InternalState stateValue) as state) currentDate =
         ]
 
 
-previousYearButton : Config msg -> State -> Maybe Date.Date -> Html msg
+previousYearButton : Config (CssConfig a msg CssClasses) msg -> State -> Maybe Date.Date -> Html msg
 previousYearButton config state currentDate =
     if config.allowYearNavigation then
         span
-            [ class [ DoubleArrowLeft ]
+            [ config.class [ DoubleArrowLeft ]
             , onMouseDownPreventDefault <| config.onChange (gotoPreviousYear state) currentDate
             , onTouchStartPreventDefault <| config.onChange (gotoPreviousYear state) currentDate
             ]
@@ -151,7 +148,7 @@ previousYearButton config state currentDate =
         Html.text ""
 
 
-noYearNavigationClass : Config msg -> List CssClasses
+noYearNavigationClass : Config (CssConfig a msg CssClasses) msg -> List CssClasses
 noYearNavigationClass config =
     if config.allowYearNavigation then
         []
@@ -159,31 +156,31 @@ noYearNavigationClass config =
         [ NoYearNavigation ]
 
 
-previousButton : Config msg -> State -> Maybe Date.Date -> Html msg
+previousButton : Config (CssConfig a msg CssClasses) msg -> State -> Maybe Date.Date -> Html msg
 previousButton config state currentDate =
     span
-        [ class <| ArrowLeft :: noYearNavigationClass config
+        [ config.class <| ArrowLeft :: noYearNavigationClass config
         , onMouseDownPreventDefault <| config.onChange (gotoPreviousMonth state) currentDate
         , onTouchStartPreventDefault <| config.onChange (gotoPreviousMonth state) currentDate
         ]
         [ DateTimePicker.Svg.leftArrow ]
 
 
-nextButton : Config msg -> State -> Maybe Date.Date -> Html msg
+nextButton : Config (CssConfig a msg CssClasses) msg -> State -> Maybe Date.Date -> Html msg
 nextButton config state currentDate =
     span
-        [ class <| ArrowRight :: noYearNavigationClass config
+        [ config.class <| ArrowRight :: noYearNavigationClass config
         , onMouseDownPreventDefault <| config.onChange (gotoNextMonth state) currentDate
         , onTouchStartPreventDefault <| config.onChange (gotoNextMonth state) currentDate
         ]
         [ DateTimePicker.Svg.rightArrow ]
 
 
-nextYearButton : Config msg -> State -> Maybe Date.Date -> Html msg
+nextYearButton : Config (CssConfig a msg CssClasses) msg -> State -> Maybe Date.Date -> Html msg
 nextYearButton config state currentDate =
     if config.allowYearNavigation then
         span
-            [ class [ DoubleArrowRight ]
+            [ config.class [ DoubleArrowRight ]
             , onMouseDownPreventDefault <| config.onChange (gotoNextYear state) currentDate
             , onTouchStartPreventDefault <| config.onChange (gotoNextYear state) currentDate
             ]
@@ -192,7 +189,7 @@ nextYearButton config state currentDate =
         Html.text ""
 
 
-calendar : Config msg -> State -> Maybe Date.Date -> Html msg
+calendar : Config (CssConfig a msg CssClasses) msg -> State -> Maybe Date.Date -> Html msg
 calendar config (InternalState state) currentDate =
     case state.titleDate of
         Nothing ->
@@ -215,7 +212,7 @@ calendar config (InternalState state) currentDate =
                     DateTimePicker.DateUtils.generateCalendar config.firstDayOfWeek month year
 
                 header =
-                    thead [ class [ DaysOfWeek ] ]
+                    thead [ config.class [ DaysOfWeek ] ]
                         [ tr
                             []
                             (dayNames config)
@@ -237,7 +234,7 @@ calendar config (InternalState state) currentDate =
                             DateTimePicker.DateUtils.toDate year month day
                     in
                     td
-                        [ class
+                        [ config.class
                             (case day.monthType of
                                 DateTimePicker.DateUtils.Previous ->
                                     [ PreviousMonth ]
@@ -266,19 +263,19 @@ calendar config (InternalState state) currentDate =
                     tr [] (List.map toCell week)
 
                 body =
-                    tbody [ class [ Days ] ]
+                    tbody [ config.class [ Days ] ]
                         (days
                             |> List.Extra.groupsOf 7
                             |> List.map toWeekRow
                         )
             in
-            table [ class [ Calendar ] ]
+            table [ config.class [ Calendar ] ]
                 [ header
                 , body
                 ]
 
 
-dayNames : Config msg -> List (Html msg)
+dayNames : Config a msg -> List (Html msg)
 dayNames config =
     let
         days =
@@ -299,7 +296,7 @@ dayNames config =
         |> (\( head, tail ) -> tail ++ head)
 
 
-dateClickHandler : Config msg -> InternalState -> Int -> Date.Month -> DateTimePicker.DateUtils.Day -> msg
+dateClickHandler : Config a msg -> InternalState -> Int -> Date.Month -> DateTimePicker.DateUtils.Day -> msg
 dateClickHandler config (InternalState state) year month day =
     let
         selectedDate =

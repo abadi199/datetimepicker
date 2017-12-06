@@ -2,11 +2,12 @@ module AnalogTimePickerPanel exposing (view)
 
 import Date exposing (Date)
 import DateTimePicker.ClockUtils exposing (hours, minutes, minutesPerFive)
+import DateTimePicker.Config exposing (CssConfig)
 import DateTimePicker.DateUtils
 import DateTimePicker.Events exposing (MoveData, onBlurWithChange, onMouseDownPreventDefault, onMouseMoveWithPosition, onMouseUpPreventDefault, onPointerMoveWithPosition, onPointerUp, onTouchEndPreventDefault, onTouchMovePreventDefault, onTouchStartPreventDefault)
 import DateTimePicker.Geometry exposing (Point)
 import DateTimePicker.Internal exposing (InternalState(..), Time, TimeIndicator(..))
-import DateTimePicker.SharedStyles exposing (CssClasses(..), datepickerNamespace)
+import DateTimePicker.SharedStyles exposing (CssClasses(..))
 import Dict
 import Html exposing (Html, button, div, input, li, span, table, tbody, td, text, th, thead, tr, ul)
 import Json.Decode
@@ -21,13 +22,14 @@ type alias State =
     InternalState
 
 
-type alias Config msg =
-    { onChange : State -> Maybe Date -> msg
-    , titleFormatter : Date -> String
+type alias Config otherConfig msg =
+    { otherConfig
+        | onChange : State -> Maybe Date -> msg
+        , titleFormatter : Date -> String
     }
 
 
-view : Config msg -> State -> Maybe Date.Date -> Html msg
+view : Config (CssConfig a msg CssClasses) msg -> State -> Maybe Date.Date -> Html msg
 view config ((InternalState stateValue) as state) currentDate =
     let
         isActive timeIndicator =
@@ -37,16 +39,16 @@ view config ((InternalState stateValue) as state) currentDate =
                 []
 
         amPmPicker config =
-            div [ class [ AMPMPicker ] ]
+            div [ config.class [ AMPMPicker ] ]
                 [ div
                     [ onMouseDownPreventDefault <| amPmPickerHandler config state currentDate "AM"
                     , onTouchStartPreventDefault <| amPmPickerHandler config state currentDate "AM"
                     , case stateValue.time.amPm of
                         Just "AM" ->
-                            class [ AM, SelectedAmPm ]
+                            config.class [ AM, SelectedAmPm ]
 
                         _ ->
-                            class [ AM ]
+                            config.class [ AM ]
                     ]
                     [ Html.text "AM" ]
                 , div
@@ -54,49 +56,45 @@ view config ((InternalState stateValue) as state) currentDate =
                     , onTouchStartPreventDefault <| amPmPickerHandler config state currentDate "PM"
                     , case stateValue.time.amPm of
                         Just "PM" ->
-                            class [ PM, SelectedAmPm ]
+                            config.class [ PM, SelectedAmPm ]
 
                         _ ->
-                            class [ PM ]
+                            config.class [ PM ]
                     ]
                     [ Html.text "PM" ]
                 ]
     in
-    div [ class [ TimePickerDialog, AnalogTime ] ]
-        [ div [ class [ Header ] ]
+    div [ config.class [ TimePickerDialog, AnalogTime ] ]
+        [ div [ config.class [ Header ] ]
             [ span
                 [ onMouseDownPreventDefault (timeIndicatorHandler config state currentDate DateTimePicker.Internal.HourIndicator)
                 , onTouchStartPreventDefault (timeIndicatorHandler config state currentDate DateTimePicker.Internal.HourIndicator)
-                , class (Hour :: isActive DateTimePicker.Internal.HourIndicator)
+                , config.class (Hour :: isActive DateTimePicker.Internal.HourIndicator)
                 ]
                 [ Html.text (stateValue.time.hour |> Maybe.map (toString >> DateTimePicker.DateUtils.padding) |> Maybe.withDefault "--") ]
-            , span [ class [ Separator ] ] [ Html.text " : " ]
+            , span [ config.class [ Separator ] ] [ Html.text " : " ]
             , span
                 [ onMouseDownPreventDefault (timeIndicatorHandler config state currentDate DateTimePicker.Internal.MinuteIndicator)
                 , onTouchStartPreventDefault (timeIndicatorHandler config state currentDate DateTimePicker.Internal.MinuteIndicator)
-                , class (Minute :: isActive DateTimePicker.Internal.MinuteIndicator)
+                , config.class (Minute :: isActive DateTimePicker.Internal.MinuteIndicator)
                 ]
                 [ Html.text (stateValue.time.minute |> Maybe.map (toString >> DateTimePicker.DateUtils.padding) |> Maybe.withDefault "--") ]
             , span
                 [ onMouseDownPreventDefault (timeIndicatorHandler config state currentDate DateTimePicker.Internal.AMPMIndicator)
                 , onTouchStartPreventDefault (timeIndicatorHandler config state currentDate DateTimePicker.Internal.AMPMIndicator)
-                , class (AMPM :: isActive DateTimePicker.Internal.AMPMIndicator)
+                , config.class (AMPM :: isActive DateTimePicker.Internal.AMPMIndicator)
                 ]
                 [ Html.text (stateValue.time.amPm |> Maybe.withDefault "--") ]
             ]
-        , div [ class [ Body ] ]
+        , div [ config.class [ Body ] ]
             [ case stateValue.activeTimeIndicator of
                 Just DateTimePicker.Internal.AMPMIndicator ->
                     amPmPicker config
 
                 _ ->
-                    clock config.onChange state currentDate
+                    clock config config.onChange state currentDate
             ]
         ]
-
-
-{ id, class, classList } =
-    datepickerNamespace
 
 
 hourArrowLength : Int
@@ -109,10 +107,10 @@ minuteArrowLength =
     70
 
 
-clock : (InternalState -> Maybe Date -> msg) -> InternalState -> Maybe Date -> Html msg
-clock onChange ((InternalState stateValue) as state) date =
+clock : CssConfig a msg CssClasses -> (InternalState -> Maybe Date -> msg) -> InternalState -> Maybe Date -> Html msg
+clock config onChange ((InternalState stateValue) as state) date =
     div
-        [ class [ AnalogClock ]
+        [ config.class [ AnalogClock ]
         ]
         [ svg
             [ width "200"
@@ -346,7 +344,7 @@ updateMinuteState (InternalState state) date moveData =
         }
 
 
-timeIndicatorHandler : Config msg -> State -> Maybe Date.Date -> DateTimePicker.Internal.TimeIndicator -> msg
+timeIndicatorHandler : Config a msg -> State -> Maybe Date.Date -> DateTimePicker.Internal.TimeIndicator -> msg
 timeIndicatorHandler config (InternalState state) currentDate timeIndicator =
     let
         updatedState =
@@ -375,7 +373,7 @@ timeIndicatorHandler config (InternalState state) currentDate timeIndicator =
     config.onChange (InternalState updatedState) currentDate
 
 
-amPmPickerHandler : Config msg -> State -> Maybe Date.Date -> String -> msg
+amPmPickerHandler : Config a msg -> State -> Maybe Date.Date -> String -> msg
 amPmPickerHandler config (InternalState state) currentDate amPm =
     let
         time =
