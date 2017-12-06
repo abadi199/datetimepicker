@@ -29,7 +29,6 @@ script:
   - TZ=Asia/Tehran $TRAVIS_BUILD_DIR/sysconfcpus/bin/sysconfcpus -n 2 npm test # +0330/+0430
   - TZ=Autralia/Eucla $TRAVIS_BUILD_DIR/sysconfcpus/bin/sysconfcpus -n 2 npm test # +0845/+0845
   - TZ=Antarctica/South_Pole $TRAVIS_BUILD_DIR/sysconfcpus/bin/sysconfcpus -n 2 npm test # +1200/+1300
-  - $TRAVIS_BUILD_DIR/sysconfcpus/bin/sysconfcpus -n 2 npm run css
   # - $TRAVIS_BUILD_DIR/sysconfcpus/bin/sysconfcpus -n 2 npm run make-demos
 
 cache:
